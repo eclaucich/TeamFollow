@@ -1,0 +1,26 @@
+voley: Ace, recepciòn, saque, remates, mala recepcion, amarilla, roja, toque de red, toque de barilla, errores de saque( >8 segundos , dejada en la red, pisada de linea), llevada, inavasión, doble golpe, pases, bloqueadas exitosas, bloqueo inefectivo
+
+hockey patines:disputas, pase, blockeos, proposicion de jugada, recuperacion de bocha. perdida de marca, goles, faltas, patin, altura, falta de penal, dfalta de libre, 5 segundos, tiros, rojas, azules, remates, mareadas, pelotas sacadas de la cancha, faltas de equipo, conversion de penales y libres, intercepcion
+
+
+futbol: outside, pases, goles, tiros, rojas, amarillas, faltas, recuperaciones, intercepciones, perdida de marca, perdida balon, corners (generacon de un corner, comversion de un corner), conversion de tiro libre, penal, proposicion de jugada, 
+
+Tenis: winner, error no forzado, normal, volea, smash, slices (derecha y reves), ace, saque ganador (primero, segundo), doble falta, 
+
+softbol:
+
+hockey cesped:recuperaciones, intercepciones, goles, corners(cortos y largos), pases, verdes, amarillas, rojas, perdidas de marca, penal, laterales, bocha peligrosa.
+
+rugby:knock on, tries, penales, conversiones, drops, tacles, pase de marca contraria, rojas, amarillas, faltas, laterales, pass forward, intercepcion, offside, 
+
+basquet:dobles, triples, faltas, blockeos, paredes, pases, bolacadas, recuperaciones, perdidas de marca, rojas, amarillas, libres, disputa ganada, disputa perdida, tecnica, rebote, perdida de posesion, laterales, caminar, (volver hacia atras), intercepciones
+
+handball:
+
+padel: doble falta, ace, volea, error no forzado, sacada, golde desde fuera, (todo lo de tenis)
+
+ping pong: ace, doble falta, error no forzado, normal, winner
+
+
+
+  

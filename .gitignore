@@ -43,26 +43,6 @@ ExportedObj/
 *.opendb
 *.VC.db
 
-# EXTRAS
-*.meta
-*.anim
-*.anim.meta
-*.controller
-*.jpg
-*.png
-*.jpeg
-*.ttf
-*.shadergraph
-*.asset
-*.mat
-*.prefab
-*.ai
-*.unity
-*.log
-*.txt
-*.json
-*.xsd
-
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
