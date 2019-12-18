@@ -1,0 +1,16 @@
+Info Jugador:
+	- nombreX 
+	- dniX
+	- mail
+	- altura
+	- fecha nacX
+	- sexoX
+	- factor sanguineo
+	- alergias
+	- ficha medica (S/N)
+	- celular
+	- contacto emergenciaX
+	- direccion
+	- ciudad
+	- provincia
+	- categoria
