@@ -14,13 +14,15 @@ public class PanelNuevoJugador : Panel
 
     private InfoJugador infoJugador;
 
-    private List<GameObject> listaPrefabs;
+    //private List<GameObject> listaPrefabs;
+    private List<InputPrefab> listaPrefabs;
 
     public override void Start()
     {
         base.Start();
 
-        listaPrefabs = new List<GameObject>();
+        //listaPrefabs = new List<GameObject>();
+        listaPrefabs = new List<InputPrefab>();
         //inputAltura.keyboardType = TouchScreenKeyboardType.NumberPad;
         //inputPeso.keyboardType = TouchScreenKeyboardType.NumberPad;
 
@@ -31,20 +33,32 @@ public class PanelNuevoJugador : Panel
         foreach (var info in infoJugador.GetInfoString())
         {
             GameObject go = Instantiate(prefabInputInfo, parentTransform);
-            go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
-            listaPrefabs.Add(go);
+            InputPrefab IPgo = go.GetComponent<InputPrefab>();
+            IPgo.SetNombreCategoria(info.Key.ToString());
+            listaPrefabs.Add(IPgo);
+
+            //go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
+            //listaPrefabs.Add(go);
         }
 
         foreach (var info in infoJugador.GetInfoInt())
         {
             GameObject go = Instantiate(prefabInputInfo, parentTransform);
-            go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
-            listaPrefabs.Add(go);
+            InputPrefab IPgo = go.GetComponent<InputPrefab>();
+            IPgo.SetNombreCategoria(info.Key.ToString());
+            listaPrefabs.Add(IPgo);
+
+            //go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
+            //listaPrefabs.Add(go);
         }
 
         GameObject GO = Instantiate(prefabInputInfo, parentTransform);
-        GO.transform.GetChild(0).GetComponent<Text>().text = "Fecha Nacimiento";
-        listaPrefabs.Add(GO);
+        InputPrefab IPGO = GO.GetComponent<InputPrefab>();
+        IPGO.SetNombreCategoria("Fecha Nacimiento");
+        listaPrefabs.Add(IPGO);
+        
+        //GO.transform.GetChild(0).GetComponent<Text>().text = "Fecha Nacimiento";
+        //listaPrefabs.Add(GO);
     }
 
     public void GuardarNuevoJugador()
@@ -63,8 +77,7 @@ public class PanelNuevoJugador : Panel
         ///**
         /// SETEAR EL INFOJUGADOR CON EL VALOR DE CADA PREFAB INPUT
         /// 
-
-
+        infoJugador.SetNombre(listaPrefabs[0].GetValorCategoria());
 
         equipoActual.NuevoJugador(new Jugador(infoJugador));
 

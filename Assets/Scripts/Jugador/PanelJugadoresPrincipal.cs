@@ -71,7 +71,8 @@ public class PanelJugadoresPrincipal : Panel {
     private void AgregarNuevoDetalle(Jugador nuevoJugador)
     {  
         GameObject botonJugadorGO = Instantiate(botonJugadorPrefab, parentTransform, false);
-        botonJugadorGO.GetComponentInChildren<Text>().text = nuevoJugador.GetNombre();
+        //botonJugadorGO.GetComponentInChildren<Text>().text = nuevoJugador.GetNombre();  ESTO ESTA MAL HACERLO ACA, LA LINEA DE ABAJO ES MAS CORRECTA
+        botonJugadorGO.GetComponent<BotonJugador>().SetNombreJugador(nuevoJugador.GetNombre());
 
         listaBotonJugador.Add(botonJugadorGO);
     }

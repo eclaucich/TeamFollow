@@ -60,6 +60,11 @@ public class InfoJugador
         return fechaNac;
     }
 
+    public void SetNombre(string nombre)
+    {
+        infoString["Nombre"] = nombre;
+    }
+
     public string GetNombre()
     {
         return infoString["Nombre"];

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1033063922763458205}
   - component: {fileID: 1033063922763458206}
   m_Layer: 5
-  m_Name: Text
+  m_Name: NombreCategoria
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,8 +63,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, Unity.ugui,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 14
@@ -88,8 +86,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1033063923455605827}
+  - component: {fileID: 4233620439844566450}
   m_Layer: 5
-  m_Name: Peso
+  m_Name: InfoPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,6 +115,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4233620439844566450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033063923455605828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a238c62e8fb8849950283a179ca01a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nombreCategoria: {fileID: 1033063922763458206}
+  valorCategoria: {fileID: 1033063923716379597}
 --- !u!1 &1033063923716379599
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +141,7 @@ GameObject:
   - component: {fileID: 1033063923716379596}
   - component: {fileID: 1033063923716379597}
   m_Layer: 5
-  m_Name: Valor
+  m_Name: ValorCategoria
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -179,8 +192,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, Unity.ugui,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 14

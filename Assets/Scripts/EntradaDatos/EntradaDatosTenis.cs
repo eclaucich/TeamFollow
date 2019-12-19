@@ -260,7 +260,7 @@ public class EntradaDatosTenis : EntradaDatos
         setActual.AgregarPuntoTBJ2();
     }
 
-    //Función que se llama al apretar alguna estadistica, se agrega "1" a la estadistica correspondiente, para llevar un registro
+    //Función que se llama al apretar alguna estadistica, se agrega "1" a la estadistica correspondiente para llevar un registro
     public void AgregarValorEstadistica(Text _nombreEst)
     {
         estadisticas.AgregarEstadisticas(_nombreEst.text, 1);

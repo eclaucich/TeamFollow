@@ -14,6 +14,8 @@ using UnityEngine.UI;
 public class BotonJugador : MonoBehaviour {
 
     [SerializeField] private Text nombreJugadorText = null;                                                //Texto que muestra el nombre del jugador
+    private string nombreJugador;
+
     private PanelJugadores panelJugadores;                                                          //Panel principal PANEL JUGADORES
 
     private GameObject panelConfirmacionBorrado;
@@ -24,14 +26,20 @@ public class BotonJugador : MonoBehaviour {
         panelConfirmacionBorrado = AppController.instance.panelConfirmacionBorradoJugador;
     }
 
+    public void SetNombreJugador(string nombre)
+    {
+        nombreJugador = nombre;
+        nombreJugadorText.text = nombreJugador;
+    }
+
     public void MostrarDetallesJugador()                                                            //Se muestran todos los detalles del jugador relacionado con el prefab
     {
-        panelJugadores.MostrarPanelInfoJugador(nombreJugadorText.text);
-        AppController.instance.jugadorActual = AppController.instance.equipoActual.BuscarPorNombre(nombreJugadorText.text);
+        panelJugadores.MostrarPanelInfoJugador(nombreJugador);
+        AppController.instance.jugadorActual = AppController.instance.equipoActual.BuscarPorNombre(nombreJugador);
     }
 
     public void AbrirPanelConfirmacionBorrado()
     {
-        panelConfirmacionBorrado.GetComponent<ConfirmacionBorradoJugador>().Activar(nombreJugadorText.text, gameObject);
+        panelConfirmacionBorrado.GetComponent<ConfirmacionBorradoJugador>().Activar(nombreJugador, gameObject);
     }
 }

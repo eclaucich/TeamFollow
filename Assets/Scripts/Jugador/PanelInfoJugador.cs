@@ -4,45 +4,71 @@ using System.Collections.Generic;
 
 public class PanelInfoJugador : Panel
 {
-    /*[SerializeField] private Text nombreText = null;
-    [SerializeField] private Text pesoText = null;
-    [SerializeField] private Text alturaText = null;*/
+    [SerializeField] private InfoPrefab prefabInputInfo = null;
+    [SerializeField] private Transform parentTransform = null;
+    
+    private InfoJugador infoJugador;
 
-    [SerializeField] private GameObject prefabInfo = null;
-    [SerializeField] private Transform transformInfo = null;
-    //[SerializeField] private List<string> listaInfo;
-
-    private List<GameObject> categorias = null;
+    private List<InfoPrefab> listaPrefabs = null;
   
+    void Awake()
+    {
+        listaPrefabs = new List<InfoPrefab>();
+    }
+
 
     public void SetearPanelInfoJugador(Jugador jugador)
     {
-        /*nombreText.text = jugador.GetNombre();
-        pesoText.text = jugador.GetPeso().ToString();
-        alturaText.text = jugador.GetAltura().ToString();*/
-        categorias = new List<GameObject>();
+        infoJugador = jugador.GetInfoJugador();
 
-        InfoJugador infoJugador = jugador.GetInfoJugador();
+        BorrarPrefabs();
+        CrearPrefabs();
+    }
+
+    private void CrearPrefabs()
+    {
+        if(listaPrefabs == null) return;
 
         foreach (var info in infoJugador.GetInfoString())
         {
-            GameObject GO = Instantiate(prefabInfo, transformInfo);
-            GO.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
-            GO.transform.GetChild(1).GetComponent<Text>().text = info.Value.ToString();
-            categorias.Add(GO);
+            InfoPrefab IPgo = Instantiate(prefabInputInfo, parentTransform);
+            IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetValorCategoria(info.Value.ToString());
+            listaPrefabs.Add(IPgo);
+
+            //go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
+            //listaPrefabs.Add(go);
         }
 
         foreach (var info in infoJugador.GetInfoInt())
         {
-            GameObject GO = Instantiate(prefabInfo, transformInfo);
-            GO.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
-            GO.transform.GetChild(1).GetComponent<Text>().text = info.Value.ToString();
-            categorias.Add(GO);
+            InfoPrefab IPgo = Instantiate(prefabInputInfo, parentTransform);
+            IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetValorCategoria(info.Value.ToString());
+            listaPrefabs.Add(IPgo);
+
+            //go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
+            //listaPrefabs.Add(go);
         }
 
-        GameObject go = Instantiate(prefabInfo, transformInfo);
-        go.transform.GetChild(0).GetComponent<Text>().text = "Fecha Nacimiento";
-        go.transform.GetChild(1).GetComponent<Text>().text = infoJugador.GetFechaNac().ToString();
-        categorias.Add(go);
+        InfoPrefab IPGO = Instantiate(prefabInputInfo, parentTransform);
+        IPGO.SetNombreCategoria("Fecha Nacimiento");
+        IPGO.SetValorCategoria(infoJugador.GetFechaNac().ToString());
+        listaPrefabs.Add(IPGO);
+        
+        //GO.transform.GetChild(0).GetComponent<Text>().text = "Fecha Nacimiento";
+        //listaPrefabs.Add(GO);
+    }
+
+    private void BorrarPrefabs()
+    {
+        if(listaPrefabs == null) return;
+
+        for(int i=0; i<listaPrefabs.Count; i++)
+        {
+            Destroy(listaPrefabs[i].gameObject);
+        }
+
+        listaPrefabs.Clear();
     }
 }
