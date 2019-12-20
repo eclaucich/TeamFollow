@@ -32,7 +32,6 @@ public class HerramientaFlechaRecta : Herramienta
 
         if(flechaActual == null)
         {
-            Debug.Log("asdasdasd");
             GameObject go = Instantiate(flechaRectaPrefab);
             go.transform.SetParent(GameObject.Find("PanelEdicion").transform);
             go.transform.SetPositionAndRotation(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0), Quaternion.identity);

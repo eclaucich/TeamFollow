@@ -278,6 +278,17 @@ public class EntradaDatosTenis : EntradaDatos
         }
     }
 
+    ///ALGO ASI SERIA LA IDEA PARA RETROCEDER LA ACCION
+    ///HABRIA QUE TENER EN CUENTA SI SE ESTA N UN TIEBREAK O NO,
+    ///SI AL RETROCEDER, SE RETROCEDE AL GAME ANTERIOR, O SE SALE DEL TIEBREAK, ETC.
+    ///HAY VARIOS CASOS A TENER EN CUENTA
+    ///ANTES DE AGREGAR PUNTOS A UN JUGADOR, SE DEBERIA GUARDAR EL ESTADO ACTUAL DEL SET
+    /*public void Retroceder()
+    {
+        estadisticas.QuitarEstadisticas(ultimaEstadisticaNombre);
+        if(ultimoJugadorJ1) setActual.QuitarPuntoJ1();
+        else                setActual.QuitarPuntoJ2();
+    }*/
 
 
     /// 

@@ -101,6 +101,8 @@ public class FlechaRecta : ObjetoEdicion
 
     public void CrearPunta(int mode)
     {
+        if(line == null) return;
+        
         if(mode == 1)
         {
             line.positionCount++;
