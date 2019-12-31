@@ -138,6 +138,19 @@ public class PanelSeleccionEstadisticas : Panel {
         return null;
     }
 
+    public List<string> GetListaInicialesEstadisticas()
+    {
+        for (int i = 0; i < listaPaneles.Count; i++)
+        {
+            if (listaPaneles[i].gameObject.activeSelf)
+            {
+                return listaPaneles[i].GetListaInicialesEstadisticasActivas();
+            }
+        }
+
+        return null;
+    }
+
     ///
     /// Se ejecuta desde los botones de Partido-Practica, permite cambiar la opción, cambiando cómo se muestran en pantalla
     ///

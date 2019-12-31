@@ -104,10 +104,11 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     public void NextBackgroundImage()
     {
-        switch (deporteIndex)
+        currentTextureIndex = currentTextureIndex == texturesFutbol.Count - 1 ? 0 : currentTextureIndex + 1;
+
+        switch (deporteIndex) ///CADA CASE HACE REFERENCIA A UN DEPORTE
         {
             case 0:
-
                 GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
                 break;
             case 1:
@@ -122,10 +123,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             case 4:
                 GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
                 break;
-
-        }
-        currentTextureIndex = currentTextureIndex == texturesFutbol.Count-1 ? 0 : currentTextureIndex+1;
-        
+        }   
     }
 
     public void ChangeSport(int i)

@@ -12,7 +12,7 @@ public class PanelNuevoJugador : Panel
 
     [SerializeField] private Text mensajeError = null;
 
-    private InfoJugador infoJugador;
+    //private InfoJugador infoJugador;
 
     //private List<GameObject> listaPrefabs;
     private List<InputPrefab> listaPrefabs;
@@ -28,7 +28,7 @@ public class PanelNuevoJugador : Panel
 
         mensajeError.gameObject.SetActive(false);
 
-        infoJugador = new InfoJugador();
+        InfoJugador infoJugador = new InfoJugador();
 
         foreach (var info in infoJugador.GetInfoString())
         {
@@ -71,6 +71,7 @@ public class PanelNuevoJugador : Panel
             mensajeError.text = "Nombre Inválido/Existente";
             return;
         }*/
+        InfoJugador infoJugador = new InfoJugador();
 
         mensajeError.gameObject.SetActive(false);
 
@@ -78,6 +79,7 @@ public class PanelNuevoJugador : Panel
         /// SETEAR EL INFOJUGADOR CON EL VALOR DE CADA PREFAB INPUT
         /// 
         infoJugador.SetNombre(listaPrefabs[0].GetValorCategoria());
+        Debug.Log("Nombre Jugador: " + listaPrefabs[0].GetValorCategoria());
 
         equipoActual.NuevoJugador(new Jugador(infoJugador));
 

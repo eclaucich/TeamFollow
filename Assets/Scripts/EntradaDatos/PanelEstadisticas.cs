@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PanelEstadisticas : MonoBehaviour {
 
     [SerializeField] protected List<string> listaEstadisticas;
+    [SerializeField] protected List<string> listaIniciales;
     [SerializeField] private GameObject togglePrefab = null;
 
     private Transform parentTransform;
@@ -44,6 +45,21 @@ public class PanelEstadisticas : MonoBehaviour {
             if (listaToggles[i].isOn)
             {
                 lista.Add(listaToggles[i].name);
+            }
+        }
+
+        return lista;
+    }
+
+    public List<string> GetListaInicialesEstadisticasActivas()
+    {
+        List<string> lista = new List<string>();
+
+        for (int i = 0; i < listaToggles.Count; i++)
+        {
+            if (listaToggles[i].isOn)
+            {
+                lista.Add(listaIniciales[i]);
             }
         }
 

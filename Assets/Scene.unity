@@ -741,6 +741,7 @@ MonoBehaviour:
   - Ace
   - Doble Falta
   - Winner Drop
+  listaIniciales: []
   togglePrefab: {fileID: 783479205054473017, guid: c1ac8de506364fe448e9338b97a50230,
     type: 3}
 --- !u!1 &37904143
@@ -3611,6 +3612,7 @@ RectTransform:
   - {fileID: 124739384}
   - {fileID: 2088046003}
   - {fileID: 443824532}
+  - {fileID: 1704155105}
   m_Father: {fileID: 600948669}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4033,11 +4035,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 670622570}
-        m_MethodName: SeleccionarFlechaRecta
-        m_Mode: 1
+        m_MethodName: SeleccionarDeporte
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1887428431}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4715,7 +4717,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 84dc6c3a208c41c4c8149ad611ca63bf, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -6466,6 +6468,12 @@ MonoBehaviour:
   - Buena
   - Carrera
   - Home Run
+  listaIniciales:
+  - OUT
+  - MAL
+  - BUE
+  - CAR
+  - HMR
   togglePrefab: {fileID: 783479205054473017, guid: c1ac8de506364fe448e9338b97a50230,
     type: 3}
 --- !u!114 &329754575
@@ -6816,14 +6824,15 @@ MonoBehaviour:
   botonSeleccion: {fileID: 356542525}
   panelOpciones: {fileID: 1839820100}
   hasOptions: 1
-  fichaRedonda: {fileID: 1551298544841526770, guid: 81809b6f126d7ce4682b6b4ebda2344e,
+  fichaRedonda: {fileID: 3233801580250945347, guid: 698a0db3b71b4fc4d81c32fa5ac780a1,
     type: 3}
-  fichaCuadrada: {fileID: 1462530972012647309, guid: 6eb9ade6ed0529b4a91e0b715746ceb6,
+  fichaCuadrada: {fileID: 5871405171714117599, guid: 366b541a4ba81154695d68896bf38df4,
     type: 3}
   fichaTriangular: {fileID: 4333363545543081302, guid: 498bcf27d1039734abd26082add01bde,
     type: 3}
   fichaCruz: {fileID: 8251372037073626235, guid: 8949f4f7812d6164fa1e33e8fe5f08f4,
     type: 3}
+  herramientaSeleccion: {fileID: 451063065}
 --- !u!114 &356542525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6926,7 +6935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d33c2669b4510b46996937af5540ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredHoldTime: 1
+  requiredHoldTime: 0.5
   onLongClick:
     m_PersistentCalls:
       m_Calls:
@@ -7601,11 +7610,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 670622570}
-        m_MethodName: SeleccionarFlechaRecta
-        m_Mode: 1
+        m_MethodName: SeleccionarDeporte
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 357163598}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8088,11 +8097,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 670622570}
-        m_MethodName: SeleccionarFlechaLlena
-        m_Mode: 1
+        m_MethodName: SeleccionarDeporte
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 392341276}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -12426,7 +12435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d33c2669b4510b46996937af5540ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredHoldTime: 1
+  requiredHoldTime: 0.5
   onLongClick:
     m_PersistentCalls:
       m_Calls:
@@ -14356,6 +14365,22 @@ MonoBehaviour:
   - Doble Golpe
   - Pase
   - Bloqueada
+  listaIniciales:
+  - ACE
+  - REC
+  - SAQ
+  - REM
+  - MRC
+  - AMA
+  - ROJ
+  - TDR
+  - TDB
+  - EDS
+  - LVD
+  - INV
+  - DGP
+  - PAS
+  - BLQ
   togglePrefab: {fileID: 783479205054473017, guid: c1ac8de506364fe448e9338b97a50230,
     type: 3}
 --- !u!114 &624653905
@@ -15158,8 +15183,8 @@ GameObject:
   - component: {fileID: 670622574}
   - component: {fileID: 670622572}
   - component: {fileID: 670622571}
-  - component: {fileID: 670622570}
   - component: {fileID: 670622573}
+  - component: {fileID: 670622570}
   m_Layer: 5
   m_Name: CambiarDeporteBoton
   m_TagString: Untagged
@@ -15176,14 +15201,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 670622569}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d76b666ef6c61d5449ddbc3db987f4b3, type: 3}
+  m_Script: {fileID: 11500000, guid: 1595d99eb2fcbe542b2a39409e8a917b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   botonSeleccion: {fileID: 670622571}
   panelOpciones: {fileID: 289640902}
   hasOptions: 1
-  flechaRectaPrefab: {fileID: 966260593759749214, guid: c437ebd9b369d9049ae75d167e1b64f8,
-    type: 3}
+  nombreHerramienta: {fileID: 826136546}
 --- !u!114 &670622571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15227,7 +15251,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 670622570}
+      - m_Target: {fileID: 0}
         m_MethodName: SetHerramientaActual
         m_Mode: 1
         m_Arguments:
@@ -15278,7 +15302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d33c2669b4510b46996937af5540ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredHoldTime: 1
+  requiredHoldTime: 0.5
   onLongClick:
     m_PersistentCalls:
       m_Calls:
@@ -16701,6 +16725,20 @@ MonoBehaviour:
   - Penal
   - Lateral
   - Bocha Peligrosa
+  listaIniciales:
+  - REC
+  - INT
+  - GOL
+  - CRC
+  - CRL
+  - PAS
+  - TJV
+  - TJA
+  - TJR
+  - PDM
+  - PEN
+  - LAT
+  - BPL
   togglePrefab: {fileID: 783479205054473017, guid: c1ac8de506364fe448e9338b97a50230,
     type: 3}
 --- !u!1 &737483713
@@ -19988,7 +20026,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 84dc6c3a208c41c4c8149ad611ca63bf, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -22176,6 +22214,7 @@ MonoBehaviour:
   - Sacada
   - Ace
   - Doble Falta
+  listaIniciales: []
   togglePrefab: {fileID: 783479205054473017, guid: c1ac8de506364fe448e9338b97a50230,
     type: 3}
 --- !u!114 &1013552853
@@ -24084,11 +24123,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 670622570}
-        m_MethodName: SeleccionarFlechaRecta
-        m_Mode: 1
+        m_MethodName: SeleccionarDeporte
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1104547116}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -24342,11 +24381,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 670622570}
-        m_MethodName: SeleccionarFlechaRecta
-        m_Mode: 1
+        m_MethodName: SeleccionarDeporte
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 97202142}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -25796,7 +25835,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 84dc6c3a208c41c4c8149ad611ca63bf, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -27923,6 +27962,20 @@ MonoBehaviour:
   - Pass Forward
   - Intercepcion
   - Offside
+  listaIniciales:
+  - KNO
+  - TRY
+  - PEN
+  - CON
+  - DRP
+  - TAK
+  - AMA
+  - ROJ
+  - FLT
+  - LAT
+  - PFW
+  - INT
+  - OFF
   togglePrefab: {fileID: 783479205054473017, guid: c1ac8de506364fe448e9338b97a50230,
     type: 3}
 --- !u!114 &1341290999
@@ -28147,6 +28200,22 @@ MonoBehaviour:
   - Disputa Ganada
   - Disputa Perdida
   - Tecnica
+  listaIniciales:
+  - DBL
+  - TRP
+  - FLT
+  - BLQ
+  - PAR
+  - PAS
+  - BOL
+  - REC
+  - PDM
+  - ROJ
+  - AMA
+  - LBR
+  - DIG
+  - DIP
+  - TEC
   togglePrefab: {fileID: 783479205054473017, guid: c1ac8de506364fe448e9338b97a50230,
     type: 3}
 --- !u!114 &1351066888
@@ -29397,7 +29466,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1402376131
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32404,14 +32473,15 @@ MonoBehaviour:
   botonSeleccion: {fileID: 1569970989}
   panelOpciones: {fileID: 1364317584}
   hasOptions: 1
-  fichaRedonda: {fileID: 1551298544841526770, guid: 81809b6f126d7ce4682b6b4ebda2344e,
+  fichaRedonda: {fileID: 3233801580250945347, guid: 698a0db3b71b4fc4d81c32fa5ac780a1,
     type: 3}
-  fichaCuadrada: {fileID: 1462530972012647309, guid: 6eb9ade6ed0529b4a91e0b715746ceb6,
+  fichaCuadrada: {fileID: 5871405171714117599, guid: 366b541a4ba81154695d68896bf38df4,
     type: 3}
   fichaTriangular: {fileID: 4333363545543081302, guid: 498bcf27d1039734abd26082add01bde,
     type: 3}
   fichaCruz: {fileID: 8251372037073626235, guid: 8949f4f7812d6164fa1e33e8fe5f08f4,
     type: 3}
+  herramientaSeleccion: {fileID: 322707367}
 --- !u!114 &1569970989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33475,11 +33545,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 670622570}
-        m_MethodName: SeleccionarFlechaRecta
-        m_Mode: 1
+        m_MethodName: SeleccionarDeporte
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1985053930}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -34908,7 +34978,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 84dc6c3a208c41c4c8149ad611ca63bf, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -34928,6 +34998,135 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1697932364}
+  m_CullTransparentMesh: 0
+--- !u!1 &1704155104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1704155105}
+  - component: {fileID: 1704155108}
+  - component: {fileID: 1704155107}
+  - component: {fileID: 1704155106}
+  m_Layer: 5
+  m_Name: CambiarFondoBoton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1704155105
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704155104}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1920491051}
+  m_Father: {fileID: 145564776}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 64.55, y: -360}
+  m_SizeDelta: {x: 130, y: 80}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1704155106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704155104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1704155107}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1838907417}
+        m_MethodName: NextBackgroundImage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1704155107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704155104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1704155108
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704155104}
   m_CullTransparentMesh: 0
 --- !u!1 &1715639093
 GameObject:
@@ -35366,6 +35565,25 @@ MonoBehaviour:
   - Remate
   - Mareada
   - Bocha Fuera de Cancha
+  listaIniciales:
+  - DIS
+  - PAS
+  - BLQ
+  - PDJ
+  - RDB
+  - PDM
+  - GOL
+  - FLP
+  - ALT
+  - FDP
+  - FDL
+  - 5SG
+  - TRO
+  - ROJ
+  - AZL
+  - REM
+  - MAR
+  - BFC
   togglePrefab: {fileID: 783479205054473017, guid: c1ac8de506364fe448e9338b97a50230,
     type: 3}
 --- !u!114 &1743595979
@@ -35503,6 +35721,12 @@ MonoBehaviour:
   - Camina
   - Peridad de Posesion
   - Tiro
+  listaIniciales:
+  - GOL
+  - PAS
+  - CAM
+  - PDP
+  - TRO
   togglePrefab: {fileID: 783479205054473017, guid: c1ac8de506364fe448e9338b97a50230,
     type: 3}
 --- !u!114 &1756237702
@@ -36915,10 +37139,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1838907422}
   - component: {fileID: 1838907421}
-  - component: {fileID: 1838907420}
   - component: {fileID: 1838907417}
   - component: {fileID: 1838907419}
   - component: {fileID: 1838907418}
+  - component: {fileID: 1838907420}
   m_Layer: 5
   m_Name: PanelEdicion
   m_TagString: PanelEdicion
@@ -36938,10 +37162,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9ba7e1ccfa39334f90ebd6842605899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snapshotCamera: {fileID: 0}
-  fullField: {fileID: 0}
-  halfField: {fileID: 0}
-  areaField: {fileID: 0}
+  snapshotCamera: {fileID: 1032986701}
+  fullField: {fileID: 2800000, guid: 40fed874aa9b1ee40913281de67911b6, type: 3}
+  halfField: {fileID: 2800000, guid: a84df4023ef06a24db8e3d9835fc27a7, type: 3}
+  areaField: {fileID: 2800000, guid: bb1d345527a2bab478d0403b79106ea8, type: 3}
 --- !u!23 &1838907418
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37003,25 +37227,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1838907416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.8113208, b: 0.34782752, a: 1}
+  m_Color: {r: 0, g: 0.8117647, b: 0.34901962, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!222 &1838907421
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38314,6 +38535,22 @@ MonoBehaviour:
   - Tiro Libre
   - Penal
   - Proposicion de Jugada
+  listaIniciales:
+  - OUT
+  - PAS
+  - GOL
+  - TRO
+  - ROJ
+  - AMA
+  - FLT
+  - REC
+  - INT
+  - PDM
+  - PDB
+  - CRN
+  - TRL
+  - PEN
+  - PDJ
   togglePrefab: {fileID: 783479205054473017, guid: c1ac8de506364fe448e9338b97a50230,
     type: 3}
 --- !u!1 &1911386812
@@ -38704,6 +38941,83 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1919021118}
+  m_CullTransparentMesh: 0
+--- !u!1 &1920491050
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1920491051}
+  - component: {fileID: 1920491053}
+  - component: {fileID: 1920491052}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1920491051
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920491050}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1704155105}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1920491052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920491050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 20
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Fondo
+--- !u!222 &1920491053
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920491050}
   m_CullTransparentMesh: 0
 --- !u!1 &1928271105
 GameObject:

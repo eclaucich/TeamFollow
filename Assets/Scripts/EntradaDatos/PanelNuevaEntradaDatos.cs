@@ -24,14 +24,15 @@ public class PanelNuevaEntradaDatos : EntradaDatos
     private List<EntradaDatosJugador> listaEntradaDatos;
     private List<GameObject> columnas;
 
-    private Transform parentColumna = null;
+    [SerializeField] private Transform parentColumna = null;
 
     private PanelEntradaDatos panelEntradaDatos;
 
     private bool isPartido = true;
 
     private List<string> listaEstadisticas;
-    
+    private List<string> listaIniciales;
+
     private void Awake()
     {
         jugadores = new List<Jugador>();
@@ -39,6 +40,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         listaEntradaDatos = new List<EntradaDatosJugador>();
         panelEntradaDatos = GetComponentInParent<PanelEntradaDatos>();   
         listaEstadisticas = PanelSeleccionEstadisticas.instance.GetListaEstadisticas();
+        listaIniciales = PanelSeleccionEstadisticas.instance.GetListaInicialesEstadisticas();
 
         gameObject.GetComponent<RawImage>().texture = AppController.instance.GetComponent<Test>().myGradient.GetTexture(1280);
     }
@@ -58,7 +60,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
         isPartido = _isPartido;
 
-        parentColumna = transform;
+        //parentColumna = transform;
 
         columnas = new List<GameObject>();
         equipo = AppController.instance.GetEquipoActual();
@@ -94,7 +96,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
             columnas.Add(columnaGO);
 
             GameObject textCategoriaGO = Instantiate(textPrefab, columnaGO.transform, false);
-            textCategoriaGO.GetComponent<Text>().text = listaEstadisticas[i];
+            textCategoriaGO.GetComponent<Text>().text = listaIniciales[i];//listaEstadisticas[i];
 
             for (int j = 0; j < jugadores.Count; j++)
             {
