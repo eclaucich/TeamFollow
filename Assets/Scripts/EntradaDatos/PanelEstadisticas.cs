@@ -21,7 +21,7 @@ public class PanelEstadisticas : MonoBehaviour {
         for (int i = 0; i < listaEstadisticas.Count; i++)
         {
             GameObject toggleGO = Instantiate(togglePrefab, parentTransform, false);
-            toggleGO.GetComponent<TextScript>().SetName(listaEstadisticas[i]);
+            toggleGO.GetComponent<TextScript>().SetName(listaEstadisticas[i], listaIniciales[i]);
             listaToggles.Add(toggleGO.GetComponent<Toggle>());
         }
     }

@@ -16712,33 +16712,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listaEstadisticas:
+  - Pase
   - Recuperacion
-  - "Intercepci\xF3n"
-  - Gol
+  - Perdida de Marca
   - Corner Corto
   - Corner Largo
-  - Pase
+  - Intercepcion
+  - Lateral
+  - Gol
+  - Bocha Peligrosa
   - Tarjeta Verde
   - Tarjeta Amarilla
   - Tarjeta Roja
-  - Perdida de Marca
   - Penal
-  - Lateral
-  - Bocha Peligrosa
   listaIniciales:
+  - PAS
   - REC
-  - INT
-  - GOL
+  - PDM
   - CRC
   - CRL
-  - PAS
+  - INT
+  - LAT
+  - GOL
+  - BPL
   - TJV
   - TJA
   - TJR
-  - PDM
-  - PEN
-  - LAT
-  - BPL
+  - PNL
   togglePrefab: {fileID: 783479205054473017, guid: c1ac8de506364fe448e9338b97a50230,
     type: 3}
 --- !u!1 &737483713

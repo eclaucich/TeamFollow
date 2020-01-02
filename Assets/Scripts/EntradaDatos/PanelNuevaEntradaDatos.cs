@@ -15,6 +15,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
     //[SerializeField] private GameObject entradaDatosJugadorPrefab = null;
     [SerializeField] private GameObject textPrefab = null;
     [SerializeField] private GameObject columnaPrefab = null;
+    [SerializeField] private GameObject columnaNombresPrefab = null;
     [SerializeField] private GameObject botonPrefab = null;
 
     private Equipo equipo;
@@ -78,8 +79,10 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
     public void CrearColumnas()
     {
-        GameObject columnaNombresGO = Instantiate(columnaPrefab, parentColumna, false);
+        GameObject columnaNombresGO = Instantiate(columnaNombresPrefab, transform, false);
         columnas.Add(columnaNombresGO);
+
+        //columnaNombresGO.transform.position = new Vector2(100f, 360f);
 
         GameObject textGO = Instantiate(textPrefab, columnaNombresGO.transform, false);
         textGO.GetComponent<Text>().text = "Nombre";

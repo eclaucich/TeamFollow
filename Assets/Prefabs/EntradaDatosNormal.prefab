@@ -312,8 +312,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.024979, y: 0}
-  m_SizeDelta: {x: 1279.9, y: 720}
+  m_AnchoredPosition: {x: 100, y: 0}
+  m_SizeDelta: {x: 1080, y: 720}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4953112686882787354
 MonoBehaviour:
@@ -461,6 +461,8 @@ MonoBehaviour:
   panelConfirmacionGuardado: {fileID: 5016347972713733958}
   textPrefab: {fileID: 1219102678554756, guid: f068ae12954868940bf3238caa487b21, type: 3}
   columnaPrefab: {fileID: 8038174929155175524, guid: 4700a33f3c0886343b8d3eb41f9230d8,
+    type: 3}
+  columnaNombresPrefab: {fileID: 3655503474356179592, guid: ae946fb3c96319a488539e348a4cccd6,
     type: 3}
   botonPrefab: {fileID: 1874716153438762, guid: 9918ec6ebe4c9814eb0c752b7ea279cb,
     type: 3}
@@ -1708,7 +1710,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030518, y: 0}
+  m_AnchoredPosition: {x: 0.00076817797, y: 0}
   m_SizeDelta: {x: 0, y: 720}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6042439169107546741

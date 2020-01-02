@@ -8,6 +8,8 @@ public class BotonEntradaDato : MonoBehaviour
     private Text textoEntrada;
     private int cant;
 
+    private bool holding = false;
+
     private void Awake()
     {
         textoEntrada = GetComponentInChildren<Text>();
@@ -17,12 +19,17 @@ public class BotonEntradaDato : MonoBehaviour
 
     public void SumarEntrada()
     {
-        cant++;
-        textoEntrada.text = cant.ToString();
+        if (!holding)
+        {
+            cant++;
+            textoEntrada.text = cant.ToString();
+        }
+        else holding = false;
     }
 
     public void RestarEntrada()
     {
+        holding = true;
         cant--;
         if (cant < 0) cant = 0;
         textoEntrada.text = cant.ToString();
