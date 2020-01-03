@@ -20,12 +20,20 @@ public class ConfirmacionBorradoEquipo : MensajeDesplegable
         botonEquipoFocus = botonEquipo;
         textoConfirmacion.text = "Borrar Equipo \"" + equipoFocus.GetNombre() + "\"?";
         ToggleDesplegar();
+        Debug.Log("ACTIVADO: " + botonEquipoFocus.name);
     }
 
     public void BorrarEquipo()
     {
-        AppController.instance.BorrarEquipo(equipoFocus.GetNombre());  
+        /*CanvasController.instance.AbrirMisEquipos();
         panelPrincipal.BorrarBotonEquipo(botonEquipoFocus);
+        AppController.instance.BorrarEquipo(equipoFocus.GetNombre());
+        Cerrar();
+        botonEquipoFocus = null;
+        */
         ToggleDesplegar();
+        panelPrincipal.BorrarBotonEquipo(botonEquipoFocus);
+        AppController.instance.BorrarEquipo(equipoFocus.GetNombre()); 
+        CanvasController.instance.MostrarPanelAnterior(); 
     }
 }

@@ -83,10 +83,10 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         if (snapshotCamera.gameObject.activeInHierarchy)
         {
             CanvasController.instance.GetComponent<Canvas>().worldCamera = snapshotCamera;
-            Texture2D snapshot = new Texture2D(width, height, TextureFormat.RGB24, false);
+            Texture2D snapshot = new Texture2D(width-130, height, TextureFormat.RGB24, false);
             snapshotCamera.Render();
             RenderTexture.active = snapshotCamera.targetTexture;
-            snapshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+            snapshot.ReadPixels(new Rect(130, 0, width, height), 0, 0);
             byte[] bytes = snapshot.EncodeToPNG();
             SaveSystem.GuardarJugadaImagen(bytes);
             Debug.Log("Guardado");

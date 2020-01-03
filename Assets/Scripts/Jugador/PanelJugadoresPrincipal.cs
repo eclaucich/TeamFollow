@@ -21,6 +21,9 @@ public class PanelJugadoresPrincipal : Panel {
     private string nombreNuevoJugador;
     private bool newPlayerButtonPressed = false;
 
+    [SerializeField] private ConfirmacionBorradoJugador panelConfirmacionBorrado = null;
+    private GameObject botonJugadorFocus;
+
     private void Awake()
     {
         jugadores = new List<Jugador>();
@@ -125,5 +128,15 @@ public class PanelJugadoresPrincipal : Panel {
         {
             adviceText.gameObject.SetActive(false);
         }
+    }
+
+    public void SetBotonJugadorFocus(GameObject botonJugador_)
+    {
+        botonJugadorFocus = botonJugador_;
+    }
+
+    public void AbrirPanelConfirmacionBorrado()
+    {
+        panelConfirmacionBorrado.Activar(AppController.instance.jugadorActual.GetNombre(), botonJugadorFocus);
     }
 }

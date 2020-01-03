@@ -23,7 +23,7 @@ public class MensajeDesplegable : MonoBehaviour
     }
 
     virtual public void ToggleDesplegar()
-    {
+    {        
         bool isOpen = animator.GetBool("open");
 
         desplegado = !isOpen;
@@ -31,6 +31,8 @@ public class MensajeDesplegable : MonoBehaviour
         animator.SetBool("open", !isOpen);
 
         closeZone.SetActive(!isOpen);
+
+        Debug.Log("TOGGLE");
     }
 
     public bool isDesplegado()

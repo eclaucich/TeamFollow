@@ -18,12 +18,12 @@ public class EleccionBorradoEstadisticas : ConfirmacionBorradoJugador
         textoConfirmacion.text = "Se eliminará el jugador \"" + jugadorFocus.GetNombre() + "\"?" + "\n"+ "Desea eliminar las estadísticas relacionadas con éste?" + "\n" + "Se verán afectadas las estadísticas de equipo y de partidos donde se encuentre el jugador";
     }
 
-
     public void BorrarJugadorEstadisticas(bool borrarEstadisticas)
     {
         AppController.instance.equipoActual.BorrarJugador(jugadorFocus.GetNombre(), borrarEstadisticas);
         //Destroy(botonJugadorFocus);
         panelJugadoresPrincipal.BorrarBotonJugador(botonJugadorFocus);
         ToggleDesplegar();
+        CanvasController.instance.MostrarPanelAnterior();
     }
 }

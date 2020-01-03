@@ -29,8 +29,7 @@ public class PanelPrincipal : Panel {
 
         ActivarYDesactivarAdviceText();
     }
-
-
+    
     public void SetearPanelPrincipal()
     {
         //CanvasController.instance.botonDespliegueMenu.SetActive(true);
@@ -43,8 +42,6 @@ public class PanelPrincipal : Panel {
      
         ActivarYDesactivarAdviceText();
     }
-
-
 
     public void BorrarPrefabs()
     {
@@ -94,6 +91,7 @@ public class PanelPrincipal : Panel {
     {
         Destroy(botonEquipo);
         listaPrefabsBoton.Remove(botonEquipo);
-        ActivarYDesactivarAdviceText();
+
+        Debug.Log("BORRADO");
     }
 }

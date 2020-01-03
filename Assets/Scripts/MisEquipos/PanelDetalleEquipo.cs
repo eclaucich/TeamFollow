@@ -30,10 +30,12 @@ public class PanelDetalleEquipo : MonoBehaviour {
     }
 
 
-    public void SetPanelPrincipal(string nombreEquipo_)                                                    //Se setea el panel principal. Se setea el equipo enfocado.
+    public void SetPanelPrincipal(string nombreEquipo_, GameObject botonEquipo_)                                                    //Se setea el panel principal. Se setea el equipo enfocado.
     {
         equipo = AppController.instance.equipos[AppController.instance.BuscarPorNombre(nombreEquipo_)];
         AppController.instance.SetEquipoActual(equipo);
+        
+        panel_principal.GetComponent<PanelPrincipalDetalleEquipo>().SetBotonEquipoFocus(botonEquipo_);
         MostrarPanelPrincipal();
     }
 

@@ -24,6 +24,7 @@ public class CanvasController : MonoBehaviour {
     [SerializeField] private PanelJugadores panel_jugadores = null;
     [SerializeField] private PanelPlanillaAsistencia panel_planillas_asistencias = null;
     [SerializeField] private GameObject panel_tablero = null;
+    [SerializeField] private GameObject panel_biblioteca = null;
 
     [SerializeField] private GameObject panel_menuSeleccion = null;
     private MensajeDesplegable menuSeleccion;
@@ -82,6 +83,7 @@ public class CanvasController : MonoBehaviour {
         listaPaneles.Add(panel_misEquipos);
         listaPaneles.Add(panel_jugadas);
         listaPaneles.Add(panel_tablero);
+        listaPaneles.Add(panel_biblioteca);
 
         AbrirMisEquipos();  
     }
@@ -126,6 +128,15 @@ public class CanvasController : MonoBehaviour {
         menuSeleccion.Cerrar();
 
         panel_tablero.GetComponent<PanelTablero>().MostrarPanelPrincipal();
+    }
+
+    public void AbrirBiblioteca()
+    {
+        ActivarPanel(4);
+
+        menuSeleccion.Cerrar();
+
+        panel_biblioteca.GetComponent<PanelBiblioteca>().MostrarPanelPrincipal();
     }
 
 

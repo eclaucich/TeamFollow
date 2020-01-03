@@ -39,17 +39,9 @@ public class BotonEquipo : MonoBehaviour {
         panelConfirmacionBorrado = AppController.instance.panelConfirmacionBorradoEquipo;
     }
 
-
-    public void Borrar()                                                                        //Borra el prefab y el equipo relacionado
-    {
-        AppController.instance.BorrarEquipo(nombreEquipoText.text);
-        Destroy(gameObject);
-        panelConfirmacionBorrado.GetComponent<ConfirmacionBorradoEquipo>().Cerrar();
-    }
-
     public void VerDetalleEquipo()                                                              //Función que se llama al apretar el nombre de un equipo, se muestran las opciones de ese equipo
     {
-        panelMisEquipos.MostrarPanelDetalleEquipo(nombreEquipoText.text);
+        panelMisEquipos.MostrarPanelDetalleEquipo(nombreEquipoText.text, gameObject);
     }
 
     public void SetSpriteBotonEquipo(Equipo equipo)

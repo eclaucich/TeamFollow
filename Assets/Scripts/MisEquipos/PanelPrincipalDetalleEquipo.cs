@@ -3,6 +3,14 @@
 public class PanelPrincipalDetalleEquipo : Panel
 {
     [SerializeField] private GameObject botonVerEstadisticasGlobalesEquipo = null;
+    [SerializeField] private ConfirmacionBorradoEquipo panelConfirmacionBorrado = null;
+
+    private GameObject botonEquipoFocus;
+
+    public void SetBotonEquipoFocus(GameObject botonEquipo_)
+    {
+        botonEquipoFocus = botonEquipo_;
+    }
 
     public void SetBotonesDisponibles()
     {
@@ -16,5 +24,10 @@ public class PanelPrincipalDetalleEquipo : Panel
         {
             botonVerEstadisticasGlobalesEquipo.SetActive(true);
         }
+    }
+
+    public void AbrirPanelConfirmacionBorrado()
+    {
+        panelConfirmacionBorrado.Activar(AppController.instance.equipoActual.GetNombre(), botonEquipoFocus);
     }
 }

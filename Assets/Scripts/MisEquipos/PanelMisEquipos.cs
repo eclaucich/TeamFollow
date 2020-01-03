@@ -58,14 +58,14 @@ public class PanelMisEquipos : MonoBehaviour {
         panel_nuevoEquipo.GetComponent<PanelNuevoEquipo>().SetPanel();
     }
 
-    public void MostrarPanelDetalleEquipo(string nombreEquipo_)                                                         //Muestra el panel de DETALLE EQUIPO. Desactiva los demás.
+    public void MostrarPanelDetalleEquipo(string nombreEquipo_, GameObject botonEquipo_)                                                         //Muestra el panel de DETALLE EQUIPO. Desactiva los demás.
     {
         //ActivarPanel(2);
         panel_principal.SetActive(false);
         panel_nuevoEquipo.SetActive(false);
         panel_detalleEquipo.SetActive(true);
 
-        panel_detalleEquipo.GetComponent<PanelDetalleEquipo>().SetPanelPrincipal(nombreEquipo_);
+        panel_detalleEquipo.GetComponent<PanelDetalleEquipo>().SetPanelPrincipal(nombreEquipo_, botonEquipo_);
     }
 
 
