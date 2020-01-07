@@ -12,7 +12,8 @@ using UnityEngine;
 public class Equipo {
 
     private string nombre;                                                  //Nombre del Equipo
-    private string deporte;
+    private string deporteNombre;
+    private Deportes.Deporte deporte;
 
     private List<Jugador> jugadores;                                        //Lista de jugadores
 
@@ -27,7 +28,8 @@ public class Equipo {
     public Equipo(string nombre_, string deporte_)                                           //Constructor por nombre
     {
         nombre = nombre_;
-        deporte = deporte_;
+        deporteNombre = deporte_;
+        deporte = GetDeporte(deporte_);
 
         jugadores = new List<Jugador>();
         estadisticasGlobalesPartido = new Estadisticas();
@@ -41,7 +43,8 @@ public class Equipo {
     public Equipo(SaveDataEquipo saveData)//{, SaveDataEstadisticas saveDataEstPartido, SaveDataEstadisticas saveDataEstPractica)
     {
         nombre = saveData.GetNombre();
-        deporte = saveData.GetDeporte();
+        deporteNombre = saveData.GetDeporte();
+        deporte = GetDeporte(deporteNombre);
 
         /*estadisticasGlobalesPartido = new Estadisticas(saveDataEstPartido);
         estadisticasGlobalesPractica = new Estadisticas(saveDataEstPractica);*/
@@ -293,7 +296,12 @@ public class Equipo {
         return nombre;
     }
 
-    public string GetDeporte()
+    public string GetDeporteNombre()
+    {
+        return deporte.ToString();
+    }
+
+    public Deportes.Deporte GetDeporte()
     {
         return deporte;
     }
@@ -363,5 +371,35 @@ public class Equipo {
         }
 
         return new SaveDataPlanilla(detalle, nombrePlanilla);
+    }
+
+
+    public Deportes.Deporte GetDeporte(string deporte_)
+    {
+        switch (deporte_)
+        {
+            case "Fútbol": case "Futbol":
+                return Deportes.Deporte.Futbol;
+            case "Hockey Patines": case "HockeyPatines":
+                return Deportes.Deporte.HockeyPatines;
+            case "Hockey Cesped": case "HockeyCesped":
+                return Deportes.Deporte.HockeyCesped;
+            case "Voley":
+                return Deportes.Deporte.Voley;
+            case "Rugby":
+                return Deportes.Deporte.Rugby;
+            case "Handball":
+                return Deportes.Deporte.Handball;
+            case "Tenis":
+                return Deportes.Deporte.Tenis;
+            case "Padel":
+                return Deportes.Deporte.Padel;
+            case "Softball":
+                return Deportes.Deporte.Softball;
+            case "Basket":
+                return Deportes.Deporte.Basket;
+        }
+
+        return Deportes.Deporte.NULL;
     }
 }

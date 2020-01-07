@@ -57,7 +57,9 @@ public class CanvasController : MonoBehaviour {
         JugadoresDetalle,
 
         PlanillaAsistenciaPrincipal,
-        HistorialPlanilla
+        HistorialPlanilla,
+
+        Biblioteca
     }
 
     private void Awake()
@@ -110,6 +112,8 @@ public class CanvasController : MonoBehaviour {
         panel_misEquipos.GetComponent<PanelMisEquipos>().MostrarPanelPrincipal();
 
         if (panel_menuSeleccion != null) menuSeleccion.Cerrar();
+
+        botonDespliegueMenu.SetActive(true);
     }
 
     public void AbrirJugadas()                                                      //Activa el panel JUGADAS y descativa los demás. Oculta el menú de selección

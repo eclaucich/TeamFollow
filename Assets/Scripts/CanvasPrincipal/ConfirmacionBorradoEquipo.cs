@@ -14,23 +14,17 @@ public class ConfirmacionBorradoEquipo : MensajeDesplegable
         panelPrincipal = GameObject.FindGameObjectWithTag("PanelMisEquipos").GetComponent<PanelPrincipal>();
     }
 
+    ///Al apretar el "borrar" se guarda el equipo y el boton en cuestion
     public void Activar(string nombreEquipo, GameObject botonEquipo)
     {
         equipoFocus = AppController.instance.equipos[AppController.instance.BuscarPorNombre(nombreEquipo)];
         botonEquipoFocus = botonEquipo;
         textoConfirmacion.text = "Borrar Equipo \"" + equipoFocus.GetNombre() + "\"?";
         ToggleDesplegar();
-        Debug.Log("ACTIVADO: " + botonEquipoFocus.name);
     }
 
     public void BorrarEquipo()
     {
-        /*CanvasController.instance.AbrirMisEquipos();
-        panelPrincipal.BorrarBotonEquipo(botonEquipoFocus);
-        AppController.instance.BorrarEquipo(equipoFocus.GetNombre());
-        Cerrar();
-        botonEquipoFocus = null;
-        */
         ToggleDesplegar();
         panelPrincipal.BorrarBotonEquipo(botonEquipoFocus);
         AppController.instance.BorrarEquipo(equipoFocus.GetNombre()); 

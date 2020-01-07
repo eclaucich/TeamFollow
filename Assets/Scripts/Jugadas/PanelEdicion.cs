@@ -24,6 +24,8 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     private int currentTextureIndex = 0;
 
+    private PanelOpcionesHerramienta panelOpcionesActual;
+
     int width = 1280;
     int height = 720;
 
@@ -131,4 +133,16 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         deporteIndex = i;
         NextBackgroundImage();
     }
+
+    public void CerrarPanelOpcionesActual()
+    {
+        if (panelOpcionesActual != null)
+            panelOpcionesActual.Cerrar();
+    }
+
+    public void SetPanelOpcionesActual(PanelOpcionesHerramienta panel_)
+    {
+        panelOpcionesActual = panel_;
+    }
+
 }

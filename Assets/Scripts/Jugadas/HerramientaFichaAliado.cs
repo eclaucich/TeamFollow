@@ -32,7 +32,10 @@ public class HerramientaFichaAliado : Herramienta {
             go.transform.GetChild(i).GetComponentInChildren<MeshRenderer>().material = ElegirMaterial(GetComponentInParent<PanelHerramientas>().GetPanelCrearJugadas().GetColorActual());
         }*/
 
-        go.GetComponent<RawImage>().color = GetComponentInParent<PanelHerramientas>().GetPanelCrearJugadas().GetColorActual();
+        RawImage imagen = go.GetComponent<RawImage>();
+        Color colorActual = GetComponentInParent<PanelHerramientas>().GetPanelCrearJugadas().GetColorActual();
+
+        imagen.color = new Color(colorActual.r, colorActual.g, colorActual.b, 255f);
 
         herramientaSeleccion.SetHerramientaActual();
     }

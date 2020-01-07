@@ -8,12 +8,6 @@ public class ConfirmacionBorradoJugador : MensajeDesplegable
     [SerializeField] protected Text textoConfirmacion = null;
     [SerializeField] private ConfirmacionBorradoJugador eleccionBorradoEstadistica = null;
 
-    /*private PanelJugadoresPrincipal panelJugadoresPrincipal;
-
-    void Start()
-    {
-        panelJugadoresPrincipal = GameObject.Find("PanelJugadoresPrincipal").GetComponent<PanelJugadoresPrincipal>();
-    }*/
 
     virtual public void Activar(string nombreJugador, GameObject botonJugador)
     {
@@ -27,6 +21,5 @@ public class ConfirmacionBorradoJugador : MensajeDesplegable
     {
         eleccionBorradoEstadistica.Activar(jugadorFocus.GetNombre(), botonJugadorFocus);
         this.Cerrar();
-        //panelJugadoresPrincipal.BorrarBotonJugador(botonJugadorFocus);
     }
 }

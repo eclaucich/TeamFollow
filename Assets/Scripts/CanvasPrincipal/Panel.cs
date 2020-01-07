@@ -5,7 +5,11 @@ public class Panel : MonoBehaviour
 {
     public virtual void Start()
     {
-        //GetComponent<RawImage>().texture = AppController.instance.GetComponent<Test>().myGradient.GetTexture(1280);
-        GetComponent<RawImage>().texture = AppController.instance.texturaPaneles;
+        GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
+    }
+
+    public void UpdateTexture()
+    {
+        GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
     }
 }

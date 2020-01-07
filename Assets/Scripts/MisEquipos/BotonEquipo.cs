@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 /// <summary>
 /// 
@@ -32,11 +33,29 @@ public class BotonEquipo : MonoBehaviour {
 
     private GameObject panelConfirmacionBorrado;
 
+    private List<Sprite> listaSprites;
+
     private void Awake()
     {
         panelMisEquiposGO = GameObject.Find("PanelMisEquipos");                                 //Se busca el panel por nombre, solo puede haber uno
         panelMisEquipos = panelMisEquiposGO.GetComponent<PanelMisEquipos>();                    //Se obtiene el componente del panel
         panelConfirmacionBorrado = AppController.instance.panelConfirmacionBorradoEquipo;
+        listaSprites = new List<Sprite>();
+
+    }
+
+    private void Start()
+    {
+        listaSprites.Add(spriteBasket);
+        listaSprites.Add(spriteFutbol);
+        listaSprites.Add(spriteHandball);
+        listaSprites.Add(spriteHockeyCesped);
+        listaSprites.Add(spriteHockeyPatines);
+        listaSprites.Add(spritePadel);
+        listaSprites.Add(spriteRugby);
+        listaSprites.Add(spriteSoftball);
+        listaSprites.Add(spriteTenis);
+        listaSprites.Add(spriteVoley);
     }
 
     public void VerDetalleEquipo()                                                              //Función que se llama al apretar el nombre de un equipo, se muestran las opciones de ese equipo
@@ -46,39 +65,42 @@ public class BotonEquipo : MonoBehaviour {
 
     public void SetSpriteBotonEquipo(Equipo equipo)
     {
-        switch (equipo.GetDeporte())
-        {
-            case "Fútbol":
-                spriteDeporte.texture = spriteFutbol.texture;
-                break;
-            case "Hockey Cesped":
-                spriteDeporte.texture = spriteHockeyCesped.texture;
-                break;
-            case "Tenis":
-                spriteDeporte.texture = spriteTenis.texture;
-                break;
-            case "Softball":
-                spriteDeporte.texture = spriteSoftball.texture;
-                break;
-            case "Voley":
-                spriteDeporte.texture = spriteVoley.texture;
-                break;
-            case "Hockey Patines":
-                spriteDeporte.texture = spriteHockeyPatines.texture;
-                break;
-            case "Rugby":
-                spriteDeporte.texture = spriteRugby.texture;
-                break;
-            case "Basket":
-                spriteDeporte.texture = spriteBasket.texture;
-                break;
-            case "Handball":
-                spriteDeporte.texture = spriteHandball.texture;
-                break;
-            case "Padel":
-                spriteDeporte.texture = spritePadel.texture;
-                break;
-        }
+        Debug.Log("DEPORTE: " + equipo.GetDeporteNombre() + ", " + (int)equipo.GetDeporte());
+         switch (equipo.GetDeporte())
+         {
+             case Deportes.Deporte.Futbol:
+                 spriteDeporte.texture = spriteFutbol.texture;
+                 break;
+             case Deportes.Deporte.HockeyCesped:
+                 spriteDeporte.texture = spriteHockeyCesped.texture;
+                 break;
+             case Deportes.Deporte.Tenis:
+                 spriteDeporte.texture = spriteTenis.texture;
+                 break;
+             case Deportes.Deporte.Softball:
+                 spriteDeporte.texture = spriteSoftball.texture;
+                 break;
+             case Deportes.Deporte.Voley:
+                 spriteDeporte.texture = spriteVoley.texture;
+                 break;
+             case Deportes.Deporte.HockeyPatines:
+                 spriteDeporte.texture = spriteHockeyPatines.texture;
+                 break;
+             case Deportes.Deporte.Rugby:
+                 spriteDeporte.texture = spriteRugby.texture;
+                 break;
+             case Deportes.Deporte.Basket:
+                 spriteDeporte.texture = spriteBasket.texture;
+                 break;
+             case Deportes.Deporte.Handball:
+                 spriteDeporte.texture = spriteHandball.texture;
+                 break;
+             case Deportes.Deporte.Padel:
+                 spriteDeporte.texture = spritePadel.texture;
+                 break;
+         }
+
+        //spriteDeporte.texture = listaSprites[(int)equipo.GetDeporte()].texture;
 
         spriteDeporte.transform.localScale.Set(0.8f, 0.9f, 1f);
     }

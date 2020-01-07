@@ -66,8 +66,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, Unity.ugui,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
@@ -92,7 +90,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mover: 0
   borrar: 1
-  timeBtwPoints: 0.01
+  timeBtwPoints: 0.02
   puntaFlecha: {fileID: 8628027698229523744, guid: 6538a4cc4124bae41b319fccc4297338,
     type: 3}
 --- !u!61 &-5550123111278388133

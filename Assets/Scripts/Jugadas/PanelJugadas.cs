@@ -15,7 +15,7 @@ public class PanelJugadas : MonoBehaviour {
         CanvasController.instance.botonDespliegueMenu.SetActive(false);
 
         Screen.orientation = ScreenOrientation.Landscape;
-        //Screen.SetResolution(1080, 1920, false);
+        Screen.SetResolution(720, 1280, false);
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.MisEquipos);
     }

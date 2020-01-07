@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PanelOpcionesHerramienta : MensajeDesplegable
 {
+
+    [SerializeField] private PanelEdicion panelEdicion = null;
 
     public override void Start()
     {
@@ -20,11 +20,18 @@ public class PanelOpcionesHerramienta : MensajeDesplegable
         animator.SetBool("open", false);
         closeZone.SetActive(false);
         gameObject.SetActive(false);
+
+        panelEdicion.SetPanelOpcionesActual(null);
     }
 
     public override void ToggleDesplegar()
     {
         gameObject.SetActive(!gameObject.activeSelf);
+        if (gameObject.activeSelf)
+        {
+            panelEdicion.CerrarPanelOpcionesActual();
+            panelEdicion.SetPanelOpcionesActual(this);
+        }
         base.ToggleDesplegar();
     }
 }

@@ -39,7 +39,9 @@ public class PanelPrincipal : Panel {
             BorrarPrefabs();
             CrearPrefabs();
         }
-     
+
+        AppController.instance.SetEquipoActual(null);
+
         ActivarYDesactivarAdviceText();
     }
 

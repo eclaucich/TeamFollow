@@ -21,16 +21,16 @@ public class EstadisticasJugador : MonoBehaviour
     {
         panelesEstadisticas = new List<GameObject>();
 
-        panelesEstadisticas.Add(panelFutbol);
-        panelesEstadisticas.Add(panelTenis);
-        panelesEstadisticas.Add(panelHockeyCesped);
-        panelesEstadisticas.Add(panelRugby);
-        panelesEstadisticas.Add(panelPadel);
-        panelesEstadisticas.Add(panelHockeyPatines);
-        panelesEstadisticas.Add(panelVoley);
-        panelesEstadisticas.Add(panelSoftball);
-        panelesEstadisticas.Add(panelHandball);
         panelesEstadisticas.Add(panelBasket);
+        panelesEstadisticas.Add(panelFutbol);
+        panelesEstadisticas.Add(panelHandball);
+        panelesEstadisticas.Add(panelHockeyCesped);
+        panelesEstadisticas.Add(panelHockeyPatines);
+        panelesEstadisticas.Add(panelPadel);
+        panelesEstadisticas.Add(panelRugby);
+        panelesEstadisticas.Add(panelSoftball);
+        panelesEstadisticas.Add(panelTenis);
+        panelesEstadisticas.Add(panelVoley);
     }
 
     public Transform Set()
@@ -42,9 +42,10 @@ public class EstadisticasJugador : MonoBehaviour
             panel.SetActive(false);
         }
 
-        int index = 0;
+        int index = (int)AppController.instance.equipoActual.GetDeporte();
+        panelesEstadisticas[index].SetActive(true);
 
-        switch (AppController.instance.equipoActual.GetDeporte())
+        /*switch (AppController.instance.equipoActual.GetDeporteNombre())
         {
             case "Fútbol":
                 panelesEstadisticas[0].SetActive(true);
@@ -86,7 +87,7 @@ public class EstadisticasJugador : MonoBehaviour
                 panelesEstadisticas[9].SetActive(true);
                 index = 9;
                 break;
-        }
+        }*/
 
         GetComponent<ScrollRect>().content = panelesEstadisticas[index].GetComponent<RectTransform>();
 

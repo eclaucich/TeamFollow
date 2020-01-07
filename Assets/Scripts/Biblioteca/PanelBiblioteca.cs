@@ -12,12 +12,16 @@ public class PanelBiblioteca : MonoBehaviour
     {
         panel_principal.SetActive(true);
         panel_imagen.SetActive(false);
+
+        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.MisEquipos);
     }
 
     public void MostrarPanelImagen()
     {
         panel_principal.SetActive(false);
         panel_imagen.SetActive(true);
+
+        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.Biblioteca);
     }
 
 

@@ -1,5 +1,4 @@
-﻿
-[System.Serializable]
+﻿[System.Serializable]
 public class SaveDataEquipo {
 
     public string nombreEquipo;
@@ -8,7 +7,7 @@ public class SaveDataEquipo {
     public SaveDataEquipo(Equipo equipo)
     {
         nombreEquipo = equipo.GetNombre();
-        deporte = equipo.GetDeporte();
+        deporte = equipo.GetDeporteNombre();
     }
 
 

@@ -18,7 +18,6 @@ public class ConfirmacionBorradoAsistencia : MensajeDesplegable
     public void BorrarAsistencia()
     {
         GetComponentInParent<PanelHistorialPlanillas>().BorrarPlanilla(botonAsistenciaFocus, nombreAsistencia);
-        //Destroy(botonAsistenciaFocus);
         Cerrar();
     }
 }

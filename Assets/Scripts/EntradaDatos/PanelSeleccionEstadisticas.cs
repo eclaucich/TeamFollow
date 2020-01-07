@@ -77,14 +77,12 @@ public class PanelSeleccionEstadisticas : Panel {
     /// 
     public void SetearPanelEstadisticas()
     {
-        string deporte = AppController.instance.equipoActual.GetDeporte();
-
         for (int i = 0; i < listaPaneles.Count; i++)
         {
             listaPaneles[i].Desactivar();
         }
 
-        switch (deporte)
+        switch (AppController.instance.equipoActual.GetDeporteNombre())
         {
             case "Fútbol":
                 listaPaneles[0].Activar();

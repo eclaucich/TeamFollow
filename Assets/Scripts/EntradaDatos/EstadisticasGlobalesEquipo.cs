@@ -34,7 +34,7 @@ public class EstadisticasGlobalesEquipo : MonoBehaviour
         panelesEstadisticas.Add(panelBasket);
     }
 
-    public Transform Set()
+    public Transform SetPanelEstadisticas()
     {
         SetListaPaneles();
 
@@ -47,43 +47,43 @@ public class EstadisticasGlobalesEquipo : MonoBehaviour
 
         switch (AppController.instance.equipoActual.GetDeporte())
         {
-            case "Fútbol":
+            case Deportes.Deporte.Futbol:
                 panelesEstadisticas[0].SetActive(true);
                 index = 0;
                 break;
-            case "Tenis":
+            case Deportes.Deporte.Tenis:
                 panelesEstadisticas[1].SetActive(true);
                 index = 1;
                 break;
-            case "Hockey Cesped":
+            case Deportes.Deporte.HockeyCesped:
                 panelesEstadisticas[2].SetActive(true);
                 index = 2;
                 break;
-            case "Rugby":
+            case Deportes.Deporte.Rugby:
                 panelesEstadisticas[3].SetActive(true);
                 index = 3;
                 break;
-            case "Padel":
+            case Deportes.Deporte.Padel:
                 panelesEstadisticas[4].SetActive(true);
                 index = 4;
                 break;
-            case "Hockey Patines":
+            case Deportes.Deporte.HockeyPatines:
                 panelesEstadisticas[5].SetActive(true);
                 index = 5;
                 break;
-            case "Voley":
+            case Deportes.Deporte.Voley:
                 panelesEstadisticas[6].SetActive(true);
                 index = 6;
                 break;
-            case "Softball":
+            case Deportes.Deporte.Softball:
                 panelesEstadisticas[7].SetActive(true);
                 index = 7;
                 break;
-            case "Handball":
+            case Deportes.Deporte.Handball:
                 panelesEstadisticas[8].SetActive(true);
                 index = 8;
                 break;
-            case "Basket":
+            case Deportes.Deporte.Basket:
                 panelesEstadisticas[9].SetActive(true);
                 index = 9;
                 break;

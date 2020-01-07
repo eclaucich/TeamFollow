@@ -110,7 +110,7 @@ public class PanelEntradaDatos : MonoBehaviour {
     /// 
     private EntradaDatos GetEntradaDatosActual()
     {
-        if(AppController.instance.equipoActual.GetDeporte() == "Tenis")
+        if(AppController.instance.equipoActual.GetDeporte() == Deportes.Deporte.Tenis)
         {
             GameObject go = Instantiate(entradaDatosTenis, this.transform, false);
             go.transform.name = "EntradaDatosTenisPartido";

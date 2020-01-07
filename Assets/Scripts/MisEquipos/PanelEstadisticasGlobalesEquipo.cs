@@ -39,7 +39,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
         diccEstadisticas = estadisticas.GetDictionary();
 
-        parentTransform = estadisticasGlobales.Set();
+        parentTransform = estadisticasGlobales.SetPanelEstadisticas();
 
         BorrarPrefabs();
         CrearPrefabs();

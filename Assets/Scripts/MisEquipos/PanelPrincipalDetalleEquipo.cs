@@ -16,7 +16,7 @@ public class PanelPrincipalDetalleEquipo : Panel
     {
         base.Start();
 
-        if(AppController.instance.equipoActual.GetDeporte() == "Tenis")
+        if(AppController.instance.equipoActual.GetDeporte() == Deportes.Deporte.Tenis)
         {
             botonVerEstadisticasGlobalesEquipo.SetActive(false);
         }
