@@ -19,12 +19,12 @@ public class PanelPlanillaAsistencia : MonoBehaviour {
         listaPaneles.Add(panel_planilla);
     }
 
-    public void MostrarPanelPrincipal()
+    /*public void MostrarPanelPrincipal()
     {
         ActivarPanel(0);
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.DetalleEquipoPrincipal);
-    }
+    }*/
 
     public void MostrarPanelNuevaPlanilla()
     {
@@ -32,7 +32,7 @@ public class PanelPlanillaAsistencia : MonoBehaviour {
 
         panel_nuevaPlanilla.GetComponent<PanelNuevaPlanilla>().SetPanelNuevaPlanilla();
 
-        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.PlanillaAsistenciaPrincipal);
+        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.HistorialPlanilla);
     }
 
     public void MostrarPanelHistorialPlanillas()
@@ -41,14 +41,14 @@ public class PanelPlanillaAsistencia : MonoBehaviour {
 
         panel_historialPlanillas.GetComponent<PanelHistorialPlanillas>().SetPanelHistorialPlanillas();
 
-        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.PlanillaAsistenciaPrincipal);
+        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.DetalleEquipoPrincipal);
     }
 
-    public void MostrarPanelPlanilla(string nombrePlanilla)
+    public void MostrarPanelPlanilla(BotonHistorialAsistencia botonHistorialAsistencia)
     {
         ActivarPanel(3);
 
-        panel_planilla.GetComponent<PanelPlanilla>().SetPanelPlanilla(nombrePlanilla);
+        panel_planilla.GetComponent<PanelPlanilla>().SetPanelPlanilla(botonHistorialAsistencia);
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.HistorialPlanilla);
     }

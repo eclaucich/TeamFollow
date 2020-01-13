@@ -45,50 +45,6 @@ public class EstadisticasJugador : MonoBehaviour
         int index = (int)AppController.instance.equipoActual.GetDeporte();
         panelesEstadisticas[index].SetActive(true);
 
-        /*switch (AppController.instance.equipoActual.GetDeporteNombre())
-        {
-            case "Fútbol":
-                panelesEstadisticas[0].SetActive(true);
-                index = 0;
-                break;
-            case "Tenis":
-                panelesEstadisticas[1].SetActive(true);
-                index = 1;
-                break;
-            case "Hockey Cesped":
-                panelesEstadisticas[2].SetActive(true);
-                index = 2;
-                break;
-            case "Rugby":
-                panelesEstadisticas[3].SetActive(true);
-                index = 3;
-                break;
-            case "Padel":
-                panelesEstadisticas[4].SetActive(true);
-                index = 4;
-                break;
-            case "Hockey Patines":
-                panelesEstadisticas[5].SetActive(true);
-                index = 5;
-                break;
-            case "Voley":
-                panelesEstadisticas[6].SetActive(true);
-                index = 6;
-                break;
-            case "Softball":
-                panelesEstadisticas[7].SetActive(true);
-                index = 7;
-                break;
-            case "Handball":
-                panelesEstadisticas[8].SetActive(true);
-                index = 8;
-                break;
-            case "Basket":
-                panelesEstadisticas[9].SetActive(true);
-                index = 9;
-                break;
-        }*/
-
         GetComponent<ScrollRect>().content = panelesEstadisticas[index].GetComponent<RectTransform>();
 
         return panelesEstadisticas[index].transform;

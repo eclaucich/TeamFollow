@@ -17,12 +17,14 @@ public class AppController : MonoBehaviour {
 
     [SerializeField] public GameObject panelConfirmacionBorradoEquipo = null;
     [SerializeField] public GameObject panelConfirmacionBorradoJugador = null;
+    [SerializeField] public OverlayPanel overlayPanel = null;
 
     public static AppController instance = null;                                            //Instancia estatica del controlador
     public List<Equipo> equipos;                                                            //Lista de equipos en la app
     public Equipo equipoActual;                                                            //Equipo al cual se le esta dando foco en el momento
     public Jugador jugadorActual;
 
+    private List<Texture> listaTexturas;
     private Texture textureActual;
 
     private void Awake()
@@ -39,6 +41,19 @@ public class AppController : MonoBehaviour {
         equipos = new List<Equipo>();                                                       //Inicializar equipos
         equipoActual = null;                                                                //No hay equipo enfocado al comenzar
         jugadorActual = null;
+
+        listaTexturas = new List<Texture>();
+        listaTexturas.Add(texturaPanelBasket);
+        listaTexturas.Add(texturaPanelFutbol);
+        listaTexturas.Add(texturaPanelHandball);
+        listaTexturas.Add(texturaPanelHockeyCesped);
+        listaTexturas.Add(texturaPanelHockeyPatines);
+        listaTexturas.Add(texturaPanelPadel);
+        listaTexturas.Add(texturaPanelRugby);
+        listaTexturas.Add(texturaPanelSoftball);
+        listaTexturas.Add(texturaPanelTenis);
+        listaTexturas.Add(texturaPanelVoley);
+        listaTexturas.Add(texturaPanelNormal);
 
         LoadSystem.LoadData();
 
@@ -94,42 +109,7 @@ public class AppController : MonoBehaviour {
     {
         if (equipoActual != null)
         {
-            switch (equipoActual.GetDeporte())
-            {
-                case Deportes.Deporte.Futbol:
-                    textureActual = texturaPanelFutbol;
-                    break;
-                case Deportes.Deporte.Basket:
-                    textureActual = texturaPanelBasket;
-                    break;
-                case Deportes.Deporte.Handball:
-                    textureActual = texturaPanelHandball;
-                    break;
-                case Deportes.Deporte.HockeyCesped:
-                    textureActual = texturaPanelHockeyCesped;
-                    break;
-                case Deportes.Deporte.HockeyPatines:
-                    textureActual = texturaPanelHockeyPatines;
-                    break;
-                case Deportes.Deporte.Padel:
-                    textureActual = texturaPanelPadel;
-                    break;
-                case Deportes.Deporte.Rugby:
-                    textureActual = texturaPanelRugby;
-                    break;
-                case Deportes.Deporte.Softball:
-                    textureActual = texturaPanelSoftball;
-                    break;
-                case Deportes.Deporte.Tenis:
-                    textureActual = texturaPanelTenis;
-                    break;
-                case Deportes.Deporte.Voley:
-                    textureActual = texturaPanelVoley;
-                    break;
-                default:
-                    textureActual = texturaPanelNormal;
-                    break;
-            }
+            textureActual = listaTexturas[(int)equipoActual.GetDeporte()];
         }
         else
         {

@@ -10,6 +10,8 @@ public class PanelBiblioteca : MonoBehaviour
 
     public void MostrarPanelPrincipal()
     {
+        AppController.instance.overlayPanel.SetNombrePanel("BIBLIOTECA");
+
         panel_principal.SetActive(true);
         panel_imagen.SetActive(false);
 
@@ -18,6 +20,8 @@ public class PanelBiblioteca : MonoBehaviour
 
     public void MostrarPanelImagen()
     {
+        AppController.instance.overlayPanel.SetNombrePanel("");
+
         panel_principal.SetActive(false);
         panel_imagen.SetActive(true);
 

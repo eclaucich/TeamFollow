@@ -20,6 +20,9 @@ public class BotonEquipo : MonoBehaviour {
     
     [SerializeField] private RawImage spriteDeporte = null;
 
+    ///Todos estos sprites no van a estar
+    ///va a haber un prefab del boton por cada deporte
+    ///entonces en PanelPrincipal va a haber una lista con todos los prefabs y segun el deporte del equipo se elige el correcto
     [SerializeField] private Sprite spriteFutbol = null;
     [SerializeField] private Sprite spriteHockeyCesped = null;
     [SerializeField] private Sprite spriteTenis = null;
@@ -40,12 +43,13 @@ public class BotonEquipo : MonoBehaviour {
         panelMisEquiposGO = GameObject.Find("PanelMisEquipos");                                 //Se busca el panel por nombre, solo puede haber uno
         panelMisEquipos = panelMisEquiposGO.GetComponent<PanelMisEquipos>();                    //Se obtiene el componente del panel
         panelConfirmacionBorrado = AppController.instance.panelConfirmacionBorradoEquipo;
-        listaSprites = new List<Sprite>();
+        
 
     }
 
     private void Start()
     {
+        listaSprites = new List<Sprite>();
         listaSprites.Add(spriteBasket);
         listaSprites.Add(spriteFutbol);
         listaSprites.Add(spriteHandball);
@@ -65,7 +69,7 @@ public class BotonEquipo : MonoBehaviour {
 
     public void SetSpriteBotonEquipo(Equipo equipo)
     {
-        Debug.Log("DEPORTE: " + equipo.GetDeporteNombre() + ", " + (int)equipo.GetDeporte());
+        //Debug.Log("DEPORTE: " + equipo.GetDeporteNombre() + ", " + (int)equipo.GetDeporte());
          switch (equipo.GetDeporte())
          {
              case Deportes.Deporte.Futbol:

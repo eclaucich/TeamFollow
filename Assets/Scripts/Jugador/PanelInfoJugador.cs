@@ -19,6 +19,8 @@ public class PanelInfoJugador : Panel
 
     public void SetearPanelInfoJugador(Jugador jugador)
     {
+        AppController.instance.overlayPanel.SetNombrePanel(jugador.GetNombre());
+
         infoJugador = jugador.GetInfoJugador();
 
         BorrarPrefabs();

@@ -8,6 +8,8 @@ public class PanelTablero : MonoBehaviour
 
     public void MostrarPanelPrincipal()
     {
+        AppController.instance.overlayPanel.SetNombrePanel("");
+
         panel_crearJugada.SetActive(true);
 
         CanvasController.instance.botonDespliegueMenu.SetActive(false);

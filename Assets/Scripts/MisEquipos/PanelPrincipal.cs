@@ -13,6 +13,8 @@ public class PanelPrincipal : Panel {
 
     private PanelMisEquipos panelMisEquipos;                                                    //Componente padre para acceder a las funciones
 
+    ///Va a haber un prefab del boton por cada deporte
+    ///Y una lista que los contenga a todos y cuando se crea el boton se crea el correspondiente al deporte
     [SerializeField] private GameObject prefabBotonEquipo = null;
     [SerializeField] private Text adviceText = null;
 
@@ -22,6 +24,8 @@ public class PanelPrincipal : Panel {
 
     private void Awake()
     {
+        nombrePanel = "MIS EQUIPOS";
+
         panelMisEquipos = GetComponentInParent<PanelMisEquipos>();
         listaPrefabsBoton = new List<GameObject>();
 
@@ -33,6 +37,8 @@ public class PanelPrincipal : Panel {
     public void SetearPanelPrincipal()
     {
         //CanvasController.instance.botonDespliegueMenu.SetActive(true);
+
+        AppController.instance.overlayPanel.SetNombrePanel(nombrePanel);
 
         if (gameObject.activeSelf)
         {
@@ -58,6 +64,9 @@ public class PanelPrincipal : Panel {
     {
         foreach (Equipo equipo in AppController.instance.equipos)
         {
+            //Crear el prefab correspondiente al deporte
+            //GameObject botonEquipoGO = Instantiate(listaPrefabsDeportes[(int)equipo.GetDeporte()].gameObject, parentTransform, false);
+
             GameObject botonEquipoGO = Instantiate(prefabBotonEquipo.gameObject, parentTransform, false);
 
             botonEquipoGO.GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = equipo.GetNombre();

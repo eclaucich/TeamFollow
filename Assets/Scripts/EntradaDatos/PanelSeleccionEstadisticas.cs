@@ -21,16 +21,17 @@ public class PanelSeleccionEstadisticas : Panel {
     private bool isPartido = true;
 
     //Prefabs de estadísticas
-    [SerializeField] private GameObject panelEstadisticasFutbol = null;
-    [SerializeField] private GameObject panelEstadisticasHockeyCesped = null;
-    [SerializeField] private GameObject panelEstadisticasTenis = null;
-    [SerializeField] private GameObject panelEstadisticasSoftball = null;
-    [SerializeField] private GameObject panelEstadisticasVoley = null;
-    [SerializeField] private GameObject panelEstadisticasHockeyPatines = null;
-    [SerializeField] private GameObject panelEstadisticasRugby = null;
     [SerializeField] private GameObject panelEstadisticasBasket = null;
+    [SerializeField] private GameObject panelEstadisticasFutbol = null;
     [SerializeField] private GameObject panelEstadisticasHandball = null;
+    [SerializeField] private GameObject panelEstadisticasHockeyCesped = null;
+    [SerializeField] private GameObject panelEstadisticasHockeyPatines = null;
     [SerializeField] private GameObject panelEstadisticasPadel = null;
+    [SerializeField] private GameObject panelEstadisticasRugby = null;
+    [SerializeField] private GameObject panelEstadisticasSoftball = null;
+    [SerializeField] private GameObject panelEstadisticasTenis = null;
+    [SerializeField] private GameObject panelEstadisticasVoley = null;
+    
 
     //Lista para simplificar sintaxis
     private List<PanelEstadisticas> listaPaneles = null;
@@ -48,16 +49,16 @@ public class PanelSeleccionEstadisticas : Panel {
 
         listaPaneles = new List<PanelEstadisticas>();
 
-        listaPaneles.Add(panelEstadisticasFutbol.GetComponent<PanelEstadisticas>());
-        listaPaneles.Add(panelEstadisticasHockeyCesped.GetComponent<PanelEstadisticas>());
-        listaPaneles.Add(panelEstadisticasTenis.GetComponent<PanelEstadisticas>());
-        listaPaneles.Add(panelEstadisticasSoftball.GetComponent<PanelEstadisticas>());
-        listaPaneles.Add(panelEstadisticasVoley.GetComponent<PanelEstadisticas>());
-        listaPaneles.Add(panelEstadisticasHockeyPatines.GetComponent<PanelEstadisticas>());
-        listaPaneles.Add(panelEstadisticasRugby.GetComponent<PanelEstadisticas>());
         listaPaneles.Add(panelEstadisticasBasket.GetComponent<PanelEstadisticas>());
+        listaPaneles.Add(panelEstadisticasFutbol.GetComponent<PanelEstadisticas>());
         listaPaneles.Add(panelEstadisticasHandball.GetComponent<PanelEstadisticas>());
+        listaPaneles.Add(panelEstadisticasHockeyCesped.GetComponent<PanelEstadisticas>());
+        listaPaneles.Add(panelEstadisticasHockeyPatines.GetComponent<PanelEstadisticas>());
         listaPaneles.Add(panelEstadisticasPadel.GetComponent<PanelEstadisticas>());
+        listaPaneles.Add(panelEstadisticasRugby.GetComponent<PanelEstadisticas>());
+        listaPaneles.Add(panelEstadisticasSoftball.GetComponent<PanelEstadisticas>());
+        listaPaneles.Add(panelEstadisticasTenis.GetComponent<PanelEstadisticas>());
+        listaPaneles.Add(panelEstadisticasVoley.GetComponent<PanelEstadisticas>());
 
 
         seleccionarPartido.GetComponent<Image>().color = colorSeleccionado;
@@ -82,40 +83,7 @@ public class PanelSeleccionEstadisticas : Panel {
             listaPaneles[i].Desactivar();
         }
 
-        switch (AppController.instance.equipoActual.GetDeporteNombre())
-        {
-            case "Fútbol":
-                listaPaneles[0].Activar();
-                break;
-            case "Hockey Cesped":
-                listaPaneles[1].Activar();
-                break;
-            case "Tenis":
-                listaPaneles[2].Activar();
-                break;
-            case "Softball":
-                listaPaneles[3].Activar();
-                break;
-            case "Voley":
-                listaPaneles[4].Activar();
-                break;
-            case "Hockey Patines":
-                listaPaneles[5].Activar();
-                break;
-            case "Rugby":
-                listaPaneles[6].Activar();
-                break;
-            case "Basket":
-                listaPaneles[7].Activar();
-                break;
-            case "Handball":
-                listaPaneles[8].Activar();
-                break;
-            case "Padel":
-                listaPaneles[9].Activar();
-                break;
-        }
-
+        listaPaneles[(int)AppController.instance.equipoActual.GetDeporte()].Activar();
 
         mensajeError.SetActive(false);
     }

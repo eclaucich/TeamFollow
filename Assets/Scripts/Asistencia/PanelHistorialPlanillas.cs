@@ -45,6 +45,7 @@ public class PanelHistorialPlanillas : Panel {
         for (int i = 0; i < equipo.planillasAsistencia.Count; i++)
         {
             GameObject botonGO = Instantiate(botonHistorialPrefab, parentTransform, false);
+            botonGO.SetActive(true);
 
             string nombrePlanilla = "";
 
@@ -66,16 +67,10 @@ public class PanelHistorialPlanillas : Panel {
         }
     }
 
-    public void BorrarAsistencia(GameObject botonFocus, string nombreAsistencia)
+    public void BorrarPlanilla(BotonHistorialAsistencia botonFocus)
     {
-        confirmacionBorradoAsistencia.Activar(botonFocus, nombreAsistencia);
-    }
-
-    public void BorrarPlanilla(GameObject planillaFocus, string nombrePlanilla)
-    {
-        Destroy(planillaFocus);
-        listaBotonHistorial.Remove(planillaFocus);
-        AppController.instance.equipoActual.BorrarAsistencia(nombrePlanilla);
+        Destroy(botonFocus.gameObject);
+        listaBotonHistorial.Remove(botonFocus.gameObject);
         ActivarYDesactivarAdviceText();
     }
 

@@ -9,6 +9,8 @@ public class PanelJugadas : MonoBehaviour {
 
     public void MostrarPanelPrincipal()
     {
+        AppController.instance.overlayPanel.SetNombrePanel("");
+
         panel_principal.SetActive(false);
         panel_crearJugada.SetActive(true);
 

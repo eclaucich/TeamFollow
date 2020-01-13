@@ -31,6 +31,7 @@ public class CanvasController : MonoBehaviour {
 
     [SerializeField] private ConfirmacionBorradoJugador confirmacionBorradoJugador = null;
     [SerializeField] private ConfirmacionBorradoEquipo confirmacionBorradoEquipo = null;
+    [SerializeField] private ConfirmacionBorradoAsistencia confirmacionBorradoAsistencia = null;
 
     public List<int> escenas;
     private PanelMisEquipos panelMisEquipos;
@@ -161,6 +162,11 @@ public class CanvasController : MonoBehaviour {
             confirmacionBorradoJugador.Cerrar();
             return;
         }
+        if(confirmacionBorradoAsistencia.isDesplegado())
+        {
+            confirmacionBorradoAsistencia.Cerrar();
+            return;
+        }
 
         if (!retrocesoPausado && escenas.Count != 0)
         {
@@ -189,8 +195,8 @@ public class CanvasController : MonoBehaviour {
                 case (int)Paneles.JugadoresInfo: panel_jugadores.MostrarPanelInfoJugador();
                     break;
 
-                case (int)Paneles.PlanillaAsistenciaPrincipal: panel_planillas_asistencias.MostrarPanelPrincipal();
-                    break;
+                /*case (int)Paneles.PlanillaAsistenciaPrincipal: panel_planillas_asistencias.MostrarPanelHistorialPlanillas();
+                    break;*/
 
                 case (int)Paneles.HistorialPlanilla: panel_planillas_asistencias.MostrarPanelHistorialPlanillas();
                     break;

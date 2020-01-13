@@ -16,7 +16,12 @@ public class PanelNuevoEquipo : Panel {
     [SerializeField] private Text inputNombreDeporte = null;
     [SerializeField] private Text mensajeError = null;
     [SerializeField] private InputField inputNombreEquipo = null;
-    
+    [SerializeField] private Text nombreDeporteElegido = null;
+
+    private GameObject botonDeporteActual = null;
+    [SerializeField] private Color notSelectedColor;
+    [SerializeField] private Color selectedColor;
+
     private PanelMisEquipos panelMisEquipos;                                                //Componente padre para poder acceder a las funciones
 
     public override void Start()
@@ -56,10 +61,20 @@ public class PanelNuevoEquipo : Panel {
             return;
         }
 
-        AppController.instance.AgregarEquipo(new Equipo(inputNombreNuevoEquipo.text, inputNombreDeporte.text));
+        AppController.instance.AgregarEquipo(new Equipo(inputNombreNuevoEquipo.text, nombreDeporteElegido.text));
 
         inputNombreEquipo.text = "";
 
         panelMisEquipos.MostrarPanelPrincipal();
     }
+
+    public void CambiarDeporteElegido(GameObject botonDeporte)
+    {
+        nombreDeporteElegido.text = botonDeporte.name;
+        if(botonDeporteActual!=null) botonDeporteActual.GetComponent<Image>().color = notSelectedColor;
+        botonDeporteActual = botonDeporte;
+        botonDeporteActual.GetComponent<Image>().color = selectedColor;
+    }
+
+
 }

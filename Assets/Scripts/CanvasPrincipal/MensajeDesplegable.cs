@@ -31,8 +31,6 @@ public class MensajeDesplegable : MonoBehaviour
         animator.SetBool("open", !isOpen);
 
         closeZone.SetActive(!isOpen);
-
-        Debug.Log("TOGGLE");
     }
 
     public bool isDesplegado()

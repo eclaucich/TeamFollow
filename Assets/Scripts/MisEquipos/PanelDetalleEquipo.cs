@@ -34,7 +34,7 @@ public class PanelDetalleEquipo : MonoBehaviour {
     {
         equipo = AppController.instance.equipos[AppController.instance.BuscarPorNombre(nombreEquipo_)];
         AppController.instance.SetEquipoActual(equipo);
-        
+
         panel_principal.GetComponent<PanelPrincipalDetalleEquipo>().SetBotonEquipoFocus(botonEquipo_);
         MostrarPanelPrincipal();
     }
@@ -84,7 +84,7 @@ public class PanelDetalleEquipo : MonoBehaviour {
     {
         ActivarPanel(4);
 
-        panel_planillaAsistencias.GetComponent<PanelPlanillaAsistencia>().MostrarPanelPrincipal();  
+        panel_planillaAsistencias.GetComponent<PanelPlanillaAsistencia>().MostrarPanelHistorialPlanillas();  
     }
 
 

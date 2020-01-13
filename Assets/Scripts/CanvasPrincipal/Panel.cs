@@ -3,9 +3,11 @@ using UnityEngine.UI;
 
 public class Panel : MonoBehaviour
 {
+    protected string nombrePanel = "";
+
     public virtual void Start()
     {
-        GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
+        UpdateTexture();
     }
 
     public void UpdateTexture()

@@ -82,9 +82,12 @@ public class PanelNuevaPlanilla : Panel {
 
     public void GuardarPlanilla()
     {
-        string nombrePlanilla = dayInput.text + "-" + monthInput.text + "-" + yearInput.text + " - " + hourInput.text + "-" + minuteInput.text;
+        System.DateTime timeNow = System.DateTime.Now;
 
-        if(equipo.ExistePlanilla(nombrePlanilla))
+        //string nombrePlanilla = dayInput.text + "-" + monthInput.text + "-" + yearInput.text + " - " + hourInput.text + "-" + minuteInput.text;
+        string nombrePlanilla = timeNow.ToString("yyyy-MM-dd-HH-mm-ss");
+
+        if (equipo.ExistePlanilla(nombrePlanilla))
         {
             seccionError.SetActive(true);
             seccionError.GetComponentInChildren<Text>().text = "Planilla Existente!";
@@ -93,6 +96,6 @@ public class PanelNuevaPlanilla : Panel {
 
         equipo.NuevaPlanilla(nombrePlanilla, listaDetallesAsistencias);
 
-        GetComponentInParent<PanelPlanillaAsistencia>().MostrarPanelPrincipal();
+        GetComponentInParent<PanelPlanillaAsistencia>().MostrarPanelHistorialPlanillas();
     }
 }
