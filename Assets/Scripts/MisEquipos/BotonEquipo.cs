@@ -106,7 +106,7 @@ public class BotonEquipo : MonoBehaviour {
 
         //spriteDeporte.texture = listaSprites[(int)equipo.GetDeporte()].texture;
 
-        spriteDeporte.transform.localScale.Set(0.8f, 0.9f, 1f);
+        spriteDeporte.transform.localScale.Set(2f, 2f, 1f);
     }
 
 

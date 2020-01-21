@@ -102,6 +102,8 @@ public class EntradaDatosTenis : EntradaDatos
         //Primero se muestra el panel para elegir al jugador
         //Se desactivan todos los demas paneles
         seccionListaJugadores.SetActive(true);      
+        AppController.instance.overlayPanel.SetNombrePanel("JUGADORES");
+
         //seccionOpcionesAdicionales.SetActive(false);
         seccionEntradaDatos.SetActive(false);
 
@@ -113,7 +115,7 @@ public class EntradaDatosTenis : EntradaDatos
         mensajeError.SetActive(false);
 
         //Se setea el panel que muestra la lista de jugadores
-        seccionListaJugadores.GetComponent<SeleccionListaJugadores>().SetearListaJugadores();
+        seccionListaJugadores.GetComponent<SeleccionListaJugadores>().SetearListaJugadores(true);
 
         CanvasController.instance.botonDespliegueMenu.SetActive(false);
     }
@@ -123,6 +125,8 @@ public class EntradaDatosTenis : EntradaDatos
     /// 
     public override void TerminarSeleccionJugadores(List<Jugador> listaJugadores)
     {
+        AppController.instance.overlayPanel.SetNombrePanel("");
+
         seccionListaJugadores.SetActive(false);
         //seccionOpcionesAdicionales.SetActive(true);
         seccionEntradaDatos.SetActive(false);

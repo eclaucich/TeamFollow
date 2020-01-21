@@ -30,9 +30,12 @@ public class PanelPlanilla : Panel {
 
         botonFocus = botonFocus_;
 
-        nombrePlanillaText.text = botonFocus_.GetDisplayNombre();
+        AppController.instance.overlayPanel.SetNombrePanel(botonFocus_.GetDisplayNombre());
 
-        List<DetalleAsistencia> detalles = AppController.instance.GetEquipoActual().planillasAsistencia[botonFocus.GetNombre()];
+        if(botonFocus_.GetAlias() != "") nombrePlanillaText.text = botonFocus_.GetFecha();
+        else nombrePlanillaText.text = "";
+
+        List<DetalleAsistencia> detalles = AppController.instance.GetEquipoActual().GetPlanillaWithName(botonFocus.GetNombre()).GetDetalles();//planillasAsistencia[botonFocus.GetNombre()];
 
         for (int i = 0; i < detalles.Count; i++)
         {

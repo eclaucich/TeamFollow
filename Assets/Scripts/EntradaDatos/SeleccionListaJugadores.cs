@@ -14,15 +14,22 @@ public class SeleccionListaJugadores : MonoBehaviour
 
     private int actualJugadoresSeleccionados = 0;
     [SerializeField] private int maxJugadoresSeleccionados = 0;    //Si no hay límite setearlo en -1
+    private BotonSeleccionJugador ultimoBotonSeleccionado;
 
     [SerializeField] private GameObject botonJugador = null;
     [SerializeField] private Transform transformParent = null;
+    [SerializeField] private GameObject opcionesAdicionalesTenis = null;
 
     /// 
     /// Crea botones con los nombres de los jugadores
     /// 
-    public void SetearListaJugadores()
+    public void SetearListaJugadores(bool opcionesAdicionales_)
     {
+        if(opcionesAdicionales_) opcionesAdicionalesTenis.SetActive(true);
+        else opcionesAdicionalesTenis.SetActive(false);
+
+        gameObject.SetActive(true);
+
         listaJugadores = AppController.instance.GetEquipoActual().GetJugadores();
         jugadoresSeleccionados = new List<Jugador>();
 
@@ -35,7 +42,7 @@ public class SeleccionListaJugadores : MonoBehaviour
     }
 
     /// 
-    /// Controla qué sucede cuando se presiona un botón con el nombre de un jugador:
+    /// Controlar qué sucede cuando se presiona un botón con el nombre de un jugador:
     /// se le cambia el color al botón para indicar que fue seleccionado/deseleccionado,
     /// se agrega/elimina el jugador de la lista de los jugadores elegidos
     /// 
@@ -47,16 +54,27 @@ public class SeleccionListaJugadores : MonoBehaviour
         {
             jugadoresSeleccionados.Remove(BuscarJugador(jugadoresSeleccionados, nombreJugador));
             actualJugadoresSeleccionados--;
-            _boton.ToggleSeleccionado();
-            
+            _boton.ToggleSeleccionado();  
+            ultimoBotonSeleccionado = null;
         }
         else  //si no estaba seleccionado, hay que ver si se puede seleccionar
         {
-            if (actualJugadoresSeleccionados < maxJugadoresSeleccionados && maxJugadoresSeleccionados > 0)
+            if(actualJugadoresSeleccionados == 1 && maxJugadoresSeleccionados == 1)
+            {   
+                jugadoresSeleccionados.Remove(BuscarJugador(jugadoresSeleccionados, ultimoBotonSeleccionado.GetComponentInChildren<Text>().text));
+                ultimoBotonSeleccionado.ToggleSeleccionado();
+
+                _boton.ToggleSeleccionado();
+                jugadoresSeleccionados.Add(BuscarJugador(listaJugadores, nombreJugador));
+
+                ultimoBotonSeleccionado = _boton;
+            }
+            else if (maxJugadoresSeleccionados == -1 || (actualJugadoresSeleccionados < maxJugadoresSeleccionados && maxJugadoresSeleccionados > 0))
             {
                 actualJugadoresSeleccionados++;
                 _boton.ToggleSeleccionado();
                 jugadoresSeleccionados.Add(BuscarJugador(listaJugadores,nombreJugador));
+                ultimoBotonSeleccionado = _boton;
             } 
         }
     }
@@ -70,6 +88,7 @@ public class SeleccionListaJugadores : MonoBehaviour
         {
             GetComponentInParent<EntradaDatos>().TerminarSeleccionJugadores(jugadoresSeleccionados);
         }
+        Debug.Log(actualJugadoresSeleccionados);
     }
 
     /// 

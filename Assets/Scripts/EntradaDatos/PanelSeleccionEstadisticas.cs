@@ -69,6 +69,8 @@ public class PanelSeleccionEstadisticas : Panel {
     {
         base.Start();
 
+        AppController.instance.overlayPanel.SetNombrePanel("ESTADISTICAS");
+
         mensajeError.SetActive(false);
     }
 
@@ -142,7 +144,8 @@ public class PanelSeleccionEstadisticas : Panel {
     ///
     public void MostrarPanelNuevaEntradaDatos()
     {
-        GetComponentInParent<PanelEntradaDatos>().MostrarPanelNuevaEntradaDatos(isPartido);
+       GetComponentInParent<PanelEntradaDatos>().MostrarPanelNuevaEntradaDatos(isPartido);
+       //GetComponentInParent<PanelEntradaDatos>().MostrarPanelSeleccionJugadores();
     }
 
     public void MostrarMensajeError()

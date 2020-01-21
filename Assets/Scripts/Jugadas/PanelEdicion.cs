@@ -9,19 +9,24 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     [SerializeField] private Camera snapshotCamera = null;
 
-    [SerializeField] private Texture fullField = null;
+    /*[SerializeField] private Texture fullField = null;
     [SerializeField] private Texture halfField = null;
-    [SerializeField] private Texture areaField = null;
+    [SerializeField] private Texture areaField = null;*/
 
     private int deporteIndex = 0;
 
-    private List<Texture> texturesFutbol;
-    private List<Texture> texturesBasket;
-    private List<Texture> texturesHockey;
-    private List<Texture> texturesHandball;
-    private List<Texture> texturesPadel;
-    private List<Texture> texturesSoftball;
+    [SerializeField] private List<Texture> texturesFutbol;
+    [SerializeField] private List<Texture> texturesBasket;
+    [SerializeField] private List<Texture> texturesHockeyCesped;
+    [SerializeField] private List<Texture> texturesHockeyPatines;
+    [SerializeField] private List<Texture> texturesHandball;
+    [SerializeField] private List<Texture> texturesPadel;
+    [SerializeField] private List<Texture> texturesSoftball;
+    [SerializeField] private List<Texture> texturesVoley;
+    [SerializeField] private List<Texture> texturesTenis;
+    [SerializeField] private List<Texture> texturesRugby;
 
+    private List<Texture> currentTextures;
     private int currentTextureIndex = 0;
 
     private PanelOpcionesHerramienta panelOpcionesActual;
@@ -34,10 +39,12 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         panelCrearJugada = GetComponentInParent<PanelCrearJugadas>();
         snapshotCamera.gameObject.SetActive(false);
 
-        texturesFutbol = new List<Texture>();
+       /* texturesFutbol = new List<Texture>();
         texturesFutbol.Add(fullField);
         texturesFutbol.Add(halfField);
         texturesFutbol.Add(areaField);
+        GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];*/
+        currentTextures = texturesFutbol;
         GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
     }
 
@@ -106,31 +113,27 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     public void NextBackgroundImage()
     {
-        currentTextureIndex = currentTextureIndex == texturesFutbol.Count - 1 ? 0 : currentTextureIndex + 1;
+        currentTextureIndex = currentTextureIndex == currentTextures.Count - 1 ? 0 : currentTextureIndex + 1;
 
-        switch (deporteIndex) ///CADA CASE HACE REFERENCIA A UN DEPORTE
-        {
-            case 0:
-                GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
-                break;
-            case 1:
-                GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
-                break;
-            case 2:
-                GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
-                break;
-            case 3:
-                GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
-                break;
-            case 4:
-                GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
-                break;
-        }   
+        GetComponent<RawImage>().texture = currentTextures[currentTextureIndex];
     }
 
     public void ChangeSport(int i)
     {
-        deporteIndex = i;
+        switch(i)
+        {
+            case 0: currentTextures = texturesBasket; break;
+            case 1: currentTextures = texturesFutbol; break;
+            case 2: currentTextures = texturesHandball; break;
+            case 3: currentTextures = texturesHockeyCesped; break;
+            case 4: currentTextures = texturesHockeyPatines; break;
+            case 5: currentTextures = texturesPadel; break;
+            case 6: currentTextures = texturesRugby; break;
+            case 7: currentTextures = texturesSoftball; break;
+            case 8: currentTextures = texturesTenis; break;
+            case 9: currentTextures = texturesVoley; break;
+        }
+        currentTextureIndex = 0;
         NextBackgroundImage();
     }
 

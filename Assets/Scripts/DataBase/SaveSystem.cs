@@ -142,21 +142,29 @@ public static class SaveSystem {
     
 
 
-    public static void GuardarPlanilla(string nombrePlanilla, Equipo equipo)
+    public static void GuardarPlanilla(PlanillaAsistencia planilla, Equipo equipo)//string nombrePlanilla, Equipo equipo)
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
         //string path = Application.persistentDataPath + "/SaveData" + "/" + equipo.GetNombre() + "/planillas" + "/" + nombrePlanilla;
-        string path = pathEquipos + equipo.GetNombre() + "/planillas" + "/" + nombrePlanilla;
+        string path = pathEquipos + equipo.GetNombre() + "/planillas" + "/" + planilla.GetNombre();
 
         Directory.CreateDirectory(path);
 
-        int indexStream = 0;
-        foreach (DetalleAsistencia detalle in equipo.GetDetallesAsistencia(nombrePlanilla))
-        {
-            FileStream streamPlanilla = new FileStream(path + "/detalle" + indexStream.ToString() + ".txt", FileMode.Create);
+        FileStream streamPlanillaAsistencia = new FileStream(path + "/" + planilla.GetNombre() + ".txt", FileMode.Create);
+        SaveDataPlanillaAsistencia dataPlanillaAsistencia = new SaveDataPlanillaAsistencia(planilla);
+        formatter.Serialize(streamPlanillaAsistencia, dataPlanillaAsistencia);
+        streamPlanillaAsistencia.Close();
 
-            SaveDataPlanilla dataPlanilla = equipo.CreateSaveDataPlanilla(nombrePlanilla, indexStream);
+        string pathDetalles = path + "/Detalles";
+        Directory.CreateDirectory(pathDetalles);
+
+        int indexStream = 0;
+        foreach (DetalleAsistencia detalle in equipo.GetDetallesAsistencia(planilla))
+        {
+            FileStream streamPlanilla = new FileStream(pathDetalles + "/detalle" + indexStream.ToString() + ".txt", FileMode.Create);
+
+            SaveDataPlanilla dataPlanilla = equipo.CreateSaveDataPlanilla(planilla, indexStream);
 
             formatter.Serialize(streamPlanilla, dataPlanilla);
 

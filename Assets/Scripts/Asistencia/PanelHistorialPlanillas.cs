@@ -23,6 +23,8 @@ public class PanelHistorialPlanillas : Panel {
 
     public void SetPanelHistorialPlanillas()
     {
+        AppController.instance.overlayPanel.SetNombrePanel("ASISTENCIAS");
+
         equipo = AppController.instance.equipoActual;
 
         BorrarPrefabs();
@@ -42,7 +44,7 @@ public class PanelHistorialPlanillas : Panel {
 
     public void CrearPrefabs()
     {
-        for (int i = 0; i < equipo.planillasAsistencia.Count; i++)
+        /*for (int i = 0; i < equipo.planillasAsistencia.Count; i++)
         {
             GameObject botonGO = Instantiate(botonHistorialPrefab, parentTransform, false);
             botonGO.SetActive(true);
@@ -62,6 +64,19 @@ public class PanelHistorialPlanillas : Panel {
             }
 
             botonGO.GetComponent<BotonHistorialAsistencia>().SetBotonHistorialAsistencia(nombrePlanilla);
+
+            listaBotonHistorial.Add(botonGO);
+        }*/
+
+        for(int i = 0; i < equipo.GetPlanillasAsistencia().Count; i++)
+        {
+            GameObject botonGO = Instantiate(botonHistorialPrefab, parentTransform, false);
+            botonGO.SetActive(true);
+
+            PlanillaAsistencia planilla = equipo.GetPlanillaAtIndex(i);
+            string nombrePlanilla = planilla.GetNombre();
+            string aliasPlanilla = planilla.GetAlias();
+            botonGO.GetComponent<BotonHistorialAsistencia>().SetBotonHistorialAsistencia(nombrePlanilla, aliasPlanilla);
 
             listaBotonHistorial.Add(botonGO);
         }

@@ -6,11 +6,7 @@ public class PanelNuevaPlanilla : Panel {
 
     [SerializeField] private GameObject detalleAsistenciaPrefab = null;
 
-    [SerializeField] private Text dayInput = null;
-    [SerializeField] private Text monthInput = null;
-    [SerializeField] private Text yearInput = null;
-    [SerializeField] private Text hourInput = null;
-    [SerializeField] private Text minuteInput = null;
+    [SerializeField] private Text aliasPlanilla = null;
 
     [SerializeField] private Button botonGuardar = null;
 
@@ -87,14 +83,14 @@ public class PanelNuevaPlanilla : Panel {
         //string nombrePlanilla = dayInput.text + "-" + monthInput.text + "-" + yearInput.text + " - " + hourInput.text + "-" + minuteInput.text;
         string nombrePlanilla = timeNow.ToString("yyyy-MM-dd-HH-mm-ss");
 
-        if (equipo.ExistePlanilla(nombrePlanilla))
+        if (equipo.ExistePlanilla(nombrePlanilla, aliasPlanilla.text))
         {
             seccionError.SetActive(true);
             seccionError.GetComponentInChildren<Text>().text = "Planilla Existente!";
             return;
         }
 
-        equipo.NuevaPlanilla(nombrePlanilla, listaDetallesAsistencias);
+        equipo.NuevaPlanilla(nombrePlanilla, aliasPlanilla.text, listaDetallesAsistencias);
 
         GetComponentInParent<PanelPlanillaAsistencia>().MostrarPanelHistorialPlanillas();
     }

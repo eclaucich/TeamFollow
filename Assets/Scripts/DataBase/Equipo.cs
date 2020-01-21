@@ -17,7 +17,9 @@ public class Equipo {
 
     private List<Jugador> jugadores;                                        //Lista de jugadores
 
-    public Dictionary<string, List<DetalleAsistencia>> planillasAsistencia;
+    //public Dictionary<string, List<DetalleAsistencia>> planillasAsistencia;
+
+    private List<PlanillaAsistencia> planillasAsistencia;
 
     private Estadisticas estadisticasGlobalesPartido;                               //Estadísticas correspondientes a Partidos
     private Estadisticas estadisticasGlobalesPractica;                              //Estadísticas correspondientes a Prácticas
@@ -34,7 +36,8 @@ public class Equipo {
         jugadores = new List<Jugador>();
         estadisticasGlobalesPartido = new Estadisticas();
         estadisticasGlobalesPractica = new Estadisticas();
-        planillasAsistencia = new Dictionary<string, List<DetalleAsistencia>>();
+        //planillasAsistencia = new Dictionary<string, List<DetalleAsistencia>>();
+        planillasAsistencia = new List<PlanillaAsistencia>();
 
         partidos = new List<Partido>();
         practicas = new List<Partido>();
@@ -53,7 +56,8 @@ public class Equipo {
         estadisticasGlobalesPractica = new Estadisticas();
 
         jugadores = new List<Jugador>();
-        planillasAsistencia = new Dictionary<string, List<DetalleAsistencia>>();
+        //planillasAsistencia = new Dictionary<string, List<DetalleAsistencia>>();
+        planillasAsistencia = new List<PlanillaAsistencia>();
 
         partidos = new List<Partido>();
         practicas = new List<Partido>();
@@ -311,41 +315,91 @@ public class Equipo {
         return jugadores;
     }
 
+    public List<PlanillaAsistencia> GetPlanillasAsistencia()
+    {
+        return planillasAsistencia;
+    }
+
+    public PlanillaAsistencia GetPlanillaAtIndex(int index)
+    {
+        return planillasAsistencia[index];
+    }
+
+    public PlanillaAsistencia GetPlanillaWithName(string nombre)
+    {
+        foreach(var planilla in planillasAsistencia)
+        {
+            if(planilla.GetNombre() == nombre)
+            {
+                return planilla;
+            }
+        }
+
+        Debug.Log("PLANILLA POR NOMBRE: " + nombre + " NO ENCONTRADA");
+        return null;
+    }
+
+    public void AgregarPlanillaAsistencia(SaveDataPlanillaAsistencia dataPlanillaAsistencia)
+    {
+        planillasAsistencia.Add(new PlanillaAsistencia(dataPlanillaAsistencia));
+    }
 
     public void AgregarDetalle(DetalleAsistencia detalle, string nombrePlanilla)
     {
-        if (!planillasAsistencia.ContainsKey(nombrePlanilla))
+        /*if (!planillasAsistencia.ContainsKey(nombrePlanilla))
         {
             planillasAsistencia[nombrePlanilla] = new List<DetalleAsistencia>();
         }
 
         planillasAsistencia[nombrePlanilla].Add(detalle);
+        */
+        Debug.Log(planillasAsistencia.Count);
+        foreach(var planilla in planillasAsistencia)
+        {
+            if(planilla.GetNombre() == nombrePlanilla)
+            {
+                planilla.AgregarDetalle(detalle);
+                return;
+            }
+        }
+        Debug.Log("Planilla no encontrada con nombre: " + nombrePlanilla);
     }
 
 
-    public void NuevaPlanilla(string nombrePlanilla, List<DetalleAsistencia> detalles)
+    public void NuevaPlanilla(string nombrePlanilla, string aliasPlanilla, List<DetalleAsistencia> detalles)
     {
         if (detalles.Count == 0) return;
-        List<DetalleAsistencia> detalle_ = detalles;
+        //List<DetalleAsistencia> detalle_ = detalles;
+        //planillasAsistencia.Add(nombrePlanilla, detalle_);
 
-        planillasAsistencia.Add(nombrePlanilla, detalle_);
-        SaveSystem.GuardarPlanilla(nombrePlanilla, this);
+        PlanillaAsistencia planilla = new PlanillaAsistencia(nombrePlanilla, aliasPlanilla, detalles);
+        planillasAsistencia.Add(planilla);
+        //SaveSystem.GuardarPlanilla(nombrePlanilla, this);
+        SaveSystem.GuardarPlanilla(planilla, this);
     }
 
     public void BorrarAsistencia(string nombrePlanilla)
     {
-        planillasAsistencia.Remove(nombrePlanilla);
+        planillasAsistencia.Remove(GetPlanillaWithName(nombrePlanilla));
         SaveSystem.BorrarPlanilla(nombrePlanilla, this);
     }
 
-    public bool ExistePlanilla(string nombrePlanilla)
+    public bool ExistePlanilla(string nombrePlanilla, string aliasPlanilla)
     {
-        return planillasAsistencia.ContainsKey(nombrePlanilla);
+        //return planillasAsistencia.ContainsKey(nombrePlanilla);
+        foreach(var planilla in planillasAsistencia)
+        {
+            if(planilla.GetNombre() == nombrePlanilla || planilla.GetAlias() == aliasPlanilla)
+                return true;
+        }
+
+        return false;
     }
 
-    public List<DetalleAsistencia> GetDetallesAsistencia(string nombrePlanilla)
+    public List<DetalleAsistencia> GetDetallesAsistencia(PlanillaAsistencia planilla)
     {
-        return planillasAsistencia[nombrePlanilla];
+        //return planillasAsistencia[nombrePlanilla];
+        return planilla.GetDetalles();
     }
 
     public SaveDataEstadisticas CreateSaveDataEstadisticasPartido()
@@ -358,19 +412,20 @@ public class Equipo {
         return new SaveDataEstadisticas(estadisticasGlobalesPractica);
     }
 
-    public SaveDataPlanilla CreateSaveDataPlanilla(string nombrePlanilla, int index)
+    public SaveDataPlanilla CreateSaveDataPlanilla(PlanillaAsistencia planilla, int index)
     {
         DetalleAsistencia detalle = null;
-        for (int i = 0; i < planillasAsistencia[nombrePlanilla].Count; i++)
+        /*for (int i = 0; i < planillasAsistencia[nombrePlanilla].Count; i++)
         {
             if (i == index)
             {
                 detalle = planillasAsistencia[nombrePlanilla][index];
                 break;
             }
-        }
+        }*/
+        detalle = planilla.GetDetalleAtIndex(index);
 
-        return new SaveDataPlanilla(detalle, nombrePlanilla);
+        return new SaveDataPlanilla(detalle, planilla.GetNombre(), planilla.GetAlias());
     }
 
 

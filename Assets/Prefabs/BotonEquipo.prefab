@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -260, y: 3.6}
-  m_SizeDelta: {x: 50, y: 60}
+  m_AnchoredPosition: {x: -263, y: 3.6}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222037681726588684
 CanvasRenderer:
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7058824}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -457,14 +457,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nombreEquipoText: {fileID: 114962264292268422}
   spriteDeporte: {fileID: 114179742093214100}
-  spriteFutbol: {fileID: 21300000, guid: a4fe51c57687b6241aaba0bda89ebef1, type: 3}
-  spriteHockeyCesped: {fileID: 21300000, guid: 780289ba2169ba24ea6c2839f0183d09, type: 3}
-  spriteTenis: {fileID: 21300000, guid: ac72121b13bec5c40b479aa895eb7e31, type: 3}
-  spriteSoftball: {fileID: 21300000, guid: 09fbf6a0f3f20704cb5d21f83982c60c, type: 3}
-  spriteVoley: {fileID: 21300000, guid: 0f298105bca3d114a9c74bdefa77ac09, type: 3}
-  spriteHockeyPatines: {fileID: 21300000, guid: 3ad6b402f6866c444823b976c92535cc,
+  spriteFutbol: {fileID: 21300000, guid: 76a7d2b69dda9f6469db21dd20d6efb3, type: 3}
+  spriteHockeyCesped: {fileID: 21300000, guid: 8f2f86142da831c43a6817bccd43ec5c, type: 3}
+  spriteTenis: {fileID: 21300000, guid: 25bbe5539eb33624395af5f1245515a9, type: 3}
+  spriteSoftball: {fileID: 21300000, guid: cf4fb7d3e0612064694b7d19dbe80cb9, type: 3}
+  spriteVoley: {fileID: 21300000, guid: 8615d1291e550524f91ac9f053e453a5, type: 3}
+  spriteHockeyPatines: {fileID: 21300000, guid: 1dc0c43b46bbf5049ae000b2c300db85,
     type: 3}
-  spriteRugby: {fileID: 21300000, guid: a474058ce4ece91438011c994a4d18c8, type: 3}
-  spriteBasket: {fileID: 21300000, guid: d2ee4c5b3d1e88843819259d1a985446, type: 3}
-  spriteHandball: {fileID: 21300000, guid: 8ea62cb1626bf6141a1a794a5de4e388, type: 3}
-  spritePadel: {fileID: 21300000, guid: f3244ab438306bb4aa330717bdbb7747, type: 3}
+  spriteRugby: {fileID: 21300000, guid: 46ad08370accf1941913cb1cd0169da3, type: 3}
+  spriteBasket: {fileID: 21300000, guid: c5c3b0b49a0e2ca49a76d20c9bc02b7f, type: 3}
+  spriteHandball: {fileID: 21300000, guid: a2b1027945ecb94499148dc32862ef14, type: 3}
+  spritePadel: {fileID: 21300000, guid: 7127861fdc37a62439363b2066481804, type: 3}

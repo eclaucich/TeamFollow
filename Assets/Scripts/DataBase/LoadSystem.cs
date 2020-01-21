@@ -200,20 +200,25 @@ public static class LoadSystem
 
                 for (int j = 0; j < planillasDirectories.Length; j++)                       //Para cada carpeta de planillas
                 {
-                    string pathPlanilla = planillasDirectories[j];                          //Obtengo la dirección de la carpeta actual
+                    string pathPlanillaAsistencia = Directory.GetFiles(planillasDirectories[j])[0];                          //Obtengo la dirección de la carpeta actual
+                
+                    FileStream streamPlanillaAsistencia = new FileStream(pathPlanillaAsistencia, FileMode.Open);
+                    SaveDataPlanillaAsistencia dataPlanillaAsistencia = (SaveDataPlanillaAsistencia)formatter.Deserialize(streamPlanillaAsistencia);
 
-                    string[] detallesFiles = Directory.GetFiles(pathPlanilla);              //Vector de todos los detalles en la carpeta actual
+                    equipo.AgregarPlanillaAsistencia(dataPlanillaAsistencia);
+
+                    string[] detallesFiles = Directory.GetFiles(planillasDirectories[j] + "/Detalles");              //Vector de todos los detalles en la carpeta actual
 
                     for (int k = 0; k < detallesFiles.Length; k++)                          //Para cada detalle
                     {
-                        FileStream streamPlanilla = new FileStream(detallesFiles[k], FileMode.Open);
+                        FileStream streamDetalles = new FileStream(detallesFiles[k], FileMode.Open);
 
-                        SaveDataPlanilla dataPlanilla = (SaveDataPlanilla)formatter.Deserialize(streamPlanilla);
+                        SaveDataPlanilla dataDetalle = (SaveDataPlanilla)formatter.Deserialize(streamDetalles);
 
                         //Agregar la Planilla al Equipo
-                        equipo.AgregarDetalle(new DetalleAsistencia(dataPlanilla), dataPlanilla.GetNombrePlanilla());
+                        equipo.AgregarDetalle(new DetalleAsistencia(dataDetalle), dataDetalle.GetNombrePlanilla());
 
-                        streamPlanilla.Close();
+                        streamDetalles.Close();
                     }
                 }
             }

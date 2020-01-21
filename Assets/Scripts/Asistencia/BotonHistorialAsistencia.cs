@@ -6,10 +6,12 @@ public class BotonHistorialAsistencia : MonoBehaviour {
     [SerializeField] private PanelPlanillaAsistencia panelPlanillaAsistencia = null;
     [SerializeField] private Text nombrePlanillaText = null;
     private string nombrePlanilla;
+    private string aliasPlanilla;
 
-    public void SetBotonHistorialAsistencia(string nombrePlanilla_)
+    public void SetBotonHistorialAsistencia(string nombrePlanilla_, string alias_)
     {
         nombrePlanilla = nombrePlanilla_;
+        aliasPlanilla = alias_;
 
         nombrePlanillaText.text = GetDisplayNombre();
     }
@@ -29,7 +31,12 @@ public class BotonHistorialAsistencia : MonoBehaviour {
         return nombrePlanilla;
     }
 
-    public string GetDisplayNombre()
+    public string GetAlias()
+    {
+        return aliasPlanilla;
+    }
+
+    public string GetFecha()
     {
         string dia = nombrePlanilla.Substring(8, 2);
         string mes = nombrePlanilla.Substring(5, 2);
@@ -38,5 +45,12 @@ public class BotonHistorialAsistencia : MonoBehaviour {
         string hora = nombrePlanilla.Substring(11, 2);
 
         return dia + "/" + mes + "/" + anio + " " + hora + ":" + minuto;
+    }
+
+    public string GetDisplayNombre()
+    {
+        if(aliasPlanilla != "") return aliasPlanilla;
+        
+        return GetFecha();
     }
 }

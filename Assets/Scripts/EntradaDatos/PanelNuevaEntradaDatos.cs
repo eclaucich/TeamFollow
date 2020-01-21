@@ -12,6 +12,8 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
     [SerializeField] private MensajeDesplegable panelConfirmacionGuardado = null;
 
+    [SerializeField] private SeleccionListaJugadores panelSeleccionJugadores = null;
+
     //[SerializeField] private GameObject entradaDatosJugadorPrefab = null;
     [SerializeField] private GameObject textPrefab = null;
     [SerializeField] private GameObject columnaPrefab = null;
@@ -48,33 +50,59 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        /*if (Input.GetKeyDown(KeyCode.Escape))
         {
             panelConfirmacionGuardado.ToggleDesplegar();
             //seccionNombrePartido.SetActive(!seccionNombrePartido.activeSelf);
+        }*/
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (panelSeleccionJugadores.gameObject.activeSelf)
+            {
+                CanvasController.instance.retrocesoPausado = false;
+                CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.SeleccionEstadisticas);
+                CanvasController.instance.MostrarPanelAnterior();
+                Destroy(gameObject);
+                return;
+            }
+            else
+            {
+                panelConfirmacionGuardado.ToggleDesplegar();
+            }
         }
     }
 
     public override void Display(bool _isPartido)
     {
-        Screen.orientation = ScreenOrientation.Landscape;
-
         isPartido = _isPartido;
 
         //parentColumna = transform;
 
         columnas = new List<GameObject>();
         equipo = AppController.instance.GetEquipoActual();
-        jugadores = equipo.GetJugadores();
+        //jugadores = equipo.GetJugadores();
 
-        CanvasController.instance.botonDespliegueMenu.SetActive(false);
+        //CanvasController.instance.botonDespliegueMenu.SetActive(false);
 
         //seccionNombrePartido.SetActive(false);
 
-        mensajeError.SetActive(false);
+        panelSeleccionJugadores.SetearListaJugadores(false);
+        AppController.instance.overlayPanel.SetNombrePanel("JUGADORES");
+
+        mensajeError.SetActive(false); 
+    }
+
+    public override void TerminarSeleccionJugadores(List<Jugador> listaJugadores)
+    {
+        Screen.orientation = ScreenOrientation.Landscape;
+
+        jugadores = listaJugadores;
+        panelSeleccionJugadores.gameObject.SetActive(false);
+        AppController.instance.overlayPanel.SetNombrePanel("");
 
         BorrarPrefabs();
-        CrearColumnas();   
+        CrearColumnas();  
     }
 
     public void CrearColumnas()
