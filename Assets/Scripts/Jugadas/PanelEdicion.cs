@@ -66,10 +66,10 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (panelCrearJugada.GetHerramientaActual().GetNombre() == "Flecha")
+        /*if (panelCrearJugada.GetHerramientaActual().GetNombre() == "Flecha")
         {
             panelCrearJugada.GetHerramientaActual().DejarDeUsar();
-        }
+        }*/
     }
 
     public void LimpiarPanel()
