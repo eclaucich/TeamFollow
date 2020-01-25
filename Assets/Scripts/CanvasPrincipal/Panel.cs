@@ -12,6 +12,7 @@ public class Panel : MonoBehaviour
 
     public void UpdateTexture()
     {
+        AppController.instance.UpdateTexture();
         GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
     }
 }

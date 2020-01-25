@@ -20,6 +20,8 @@ public class PanelNuevaEntradaDatos : EntradaDatos
     [SerializeField] private GameObject columnaNombresPrefab = null;
     [SerializeField] private GameObject botonPrefab = null;
 
+    [SerializeField] private RectTransform estadisticasTransform = null;
+
     private Equipo equipo;
     private List<Jugador> jugadores;
 
@@ -45,7 +47,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         listaEstadisticas = PanelSeleccionEstadisticas.instance.GetListaEstadisticas();
         listaIniciales = PanelSeleccionEstadisticas.instance.GetListaInicialesEstadisticas();
 
-        gameObject.GetComponent<RawImage>().texture = AppController.instance.GetComponent<Test>().myGradient.GetTexture(1280);
+        //gameObject.GetComponent<RawImage>().texture = AppController.instance.GetComponent<Test>().myGradient.GetTexture(1280);
     }
 
     private void Update()
@@ -77,6 +79,8 @@ public class PanelNuevaEntradaDatos : EntradaDatos
     {
         isPartido = _isPartido;
 
+        gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
+
         //parentColumna = transform;
 
         columnas = new List<GameObject>();
@@ -100,6 +104,9 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         jugadores = listaJugadores;
         panelSeleccionJugadores.gameObject.SetActive(false);
         AppController.instance.overlayPanel.SetNombrePanel("");
+
+        AppController.instance.ChangeTexture(-1);
+        gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
 
         BorrarPrefabs();
         CrearColumnas();  
@@ -133,6 +140,13 @@ public class PanelNuevaEntradaDatos : EntradaDatos
             {
                 GameObject botonGO = Instantiate(botonPrefab, columnaGO.transform, false);
             }
+        }
+    
+        estadisticasTransform.sizeDelta = new Vector2(columnas.Count*120, 720);
+
+        if(estadisticasTransform.sizeDelta.x < 1080)
+        {
+            estadisticasTransform.sizeDelta = new Vector2(1080, 720);
         }
 
         panelConfirmacionGuardado.transform.SetAsLastSibling();

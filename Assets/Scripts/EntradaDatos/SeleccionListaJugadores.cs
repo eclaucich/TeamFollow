@@ -88,7 +88,7 @@ public class SeleccionListaJugadores : MonoBehaviour
         {
             GetComponentInParent<EntradaDatos>().TerminarSeleccionJugadores(jugadoresSeleccionados);
         }
-        Debug.Log(actualJugadoresSeleccionados);
+        //Debug.Log(actualJugadoresSeleccionados);
     }
 
     /// 

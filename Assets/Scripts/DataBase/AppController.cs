@@ -105,8 +105,19 @@ public class AppController : MonoBehaviour {
         equipoActual = equipo_;
     }
 
+    public void ChangeTexture(int i)
+    {
+        Debug.Log("Entro1");
+        if(i < 0)
+        {
+            Debug.Log("Entro2");
+            textureActual = texturaPanelNormal;
+        }
+    }
+
     public void UpdateTexture()
     {
+        Debug.Log("UPDATED");
         if (equipoActual != null)
         {
             textureActual = listaTexturas[(int)equipoActual.GetDeporte()];
@@ -119,7 +130,7 @@ public class AppController : MonoBehaviour {
 
     public Texture GetTextureActual()
     {
-        UpdateTexture();
+        //UpdateTexture();
         return textureActual;
     }
 }

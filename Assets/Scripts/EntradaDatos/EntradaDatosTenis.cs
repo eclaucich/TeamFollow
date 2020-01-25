@@ -96,7 +96,10 @@ public class EntradaDatosTenis : EntradaDatos
     /// </summary>
     public override void Display(bool _isPartido)
     {
-        isPartido = _isPartido;                         
+        isPartido = _isPartido;     
+
+        gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
+
         gameObject.SetActive(true);  //asegurarse de que esté activo el panel
 
         //Primero se muestra el panel para elegir al jugador
@@ -132,6 +135,9 @@ public class EntradaDatosTenis : EntradaDatos
         seccionEntradaDatos.SetActive(false);
 
         jugadorFocus = listaJugadores[0];
+
+        AppController.instance.ChangeTexture(-1);
+        gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
 
         ComenzarEntradaDatos();
     }
