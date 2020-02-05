@@ -119,8 +119,6 @@ public class EntradaDatosTenis : EntradaDatos
 
         //Se setea el panel que muestra la lista de jugadores
         seccionListaJugadores.GetComponent<SeleccionListaJugadores>().SetearListaJugadores(true);
-
-        CanvasController.instance.botonDespliegueMenu.SetActive(false);
     }
 
     /// 
@@ -136,8 +134,10 @@ public class EntradaDatosTenis : EntradaDatos
 
         jugadorFocus = listaJugadores[0];
 
-        AppController.instance.ChangeTexture(-1);
+        AppController.instance.UpdateTexture();
         gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
+
+        CanvasController.instance.botonDespliegueMenu.SetActive(false);
 
         ComenzarEntradaDatos();
     }
@@ -376,6 +376,7 @@ public class EntradaDatosTenis : EntradaDatos
     {
         base.DescartarDatos();
         Destroy(gameObject);
+        CanvasController.instance.botonDespliegueMenu.SetActive(true);
     }
 
     public override void CancelarGuardado()

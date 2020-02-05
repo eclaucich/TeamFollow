@@ -57,6 +57,7 @@ public class FlechaRecta : ObjetoEdicion
     {
         if(mode == 0)   //Flecha normal
         {
+            Debug.Log("FLECHA NORMAL");
             if (line == null)
             {
                 line = GetComponent<LineRenderer>();

@@ -18,6 +18,10 @@ public class PanelPartidosEquipo : Panel
     [SerializeField] private Color colorSeleccionado = new Color();
     [SerializeField] private Color colorNoSeleccionado = new Color();
 
+    [SerializeField] private Button botonVerEstadisticasGlobales = null;
+    [SerializeField] private GameObject warningTextPartidos = null;
+    [SerializeField] private GameObject warningTextPracticas = null;
+
     private List<GameObject> listaPartidosPrefabs;
     private List<Partido> listaPartidos;
 
@@ -55,8 +59,6 @@ public class PanelPartidosEquipo : Panel
         panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(_estadisticas);
     }
 
-
-
     private void ResetPrefabs()
     {
         BorrarPrefabs();
@@ -85,14 +87,22 @@ public class PanelPartidosEquipo : Panel
         listaPartidosPrefabs.Clear();
     }
 
-
-
     public void MostrarPartidos()
     {
         isPartido = true;
         imagenPartido.color = colorSeleccionado;
         imagenPractica.color = colorNoSeleccionado;
         listaPartidos = equipoFocus.GetPartidos();
+
+        if (listaPartidos.Count == 0)
+            warningTextPartidos.SetActive(true);
+        warningTextPracticas.SetActive(false);
+
+        if (equipoFocus.GetEstadisticasPartido().GetDictionary().Count == 0)
+            botonVerEstadisticasGlobales.enabled = false;
+        else
+            botonVerEstadisticasGlobales.enabled = true;
+
         ResetPrefabs();
     }
 
@@ -102,6 +112,18 @@ public class PanelPartidosEquipo : Panel
         imagenPartido.color = colorNoSeleccionado;
         imagenPractica.color = colorSeleccionado;
         listaPartidos = equipoFocus.GetPracticas();
+
+        if (listaPartidos.Count == 0)
+            warningTextPracticas.SetActive(true);
+        warningTextPartidos.SetActive(false);
+
+        if (equipoFocus.GetEstadisticasPractica().GetDictionary().Count == 0)
+        {
+            botonVerEstadisticasGlobales.enabled = false;
+        }
+        else
+            botonVerEstadisticasGlobales.enabled = true;
+
         ResetPrefabs();
     }
 

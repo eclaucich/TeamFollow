@@ -353,7 +353,7 @@ public class Equipo {
 
         planillasAsistencia[nombrePlanilla].Add(detalle);
         */
-        Debug.Log(planillasAsistencia.Count);
+        //Debug.Log(planillasAsistencia.Count);
         foreach(var planilla in planillasAsistencia)
         {
             if(planilla.GetNombre() == nombrePlanilla)

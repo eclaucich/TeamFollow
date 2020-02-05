@@ -9,6 +9,6 @@ public class PanelMenuSeleccion : MensajeDesplegable
     override public void ToggleDesplegar()
     {
         base.ToggleDesplegar();
-        botonDespliegueMenu.SetActive(!botonDespliegueMenu.activeSelf);
+        //botonDespliegueMenu.SetActive(!botonDespliegueMenu.activeSelf);
     }
 }

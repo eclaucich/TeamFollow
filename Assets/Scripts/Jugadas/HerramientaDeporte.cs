@@ -4,11 +4,25 @@ using UnityEngine.UI;
 public class HerramientaDeporte : Herramienta
 {
     [SerializeField] private PanelEdicion panelEdicion = null;
-    [SerializeField] private Text nombreHerramienta = null;
+    //[SerializeField] private Text nombreHerramienta = null;
+
+    [SerializeField] private GameObject imagenBoton = null;
+
+    [SerializeField] private Sprite basket = null;
+    [SerializeField] private Sprite futbol = null;
+    [SerializeField] private Sprite handball = null;
+    [SerializeField] private Sprite hockeyCesped = null;
+    [SerializeField] private Sprite hockeyPatines = null;
+    [SerializeField] private Sprite padel = null;
+    [SerializeField] private Sprite rugby = null;
+    [SerializeField] private Sprite softball = null;
+    [SerializeField] private Sprite tenis = null;
+    [SerializeField] private Sprite voley = null;
 
     private void Start()
     {
         nombre = "Deporte";
+        imagenBoton.GetComponent<Image>().sprite = futbol;
     }
 
     public override void Usar()
@@ -16,26 +30,25 @@ public class HerramientaDeporte : Herramienta
         throw new System.NotImplementedException();
     }
 
-    public void SeleccionarDeporte(Text nombreDeporte_)
+    public void SeleccionarDeporte(int indexDeporte_)
     {
-        nombreHerramienta.text = nombreDeporte_.text;
+        //nombreHerramienta.text = nombreDeporte_.text;
         SetHerramientaActual();
 
-        int index = 0;
-        switch(nombreDeporte_.text)
+        switch(indexDeporte_)
         {
-            case "Basket": index = 0; break;
-            case "Futbol": index = 1; break;
-            case "Handball": index = 2; break;
-            case "HockeyCesped": index = 3; break;
-            case "HockeyPatines": index = 4; break;
-            case "Padel": index = 5; break;
-            case "Rugby": index = 6; break;
-            case "Softball": index = 7; break;
-            case "Tenis": index = 8; break;
-            case "BaskVoleyet": index = 9; break;
+            case 0: imagenBoton.GetComponent<Image>().sprite = basket; break;
+            case 1: imagenBoton.GetComponent<Image>().sprite = futbol; break;
+            case 2: imagenBoton.GetComponent<Image>().sprite = handball; break;
+            case 3: imagenBoton.GetComponent<Image>().sprite = hockeyCesped; break;
+            case 4: imagenBoton.GetComponent<Image>().sprite = hockeyPatines; break;
+            case 5: imagenBoton.GetComponent<Image>().sprite = padel; break;
+            case 6: imagenBoton.GetComponent<Image>().sprite = rugby; break;
+            case 7: imagenBoton.GetComponent<Image>().sprite = softball; break;
+            case 8: imagenBoton.GetComponent<Image>().sprite = tenis; break;
+            case 9: imagenBoton.GetComponent<Image>().sprite = voley; break;
         }
 
-        panelEdicion.ChangeSport(index);
+        panelEdicion.ChangeSport(indexDeporte_);
     }
 }

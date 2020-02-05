@@ -9,9 +9,14 @@ public class HerramientaFlechaRecta : Herramienta
 
     private int lineMode = 0;
 
+    [SerializeField] private GameObject imagenBoton = null;
+    [SerializeField] private Sprite imagenFlechaLlena = null;
+    [SerializeField] private Sprite imagenFlechaPunteada = null;
+
     private void Start()
     {
         nombre = "Flecha";
+        imagenBoton.GetComponent<Image>().sprite = imagenFlechaLlena;
     }
 
     public override void Usar()
@@ -40,6 +45,7 @@ public class HerramientaFlechaRecta : Herramienta
         else
         {
             flechaActual.GetComponent<FlechaRecta>().CreateLineRenderer(lineMode);
+            Debug.Log("USANDO");
         }
         
     }
@@ -48,25 +54,29 @@ public class HerramientaFlechaRecta : Herramienta
     {
         flechaActual.GetComponent<FlechaRecta>().CrearPunta(lineMode);
         flechaActual = null;
+        Debug.Log("DEJAR DE USAR");
     }
 
     public void SeleccionarFlechaLlena()
     {
-        GetComponentInChildren<Text>().text = "Llena";
+        //GetComponentInChildren<Text>().text = "Llena";
+        imagenBoton.GetComponent<Image>().sprite = imagenFlechaLlena;
         lineMode = 0;
         SetHerramientaActual();
     }
 
     public void SeleccionarFlechaPunteada()
     {
-        GetComponentInChildren<Text>().text = "Punteada";
+        //GetComponentInChildren<Text>().text = "Punteada";
+        imagenBoton.GetComponent<Image>().sprite = imagenFlechaPunteada;
         lineMode = 2;
         SetHerramientaActual();
     }
 
     public void SeleccionarFlechaRecta()
     {
-        GetComponentInChildren<Text>().text = "Recta";
+        //GetComponentInChildren<Text>().text = "Recta";
+        imagenBoton.GetComponent<Image>().sprite = imagenFlechaLlena;
         lineMode = 1;
         SetHerramientaActual();
     }

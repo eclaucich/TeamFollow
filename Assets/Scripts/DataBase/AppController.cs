@@ -107,17 +107,17 @@ public class AppController : MonoBehaviour {
 
     public void ChangeTexture(int i)
     {
-        Debug.Log("Entro1");
+        //Debug.Log("Entro1");
         if(i < 0)
         {
-            Debug.Log("Entro2");
+            //Debug.Log("Entro2");
             textureActual = texturaPanelNormal;
         }
     }
 
     public void UpdateTexture()
     {
-        Debug.Log("UPDATED");
+        //Debug.Log("UPDATED");
         if (equipoActual != null)
         {
             textureActual = listaTexturas[(int)equipoActual.GetDeporte()];

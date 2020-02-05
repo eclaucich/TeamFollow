@@ -103,6 +103,6 @@ public class PanelPrincipal : Panel {
         Destroy(botonEquipo);
         listaPrefabsBoton.Remove(botonEquipo);
 
-        Debug.Log("BORRADO");
+        //Debug.Log("BORRADO");
     }
 }

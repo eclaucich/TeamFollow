@@ -7,10 +7,12 @@ public abstract class Herramienta : MonoBehaviour, IPointerClickHandler
     [SerializeField] protected Button botonSeleccion = null;
     [SerializeField] private PanelOpcionesHerramienta panelOpciones = null;
     [SerializeField] private bool hasOptions = true;
+    [SerializeField] private GameObject fondo = null;
 
     protected string nombre;
 
     private bool longClick = false;
+
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -19,13 +21,22 @@ public abstract class Herramienta : MonoBehaviour, IPointerClickHandler
 
     public void SetHerramientaActual()
     {
+        PanelHerramientas panelHerramientas;
+        panelHerramientas = GetComponentInParent<PanelHerramientas>();
+
         if (!longClick)
         {
-            GetComponentInParent<PanelHerramientas>().GetPanelCrearJugadas().SetHerramientaActual(this);
+            panelHerramientas.GetPanelCrearJugadas().ChangeHerramientaActualFondo(false);
+            panelHerramientas.GetPanelCrearJugadas().SetHerramientaActual(this);
+            ChangeFondo(true);
+
             if (hasOptions && panelOpciones.isDesplegado())
             {
                 panelOpciones.Cerrar();
             }
+            panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
+
+
         }
     }
 
@@ -64,5 +75,16 @@ public abstract class Herramienta : MonoBehaviour, IPointerClickHandler
         }
 
         return GetComponentInParent<PanelHerramientas>().GetPanelCrearJugadas().materialNegro;
+    }
+
+    public void ChangeFondo(bool seleccionar)
+    {
+        if (fondo == null)
+        {
+            Debug.Log("NULL");
+            return;
+        }
+        if (seleccionar) fondo.GetComponent<Image>().color = new Color32(67, 92, 67, 255);
+        else fondo.GetComponent<Image>().color = new Color32(137, 183, 137, 1);
     }
 }

@@ -13,6 +13,9 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     [SerializeField] private Texture halfField = null;
     [SerializeField] private Texture areaField = null;*/
 
+    [SerializeField] private PanelHerramientas panelHerramientas = null;
+    [SerializeField] private GameObject botonDesplieguePanelHerramientas = null;
+
     private int deporteIndex = 0;
 
     [SerializeField] private List<Texture> texturesFutbol;
@@ -26,6 +29,8 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     [SerializeField] private List<Texture> texturesTenis;
     [SerializeField] private List<Texture> texturesRugby;
 
+    [SerializeField] private TextoImagenGuardada textoJugadaGuardada = null;
+
     private List<Texture> currentTextures;
     private int currentTextureIndex = 0;
 
@@ -33,6 +38,10 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     int width = 1280;
     int height = 720;
+
+    private Vector2 vectInitialPos;
+    private Vector2 vectFinalPos;
+    private Vector2 vectSwipe;
 
     private void Awake()
     {
@@ -46,6 +55,33 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];*/
         currentTextures = texturesFutbol;
         GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
+    }
+
+    private void FixedUpdate()
+    {
+        if (!panelHerramientas.GetComponent<MensajeDesplegable>().isDesplegado())
+        {
+            if (panelCrearJugada.GetHerramientaActual() != null && 
+                panelCrearJugada.GetHerramientaActual().GetNombre() != "Seleccionar" &&
+                panelCrearJugada.GetHerramientaActual().GetNombre() != "Flecha")
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    vectInitialPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                }
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    vectFinalPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                    vectSwipe = new Vector2(vectFinalPos.x - vectInitialPos.x, vectFinalPos.y - vectInitialPos.y);
+
+                    if (vectFinalPos.x - vectInitialPos.x >= 0.3f)
+                    {
+                        panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
+                    }
+                }
+            }
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -66,10 +102,10 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        /*if (panelCrearJugada.GetHerramientaActual().GetNombre() == "Flecha")
+        if (panelCrearJugada.GetHerramientaActual().GetNombre() == "Flecha")
         {
             panelCrearJugada.GetHerramientaActual().DejarDeUsar();
-        }*/
+        }
     }
 
     public void LimpiarPanel()
@@ -90,22 +126,32 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     private void LateUpdate()
     {
         if (snapshotCamera.gameObject.activeInHierarchy)
-        {
+        { 
             CanvasController.instance.GetComponent<Canvas>().worldCamera = snapshotCamera;
-            Texture2D snapshot = new Texture2D(width-130, height, TextureFormat.RGB24, false);
+            Texture2D snapshot = new Texture2D(width-0, height, TextureFormat.RGB24, false);
             snapshotCamera.Render();
             RenderTexture.active = snapshotCamera.targetTexture;
-            snapshot.ReadPixels(new Rect(130, 0, width, height), 0, 0);
+            snapshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
             byte[] bytes = snapshot.EncodeToPNG();
             SaveSystem.GuardarJugadaImagen(bytes);
             Debug.Log("Guardado");
             snapshotCamera.gameObject.SetActive(false);
             CanvasController.instance.GetComponent<Canvas>().worldCamera = Camera.main;
+
+            panelHerramientas.gameObject.SetActive(true);
+            botonDesplieguePanelHerramientas.SetActive(true);
         }
     }
 
     public void GuardarJugadaImagen()
     {
+        if (panelHerramientas.GetComponent<MensajeDesplegable>().isDesplegado())
+            panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
+        //panelHerramientas.gameObject.SetActive(false);
+        botonDesplieguePanelHerramientas.SetActive(false);
+
+        textoJugadaGuardada.Mostrar();
+
         snapshotCamera.gameObject.SetActive(true);
         snapshotCamera.targetTexture = new RenderTexture(width, height, 24);
     }

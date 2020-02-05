@@ -79,7 +79,7 @@ public class PanelNuevoJugador : Panel
         /// SETEAR EL INFOJUGADOR CON EL VALOR DE CADA PREFAB INPUT
         /// 
         infoJugador.SetNombre(listaPrefabs[0].GetValorCategoria());
-        Debug.Log("Nombre Jugador: " + listaPrefabs[0].GetValorCategoria());
+        //Debug.Log("Nombre Jugador: " + listaPrefabs[0].GetValorCategoria());
 
         equipoActual.NuevoJugador(new Jugador(infoJugador));
 

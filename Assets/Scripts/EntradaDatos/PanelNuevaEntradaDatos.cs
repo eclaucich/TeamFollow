@@ -101,6 +101,8 @@ public class PanelNuevaEntradaDatos : EntradaDatos
     {
         Screen.orientation = ScreenOrientation.Landscape;
 
+        CanvasController.instance.botonDespliegueMenu.SetActive(false);
+
         jugadores = listaJugadores;
         panelSeleccionJugadores.gameObject.SetActive(false);
         AppController.instance.overlayPanel.SetNombrePanel("");
@@ -206,18 +208,18 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         CanvasController.instance.retrocesoPausado = false;
         CanvasController.instance.MostrarPanelAnterior();
         Destroy(gameObject);
+        CanvasController.instance.botonDespliegueMenu.SetActive(true);
     }
 
     public override void DescartarDatos()
     {
         base.DescartarDatos();
-        //seccionNombrePartido.SetActive(false);
+        CanvasController.instance.botonDespliegueMenu.SetActive(true);
         Destroy(gameObject);
     }
 
     public override void CancelarGuardado()
     {
         panelConfirmacionGuardado.Cerrar();
-        //seccionNombrePartido.SetActive(false);
     }
 }

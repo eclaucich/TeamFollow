@@ -47,4 +47,12 @@ public class PanelCrearJugadas : MonoBehaviour
     {
         colorActual = _color;
     }
+
+    public void ChangeHerramientaActualFondo(bool seleccionar)
+    {
+        if (herramientaActual)
+        {
+            herramientaActual.ChangeFondo(seleccionar);
+        }
+    }
 }
