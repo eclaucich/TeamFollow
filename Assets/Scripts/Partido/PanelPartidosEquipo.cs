@@ -96,6 +96,9 @@ public class PanelPartidosEquipo : Panel
 
         if (listaPartidos.Count == 0)
             warningTextPartidos.SetActive(true);
+        else 
+            warningTextPartidos.SetActive(false);
+
         warningTextPracticas.SetActive(false);
 
         if (equipoFocus.GetEstadisticasPartido().GetDictionary().Count == 0)
@@ -115,6 +118,8 @@ public class PanelPartidosEquipo : Panel
 
         if (listaPartidos.Count == 0)
             warningTextPracticas.SetActive(true);
+        else
+            warningTextPracticas.SetActive(false);
         warningTextPartidos.SetActive(false);
 
         if (equipoFocus.GetEstadisticasPractica().GetDictionary().Count == 0)
