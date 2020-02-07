@@ -89,7 +89,7 @@ public class PanelPartidos : Panel
     {
         Estadisticas estadisticas = isPartido ? jugadorFocus.GetEstadisticasPartido() : jugadorFocus.GetEstadisticasPractica();
 
-        GetComponentInParent<PanelJugadores>().MostrarPanelDetalleJugador(jugadorFocus.GetNombre(), estadisticas);
+        GetComponentInParent<PanelJugadores>().MostrarPanelDetalleJugador(null, jugadorFocus.GetNombre(), estadisticas);
     }
 
 

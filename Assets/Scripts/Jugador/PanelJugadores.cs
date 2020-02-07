@@ -16,6 +16,8 @@ public class PanelJugadores : MonoBehaviour {
     private string nombreJugadorFocus;
     private Estadisticas estadisticasFocus;
 
+    private BotonPartido botonPartido;
+
     private void Awake()
     {
         listaPaneles = new List<GameObject>();
@@ -36,7 +38,7 @@ public class PanelJugadores : MonoBehaviour {
     }
 
 
-    public void MostrarPanelDetalleJugador(string _nombreJugador = null, Estadisticas _estadisticas = null)
+    public void MostrarPanelDetalleJugador(BotonPartido botonPartido, string _nombreJugador = null, Estadisticas _estadisticas = null)
     {
         ActivarPanel(1);
 
@@ -45,7 +47,7 @@ public class PanelJugadores : MonoBehaviour {
         string nombre = _nombreJugador != null ? _nombreJugador : nombreJugadorFocus;
         Estadisticas estadisticas = _estadisticas != null ? _estadisticas : estadisticasFocus;
 
-        panel_detalleJugador.GetComponent<PanelDetalleJugador>().SetDetallesJugador(nombre, estadisticas);
+        panel_detalleJugador.GetComponent<PanelDetalleJugador>().SetDetallesJugador(botonPartido, nombre, estadisticas);
     }
 
 
@@ -92,6 +94,8 @@ public class PanelJugadores : MonoBehaviour {
 
     public void SetPartidoFocus(BotonPartido botonpartido)
     {
+        botonPartido = botonpartido;
+
         string nombrePartido = botonpartido.GetComponentInChildren<Text>().text;
 
         Jugador jugadorFocus = AppController.instance.equipoActual.BuscarPorNombre(nombreJugadorFocus);
@@ -105,7 +109,7 @@ public class PanelJugadores : MonoBehaviour {
             if (partido.GetNombre() == nombrePartido)
             {
                 estadisticasFocus = partido.GetEstadisticas();
-                MostrarPanelDetalleJugador();
+                MostrarPanelDetalleJugador(botonPartido);
                 return;
             }
         }

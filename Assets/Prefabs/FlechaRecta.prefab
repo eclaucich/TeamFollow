@@ -91,7 +91,7 @@ MonoBehaviour:
   mover: 0
   borrar: 1
   timeBtwPoints: 0.02
-  puntaFlecha: {fileID: 8628027698229523744, guid: 6538a4cc4124bae41b319fccc4297338,
+  puntaFlecha: {fileID: 3642387342300360435, guid: efba7290eeaa99043bb42c0c497c5f35,
     type: 3}
 --- !u!61 &-5550123111278388133
 BoxCollider2D:
@@ -133,6 +133,7 @@ LineRenderer:
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

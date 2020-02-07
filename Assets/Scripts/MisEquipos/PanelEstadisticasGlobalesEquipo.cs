@@ -7,6 +7,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     [SerializeField] private Text nombreEquipoText = null;
     [SerializeField] private EstadisticasGlobalesEquipo estadisticasGlobales = null;
     [SerializeField] private GameObject estadisticaPrefab = null;
+    [SerializeField] private ConfirmacionBorradoPartido confirmacionBorradoPartido = null;
 
     protected Dictionary<string, int> diccEstadisticas;
 
@@ -18,6 +19,9 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     private Transform parentTransform;
     private List<GameObject> listaPrefabsTextos;
 
+    private BotonPartido botonFocus;
+
+    [SerializeField] private GameObject botonBorrar;
 
     public override void Start()
     {
@@ -26,8 +30,12 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     }
 
 
-    public void SetPanelEstadisticasGlobalesEquipo(Estadisticas _estadisticas)
+    public void SetPanelEstadisticasGlobalesEquipo(BotonPartido _botonFocus, Estadisticas _estadisticas)
     {
+        botonFocus = _botonFocus;
+
+        if (botonFocus == null) botonBorrar.SetActive(false); else botonBorrar.SetActive(true);
+
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.EstadisticasGlobalesEquipo);
 
         if (listaPrefabsTextos == null) listaPrefabsTextos = new List<GameObject>();
@@ -68,5 +76,11 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
             Destroy(listaPrefabsTextos[i]);
         }
         listaPrefabsTextos.Clear();
+    }
+
+    public void ActivarPanelConfirmacionBorrado()
+    {
+        Debug.Log("ACTIVADO");
+        confirmacionBorradoPartido.ActivarPanel(botonFocus);
     }
 }

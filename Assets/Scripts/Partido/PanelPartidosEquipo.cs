@@ -52,11 +52,11 @@ public class PanelPartidosEquipo : Panel
         MostrarPartidos();
     }
 
-    public void MostrarPanelDetallePartido(Estadisticas _estadisticas)
+    public void MostrarPanelDetallePartido(BotonPartido botonPartidoFocus, Estadisticas _estadisticas)
     {
         ActivarPanel(1);
 
-        panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(_estadisticas);
+        panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(botonPartidoFocus, _estadisticas);
     }
 
     private void ResetPrefabs()
@@ -136,7 +136,7 @@ public class PanelPartidosEquipo : Panel
     {
         Estadisticas estadisticas = isPartido ? equipoFocus.GetEstadisticasPartido() : equipoFocus.GetEstadisticasPractica();
 
-        MostrarPanelDetallePartido(estadisticas);
+        MostrarPanelDetallePartido(null, estadisticas);
     }
 
 
@@ -151,7 +151,7 @@ public class PanelPartidosEquipo : Panel
         {
             if (partido.GetNombre() == nombrePartido)
             {
-                MostrarPanelDetallePartido(partido.GetEstadisticas());
+                MostrarPanelDetallePartido(botonpartido, partido.GetEstadisticas());
                 return;
             }
         }

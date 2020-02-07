@@ -4,6 +4,9 @@ public class ConfirmacionBorradoPartido : ConfirmacionBorradoJugador
 {
     BotonPartido botonFocus;
 
+    [SerializeField] private PanelPartidos panelPartidos = null;
+    [SerializeField] private PanelPartidosEquipo panelPartidosEquipo = null;
+
     public void ActivarPanel(BotonPartido botonPartido)
     {
         textoConfirmacion.text = "Borrar partido? \n Se verán afectadas las estadísticas de los jugadores y/o del equipo";
@@ -15,9 +18,10 @@ public class ConfirmacionBorradoPartido : ConfirmacionBorradoJugador
     ///O si se esta borrando todo un partido de un equipo (false)
     public void ConfirmarBorrar(bool partidoJugador)
     {
-        if (partidoJugador) GameObject.Find("PanelPartidosJugador").GetComponent<PanelPartidos>().BorrarPartido(botonFocus);
-        else                GameObject.Find("PanelEstadisticasGlobalesEquipo").GetComponent<PanelPartidosEquipo>().BorrarPartido(botonFocus);
         ToggleDesplegar();
+        if (partidoJugador) panelPartidos.BorrarPartido(botonFocus);
+        else                panelPartidosEquipo.BorrarPartido(botonFocus);
+        CanvasController.instance.MostrarPanelAnterior();
     }
 
 }

@@ -17,6 +17,8 @@ public class EstadisticasJugador : MonoBehaviour
 
     private List<GameObject> panelesEstadisticas;
 
+    private BotonPartido botonFocus;
+
     private void SetListaPaneles()
     {
         panelesEstadisticas = new List<GameObject>();
@@ -33,9 +35,11 @@ public class EstadisticasJugador : MonoBehaviour
         panelesEstadisticas.Add(panelVoley);
     }
 
-    public Transform Set()
+    public Transform Set(BotonPartido _botonFocus)
     {
         SetListaPaneles();
+
+        botonFocus = _botonFocus;
 
         foreach (var panel in panelesEstadisticas)
         {

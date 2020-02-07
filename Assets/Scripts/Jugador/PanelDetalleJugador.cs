@@ -16,6 +16,8 @@ public class PanelDetalleJugador : Panel{
 
     [SerializeField] private Text tipoEstadisticasText = null;
 
+    [SerializeField] private ConfirmacionBorradoPartido confirmacionBorradoPartido = null;
+
     protected Transform parentTransform;
 
     protected Estadisticas estadisticas;
@@ -26,17 +28,23 @@ public class PanelDetalleJugador : Panel{
     protected List<GameObject> listaPrefabsTextos;
 
     [SerializeField] private EstadisticasJugador panelEstadisticas = null;
+    [SerializeField] private GameObject botonBorrar = null;
 
+    private BotonPartido botonFocus;
 
-    public void SetDetallesJugador(string nombreJugador, Estadisticas _estadisticas)                     //Setear el panel
+    public void SetDetallesJugador(BotonPartido botonPartido, string nombreJugador, Estadisticas _estadisticas)                     //Setear el panel
     {
+        botonFocus = botonPartido;
+
+        if (botonFocus == null) botonBorrar.SetActive(false); else botonBorrar.SetActive(true); 
+
         if (listaPrefabsTextos == null) listaPrefabsTextos = new List<GameObject>();
         jugador = AppController.instance.GetEquipoActual().BuscarPorNombre(nombreJugador);
         nombreJugadorText.text = nombreJugador;
 
         estadisticas = _estadisticas;
 
-        parentTransform = panelEstadisticas.Set();
+        parentTransform = panelEstadisticas.Set(botonPartido);
         BorrarPrefabs();
         CrearPrefabs();
     }
@@ -54,7 +62,7 @@ public class PanelDetalleJugador : Panel{
             tipoEstadisticasText.text = "Practica";
         }
 
-        parentTransform = panelEstadisticas.Set();
+        parentTransform = panelEstadisticas.Set(null);
 
         BorrarPrefabs();
         CrearPrefabs();
@@ -89,5 +97,10 @@ public class PanelDetalleJugador : Panel{
     {
         tipoEstadisticasPartido = !tipoEstadisticasPartido;
         SetDetallesEstadisticas();
+    }
+
+    public void ActivarPanelConfirmacionBorradoPartido()
+    {
+        confirmacionBorradoPartido.ActivarPanel(botonFocus);
     }
 }
