@@ -30,11 +30,10 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     }
 
 
-    public void SetPanelEstadisticasGlobalesEquipo(BotonPartido _botonFocus, Estadisticas _estadisticas)
+    public void SetPanelEstadisticasGlobalesEquipo(BotonPartido _botonPartido, Estadisticas _estadisticas)
     {
-        botonFocus = _botonFocus;
-
-        if (botonFocus == null) botonBorrar.SetActive(false); else botonBorrar.SetActive(true);
+        if (_botonPartido == null) botonBorrar.SetActive(false); else botonBorrar.SetActive(true);
+        botonFocus = _botonPartido;
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.EstadisticasGlobalesEquipo);
 
@@ -44,8 +43,14 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
         nombreEquipoText.text = equipo.GetNombre();
 
         estadisticas = _estadisticas;
+        
+        Debug.Log("ESTADISTICAS: " + _estadisticas.GetDictionary() == null);
 
+        /*diccEstadisticas = new Dictionary<string, int>();
         diccEstadisticas = estadisticas.GetDictionary();
+
+        Debug.Log("DICC ESTADISTICAS: " + diccEstadisticas == null);
+        */
 
         parentTransform = estadisticasGlobales.SetPanelEstadisticas();
 
@@ -56,7 +61,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
 
     virtual public void CrearPrefabs()
-    {
+    {  
         for (int i = 0; i < estadisticas.GetCantidadCategorias(); i++)
         {
             //Debug.Log(estadisticas.GetKeyAtIndex(i) + "  " + estadisticas.GetValueAtIndex(i).ToString());
@@ -80,7 +85,6 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
     public void ActivarPanelConfirmacionBorrado()
     {
-        Debug.Log("ACTIVADO");
         confirmacionBorradoPartido.ActivarPanel(botonFocus);
     }
 }

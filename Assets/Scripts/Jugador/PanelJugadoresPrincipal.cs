@@ -47,6 +47,8 @@ public class PanelJugadoresPrincipal : Panel {
 
     public void SetPanelJugadores(Equipo equipo_)
     {
+        base.Start();
+
         AppController.instance.overlayPanel.SetNombrePanel("JUGADORES");
 
         equipo = equipo_;

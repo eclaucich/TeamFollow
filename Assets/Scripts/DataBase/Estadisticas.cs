@@ -108,4 +108,11 @@ public class Estadisticas {
         return value;
     }
 
+
+    public bool isEmpty()
+    {
+        return listaEstadisticas == null || listaEstadisticas.Keys.Count == 0;
+    }
+
+
 }

@@ -13,6 +13,10 @@ public class PanelPartidos : Panel
     [SerializeField] private Color colorSeleccionado = new Color();
     [SerializeField] private Color colorNoSeleccionado = new Color();
 
+    [SerializeField] private Image botonVerEstadisticasGlobales = null;
+    [SerializeField] private GameObject warningTextPartidos = null;
+    [SerializeField] private GameObject warningTextPracticas = null;
+
     private List<GameObject> listaPartidosPrefabs;
     private List<Partido> listaPartidos;
 
@@ -31,6 +35,19 @@ public class PanelPartidos : Panel
         jugadorFocus = AppController.instance.equipoActual.BuscarPorNombre(nombreJugador);
 
         if (listaPartidosPrefabs == null) listaPartidosPrefabs = new List<GameObject>();
+
+        Estadisticas estadisticas = isPartido ? jugadorFocus.GetEstadisticasPartido() : jugadorFocus.GetEstadisticasPractica();
+
+        if (estadisticas.isEmpty())
+        {
+            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 0.25f);
+            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = false;
+        }
+        else
+        {
+            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 255f);
+            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = true;
+        }
 
         MostrarPartidos();
     }
@@ -73,6 +90,14 @@ public class PanelPartidos : Panel
         imagenPartido.color = colorSeleccionado;
         imagenPractica.color = colorNoSeleccionado;
         listaPartidos = jugadorFocus.GetPartidos();
+
+        if (listaPartidos.Count == 0)
+            warningTextPartidos.SetActive(true);
+        else
+            warningTextPartidos.SetActive(false);
+
+        warningTextPracticas.SetActive(false);
+
         ResetPrefabs();
     }
 
@@ -82,6 +107,13 @@ public class PanelPartidos : Panel
         imagenPartido.color = colorNoSeleccionado;
         imagenPractica.color = colorSeleccionado;
         listaPartidos = jugadorFocus.GetPracticas();
+
+        if (listaPartidos.Count == 0)
+            warningTextPracticas.SetActive(true);
+        else
+            warningTextPracticas.SetActive(false);
+        warningTextPartidos.SetActive(false);
+
         ResetPrefabs();
     }
 
