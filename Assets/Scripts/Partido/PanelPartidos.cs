@@ -13,6 +13,10 @@ public class PanelPartidos : Panel
     [SerializeField] private Color colorSeleccionado = new Color();
     [SerializeField] private Color colorNoSeleccionado = new Color();
 
+    [SerializeField] private Button botonVerEstadisticasGlobales = null;
+    [SerializeField] private GameObject warningTextPartidos = null;
+    [SerializeField] private GameObject warningTextPracticas = null;
+
     private List<GameObject> listaPartidosPrefabs;
     private List<Partido> listaPartidos;
 
@@ -73,6 +77,31 @@ public class PanelPartidos : Panel
         imagenPartido.color = colorSeleccionado;
         imagenPractica.color = colorNoSeleccionado;
         listaPartidos = jugadorFocus.GetPartidos();
+
+        if (listaPartidos.Count == 0)
+        {
+            warningTextPartidos.SetActive(true);
+            botonVerEstadisticasGlobales.enabled = false;
+            Color color = botonVerEstadisticasGlobales.GetComponent<Image>().color;
+            botonVerEstadisticasGlobales.GetComponent<Image>().color = new Color(color.r, color.g, color.b, 0.2f);
+        }
+        else
+        {
+            warningTextPartidos.SetActive(false);
+            botonVerEstadisticasGlobales.enabled = true;
+            Color color = botonVerEstadisticasGlobales.GetComponent<Image>().color;
+            botonVerEstadisticasGlobales.GetComponent<Image>().color = new Color(color.r, color.g, color.b, 1f);
+        }
+
+        warningTextPracticas.SetActive(false);
+
+        /*if (jugadorFocus.GetEstadisticasPartido().GetDictionary().Count == 0)
+        {
+            botonVerEstadisticasGlobales.enabled = false;
+        }
+        else
+            botonVerEstadisticasGlobales.enabled = true;*/
+
         ResetPrefabs();
     }
 
@@ -82,6 +111,31 @@ public class PanelPartidos : Panel
         imagenPartido.color = colorNoSeleccionado;
         imagenPractica.color = colorSeleccionado;
         listaPartidos = jugadorFocus.GetPracticas();
+
+        if (listaPartidos.Count == 0)
+        {
+            warningTextPracticas.SetActive(true);
+            botonVerEstadisticasGlobales.enabled = false;
+            Color color = botonVerEstadisticasGlobales.GetComponent<Image>().color;
+            botonVerEstadisticasGlobales.GetComponent<Image>().color = new Color(color.r, color.g, color.b, 0.2f);
+        }
+        else
+        {
+            warningTextPracticas.SetActive(false);
+            botonVerEstadisticasGlobales.enabled = true;
+            Color color = botonVerEstadisticasGlobales.GetComponent<Image>().color;
+            botonVerEstadisticasGlobales.GetComponent<Image>().color = new Color(color.r, color.g, color.b, 1f);
+        }
+
+        warningTextPartidos.SetActive(false);
+
+       /* if (jugadorFocus.GetEstadisticasPractica().GetDictionary().Count == 0)
+        {
+            botonVerEstadisticasGlobales.enabled = false;
+        }
+        else
+            botonVerEstadisticasGlobales.enabled = true;
+            */
         ResetPrefabs();
     }
 
