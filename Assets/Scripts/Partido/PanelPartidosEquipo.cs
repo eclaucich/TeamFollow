@@ -18,7 +18,7 @@ public class PanelPartidosEquipo : Panel
     [SerializeField] private Color colorSeleccionado = new Color();
     [SerializeField] private Color colorNoSeleccionado = new Color();
 
-    [SerializeField] private Button botonVerEstadisticasGlobales = null;
+    [SerializeField] private Image botonVerEstadisticasGlobales = null;
     [SerializeField] private GameObject warningTextPartidos = null;
     [SerializeField] private GameObject warningTextPracticas = null;
 
@@ -28,6 +28,8 @@ public class PanelPartidosEquipo : Panel
     private Transform parentTransform;
 
     private bool isPartido = true;
+
+    private Estadisticas estadisticasGlobalesEquipo;
 
     private void Awake()
     {
@@ -48,6 +50,19 @@ public class PanelPartidosEquipo : Panel
         equipoFocus = AppController.instance.equipoActual;
 
         if (listaPartidosPrefabs == null) listaPartidosPrefabs = new List<GameObject>();
+
+        Estadisticas estadisticasGlobalesEquipo = isPartido ? equipoFocus.GetEstadisticasPartido() : equipoFocus.GetEstadisticasPractica();
+
+        if (estadisticasGlobalesEquipo.isEmpty())
+        {
+            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 0.25f);
+            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = false;
+        }
+        else
+        {
+            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 255f);
+            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = true;
+        }
 
         MostrarPartidos();
     }
@@ -101,11 +116,6 @@ public class PanelPartidosEquipo : Panel
 
         warningTextPracticas.SetActive(false);
 
-        if (equipoFocus.GetEstadisticasPartido().GetDictionary().Count == 0)
-            botonVerEstadisticasGlobales.enabled = false;
-        else
-            botonVerEstadisticasGlobales.enabled = true;
-
         ResetPrefabs();
     }
 
@@ -122,21 +132,18 @@ public class PanelPartidosEquipo : Panel
             warningTextPracticas.SetActive(false);
         warningTextPartidos.SetActive(false);
 
-        if (equipoFocus.GetEstadisticasPractica().GetDictionary().Count == 0)
-        {
-            botonVerEstadisticasGlobales.enabled = false;
-        }
-        else
-            botonVerEstadisticasGlobales.enabled = true;
-
         ResetPrefabs();
     }
 
     public void MostrarEstadisticasGlobales()
     {
-        Estadisticas estadisticas = isPartido ? equipoFocus.GetEstadisticasPartido() : equipoFocus.GetEstadisticasPractica();
+        //MostrarPanelDetallePartido(null, estadisticasGlobalesEquipo);
+        ActivarPanel(1);
 
-        MostrarPanelDetallePartido(null, estadisticas);
+        Estadisticas estEquipo = isPartido ? equipoFocus.GetEstadisticasPartido() : equipoFocus.GetEstadisticasPractica();
+
+
+        panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(null, estEquipo);
     }
 
 
@@ -159,6 +166,8 @@ public class PanelPartidosEquipo : Panel
 
     public void BorrarPartido(BotonPartido botonPartido)
     {
+        if (botonPartido == null) Debug.Log("NULL PARTIDO");
+
         string nombrePartido = botonPartido.GetComponentInChildren<Text>().text;
 
         equipoFocus.BorrarPartido(isPartido, nombrePartido);
@@ -168,8 +177,8 @@ public class PanelPartidosEquipo : Panel
             jugador.BorrarPartido(isPartido, nombrePartido);
         }
 
-        Destroy(botonPartido.transform.parent.gameObject);
         listaPartidosPrefabs.Remove(botonPartido.transform.parent.gameObject);
+        Destroy(botonPartido.transform.parent.gameObject);
     }
 
 
