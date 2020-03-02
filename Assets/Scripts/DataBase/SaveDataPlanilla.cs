@@ -4,8 +4,7 @@ public class SaveDataPlanilla {
     public string nombrePlanilla;
     public string aliasPlanilla;
     public string nombreJugador;
-    public bool asistencia;
-    public string observacion;
+    public int asistencia;
 
     public SaveDataPlanilla(DetalleAsistencia detalleAsistencia, string nombrePlanilla_, string aliasPlanilla_)
     {
@@ -13,7 +12,6 @@ public class SaveDataPlanilla {
         aliasPlanilla = aliasPlanilla_;
         nombreJugador = detalleAsistencia.GetNombre();
         asistencia = detalleAsistencia.GetAsistencia();
-        observacion = detalleAsistencia.GetObservacion();
     }
 
     public string GetNombrePlanilla()
@@ -31,13 +29,8 @@ public class SaveDataPlanilla {
         return nombreJugador;
     }
 
-    public bool GetAsistencia()
+    public int GetAsistencia()
     {
         return asistencia;
-    }
-
-    public string GetObservacion()
-    {
-        return observacion;
     }
 }

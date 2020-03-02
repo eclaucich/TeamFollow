@@ -2,58 +2,29 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PanelPlanilla : Panel {
+public class PanelPlanilla : PanelAsistencia {
 
     [SerializeField] private Text nombrePlanillaText = null;
-    [SerializeField] private GameObject detalleAsistenciaPrefab = null;
     [SerializeField] private PanelHistorialPlanillas panelHistorialPlanillas = null;
     [SerializeField] private ConfirmacionBorradoAsistencia confirmacionBorradoAsistencia = null;
 
     private BotonHistorialAsistencia botonFocus;
 
-    private List<GameObject> listaPrefabs;
-
-    private Transform parentTransform;
-
-    private void Awake()
-    {
-        listaPrefabs = new List<GameObject>();
-
-        parentTransform = GameObject.Find("DetallesPlanilla").transform;
-    }
-
     public void SetPanelPlanilla(BotonHistorialAsistencia botonFocus_)
     {
-        BorrarPrefabs();
-
-        if (botonFocus_ == null) Debug.Log("NULL");
-
         botonFocus = botonFocus_;
+
+        detalles = AppController.instance.GetEquipoActual().GetPlanillaWithName(botonFocus.GetNombre()).GetDetalles();
+        cantidadHojas = Mathf.CeilToInt(detalles.Count / 13f);
+
+        base.SetPanelPlanilla();
 
         AppController.instance.overlayPanel.SetNombrePanel(botonFocus_.GetDisplayNombre());
 
-        if(botonFocus_.GetAlias() != "") nombrePlanillaText.text = botonFocus_.GetFecha();
+        CrearPrefabsHoja();
+
+        if (botonFocus_.GetAlias() != "") nombrePlanillaText.text = botonFocus_.GetFecha();
         else nombrePlanillaText.text = "";
-
-        List<DetalleAsistencia> detalles = AppController.instance.GetEquipoActual().GetPlanillaWithName(botonFocus.GetNombre()).GetDetalles();//planillasAsistencia[botonFocus.GetNombre()];
-
-        for (int i = 0; i < detalles.Count; i++)
-        {
-            GameObject detalleGO = Instantiate(detalleAsistenciaPrefab, parentTransform, false);
-
-            detalleGO.GetComponent<DetalleAsistencia>().SetDetalle(detalles[i]);
-
-            listaPrefabs.Add(detalleGO);
-        }
-    }
-
-    public void BorrarPrefabs()
-    {
-        for (int i = 0; i < listaPrefabs.Count; i++)
-        {
-            Destroy(listaPrefabs[i]);
-        }
-        listaPrefabs.Clear();
     }
 
     public void BorrarAsistencia()

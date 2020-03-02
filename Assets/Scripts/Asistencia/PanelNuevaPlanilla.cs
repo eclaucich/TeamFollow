@@ -2,31 +2,28 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PanelNuevaPlanilla : Panel {
+public class PanelNuevaPlanilla : PanelAsistencia {
 
-    [SerializeField] private GameObject detalleAsistenciaPrefab = null;
-
+    //[SerializeField] private GameObject detalleAsistenciaPrefab = null;
     [SerializeField] private Text aliasPlanilla = null;
-
     [SerializeField] private Button botonGuardar = null;
-
     [SerializeField] private GameObject seccionError = null;
     [SerializeField] private GameObject seccionAdvice = null;
 
-    private List<GameObject> asistencias;
-    private List<DetalleAsistencia> listaDetallesAsistencias;
+    private List<GameObject> listaPrefabsDetalles;
+    //private List<DetalleAsistencia> listaDetallesAsistencias;
 
     private Equipo equipo;
     private List<Jugador> jugadores;
 
-    private Transform parentTransform;
+    //private Transform parentTransform;
 
     private void Awake()
     {
         jugadores = new List<Jugador>();
-        asistencias = new List<GameObject>();
-        listaDetallesAsistencias = new List<DetalleAsistencia>();
-        parentTransform = GameObject.Find("SeccionAsistencias").transform;        
+        listaPrefabsDetalles = new List<GameObject>();
+        //listaDetallesAsistencias = new List<DetalleAsistencia>();
+        //parentTransform = GameObject.Find("SeccionAsistencias").transform;        
     }
 
     public void SetPanelNuevaPlanilla()
@@ -35,6 +32,10 @@ public class PanelNuevaPlanilla : Panel {
             equipo = AppController.instance.equipoActual;
 
         jugadores = equipo.GetJugadores();
+
+        cantidadHojas = Mathf.CeilToInt(jugadores.Count / 13f);
+
+        base.SetPanelPlanilla();
 
         seccionError.SetActive(false);
         if (AppController.instance.equipoActual.GetJugadores().Count == 0)
@@ -48,33 +49,36 @@ public class PanelNuevaPlanilla : Panel {
             botonGuardar.interactable = true;
         }
 
-        BorrarPrefabs();
-        CrearPrefabs();   
+        CrearPrefabsHoja(jugadores);
+
+        /*BorrarPrefabs();
+        CrearPrefabs();   */
     }
 
-    public void CrearPrefabs()
+    /*public void CrearPrefabs()
     {
         for (int i = 0; i < jugadores.Count; i++)
         {
             GameObject detalleAsistenciaGO = Instantiate(detalleAsistenciaPrefab, parentTransform, false);
-            asistencias.Add(detalleAsistenciaGO);
+            detalleAsistenciaGO.SetActive(true);
+            listaPrefabsDetalles.Add(detalleAsistenciaGO);
 
-            listaDetallesAsistencias.Add(asistencias[i].GetComponent<DetalleAsistencia>());
+            listaDetallesAsistencias.Add(listaPrefabsDetalles[i].GetComponent<DetalleAsistencia>());
             listaDetallesAsistencias[i].SetNombreJugador(jugadores[i].GetNombre());
         }
-    }
+    }*/
 
-    public void BorrarPrefabs()
+    /*public void BorrarPrefabs()
     {
-        if (asistencias == null) return;
+        if (listaPrefabsDetalles == null) return;
 
-        for (int i = 0; i < asistencias.Count; i++)
+        for (int i = 0; i < listaPrefabsDetalles.Count; i++)
         {
-            Destroy(asistencias[i]);
+            Destroy(listaPrefabsDetalles[i]);
         }
-        asistencias.Clear();
+        listaPrefabsDetalles.Clear();
         listaDetallesAsistencias.Clear();
-    }
+    }*/
 
     public void GuardarPlanilla()
     {
@@ -90,7 +94,7 @@ public class PanelNuevaPlanilla : Panel {
             return;
         }
 
-        equipo.NuevaPlanilla(nombrePlanilla, aliasPlanilla.text, listaDetallesAsistencias);
+        equipo.NuevaPlanilla(nombrePlanilla, aliasPlanilla.text, detalles);
 
         GetComponentInParent<PanelPlanillaAsistencia>().MostrarPanelHistorialPlanillas();
     }

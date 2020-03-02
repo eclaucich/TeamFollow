@@ -34,6 +34,8 @@ public class CanvasController : MonoBehaviour {
     [SerializeField] private ConfirmacionBorradoAsistencia confirmacionBorradoAsistencia = null;
     [SerializeField] private MensajeDesplegable panelHerramientasTablero = null;
     [SerializeField] private MensajeDesplegable panelHerramientasJugadas = null;
+    [SerializeField] private ConfirmacionBorradoPartido confirmacionBorradoPartidoJugador = null;
+    [SerializeField] private ConfirmacionBorradoPartido confirmacionBorradoPartidoEquipo = null;
 
     public List<int> escenas;
     private PanelMisEquipos panelMisEquipos;
@@ -152,6 +154,16 @@ public class CanvasController : MonoBehaviour {
         if (menuSeleccion.isDesplegado())
         {
             menuSeleccion.Cerrar();
+            return;
+        }
+        if (confirmacionBorradoPartidoEquipo.isDesplegado())
+        {
+            confirmacionBorradoPartidoEquipo.Cerrar();
+            return;
+        }
+        if (confirmacionBorradoPartidoJugador.isDesplegado())
+        {
+            confirmacionBorradoPartidoJugador.Cerrar();
             return;
         }
         if (confirmacionBorradoEquipo.isDesplegado())

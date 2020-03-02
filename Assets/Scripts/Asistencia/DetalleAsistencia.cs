@@ -4,21 +4,21 @@ using UnityEngine.UI;
 public class DetalleAsistencia : MonoBehaviour {
 
     [SerializeField] private Text nombreJugadorText = null;
-    [SerializeField] private Toggle toggleAsistencia = null;
-    [SerializeField] private InputField inputObservacion = null;
+    [SerializeField] private Button botonCambiarAsistencia = null;
+    [SerializeField] private Text textBotonAsistencia = null;
 
-    [SerializeField] private Text observacionText = null;
-    [SerializeField] private Text observacionPlaceHolderText = null;
+    [SerializeField] private Color colorPresente;
+    [SerializeField] private Color colorTarde;
+    [SerializeField] private Color colorAusente;
 
+    
     public string nombre;
-    public bool asistencia;
-    public string observacion;
+    public int asistencia = 0; // 0 -> PRESENTE , 1 -> TARDE , 2 -> AUSENTE
 
     public DetalleAsistencia(SaveDataPlanilla detalle_)
     {
         nombre = detalle_.GetNombreJugador();
         asistencia = detalle_.GetAsistencia();
-        observacion = detalle_.GetObservacion();
     }
 
     public void SetNombreJugador(string nombre_)
@@ -29,12 +29,8 @@ public class DetalleAsistencia : MonoBehaviour {
     
     public void SetAsistencia()
     {
-        asistencia = !asistencia;
-    }
-    
-    public void SetObservacion()
-    {
-        observacion = observacionText.text;
+        asistencia = ++asistencia % 3;
+        SetBotonAsistencia();
     }
 
     public string GetNombre()
@@ -42,33 +38,38 @@ public class DetalleAsistencia : MonoBehaviour {
         return nombre;
     }
 
-    public bool GetAsistencia()
+    public int GetAsistencia()
     {
         return asistencia;
-    }
-
-    public string GetObservacion()
-    {
-        return observacion;
     }
 
     public void SetDetalle(DetalleAsistencia detalle_)
     {
         nombreJugadorText.text = detalle_.GetNombre();
-        toggleAsistencia.isOn = detalle_.GetAsistencia();
-        observacionPlaceHolderText.text = detalle_.GetObservacion();
+        asistencia = detalle_.GetAsistencia();
 
-        DeshabilitarInputObservacion();
-        DeshabilitarToggle();
+        SetBotonAsistencia();
+        botonCambiarAsistencia.enabled = false;
     }
 
-    private void DeshabilitarToggle()
+    private void SetBotonAsistencia()
     {
-        toggleAsistencia.enabled = false;
-    }
+        Image imagen = botonCambiarAsistencia.GetComponent<Image>();
 
-    private void DeshabilitarInputObservacion()
-    {
-        inputObservacion.enabled = false;
+        if (asistencia == 0)
+        {
+            imagen.color = colorPresente;
+            textBotonAsistencia.text = "presente";
+        }
+        else if (asistencia == 1)
+        {
+            imagen.color = colorTarde;
+            textBotonAsistencia.text = "tarde";
+        }
+        else
+        {
+            imagen.color = colorAusente;
+            textBotonAsistencia.text = "ausente";
+        }
     }
 }

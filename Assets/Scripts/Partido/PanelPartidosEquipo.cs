@@ -51,19 +51,6 @@ public class PanelPartidosEquipo : Panel
 
         if (listaPartidosPrefabs == null) listaPartidosPrefabs = new List<GameObject>();
 
-        Estadisticas estadisticasGlobalesEquipo = isPartido ? equipoFocus.GetEstadisticasPartido() : equipoFocus.GetEstadisticasPractica();
-
-        if (estadisticasGlobalesEquipo.isEmpty())
-        {
-            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 0.25f);
-            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = false;
-        }
-        else
-        {
-            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 255f);
-            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = true;
-        }
-
         MostrarPartidos();
     }
 
@@ -109,6 +96,21 @@ public class PanelPartidosEquipo : Panel
         imagenPractica.color = colorNoSeleccionado;
         listaPartidos = equipoFocus.GetPartidos();
 
+        Estadisticas estadisticasPartido = equipoFocus.GetEstadisticasPartido();
+
+        if (estadisticasPartido.isEmpty())
+        {
+            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 0.25f);
+            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = false;
+        }
+        else
+        {
+            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 255f);
+            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = true;
+        }
+
+        Debug.Log("BOTON: " + botonVerEstadisticasGlobales == null);
+
         if (listaPartidos.Count == 0)
             warningTextPartidos.SetActive(true);
         else 
@@ -125,6 +127,19 @@ public class PanelPartidosEquipo : Panel
         imagenPartido.color = colorNoSeleccionado;
         imagenPractica.color = colorSeleccionado;
         listaPartidos = equipoFocus.GetPracticas();
+
+        Estadisticas estadisticasPracticas = equipoFocus.GetEstadisticasPractica();
+
+        if (estadisticasPracticas.isEmpty())
+        {
+            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 0.25f);
+            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = false;
+        }
+        else
+        {
+            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 255f);
+            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = true;
+        }
 
         if (listaPartidos.Count == 0)
             warningTextPracticas.SetActive(true);

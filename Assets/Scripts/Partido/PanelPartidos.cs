@@ -14,7 +14,7 @@ public class PanelPartidos : Panel
     [SerializeField] private Color colorNoSeleccionado = new Color();
 
     [SerializeField] private Button botonVerEstadisticasGlobales = null;
-    [SerializeField] private Image botonVerEstadisticasGlobales = null;
+    //[SerializeField] private Image botonVerEstadisticasGlobales = null;
     [SerializeField] private GameObject warningTextPartidos = null;
     [SerializeField] private GameObject warningTextPracticas = null;
 
@@ -39,15 +39,17 @@ public class PanelPartidos : Panel
 
         Estadisticas estadisticas = isPartido ? jugadorFocus.GetEstadisticasPartido() : jugadorFocus.GetEstadisticasPractica();
 
+        Image imagen = botonVerEstadisticasGlobales.GetComponent<Image>();
+
         if (estadisticas.isEmpty())
         {
-            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 0.25f);
-            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = false;
+            imagen.color = new Color(imagen.color.r, imagen.color.g, imagen.color.b, 0.25f);
+            botonVerEstadisticasGlobales.enabled = false;
         }
         else
         {
-            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 255f);
-            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = true;
+            imagen.color = new Color(imagen.color.r, imagen.color.g, imagen.color.b, 255f);
+            botonVerEstadisticasGlobales.enabled = true;
         }
 
         MostrarPartidos();
