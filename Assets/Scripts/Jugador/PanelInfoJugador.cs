@@ -53,6 +53,14 @@ public class PanelInfoJugador : Panel
             //listaPrefabs.Add(go);
         }
 
+        foreach (var info in infoJugador.GetInfoEspecial())
+        {
+            InfoPrefab IPgo = Instantiate(prefabInputInfo, parentTransform);
+            IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetValorCategoria(info.Value.ToString());
+            listaPrefabs.Add(IPgo);
+        }
+
         InfoPrefab IPGO = Instantiate(prefabInputInfo, parentTransform);
         IPGO.SetNombreCategoria("Fecha Nacimiento");
         IPGO.SetValorCategoria(infoJugador.GetFechaNac().ToString());

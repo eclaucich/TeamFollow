@@ -65,6 +65,8 @@ public class PanelJugadores : MonoBehaviour {
     {
         ActivarPanel(3);
 
+        panel_nuevoJugador.GetComponent<PanelNuevoJugador>().SetPanel();
+
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.JugadoresPrincipal);
     }
 

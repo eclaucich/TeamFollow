@@ -3,8 +3,9 @@ using UnityEngine.UI;
 
 public class InputPrefab : MonoBehaviour
 {
-    [SerializeField] private Text nombreCategoria = null;
-    [SerializeField] private Text valorCategoria = null;
+    [SerializeField] protected Text nombreCategoria = null;
+    [SerializeField] protected Text valorCategoria = null;
+    [SerializeField] private InputField inputField = null;
 
     private string nombre;
 
@@ -12,7 +13,17 @@ public class InputPrefab : MonoBehaviour
     {
         nombre = _nombre;
         nombreCategoria.text = _nombre;
+    }
+
+    public void ResetValor()
+    {
         valorCategoria.text = " - ";
+        if(inputField!=null) inputField.text = " - ";
+    }
+
+    public string GetNombreCategoria()
+    {
+        return nombreCategoria.text;
     }
 
     public string GetValorCategoria()

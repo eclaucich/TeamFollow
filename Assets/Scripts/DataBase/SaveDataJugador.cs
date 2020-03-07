@@ -13,6 +13,9 @@ public class SaveDataJugador {
     public List<string> catInt;
     public List<int> valInt;
 
+    public List<string> catEspecial;
+    public List<string> valEspecial;
+
     public SaveDataJugador(InfoJugador infoJugador_)
     {
         catString = ListaKeysString(infoJugador_.GetInfoString().Keys);
@@ -20,6 +23,9 @@ public class SaveDataJugador {
 
         catInt = ListaKeysInt(infoJugador_.GetInfoInt().Keys);
         valInt = ListaValuesInt(infoJugador_.GetInfoInt().Values);
+
+        catEspecial = ListaKeysString(infoJugador_.GetInfoEspecial().Keys);
+        valEspecial = ListaValuesString(infoJugador_.GetInfoEspecial().Values);
 
         fechaNacYear = infoJugador_.GetFechaNac().Year;
         fechaNacMonth = infoJugador_.GetFechaNac().Month;
@@ -45,6 +51,18 @@ public class SaveDataJugador {
         for (int i = 0; i < catInt.Count; i++)
         {
             dict[catInt[i]] = valInt[i];
+        }
+
+        return dict;
+    }
+
+    public Dictionary<string, string> GetInfoEspecial()
+    {
+        Dictionary<string, string> dict = new Dictionary<string, string>();
+
+        for (int i = 0; i < catEspecial.Count; i++)
+        {
+            dict[catEspecial[i]] = valEspecial[i];
         }
 
         return dict;
