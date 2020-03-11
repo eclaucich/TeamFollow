@@ -22,6 +22,10 @@ public class PanelPartidosEquipo : Panel
     [SerializeField] private GameObject warningTextPartidos = null;
     [SerializeField] private GameObject warningTextPracticas = null;
 
+    [SerializeField] private ScrollRect scrollRectEquipos = null;
+    [SerializeField] private GameObject flechaArriba = null;
+    [SerializeField] private GameObject flechaAbajo = null;
+
     private List<GameObject> listaPartidosPrefabs;
     private List<Partido> listaPartidos;
 
@@ -39,6 +43,23 @@ public class PanelPartidosEquipo : Panel
         listaPaneles = new List<GameObject>();
         listaPaneles.Add(panel_partidos);
         listaPaneles.Add(panel_detalle_partido);
+    }
+
+    private void FixedUpdate()
+    {
+        if (parentTransform.childCount < 9)
+        {
+            scrollRectEquipos.enabled = false;
+            flechaAbajo.SetActive(false);
+            flechaArriba.SetActive(false);
+        }
+        else
+        {
+            scrollRectEquipos.enabled = true;
+
+            if (scrollRectEquipos.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
+            if (scrollRectEquipos.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
+        }
     }
 
     public void SetearPanelPartidos()
@@ -108,8 +129,6 @@ public class PanelPartidosEquipo : Panel
             botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 255f);
             botonVerEstadisticasGlobales.GetComponent<Button>().enabled = true;
         }
-
-        Debug.Log("BOTON: " + botonVerEstadisticasGlobales == null);
 
         if (listaPartidos.Count == 0)
             warningTextPartidos.SetActive(true);

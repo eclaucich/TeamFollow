@@ -31,6 +31,11 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
     [SerializeField] private Transform parentColumna = null;
 
+    [SerializeField] private Image botonGuardarPartido = null;
+    [SerializeField] private Image botonGuardarPractica = null;
+    [SerializeField] private Color colorSeleccionado;
+    [SerializeField] private Color colorNoSeleccionado;
+
     private PanelEntradaDatos panelEntradaDatos;
 
     private bool isPartido = true;
@@ -165,10 +170,24 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         columnas.Clear();
     }
 
+    public void GuardarComoPartido()
+    {
+        isPartido = true;
+        botonGuardarPartido.color = colorSeleccionado;
+        botonGuardarPractica.color = colorNoSeleccionado;
+    }
+
+    public void GuardarComoPractica()
+    {
+        isPartido = false;
+        botonGuardarPartido.color = colorNoSeleccionado;
+        botonGuardarPractica.color = colorSeleccionado;
+    }
+
     override public void GuardarEntradaDatos()
     {
         string tipoEntradaDatos = isPartido ? "Partido" : "Practica";
-
+       
         if (nombrePartidoText.text == "")
         {
             mensajeError.SetActive(true);

@@ -8,8 +8,6 @@ public class PanelPlanillaAsistencia : MonoBehaviour {
     [SerializeField] private GameObject panel_historialPlanillas = null;
     [SerializeField] private GameObject panel_planilla = null;
 
-    [SerializeField] private GameObject mensajeError = null;
-
     private List<GameObject> listaPaneles;
 
     private void Awake()
@@ -30,14 +28,6 @@ public class PanelPlanillaAsistencia : MonoBehaviour {
 
     public void MostrarPanelNuevaPlanilla()
     {
-        if (AppController.instance.equipoActual.GetJugadores().Count == 0)
-        {
-            mensajeError.SetActive(true);
-            return;
-        }
-
-        mensajeError.SetActive(false);
-
         ActivarPanel(1);
 
         panel_nuevaPlanilla.GetComponent<PanelNuevaPlanilla>().SetPanelNuevaPlanilla();

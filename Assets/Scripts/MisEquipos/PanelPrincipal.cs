@@ -17,10 +17,13 @@ public class PanelPrincipal : Panel {
     ///Y una lista que los contenga a todos y cuando se crea el boton se crea el correspondiente al deporte
     [SerializeField] private GameObject prefabBotonEquipo = null;
     [SerializeField] private Text adviceText = null;
+    [SerializeField] private Transform seccionEquiposTransform = null;
+
+    [SerializeField] private ScrollRect scrollRect = null;
+    [SerializeField] private GameObject flechaArriba = null;
+    [SerializeField] private GameObject flechaAbajo = null;
 
     private List<GameObject> listaPrefabsBoton;
-
-    private Transform parentTransform;
 
     private void Awake()
     {
@@ -29,11 +32,26 @@ public class PanelPrincipal : Panel {
         panelMisEquipos = GetComponentInParent<PanelMisEquipos>();
         listaPrefabsBoton = new List<GameObject>();
 
-        parentTransform = GameObject.Find("SeccionEquipos").transform;
-
         ActivarYDesactivarAdviceText();
     }
-    
+
+    private void FixedUpdate()
+    {
+        if(seccionEquiposTransform.childCount < 6)
+        {
+            scrollRect.enabled = false;
+            flechaAbajo.SetActive(false);
+            flechaArriba.SetActive(false);
+        }
+        else
+        {
+            scrollRect.enabled = true;
+
+            if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
+            if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
+        } 
+    }
+
     public void SetearPanelPrincipal()
     {
         //CanvasController.instance.botonDespliegueMenu.SetActive(true);
@@ -67,7 +85,7 @@ public class PanelPrincipal : Panel {
             //Crear el prefab correspondiente al deporte
             //GameObject botonEquipoGO = Instantiate(listaPrefabsDeportes[(int)equipo.GetDeporte()].gameObject, parentTransform, false);
 
-            GameObject botonEquipoGO = Instantiate(prefabBotonEquipo.gameObject, parentTransform, false);
+            GameObject botonEquipoGO = Instantiate(prefabBotonEquipo.gameObject, seccionEquiposTransform, false);
 
             botonEquipoGO.GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = equipo.GetNombre();
             botonEquipoGO.GetComponent<BotonEquipo>().SetSpriteBotonEquipo(equipo);

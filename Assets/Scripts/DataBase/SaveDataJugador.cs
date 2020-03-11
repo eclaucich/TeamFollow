@@ -7,6 +7,9 @@ public class SaveDataJugador {
     public int fechaNacMonth;
     public int fechaNacDay;
 
+    public List<string> catObligatoria;
+    public List<string> valObligatoria;
+
     public List<string> catString;
     public List<string> valString;
 
@@ -18,6 +21,9 @@ public class SaveDataJugador {
 
     public SaveDataJugador(InfoJugador infoJugador_)
     {
+        catObligatoria = ListaKeysString(infoJugador_.GetInfoObligatoria().Keys);
+        valObligatoria = ListaValuesString(infoJugador_.GetInfoObligatoria().Values);
+
         catString = ListaKeysString(infoJugador_.GetInfoString().Keys);
         valString = ListaValuesString(infoJugador_.GetInfoString().Values);
 
@@ -30,6 +36,18 @@ public class SaveDataJugador {
         fechaNacYear = infoJugador_.GetFechaNac().Year;
         fechaNacMonth = infoJugador_.GetFechaNac().Month;
         fechaNacDay = infoJugador_.GetFechaNac().Day;
+    }
+
+    public Dictionary<string, string> GetInfoObligatoria()
+    {
+        Dictionary<string, string> dict = new Dictionary<string, string>();
+
+        for (int i = 0; i < catObligatoria.Count; i++)
+        {
+            dict[catObligatoria[i]] = valObligatoria[i];
+        }
+
+        return dict;
     }
 
     public Dictionary<string, string> GetInfoString()

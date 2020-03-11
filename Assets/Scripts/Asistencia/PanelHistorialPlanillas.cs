@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PanelHistorialPlanillas : Panel {
 
@@ -10,10 +11,15 @@ public class PanelHistorialPlanillas : Panel {
 
     [SerializeField] private GameObject seccionAdvice = null;
 
+    [SerializeField] private GameObject mensajeError = null;
+
+    [SerializeField] private ScrollRect scrollRect = null;
+    [SerializeField] private GameObject flechaArriba = null;
+    [SerializeField] private GameObject flechaAbajo = null;
+
     private Equipo equipo;
 
     private Transform parentTransform;
-
 
     public void Awake()
     {
@@ -21,8 +27,27 @@ public class PanelHistorialPlanillas : Panel {
         parentTransform = GameObject.Find("SeccionHistorialAsistencias").transform;
     }
 
+    private void FixedUpdate()
+    {
+        if (parentTransform.childCount < 8)
+        {
+            scrollRect.enabled = false;
+            flechaAbajo.SetActive(false);
+            flechaArriba.SetActive(false);
+        }
+        else
+        {
+            scrollRect.enabled = true;
+
+            if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
+            if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
+        }
+    }
+
     public void SetPanelHistorialPlanillas()
     {
+        mensajeError.SetActive(false);
+
         AppController.instance.overlayPanel.SetNombrePanel("ASISTENCIAS");
 
         equipo = AppController.instance.equipoActual;
@@ -80,6 +105,17 @@ public class PanelHistorialPlanillas : Panel {
 
             listaBotonHistorial.Add(botonGO);
         }
+    }
+
+    public void NuevaPlanilla()
+    {
+        if(AppController.instance.equipoActual.GetJugadores().Count == 0)
+        {
+            mensajeError.SetActive(true);
+            return;
+        }
+
+        GetComponentInParent<PanelPlanillaAsistencia>().MostrarPanelNuevaPlanilla();
     }
 
     public void BorrarPlanilla(BotonHistorialAsistencia botonFocus)

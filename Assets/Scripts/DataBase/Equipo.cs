@@ -88,10 +88,16 @@ public class Equipo {
         jugadores.Add(jugador);
     }
 
-    public void NuevoJugador(Jugador jugador)                               //Agregar nuevo jugador a la lista de jugadores
-    {
-        jugadores.Add(jugador);
-        SaveSystem.GuardarJugador(jugador, this);
+    public void NuevoJugador(InfoJugador info)                               //Agregar nuevo jugador a la lista de jugadores
+    { 
+        Jugador newJug = new Jugador(info);
+        SaveSystem.GuardarJugador(newJug, this);
+        
+        jugadores.Add(newJug);
+        foreach (var j in jugadores)
+        {
+            Debug.Log("DESPUES: " + j.GetNombre());
+        }
     }
 
     public Jugador BuscarPorNombre(string nombre)                           //Devuelve un Jugador, buscado por nombre
@@ -388,9 +394,17 @@ public class Equipo {
     {
         //return planillasAsistencia.ContainsKey(nombrePlanilla);
         foreach(var planilla in planillasAsistencia)
-        {
-            if(planilla.GetNombre() == nombrePlanilla || planilla.GetAlias() == aliasPlanilla)
-                return true;
+        {  
+            if (planilla.GetAlias() == "")
+            {
+                if (planilla.GetNombre() == nombrePlanilla)
+                    return true;
+            }
+            else
+            {
+                if (planilla.GetAlias() == aliasPlanilla)
+                    return true;
+            }
         }
 
         return false;

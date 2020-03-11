@@ -8,18 +8,16 @@ public class PanelJugadoresPrincipal : Panel {
     private List<Jugador> jugadores;
     private Equipo equipo;
     private List<GameObject> listaBotonJugador;
-
-    [SerializeField] private GameObject nuevoJugadorEntryPrefab = null;
-    [SerializeField] private Text inputNombreNuevoJugadorText = null;
+    
     [SerializeField] private GameObject botonNuevoJugador = null;
     [SerializeField] private Text adviceText = null;
     [SerializeField] private Text mensajeError = null;
 
-    private Transform parentTransform;
+    [SerializeField] private ScrollRect scrollRect = null;
+    [SerializeField] private GameObject flechaArriba = null;
+    [SerializeField] private GameObject flechaAbajo = null;
 
-    private TouchScreenKeyboard keyboard;
-    private string nombreNuevoJugador;
-    private bool newPlayerButtonPressed = false;
+    private Transform parentTransform;
 
     [SerializeField] private ConfirmacionBorradoJugador panelConfirmacionBorrado = null;
     private GameObject botonJugadorFocus;
@@ -33,15 +31,20 @@ public class PanelJugadoresPrincipal : Panel {
         ActivarYDesactivarAdviceText();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if(keyboard != null && newPlayerButtonPressed)
+        if (parentTransform.childCount < 8)
         {
-            if (keyboard.status == TouchScreenKeyboard.Status.Done)
-            {
-                nombreNuevoJugador = keyboard.text;
-                newPlayerButtonPressed = false;
-            }
+            scrollRect.enabled = false;
+            flechaAbajo.SetActive(false);
+            flechaArriba.SetActive(false);
+        }
+        else
+        {
+            scrollRect.enabled = true;
+
+            if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
+            if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
         }
     }
 
@@ -53,30 +56,25 @@ public class PanelJugadoresPrincipal : Panel {
 
         equipo = equipo_;
 
-        jugadores = equipo.GetJugadores();
+        jugadores =equipo.GetJugadores();
         DetallarJugadores();
 
         mensajeError.gameObject.SetActive(false);
-        nuevoJugadorEntryPrefab.SetActive(false);
         botonNuevoJugador.SetActive(true);
         ActivarYDesactivarAdviceText();
-
-        inputNombreNuevoJugadorText.text = "";
     }
 
 
     private void DetallarJugadores()
     {
         BorrarDetalles();
-        for (int i = 0; i < jugadores.Count; i++)
-        {
-            AgregarNuevoDetalle(jugadores[i]);
-        }
+        foreach (var jugador in jugadores)
+            AgregarNuevoDetalle(jugador);
     }
 
 
     private void AgregarNuevoDetalle(Jugador nuevoJugador)
-    {  
+    {
         GameObject botonJugadorGO = Instantiate(botonJugadorPrefab, parentTransform, false);
         //botonJugadorGO.GetComponentInChildren<Text>().text = nuevoJugador.GetNombre();  ESTO ESTA MAL HACERLO ACA, LA LINEA DE ABAJO ES MAS CORRECTA
         botonJugadorGO.GetComponent<BotonJugador>().SetNombreJugador(nuevoJugador.GetNombre());
@@ -88,31 +86,12 @@ public class PanelJugadoresPrincipal : Panel {
     private void BorrarDetalles()
     {
         for (int i = 0; i < listaBotonJugador.Count; i++)
-        {
             Destroy(listaBotonJugador[i]);
-        }
 
         listaBotonJugador.Clear();
     }
 
 
-    public void DesplegarNuevoJugadorEntry()
-    {
-        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
-        newPlayerButtonPressed = true;
-    }
-
-
-    public void GuardarNuevoJugador(string nombre, int peso, int altura)
-    {
-        Debug.Log("PRINCIPAL");
-        Jugador nuevoJugador = new Jugador(new InfoJugador());
-        equipo.NuevoJugador(nuevoJugador);
-
-        AgregarNuevoDetalle(nuevoJugador);
-
-        ActivarYDesactivarAdviceText();
-    }
 
     public void BorrarBotonJugador(GameObject botonJugador)
     {

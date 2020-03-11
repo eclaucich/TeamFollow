@@ -12,6 +12,11 @@ public class PanelNuevoJugador : Panel
     [SerializeField] private GameObject prefabInputInfoEspecial = null;
 
     [SerializeField] private Text mensajeError = null;
+    [SerializeField] private Text mensajeCampoObligatorio = null;
+
+    [SerializeField] private ScrollRect scrollRect = null;
+    [SerializeField] private GameObject flechaArriba = null;
+    [SerializeField] private GameObject flechaAbajo = null;
 
     //private InfoJugador infoJugador;
 
@@ -19,6 +24,7 @@ public class PanelNuevoJugador : Panel
     private List<InputPrefab> inputsString;
     private List<InputPrefab> inputsInt;
     private List<InputPrefab> inputsEspecial;
+    private List<InputPrefab> inputsObligatorios;
 
     private InfoJugador infoJugador;
 
@@ -32,19 +38,30 @@ public class PanelNuevoJugador : Panel
         inputsString = new List<InputPrefab>();
         inputsInt = new List<InputPrefab>();
         inputsEspecial = new List<InputPrefab>();
+        inputsObligatorios = new List<InputPrefab>();
         //inputAltura.keyboardType = TouchScreenKeyboardType.NumberPad;
         //inputPeso.keyboardType = TouchScreenKeyboardType.NumberPad;
 
         mensajeError.gameObject.SetActive(false);
+        mensajeCampoObligatorio.gameObject.SetActive(false);
 
         //GO.transform.GetChild(0).GetComponent<Text>().text = "Fecha Nacimiento";
         //listaPrefabs.Add(GO);
 
         InfoJugador infoJugadorAux = new InfoJugador();
 
-        inputsString = new List<InputPrefab>();
+        /*inputsString = new List<InputPrefab>();
         inputsInt = new List<InputPrefab>();
-        inputsEspecial = new List<InputPrefab>();
+        inputsEspecial = new List<InputPrefab>();*/
+
+        foreach (var info in infoJugador.GetInfoObligatoria())
+        {
+            GameObject go = Instantiate(prefabInputInfo, parentTransform);
+            InputPrefab IPgo = go.GetComponent<InputPrefab>();
+            IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetCampoObligatorio(true);
+            inputsObligatorios.Add(IPgo);
+        }
 
         foreach (var info in infoJugadorAux.GetInfoString())
         {
@@ -83,7 +100,10 @@ public class PanelNuevoJugador : Panel
 
     public void SetPanel()
     {
-        if(inputsString != null)
+        if(inputsObligatorios != null)
+            foreach (var input in inputsObligatorios)
+                input.ResetValor();
+        if (inputsString != null)
             foreach (var input in inputsString)
                 input.ResetValor();
         if (inputsInt != null)
@@ -92,6 +112,23 @@ public class PanelNuevoJugador : Panel
         if (inputsEspecial != null)
             foreach (var input in inputsEspecial)
                 input.ResetValor();
+    }
+
+    private void FixedUpdate()
+    {
+        if (parentTransform.childCount < 6)
+        {
+            scrollRect.enabled = false;
+            flechaAbajo.SetActive(false);
+            flechaArriba.SetActive(false);
+        }
+        else
+        {
+            scrollRect.enabled = true;
+
+            if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
+            if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
+        }
     }
 
     public void GuardarNuevoJugador()
@@ -110,19 +147,30 @@ public class PanelNuevoJugador : Panel
         ///**
         /// SETEAR EL INFOJUGADOR CON EL VALOR DE CADA PREFAB INPUT
         /// 
+        
 
+        InfoJugador ij = new InfoJugador();
+
+        foreach (var input in inputsObligatorios)
+        {
+            if (input.GetValorCategoria() == "")
+            {
+                mensajeCampoObligatorio.gameObject.SetActive(true);
+                return;
+            }
+            ij.SetInfoObligatoria(input);
+        }
         foreach (var input in inputsString)
-            infoJugador.SetInfoString(input);
+            ij.SetInfoString(input);
 
         foreach (var input in inputsEspecial)
-            infoJugador.SetInfoEspecial(input);
+            ij.SetInfoEspecial(input);
+
 
         //infoJugador.SetNombre(listaPrefabs[0].GetValorCategoria());
         //Debug.Log("Nombre Jugador: " + listaPrefabs[0].GetValorCategoria());
 
-        equipoActual.NuevoJugador(new Jugador(infoJugador));
-
-
+        equipoActual.NuevoJugador(ij);
 
         CanvasController.instance.MostrarPanelAnterior();
     }

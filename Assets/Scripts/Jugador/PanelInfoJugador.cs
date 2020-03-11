@@ -6,7 +6,11 @@ public class PanelInfoJugador : Panel
 {
     [SerializeField] private InfoPrefab prefabInputInfo = null;
     [SerializeField] private Transform parentTransform = null;
-    
+
+    [SerializeField] private ScrollRect scrollRect = null;
+    [SerializeField] private GameObject flechaArriba = null;
+    [SerializeField] private GameObject flechaAbajo = null;
+
     private InfoJugador infoJugador;
 
     private List<InfoPrefab> listaPrefabs = null;
@@ -14,6 +18,23 @@ public class PanelInfoJugador : Panel
     void Awake()
     {
         listaPrefabs = new List<InfoPrefab>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (parentTransform.childCount < 6)
+        {
+            scrollRect.enabled = false;
+            flechaAbajo.SetActive(false);
+            flechaArriba.SetActive(false);
+        }
+        else
+        {
+            scrollRect.enabled = true;
+
+            if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
+            if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
+        }
     }
 
 
@@ -30,6 +51,14 @@ public class PanelInfoJugador : Panel
     private void CrearPrefabs()
     {
         if(listaPrefabs == null) return;
+
+        foreach (var info in infoJugador.GetInfoObligatoria())
+        {
+            InfoPrefab IPgo = Instantiate(prefabInputInfo, parentTransform);
+            IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetValorCategoria(info.Value.ToString());
+            listaPrefabs.Add(IPgo);
+        }
 
         foreach (var info in infoJugador.GetInfoString())
         {

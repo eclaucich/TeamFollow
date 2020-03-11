@@ -3,6 +3,7 @@ using System;
 
 public class InfoJugador 
 {
+    public Dictionary<string, string> infoObligatoria;
     public Dictionary<string, string> infoString;
     public Dictionary<string, int> infoInt;
     public Dictionary<string, string> infoEspecial;
@@ -10,11 +11,13 @@ public class InfoJugador
 
     public InfoJugador()
     {
+        infoObligatoria = new Dictionary<string, string>();
         infoString = new Dictionary<string, string>();
         infoInt = new Dictionary<string, int>();
         infoEspecial = new Dictionary<string, string>();
 
-        infoString["Nombre"] = "nombre";
+        infoObligatoria["Nombre"] = "nombre";
+
         infoString["Mail"] = "";
         infoString["Alergias"] = "";
         infoString["Direccion"] = "";
@@ -41,6 +44,7 @@ public class InfoJugador
 
     public InfoJugador(SaveDataJugador dataJugador)
     {
+        infoObligatoria = dataJugador.GetInfoObligatoria();
         infoString = dataJugador.GetInfoString();
         infoInt = dataJugador.GetInfoInt();
         infoEspecial = dataJugador.GetInfoEspecial();
@@ -49,10 +53,16 @@ public class InfoJugador
 
     public void NuevaInfo(InfoJugador info_)
     {
+        infoObligatoria = info_.infoObligatoria;
         infoString = info_.infoString;
         infoInt = info_.infoInt;
         infoEspecial = info_.infoEspecial;
         fechaNac = info_.fechaNac;
+    }
+
+    public Dictionary<string, string> GetInfoObligatoria()
+    {
+        return infoObligatoria;
     }
 
     public Dictionary<string, string> GetInfoString()
@@ -75,19 +85,19 @@ public class InfoJugador
         return fechaNac;
     }
 
-    public void SetNombre(string nombre)
+    public string GetNombre()
     {
-        infoString["Nombre"] = nombre;
-    }
+        return infoObligatoria["Nombre"];
+    } 
 
     public void SetEspecial(string categoria, string valor)
     {
         infoEspecial[categoria] = valor;
     }
 
-    public string GetNombre()
+    public void SetInfoObligatoria(InputPrefab input)
     {
-        return infoString["Nombre"];
+        infoObligatoria[input.GetNombreCategoria()] = input.GetValorCategoria();
     }
 
     public void SetInfoString(InputPrefab input)

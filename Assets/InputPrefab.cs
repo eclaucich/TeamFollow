@@ -6,6 +6,7 @@ public class InputPrefab : MonoBehaviour
     [SerializeField] protected Text nombreCategoria = null;
     [SerializeField] protected Text valorCategoria = null;
     [SerializeField] private InputField inputField = null;
+    [SerializeField] private Text textCampoObligatorio = null;
 
     private string nombre;
 
@@ -15,10 +16,15 @@ public class InputPrefab : MonoBehaviour
         nombreCategoria.text = _nombre;
     }
 
+    public void SetCampoObligatorio(bool aux_)
+    {
+        textCampoObligatorio.gameObject.SetActive(aux_);
+    }
+
     public void ResetValor()
     {
-        valorCategoria.text = " - ";
-        if(inputField!=null) inputField.text = " - ";
+        valorCategoria.text = "";
+        if(inputField!=null) inputField.text = "";
     }
 
     public string GetNombreCategoria()

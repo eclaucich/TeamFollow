@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d33c2669b4510b46996937af5540ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredHoldTime: 1
+  requiredHoldTime: 0.5
   onLongClick:
     m_PersistentCalls:
       m_Calls:

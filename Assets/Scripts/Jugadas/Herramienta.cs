@@ -34,9 +34,8 @@ public abstract class Herramienta : MonoBehaviour, IPointerClickHandler
             {
                 panelOpciones.Cerrar();
             }
-            panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
 
-
+            //panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
         }
     }
 
