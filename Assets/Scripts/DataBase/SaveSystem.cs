@@ -43,6 +43,15 @@ public static class SaveSystem {
         streamJugador.Close();
     }
 
+    public static void EditarJugador(Jugador jugador, Equipo equipo)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        string pathJugador = pathEquipos + equipo.GetNombre() + "/jugadores" + "/" + jugador.GetNombre();
+
+        Directory.Delete(pathJugador, true);
+    }
+
     public static void GuardarEntradaDato(string tipoEntradaDato, Estadisticas estadisticas_globales, Partido partido, Equipo equipo)
     {
         BinaryFormatter formatter = new BinaryFormatter();

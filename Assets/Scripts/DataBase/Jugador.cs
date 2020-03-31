@@ -54,7 +54,9 @@ public class Jugador {
 
     public void Editar(InfoJugador infoJugador_)
     {
+        SaveSystem.EditarJugador(this, AppController.instance.equipoActual);
         infoJugador.NuevaInfo(infoJugador_);
+        SaveSystem.GuardarJugador(this, AppController.instance.equipoActual);
     }
 
     public InfoJugador GetInfoJugador()

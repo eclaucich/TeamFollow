@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -275.625, y: -0.00003671646}
-  m_SizeDelta: {x: 80, y: 80}
+  m_AnchoredPosition: {x: -279, y: 19.849998}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222037681726588684
 CanvasRenderer:
@@ -286,7 +286,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 181.1, y: 0}
-  m_SizeDelta: {x: 0, y: 100}
+  m_SizeDelta: {x: 0, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &114516543256448640
 MonoBehaviour:
@@ -313,6 +313,7 @@ MonoBehaviour:
   spriteBasket: {fileID: 21300000, guid: c5c3b0b49a0e2ca49a76d20c9bc02b7f, type: 3}
   spriteHandball: {fileID: 21300000, guid: a2b1027945ecb94499148dc32862ef14, type: 3}
   spritePadel: {fileID: 21300000, guid: 7127861fdc37a62439363b2066481804, type: 3}
+  cantidadJugadoresText: {fileID: 7242221157038811718}
 --- !u!1 &719586213752500870
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,7 +326,7 @@ GameObject:
   - component: {fileID: 2064199323794651913}
   - component: {fileID: 7242221157038811718}
   m_Layer: 5
-  m_Name: Text
+  m_Name: CantidadJugadoresText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -380,9 +381,9 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 71f2e0a2844995a45ba60447e1b36573, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 25
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1

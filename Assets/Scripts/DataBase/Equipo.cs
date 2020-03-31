@@ -94,10 +94,6 @@ public class Equipo {
         SaveSystem.GuardarJugador(newJug, this);
         
         jugadores.Add(newJug);
-        foreach (var j in jugadores)
-        {
-            Debug.Log("DESPUES: " + j.GetNombre());
-        }
     }
 
     public Jugador BuscarPorNombre(string nombre)                           //Devuelve un Jugador, buscado por nombre

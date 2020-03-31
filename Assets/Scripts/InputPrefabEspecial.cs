@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InputPrefabEspecial : InputPrefab
 {
@@ -37,7 +38,9 @@ public class InputPrefabEspecial : InputPrefab
                 break;
         }
 
-        GameObject go = Instantiate(menuOpcionesEspecialesPrefab, GameObject.Find("PanelNuevoJugador").transform, false);
+        GameObject parent = GameObject.Find("PanelNuevoJugador");
+        if (parent == null) parent = GameObject.Find("PanelInfoJugador");
+        GameObject go = Instantiate(menuOpcionesEspecialesPrefab, parent.transform, false);
         go.GetComponent<OpcionesEspeciales>().SetMenu(opciones, nombreCategoria.text, this);
     }
 
@@ -46,4 +49,8 @@ public class InputPrefabEspecial : InputPrefab
         valorCategoria.text = valor;
     }
 
+    public override void HabilitarInput(bool _aux)
+    {
+        GetComponent<Button>().enabled = _aux;
+    }
 }

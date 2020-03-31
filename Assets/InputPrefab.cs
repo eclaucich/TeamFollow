@@ -5,15 +5,35 @@ public class InputPrefab : MonoBehaviour
 {
     [SerializeField] protected Text nombreCategoria = null;
     [SerializeField] protected Text valorCategoria = null;
-    [SerializeField] private InputField inputField = null;
+    [SerializeField] protected InputField inputField = null;
     [SerializeField] private Text textCampoObligatorio = null;
 
     private string nombre;
+
+    public void SetKeyboardType(TouchScreenKeyboardType _keyboardType)
+    {
+        inputField.keyboardType = _keyboardType;
+    }
 
     public void SetNombreCategoria(string _nombre)
     {
         nombre = _nombre;
         nombreCategoria.text = _nombre;
+    }
+
+    public void SetValorCategoria(string _valor)
+    {
+        valorCategoria.text = _valor;
+    }
+
+    public void SetPlaceholder(string _valor)
+    {
+        inputField.text = _valor;
+    }
+
+    public string GetPlaceholder()
+    {
+        return inputField.text;
     }
 
     public void SetCampoObligatorio(bool aux_)
@@ -36,4 +56,10 @@ public class InputPrefab : MonoBehaviour
     {
         return valorCategoria.text;
     }
+
+    public virtual void HabilitarInput(bool _aux)
+    {
+        inputField.enabled = _aux;
+    }
+
 }

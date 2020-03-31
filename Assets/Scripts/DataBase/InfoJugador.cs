@@ -105,6 +105,16 @@ public class InfoJugador
         infoString[input.GetNombreCategoria()] = input.GetValorCategoria();
     }
 
+    public void SetInfoObligatoriaPlaceholder(InputPrefab input)
+    {
+        infoObligatoria[input.GetNombreCategoria()] = input.GetPlaceholder();
+    }
+
+    public void SetInfoStringPlaceholder(InputPrefab input)
+    {
+        infoString[input.GetNombreCategoria()] = input.GetPlaceholder();
+    }
+
     public void SetInfoInt(InputPrefab input)
     {
         //infoInt[input.GetNombreCategoria()] = input.GetValorCategoria();
@@ -113,5 +123,38 @@ public class InfoJugador
     public void SetInfoEspecial(InputPrefab input)
     {
         infoEspecial[input.GetNombreCategoria()] = input.GetValorCategoria();
+    }
+
+    public void SetFechaNac(DateTime dt)
+    {
+        fechaNac = dt;
+    }
+
+    public void SetFechaNac(string fecha)
+    {
+        string s_day = ""; string s_month = ""; string s_year = "";
+        int aux = 0;
+        for (int i = 0; i < fecha.Length; i++)
+        {
+            if (aux == 0)
+            {
+                if (fecha[i] != '/')
+                    s_day = s_day + fecha[i];
+                else aux++;
+            }
+            else if (aux == 1)
+            {
+                if (fecha[i] != '/')
+                    s_month = s_month + fecha[i];
+                else aux++;
+            }
+            else
+                s_year = s_year + fecha[i];
+        }
+        int day = int.Parse(s_day);
+        int month = int.Parse(s_month);
+        int year = int.Parse(s_year);
+
+        fechaNac = new DateTime(year, month, day);
     }
 }

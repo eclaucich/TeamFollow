@@ -10,6 +10,7 @@ public class PanelNuevoJugador : Panel
     [SerializeField] private Transform parentTransform = null;
     [SerializeField] private GameObject prefabInputInfo = null;
     [SerializeField] private GameObject prefabInputInfoEspecial = null;
+    [SerializeField] private GameObject prefabInputFecha = null;
 
     [SerializeField] private Text mensajeError = null;
     [SerializeField] private Text mensajeCampoObligatorio = null;
@@ -25,7 +26,7 @@ public class PanelNuevoJugador : Panel
     private List<InputPrefab> inputsInt;
     private List<InputPrefab> inputsEspecial;
     private List<InputPrefab> inputsObligatorios;
-
+    private InputPrefabFecha inputFecha;
     private InfoJugador infoJugador;
 
     public override void Start()
@@ -60,6 +61,7 @@ public class PanelNuevoJugador : Panel
             InputPrefab IPgo = go.GetComponent<InputPrefab>();
             IPgo.SetNombreCategoria(info.Key.ToString());
             IPgo.SetCampoObligatorio(true);
+            IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             inputsObligatorios.Add(IPgo);
         }
 
@@ -68,6 +70,7 @@ public class PanelNuevoJugador : Panel
             GameObject go = Instantiate(prefabInputInfo, parentTransform);
             InputPrefab IPgo = go.GetComponent<InputPrefab>();
             IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             inputsString.Add(IPgo);
 
             //go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
@@ -79,6 +82,7 @@ public class PanelNuevoJugador : Panel
             GameObject go = Instantiate(prefabInputInfo, parentTransform);
             InputPrefab IPgo = go.GetComponent<InputPrefab>();
             IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetKeyboardType(TouchScreenKeyboardType.NumberPad);
             inputsInt.Add(IPgo);
 
             //go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
@@ -93,9 +97,10 @@ public class PanelNuevoJugador : Panel
             inputsEspecial.Add(IPgo);
         }
 
-        GameObject GO = Instantiate(prefabInputInfo, parentTransform);
-        InputPrefab IPGO = GO.GetComponent<InputPrefab>();
-        IPGO.SetNombreCategoria("Fecha Nacimiento");
+        GameObject GO = Instantiate(prefabInputFecha, parentTransform);
+        inputFecha = GO.GetComponent<InputPrefabFecha>();
+        inputFecha.SetNombreCategoria("Fecha Nacimiento");
+        inputFecha.ResetValor();
     }
 
     public void SetPanel()
@@ -112,6 +117,8 @@ public class PanelNuevoJugador : Panel
         if (inputsEspecial != null)
             foreach (var input in inputsEspecial)
                 input.ResetValor();
+        if (inputFecha != null)
+            inputFecha.ResetValor();
     }
 
     private void FixedUpdate()
@@ -166,9 +173,7 @@ public class PanelNuevoJugador : Panel
         foreach (var input in inputsEspecial)
             ij.SetInfoEspecial(input);
 
-
-        //infoJugador.SetNombre(listaPrefabs[0].GetValorCategoria());
-        //Debug.Log("Nombre Jugador: " + listaPrefabs[0].GetValorCategoria());
+        ij.SetFechaNac(inputFecha.GetFecha());
 
         equipoActual.NuevoJugador(ij);
 
