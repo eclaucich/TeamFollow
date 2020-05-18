@@ -63,6 +63,7 @@ GameObject:
   - component: {fileID: 222864358618809220}
   - component: {fileID: 114830558859285806}
   - component: {fileID: 114164041198745686}
+  - component: {fileID: 3166297782247220317}
   m_Layer: 5
   m_Name: BotonVerJugador
   m_TagString: Untagged
@@ -116,7 +117,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8078551cb63d92742ba477938faf0d06, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c4df241a313c28b40bfb203aaec46944, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -180,6 +181,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3166297782247220317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202546258869464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2754a3279b163f44a571ead34e06cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1331443533171920
 GameObject:
   m_ObjectHideFlags: 0

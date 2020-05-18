@@ -11,7 +11,6 @@ public class PanelJugadoresPrincipal : Panel {
     
     [SerializeField] private GameObject botonNuevoJugador = null;
     [SerializeField] private Text adviceText = null;
-    [SerializeField] private Text mensajeError = null;
 
     [SerializeField] private ScrollRect scrollRect = null;
     [SerializeField] private GameObject flechaArriba = null;
@@ -59,7 +58,6 @@ public class PanelJugadoresPrincipal : Panel {
         jugadores =equipo.GetJugadores();
         DetallarJugadores();
 
-        mensajeError.gameObject.SetActive(false);
         botonNuevoJugador.SetActive(true);
         ActivarYDesactivarAdviceText();
     }

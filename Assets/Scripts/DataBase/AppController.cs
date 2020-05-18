@@ -19,6 +19,8 @@ public class AppController : MonoBehaviour {
     [SerializeField] public GameObject panelConfirmacionBorradoJugador = null;
     [SerializeField] public OverlayPanel overlayPanel = null;
 
+    [SerializeField] public Color colorBotonNormal;
+
     public static AppController instance = null;                                            //Instancia estatica del controlador
     public List<Equipo> equipos;                                                            //Lista de equipos en la app
     public Equipo equipoActual;                                                            //Equipo al cual se le esta dando foco en el momento

@@ -14,7 +14,7 @@ public class PanelNuevoEquipo : Panel {
 
     [SerializeField] private Text inputNombreNuevoEquipo = null;                                   //Nombre del nuevo equipo ingresado por el usuario
     [SerializeField] private Text inputNombreDeporte = null;
-    [SerializeField] private Text mensajeError = null;
+    [SerializeField] private MensajeError mensajeError = null;
     [SerializeField] private InputField inputNombreEquipo = null;
     [SerializeField] private Text nombreDeporteElegido = null;
 
@@ -28,36 +28,32 @@ public class PanelNuevoEquipo : Panel {
     {
         base.Start();
         panelMisEquipos = GetComponentInParent<PanelMisEquipos>();
-        mensajeError.gameObject.SetActive(false);
     }
-
-
 
     public void SetPanel()
     {
-        mensajeError.gameObject.SetActive(false);
+        mensajeError.Desactivar();
     }
-
 
 
     public void GuardarNuevoEquipo()                                                        //Función llamada al apretar el botón GUARDAR. Se agrega un EQUIPO a la lista de EQUIPOS. Se vuelve a la sección principal. Se crea el botón en la sección de equipos.
     {
         if(AppController.instance.BuscarPorNombre(inputNombreNuevoEquipo.text) != -1)
         {
-            mensajeError.gameObject.SetActive(true);
-            mensajeError.text = "Equipo Existente!";
+            mensajeError.SetText("Equipo Existente!");
+            mensajeError.Activar();
             return;
         }
         if (inputNombreNuevoEquipo.text == "")
-        {
-            mensajeError.gameObject.SetActive(true);
-            mensajeError.text = "Nombre Necesario!";
+        { 
+            mensajeError.SetText("Nombre Necesario!");
+            mensajeError.Activar();
             return;
         }
         if(inputNombreNuevoEquipo.text == " " || inputNombreNuevoEquipo.text == "  " || inputNombreNuevoEquipo.text == "   ")
         {
-            mensajeError.gameObject.SetActive(true);
-            mensajeError.text = "Nombre Inválido!";
+            mensajeError.SetText("Nombre Inválido!");
+            mensajeError.Activar();
             return;
         }
 
