@@ -13,18 +13,20 @@ public class PanelPartidosEquipo : Panel
 
     [SerializeField] private GameObject partidoprefab = null;
 
-    [SerializeField] private Image imagenPartido = null;
+    /*[SerializeField] private Image imagenPartido = null;
     [SerializeField] private Image imagenPractica = null;
     [SerializeField] private Color colorSeleccionado = new Color();
-    [SerializeField] private Color colorNoSeleccionado = new Color();
+    [SerializeField] private Color colorNoSeleccionado = new Color();*/
+    [SerializeField] private BotonNormal botonSeleccionarPartido = null;
+    [SerializeField] private BotonNormal botonSeleccionarPractica = null;
 
-    [SerializeField] private Image botonVerEstadisticasGlobales = null;
+    //[SerializeField] private Image botonVerEstadisticasGlobales = null;
+    [SerializeField] private BotonNormal botonVerEstadisticasGlobales = null;
     [SerializeField] private GameObject warningTextPartidos = null;
     [SerializeField] private GameObject warningTextPracticas = null;
 
     [SerializeField] private ScrollRect scrollRectEquipos = null;
-    [SerializeField] private GameObject flechaArriba = null;
-    [SerializeField] private GameObject flechaAbajo = null;
+    [SerializeField] private FlechasScroll flechasScroll = null;
 
     private List<GameObject> listaPartidosPrefabs;
     private List<Partido> listaPartidos;
@@ -47,7 +49,7 @@ public class PanelPartidosEquipo : Panel
 
     private void FixedUpdate()
     {
-        if (parentTransform.childCount < 9)
+        /*if (parentTransform.childCount < 9)
         {
             scrollRectEquipos.enabled = false;
             flechaAbajo.SetActive(false);
@@ -59,7 +61,8 @@ public class PanelPartidosEquipo : Panel
 
             if (scrollRectEquipos.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
             if (scrollRectEquipos.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
-        }
+        }*/
+        flechasScroll.Actualizar(scrollRectEquipos, 7, parentTransform.childCount);
     }
 
     public void SetearPanelPartidos()
@@ -113,22 +116,19 @@ public class PanelPartidosEquipo : Panel
     public void MostrarPartidos()
     {
         isPartido = true;
-        imagenPartido.color = colorSeleccionado;
-        imagenPractica.color = colorNoSeleccionado;
+        
         listaPartidos = equipoFocus.GetPartidos();
 
         Estadisticas estadisticasPartido = equipoFocus.GetEstadisticasPartido();
 
+
+        botonSeleccionarPartido.SetColorDesactivado();
+        botonSeleccionarPractica.SetColorActivado();
+
         if (estadisticasPartido.isEmpty())
-        {
-            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 0.25f);
-            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = false;
-        }
+            botonVerEstadisticasGlobales.Desactivar();
         else
-        {
-            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 255f);
-            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = true;
-        }
+            botonVerEstadisticasGlobales.Activar();
 
         if (listaPartidos.Count == 0)
             warningTextPartidos.SetActive(true);
@@ -143,22 +143,18 @@ public class PanelPartidosEquipo : Panel
     public void MostrarPracticas()
     {
         isPartido = false;
-        imagenPartido.color = colorNoSeleccionado;
-        imagenPractica.color = colorSeleccionado;
+
         listaPartidos = equipoFocus.GetPracticas();
 
         Estadisticas estadisticasPracticas = equipoFocus.GetEstadisticasPractica();
 
+        botonSeleccionarPartido.SetColorActivado();
+        botonSeleccionarPractica.SetColorDesactivado();
+
         if (estadisticasPracticas.isEmpty())
-        {
-            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 0.25f);
-            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = false;
-        }
+            botonVerEstadisticasGlobales.Desactivar();
         else
-        {
-            botonVerEstadisticasGlobales.color = new Color(botonVerEstadisticasGlobales.color.r, botonVerEstadisticasGlobales.color.g, botonVerEstadisticasGlobales.color.b, 255f);
-            botonVerEstadisticasGlobales.GetComponent<Button>().enabled = true;
-        }
+            botonVerEstadisticasGlobales.Activar();
 
         if (listaPartidos.Count == 0)
             warningTextPracticas.SetActive(true);

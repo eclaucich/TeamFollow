@@ -10,11 +10,12 @@ public class PanelInfoJugador : Panel
     [SerializeField] private GameObject prefabInputFecha = null;
 
     [SerializeField] private ScrollRect scrollRect = null;
-    [SerializeField] private GameObject flechaArriba = null;
-    [SerializeField] private GameObject flechaAbajo = null;
+    [SerializeField] private FlechasScroll flechasScroll = null;
 
     [SerializeField] private GameObject botonGuardarCambios = null;
     [SerializeField] private GameObject textEditando = null;
+
+    [SerializeField] private MensajeError mensajeError = null;
 
     private InfoJugador infoJugador;
     private Jugador jugadorFocus;
@@ -37,19 +38,20 @@ public class PanelInfoJugador : Panel
 
     private void FixedUpdate()
     {
-        if (parentTransform.childCount < 6)
+        flechasScroll.Actualizar(scrollRect, 6, parentTransform.childCount);
+        /*if (parentTransform.childCount < 6)
         {
             scrollRect.enabled = false;
-            flechaAbajo.SetActive(false);
-            flechaArriba.SetActive(false);
+            flechasScroll.Abajo(false);
+            flechasScroll.Arriba(false);
         }
         else
         {
             scrollRect.enabled = true;
 
-            if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
-            if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
-        }
+            if (scrollRect.verticalNormalizedPosition > .95f) flechasScroll.Arriba(false); else flechasScroll.Arriba(true);
+            if (scrollRect.verticalNormalizedPosition < 0.05f) flechasScroll.Abajo(false); else flechasScroll.Abajo(true);
+        }*/
     }
 
 
@@ -62,6 +64,8 @@ public class PanelInfoJugador : Panel
 
         infoJugador = jugador.GetInfoJugador();
         jugadorFocus = jugador;
+
+        mensajeError.Desactivar();
 
         BorrarPrefabs();
         CrearPrefabs();
@@ -80,6 +84,15 @@ public class PanelInfoJugador : Panel
             inputsObligatorios.Add(IPgo);
         }
 
+        InputPrefabFecha IPGO = Instantiate(prefabInputFecha, parentTransform).GetComponent<InputPrefabFecha>();
+        IPGO.SetNombreCategoria("Fecha Nacimiento");
+        IPGO.SetValorCategoria(infoJugador.GetFechaNac().ToShortDateString());
+        IPGO.HabilitarInput(false);
+        //listaPrefabs.Add(IPGO);
+        inputFecha = IPGO;
+        //GO.transform.GetChild(0).GetComponent<Text>().text = "Fecha Nacimiento";
+        //listaPrefabs.Add(GO);
+
         foreach (var info in infoJugador.GetInfoString())
         {
             InputPrefab IPgo = Instantiate(prefabInputInfo, parentTransform).GetComponent<InputPrefab>();
@@ -94,7 +107,6 @@ public class PanelInfoJugador : Panel
 
         foreach (var info in infoJugador.GetInfoInt())
         {
-            Debug.Log("INFO INT");
             InputPrefab IPgo = Instantiate(prefabInputInfo, parentTransform).GetComponent<InputPrefab>();
             IPgo.SetNombreCategoria(info.Key.ToString());
             IPgo.SetPlaceholder(info.Value.ToString());
@@ -114,14 +126,6 @@ public class PanelInfoJugador : Panel
             inputsEspecial.Add(IPgo);
         }
 
-        InputPrefabFecha IPGO = Instantiate(prefabInputFecha, parentTransform).GetComponent<InputPrefabFecha>();
-        IPGO.SetNombreCategoria("Fecha Nacimiento");
-        IPGO.SetValorCategoria(infoJugador.GetFechaNac().ToShortDateString());
-        IPGO.HabilitarInput(false);
-        //listaPrefabs.Add(IPGO);
-        inputFecha = IPGO;
-        //GO.transform.GetChild(0).GetComponent<Text>().text = "Fecha Nacimiento";
-        //listaPrefabs.Add(GO);
     }
 
     private void BorrarPrefabs()
@@ -167,12 +171,28 @@ public class PanelInfoJugador : Panel
 
     public void ConfirmarEdicion()
     {
-        HabilitarEdicion(false);
-        AppController.instance.overlayPanel.SetNombrePanel(jugadorFocus.GetNombre());
-
         InfoJugador ij = new InfoJugador();
 
         foreach (var input in inputsObligatorios)
+        {
+            if (input.GetValorCategoria() == "")
+            {
+                mensajeError.SetText("Completar campos obligatorios (*)");
+                mensajeError.Activar();
+                return;
+            }
+            ij.SetInfoObligatoria(input);
+        }
+
+        //Reviasr si existe el nombre (hacer una función de comporbación de nombres general en appcontroller
+        if (AppController.instance.equipoActual.BuscarPorNombre(ij.GetNombre()) != null || ij.GetNombre() == "" || ij.GetNombre() == " ")
+        {
+            mensajeError.SetText("Nombre inválido/existente");
+            mensajeError.Activar();
+            return;
+        }
+
+        /*foreach (var input in inputsObligatorios)
         {
             if (input.GetPlaceholder() == "")
             {
@@ -180,7 +200,9 @@ public class PanelInfoJugador : Panel
                 return;
             }
             ij.SetInfoObligatoriaPlaceholder(input);
-        }
+        }*/
+
+
         foreach (var input in inputsString)
             ij.SetInfoStringPlaceholder(input);
 
@@ -190,5 +212,8 @@ public class PanelInfoJugador : Panel
         ij.SetFechaNac(inputFecha.GetFechaPlaceholder());
 
         jugadorFocus.Editar(ij);
+
+        HabilitarEdicion(false);
+        AppController.instance.overlayPanel.SetNombrePanel(jugadorFocus.GetNombre());
     }
 }

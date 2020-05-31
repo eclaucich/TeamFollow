@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class EntradaDatos : Panel
 {
+    [SerializeField] protected MensajeError mensajeError = null;
     
     virtual public void GuardarEntradaDatos()
     {
@@ -31,7 +32,7 @@ public class EntradaDatos : Panel
 
     }
 
-    virtual public void TerminarSeleccionJugadores(List<Jugador> listaJugadores)
+    virtual public void TerminarSeleccionJugadores(List<Jugador> listaJugadores, int cantSeleccionados)
     {
 
     }

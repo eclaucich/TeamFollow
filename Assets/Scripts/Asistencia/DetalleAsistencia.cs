@@ -21,10 +21,22 @@ public class DetalleAsistencia : MonoBehaviour {
         asistencia = detalle_.GetAsistencia();
     }
 
+    public DetalleAsistencia(DetalleAsistencia detalle)
+    {
+        nombre = detalle.GetNombre();
+        asistencia = detalle.GetAsistencia();
+    }
+
     public void SetNombreJugador(string nombre_)
     {
         nombre = nombre_;
         nombreJugadorText.text = nombre;
+    }
+
+    public void SetAsistenciaInicial(int asis)
+    {
+        asistencia = asis;
+        SetBotonAsistencia();
     }
     
     public void SetAsistencia()
@@ -43,13 +55,13 @@ public class DetalleAsistencia : MonoBehaviour {
         return asistencia;
     }
 
-    public void SetDetalle(DetalleAsistencia detalle_)
+    public void SetDetalle(DetalleAsistencia detalle_, bool activar)
     {
         nombreJugadorText.text = detalle_.GetNombre();
         asistencia = detalle_.GetAsistencia();
 
         SetBotonAsistencia();
-        botonCambiarAsistencia.enabled = false;
+        botonCambiarAsistencia.enabled = activar;
     }
 
     private void SetBotonAsistencia()
@@ -59,17 +71,18 @@ public class DetalleAsistencia : MonoBehaviour {
         if (asistencia == 0)
         {
             imagen.color = colorPresente;
-            textBotonAsistencia.text = "presente";
+            textBotonAsistencia.text = "P";
         }
         else if (asistencia == 1)
         {
             imagen.color = colorTarde;
-            textBotonAsistencia.text = "tarde";
+            textBotonAsistencia.text = "T";
         }
         else
         {
             imagen.color = colorAusente;
-            textBotonAsistencia.text = "ausente";
+            textBotonAsistencia.text = "A";
         }
     }
+
 }

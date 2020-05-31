@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PanelCrearJugadas : MonoBehaviour
 {
-    [SerializeField] public Material materialRojo = null;
+    /*[SerializeField] public Material materialRojo = null;
     [SerializeField] public Material materialNegro = null;
     [SerializeField] public Material materialAzul = null;
-    [SerializeField] public Material materialAmarillo = null;
+    [SerializeField] public Material materialAmarillo = null;*/
 
     protected GameObject objectoActual;
     protected Herramienta herramientaActual;

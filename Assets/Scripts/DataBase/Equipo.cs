@@ -370,7 +370,12 @@ public class Equipo {
 
     public void NuevaPlanilla(string nombrePlanilla, string aliasPlanilla, List<DetalleAsistencia> detalles)
     {
-        if (detalles.Count == 0) return;
+        if (detalles.Count == 0)
+        {
+            Debug.Log("Sin detalles");
+            return;
+        }
+
         //List<DetalleAsistencia> detalle_ = detalles;
         //planillasAsistencia.Add(nombrePlanilla, detalle_);
 

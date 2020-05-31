@@ -90,12 +90,12 @@ public class PanelEntradaDatos : MonoBehaviour {
     {
         entradaDatosActual = GetEntradaDatosActual();
 
-        if(AppController.instance.equipoActual.GetJugadores().Count == 0)
+        /*if(AppController.instance.equipoActual.GetJugadores().Count == 0)
         {
             Destroy(entradaDatosActual.gameObject);
             PanelSeleccionEstadisticas.instance.MostrarMensajeError();
             return;
-        }
+        }*/
 
         if (entradaDatosActual != null)
         {

@@ -34,7 +34,12 @@ public class InputPrefabFecha : InputPrefab
     public DateTime GetFecha()
     {
         Debug.Log(day + " " + month + " " + year);
-        return new DateTime(year, month, day); ;
+        return new DateTime(year, month, day);
+    }
+
+    public bool IsDateValid()
+    {
+        return year != 0;
     }
 
     public override void HabilitarInput(bool _aux)

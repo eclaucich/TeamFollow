@@ -186,7 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inicialText: {fileID: 5961648142159420833}
   selectedColor: {r: 0.43529415, g: 0.7372549, b: 0.20392159, a: 0.87058824}
-  notSelectedColor: {r: 1, g: 1, b: 1, a: 0}
+  notSelectedColor: {r: 0.6509804, g: 0.6509804, b: 0.6509804, a: 0.33333334}
 --- !u!1 &783479206313965013
 GameObject:
   m_ObjectHideFlags: 0

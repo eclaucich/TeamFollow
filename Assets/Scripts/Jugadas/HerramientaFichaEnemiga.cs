@@ -18,7 +18,7 @@ public class HerramientaFichaEnemiga : Herramienta {
         GameObject go = Instantiate(fichaEnemigaPrefab, parent, false);
         go.transform.SetPositionAndRotation(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10), Quaternion.identity);
 
-        go.transform.GetChild(0).GetComponent<MeshRenderer>().material = ElegirMaterial(PanelCrearJugada.instance.GetColorActual());
-        go.transform.GetChild(1).GetComponent<MeshRenderer>().material = ElegirMaterial(PanelCrearJugada.instance.GetColorActual());
+        //go.transform.GetChild(0).GetComponent<MeshRenderer>().material = ElegirMaterial(PanelCrearJugada.instance.GetColorActual());
+        //go.transform.GetChild(1).GetComponent<MeshRenderer>().material = ElegirMaterial(PanelCrearJugada.instance.GetColorActual());
     }
 }

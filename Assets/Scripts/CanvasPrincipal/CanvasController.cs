@@ -230,6 +230,9 @@ public class CanvasController : MonoBehaviour {
 
                 case (int)Paneles.JugadoresPartidos: panel_jugadores.MostrarPanelPartidos();
                     break;
+
+                case (int)Paneles.Biblioteca: AbrirBiblioteca();
+                    break;
             }
 
             escenas.Remove(codigoPanel);

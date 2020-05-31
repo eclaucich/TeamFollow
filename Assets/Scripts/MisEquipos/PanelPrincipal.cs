@@ -20,8 +20,7 @@ public class PanelPrincipal : Panel {
     [SerializeField] private Transform seccionEquiposTransform = null;
 
     [SerializeField] private ScrollRect scrollRect = null;
-    [SerializeField] private GameObject flechaArriba = null;
-    [SerializeField] private GameObject flechaAbajo = null;
+    [SerializeField] private FlechasScroll flechasScroll = null;
 
     private List<GameObject> listaPrefabsBoton;
 
@@ -37,7 +36,8 @@ public class PanelPrincipal : Panel {
 
     private void FixedUpdate()
     {
-        if(seccionEquiposTransform.childCount < 6)
+        flechasScroll.Actualizar(scrollRect, 5, seccionEquiposTransform.childCount);
+        /*if(seccionEquiposTransform.childCount < 6)
         {
             scrollRect.enabled = false;
             flechaAbajo.SetActive(false);
@@ -49,7 +49,7 @@ public class PanelPrincipal : Panel {
 
             if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
             if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
-        } 
+        } */
     }
 
     public void SetearPanelPrincipal()

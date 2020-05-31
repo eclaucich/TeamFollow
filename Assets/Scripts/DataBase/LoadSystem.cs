@@ -215,7 +215,7 @@ public static class LoadSystem
 
                         SaveDataPlanilla dataDetalle = (SaveDataPlanilla)formatter.Deserialize(streamDetalles);
 
-                        //Agregar la Planilla al Equipo
+                        //Agregar la Planilla al Equipo   
                         equipo.AgregarDetalle(new DetalleAsistencia(dataDetalle), dataDetalle.GetNombrePlanilla());
 
                         streamDetalles.Close();
@@ -225,6 +225,22 @@ public static class LoadSystem
 
             //Agregar Equipo a la lista de Equipos
             AppController.instance.AgregarEquipo(equipo);
+        }
+
+        //Cargar imagenes
+        if (Directory.Exists(pathImagenJugadas))
+        {
+            //Por cada imagen guardada creo un objeto imagen
+            string[] pathImagen = Directory.GetFiles(pathImagenJugadas);
+
+            for (int i = 0; i < pathImagen.Length; i++)
+            {
+                string nombreArchivo = pathImagen[i].Substring(pathImagen[i].Length-20, 16);//son los últimos 16 quitando los ultimos 4(.png)
+
+                byte[] bytes = File.ReadAllBytes(pathImagen[i]);
+
+                AppController.instance.AgregarImagen(new ImagenBiblioteca(bytes, nombreArchivo));
+            }
         }
     }
 

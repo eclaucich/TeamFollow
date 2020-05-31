@@ -8,7 +8,7 @@ public class HerramientaDeporte : Herramienta
 
     [SerializeField] private GameObject imagenBoton = null;
 
-    [SerializeField] private Sprite basket = null;
+    /*[SerializeField] private Sprite basket = null;
     [SerializeField] private Sprite futbol = null;
     [SerializeField] private Sprite handball = null;
     [SerializeField] private Sprite hockeyCesped = null;
@@ -17,12 +17,12 @@ public class HerramientaDeporte : Herramienta
     [SerializeField] private Sprite rugby = null;
     [SerializeField] private Sprite softball = null;
     [SerializeField] private Sprite tenis = null;
-    [SerializeField] private Sprite voley = null;
+    [SerializeField] private Sprite voley = null;*/
 
     private void Start()
     {
         nombre = "Deporte";
-        imagenBoton.GetComponent<Image>().sprite = futbol;
+        //SeleccionarDeporte(1);
     }
 
     public override void Usar()
@@ -30,12 +30,17 @@ public class HerramientaDeporte : Herramienta
         throw new System.NotImplementedException();
     }
 
+    public void CambiarImagenSeleccionada(Image imagenDeporte_)
+    {
+        imagenBoton.GetComponent<Image>().sprite = imagenDeporte_.sprite;
+    }
+
     public void SeleccionarDeporte(int indexDeporte_)
     {
         //nombreHerramienta.text = nombreDeporte_.text;
         SetHerramientaActual();
 
-        switch(indexDeporte_)
+        /*switch(indexDeporte_)
         {
             case 0: imagenBoton.GetComponent<Image>().sprite = basket; break;
             case 1: imagenBoton.GetComponent<Image>().sprite = futbol; break;
@@ -47,7 +52,7 @@ public class HerramientaDeporte : Herramienta
             case 7: imagenBoton.GetComponent<Image>().sprite = softball; break;
             case 8: imagenBoton.GetComponent<Image>().sprite = tenis; break;
             case 9: imagenBoton.GetComponent<Image>().sprite = voley; break;
-        }
+        }*/
 
         panelEdicion.ChangeSport(indexDeporte_);
     }

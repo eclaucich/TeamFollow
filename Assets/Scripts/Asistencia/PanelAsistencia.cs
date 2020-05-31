@@ -11,6 +11,9 @@ public class PanelAsistencia : Panel
     [SerializeField] private Transform parentTransformHojas = null;
     [SerializeField] private Text numeroHojaText = null;
 
+    [SerializeField] protected GameObject flechaSiguiente = null;
+    [SerializeField] protected GameObject flechaAnterior = null;
+
     protected List<GameObject> listaPrefabsHojas;
     protected List<DetalleAsistencia> detalles;
 
@@ -26,9 +29,15 @@ public class PanelAsistencia : Panel
         hojaActual = 1;
 
         numeroHojaText.text = hojaActual + "/" + cantidadHojas;
+
+        flechaAnterior.SetActive(false);
+        if (cantidadHojas == 1)
+            flechaSiguiente.SetActive(false);
+        else
+            flechaSiguiente.SetActive(true);
     }
 
-    public void CrearPrefabsHoja()
+    public void CrearPrefabsHoja(bool activarBoton)
     {
         listaPrefabsHojas = new List<GameObject>();
         for (int i = 0; i < cantidadHojas; i++)
@@ -37,7 +46,7 @@ public class PanelAsistencia : Panel
             hojaAsistenciaGO.SetActive(true);
             hojaAsistenciaGO.transform.SetAsFirstSibling();
 
-            hojaAsistenciaGO.GetComponent<HojaAsistencia>().SetHojaAsistencia(detalles, i);
+            hojaAsistenciaGO.GetComponent<HojaAsistencia>().SetHojaAsistencia(detalles, i, activarBoton);
 
             listaPrefabsHojas.Add(hojaAsistenciaGO);
         }
@@ -60,6 +69,30 @@ public class PanelAsistencia : Panel
         }
     }
 
+    public List<DetalleAsistencia> CrearPrefabsHoja(List<Jugador> jugadores, List<DetalleAsistencia> detalles)
+    {
+        listaPrefabsHojas = new List<GameObject>();
+        List<DetalleAsistencia> newDetalles = new List<DetalleAsistencia>();
+
+        /*foreach (var det in detalles)
+        {
+            newDetalles.Add(new DetalleAsistencia(det));
+        }*/
+
+        for (int i = 0; i < cantidadHojas; i++)
+        {
+            GameObject hojaAsistenciaGO = Instantiate(hojaAsistenciaPrefab, parentTransformHojas, false);
+            hojaAsistenciaGO.SetActive(true);
+            hojaAsistenciaGO.transform.SetAsFirstSibling();
+
+            newDetalles.AddRange(hojaAsistenciaGO.GetComponent<HojaAsistencia>().SetHojaAsistencia(jugadores, i, detalles));
+
+            listaPrefabsHojas.Add(hojaAsistenciaGO);
+        }
+
+        return newDetalles;
+    }
+
     public void BorrarPrefabs()
     {
         if (listaPrefabsHojas == null) return;
@@ -71,31 +104,45 @@ public class PanelAsistencia : Panel
 
     public void HojaSiguiente()
     {
-        if (hojaActual + 1 > cantidadHojas)
+        /*if (hojaActual+1 >= cantidadHojas)
         {
             hojaActual = cantidadHojas;
+            flechaSiguiente.SetActive(false);
             return;
-        }
+        }*/
 
         listaPrefabsHojas[hojaActual - 1].GetComponent<HojaAsistencia>().AnimacionSiguiente(true);
         hojaActual++;
         listaPrefabsHojas[hojaActual - 1].GetComponent<HojaAsistencia>().AnimacionSiguiente(false);
 
         numeroHojaText.text = hojaActual + "/" + cantidadHojas;
+
+        flechaAnterior.SetActive(true);
+        if (hojaActual >= cantidadHojas)
+            flechaSiguiente.SetActive(false);
+        else
+            flechaSiguiente.SetActive(true);
     }
 
     public void HojaAnterior()
     {
-        if (hojaActual - 1 < 1)
+        /*if (hojaActual <= 1)
         {
+            flechaAnterior.SetActive(false);
             hojaActual = 1;
             return;
-        }
+        }*/
 
         listaPrefabsHojas[hojaActual - 1].GetComponent<HojaAsistencia>().AnimacionAnterior(true);
         hojaActual--;
         listaPrefabsHojas[hojaActual - 1].GetComponent<HojaAsistencia>().AnimacionAnterior(false);
 
         numeroHojaText.text = hojaActual + "/" + cantidadHojas;
+
+        flechaSiguiente.SetActive(true);
+        if (hojaActual <= 1)
+            flechaAnterior.SetActive(false);
+        else
+            flechaAnterior.SetActive(true);
     }
 }

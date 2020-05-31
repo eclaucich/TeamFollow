@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class EntradaDatosTenis : EntradaDatos
 {
-    [SerializeField] private GameObject mensajeError = null;
+    [SerializeField] private MensajeError mensajeErrorGuardado = null;
 
     [SerializeField] private Text nombrePartidoText = null;
 
@@ -115,7 +115,8 @@ public class EntradaDatosTenis : EntradaDatos
 
         textoPartidoFinalizado.SetActive(false);
 
-        mensajeError.SetActive(false);
+        mensajeError.Desactivar();
+        mensajeErrorGuardado.Desactivar();
 
         //Se setea el panel que muestra la lista de jugadores
         seccionListaJugadores.GetComponent<SeleccionListaJugadores>().SetearListaJugadores(true);
@@ -124,8 +125,15 @@ public class EntradaDatosTenis : EntradaDatos
     /// 
     /// Descativa el panel de seleccion de jugadores para activar el panel que le siga
     /// 
-    public override void TerminarSeleccionJugadores(List<Jugador> listaJugadores)
+    public override void TerminarSeleccionJugadores(List<Jugador> listaJugadores, int cantSeleccionados)
     {
+        if (cantSeleccionados <= 0)
+        {
+            mensajeError.SetText("No hay jugadores seleccionados");
+            mensajeError.Activar();
+            return;
+        }
+
         AppController.instance.overlayPanel.SetNombrePanel("");
 
         seccionListaJugadores.SetActive(false);
@@ -355,8 +363,8 @@ public class EntradaDatosTenis : EntradaDatos
 
         if (jugadorFocus.ContienePartido(tipoEntradaDato, nombrePartidoText.text))
         {
-            mensajeError.SetActive(true);
-            mensajeError.GetComponentInChildren<Text>().text = "Nombre Existente!";
+            mensajeErrorGuardado.SetText("Nombre Existente");
+            mensajeErrorGuardado.Activar();
             panelConfirmacionGuardado.Cerrar();
             return;
         }

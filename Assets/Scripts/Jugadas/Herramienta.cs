@@ -54,7 +54,7 @@ public abstract class Herramienta : MonoBehaviour, IPointerClickHandler
 
     virtual public void DejarDeUsar() { }
 
-    public Material ElegirMaterial(Color _color)
+   /* public Material ElegirMaterial(Color _color)
     {
         if (_color.r == 1 && _color.g == 0 && _color.b == 0)
         {
@@ -74,7 +74,7 @@ public abstract class Herramienta : MonoBehaviour, IPointerClickHandler
         }
 
         return GetComponentInParent<PanelHerramientas>().GetPanelCrearJugadas().materialNegro;
-    }
+    }*/
 
     public void ChangeFondo(bool seleccionar)
     {

@@ -10,4 +10,14 @@ public class PanelHerramientas : MonoBehaviour
     {
         return panelCrearJugadas;
     }
+
+    public void ToogleActive()
+    {
+        gameObject.SetActive(!gameObject.activeSelf);
+    }
+
+    public bool isActive()
+    {
+        return gameObject.activeSelf;
+    }
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PanelNuevaEntradaDatos : EntradaDatos
 {
-    [SerializeField] private GameObject mensajeError = null;
+    [SerializeField] private MensajeError mensajeErrorGuardado = null;
 
     //[SerializeField] private GameObject seccionNombrePartido = null;
     [SerializeField] private Text nombrePartidoText = null;
@@ -29,7 +29,11 @@ public class PanelNuevaEntradaDatos : EntradaDatos
     private List<EntradaDatosJugador> listaEntradaDatos;
     private List<GameObject> columnas;
 
-    [SerializeField] private Transform parentColumna = null;
+    [SerializeField] private Transform parentColumnaEstadisticas = null;
+    [SerializeField] private Transform parentColumnaNombres = null;
+    [SerializeField] private ScrollRect scrollHorizontal = null;
+
+    [SerializeField] private GameObject textEstadisticaPrefab = null;
 
     [SerializeField] private Image botonGuardarPartido = null;
     [SerializeField] private Image botonGuardarPractica = null;
@@ -84,6 +88,13 @@ public class PanelNuevaEntradaDatos : EntradaDatos
     {
         isPartido = _isPartido;
 
+        if (listaEstadisticas.Count <= 5) 
+        {
+            scrollHorizontal.enabled = false;
+        }
+        else
+            scrollHorizontal.enabled = true;
+
         gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
 
         //parentColumna = transform;
@@ -99,11 +110,29 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         panelSeleccionJugadores.SetearListaJugadores(false);
         AppController.instance.overlayPanel.SetNombrePanel("JUGADORES");
 
-        mensajeError.SetActive(false); 
+        mensajeError.Desactivar();
+        mensajeErrorGuardado.Desactivar();
     }
 
-    public override void TerminarSeleccionJugadores(List<Jugador> listaJugadores)
+    public override void TerminarSeleccionJugadores(List<Jugador> listaJugadores, int cantSeleccionados)
     {
+        if (cantSeleccionados <= 0)
+        {
+            mensajeError.SetText("No hay jugadores seleccionados");
+            mensajeError.Activar();
+            return;
+        }
+
+        // Por ahora la cantidad de filas tiene un límite, hay que averiguar cómo cambiar esto (probablemente páginas de filas sea lo mejor)
+        if(cantSeleccionados > 9)
+        {
+            mensajeError.SetText("Máximo número de Jugadores es 9");
+            mensajeError.Activar();
+            return;
+        }
+
+        Debug.Log("pasó , cant selecc: " + cantSeleccionados);
+
         Screen.orientation = ScreenOrientation.Landscape;
 
         CanvasController.instance.botonDespliegueMenu.SetActive(false);
@@ -112,8 +141,10 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         panelSeleccionJugadores.gameObject.SetActive(false);
         AppController.instance.overlayPanel.SetNombrePanel("");
 
-        AppController.instance.ChangeTexture(-1);
-        gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
+        //AppController.instance.ChangeTexture(-1);
+        //gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
+        gameObject.GetComponent<RawImage>().texture = null;
+        gameObject.GetComponent<RawImage>().color = new Color(29f/255f, 34f/255f, 48f/255f);
 
         BorrarPrefabs();
         CrearColumnas();  
@@ -121,7 +152,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
     public void CrearColumnas()
     {
-        GameObject columnaNombresGO = Instantiate(columnaNombresPrefab, transform, false);
+        GameObject columnaNombresGO = Instantiate(columnaNombresPrefab, parentColumnaNombres, false);
         columnas.Add(columnaNombresGO);
 
         //columnaNombresGO.transform.position = new Vector2(100f, 360f);
@@ -137,11 +168,12 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
         for (int i = 0; i < listaEstadisticas.Count; i++)
         {
-            GameObject columnaGO = Instantiate(columnaPrefab, parentColumna, false);
+            GameObject columnaGO = Instantiate(columnaPrefab, parentColumnaEstadisticas, false);
             columnas.Add(columnaGO);
 
-            GameObject textCategoriaGO = Instantiate(textPrefab, columnaGO.transform, false);
-            textCategoriaGO.GetComponent<Text>().text = listaIniciales[i];//listaEstadisticas[i];
+            GameObject textCategoriaGO = Instantiate(textEstadisticaPrefab, columnaGO.transform, false);
+            textCategoriaGO.GetComponent<TextEstadistica>().SetInicial(listaIniciales[i]);//listaEstadisticas[i];
+            textCategoriaGO.GetComponent<TextEstadistica>().SetNombreCompleto(listaEstadisticas[i]);//listaEstadisticas[i];
 
             for (int j = 0; j < jugadores.Count; j++)
             {
@@ -190,14 +222,14 @@ public class PanelNuevaEntradaDatos : EntradaDatos
        
         if (nombrePartidoText.text == "")
         {
-            mensajeError.SetActive(true);
-            mensajeError.GetComponentInChildren<Text>().text = "Nombre Inválido!";
+            mensajeErrorGuardado.SetText("Nombre inválido");
+            mensajeErrorGuardado.Activar();
             return;
         }
         else if(equipo.ContienePartido(tipoEntradaDatos, nombrePartidoText.text))
         {
-            mensajeError.SetActive(true);
-            mensajeError.GetComponentInChildren<Text>().text = "Nombre Existente!";
+            mensajeErrorGuardado.SetText("Nombre existente");
+            mensajeErrorGuardado.Activar();
             return;
         }
 

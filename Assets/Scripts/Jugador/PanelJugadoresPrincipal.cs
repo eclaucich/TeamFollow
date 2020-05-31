@@ -13,8 +13,7 @@ public class PanelJugadoresPrincipal : Panel {
     [SerializeField] private Text adviceText = null;
 
     [SerializeField] private ScrollRect scrollRect = null;
-    [SerializeField] private GameObject flechaArriba = null;
-    [SerializeField] private GameObject flechaAbajo = null;
+    [SerializeField] private FlechasScroll flechasScroll = null;
 
     private Transform parentTransform;
 
@@ -32,7 +31,8 @@ public class PanelJugadoresPrincipal : Panel {
 
     private void FixedUpdate()
     {
-        if (parentTransform.childCount < 8)
+        flechasScroll.Actualizar(scrollRect, 8, parentTransform.childCount);
+        /*if (parentTransform.childCount < 8)
         {
             scrollRect.enabled = false;
             flechaAbajo.SetActive(false);
@@ -44,7 +44,7 @@ public class PanelJugadoresPrincipal : Panel {
 
             if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
             if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
-        }
+        }*/
     }
 
     public void SetPanelJugadores(Equipo equipo_)

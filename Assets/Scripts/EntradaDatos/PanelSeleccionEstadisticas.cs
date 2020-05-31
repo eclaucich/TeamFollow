@@ -11,13 +11,14 @@ public class PanelSeleccionEstadisticas : Panel {
 
     public static PanelSeleccionEstadisticas instance = null;   //singleton
 
-    [SerializeField] private GameObject mensajeError = null;
+    [SerializeField] private MensajeError mensajeError = null;
 
     //Selección Partido-Práctica
     [SerializeField] private Button seleccionarPartido = null;
     [SerializeField] private Button seleccionarPractica = null;
     [SerializeField] private Color colorSeleccionado = new Color();
     [SerializeField] private Color colorNoSeleccionado = new Color();
+    [SerializeField] private FlechasScroll flechasScroll = null;
     private bool isPartido = true;
 
     //Prefabs de estadísticas
@@ -31,7 +32,8 @@ public class PanelSeleccionEstadisticas : Panel {
     [SerializeField] private GameObject panelEstadisticasSoftball = null;
     [SerializeField] private GameObject panelEstadisticasTenis = null;
     [SerializeField] private GameObject panelEstadisticasVoley = null;
-    
+
+    private PanelEstadisticas panelActual = null;
 
     //Lista para simplificar sintaxis
     private List<PanelEstadisticas> listaPaneles = null;
@@ -70,10 +72,16 @@ public class PanelSeleccionEstadisticas : Panel {
         base.Start();
 
         AppController.instance.overlayPanel.SetNombrePanel("ESTADISTICAS");
-
-        mensajeError.SetActive(false);
     }
 
+    private void FixedUpdate()
+    {
+        if (panelActual != null)
+        {
+            flechasScroll.Actualizar(panelActual.GetScrollRect(), panelActual.GetMaxShown(), panelActual.GetChildCount());
+        }
+
+    }
 
     /// 
     /// Según el deporte enfocado se activa el panel correspondiente
@@ -85,9 +93,10 @@ public class PanelSeleccionEstadisticas : Panel {
             listaPaneles[i].Desactivar();
         }
 
-        listaPaneles[(int)AppController.instance.equipoActual.GetDeporte()].Activar();
+        panelActual = listaPaneles[(int)AppController.instance.equipoActual.GetDeporte()];
+        panelActual.Activar();
 
-        mensajeError.SetActive(false);
+        mensajeError.Desactivar();
     }
 
     /// 
@@ -142,15 +151,21 @@ public class PanelSeleccionEstadisticas : Panel {
     /// Se ejecuta desde el botón presente en el panel de seleccion de estadisticas,
     /// Permite crear el prefab adecuado al deporte
     ///
-    public void MostrarPanelNuevaEntradaDatos()
+    public void IniciarSeleccionJugadores()
     {
-       GetComponentInParent<PanelEntradaDatos>().MostrarPanelNuevaEntradaDatos(isPartido);
-       //GetComponentInParent<PanelEntradaDatos>().MostrarPanelSeleccionJugadores();
+        int cantEstSeleccionadas = GetListaEstadisticas().Count;
+
+        if (AppController.instance.equipoActual.GetJugadores().Count == 0)
+            MostrarMensajeError("Este equipo no tiene jugadores");
+        else if (cantEstSeleccionadas == 0)
+            MostrarMensajeError("No hay estadísticas seleccionadas");
+        else
+            GetComponentInParent<PanelEntradaDatos>().MostrarPanelNuevaEntradaDatos(isPartido);
     }
 
-    public void MostrarMensajeError()
+    public void MostrarMensajeError(string error_)
     {
-        mensajeError.SetActive(true);
-        mensajeError.GetComponentInChildren<Text>().text = "Este equipo no tiene jugadores!";
+        mensajeError.SetText(error_);
+        mensajeError.Activar();
     }
 }

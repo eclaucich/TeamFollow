@@ -4,14 +4,12 @@ using UnityEngine.UI;
 
 public class PanelNuevaPlanilla : PanelAsistencia {
 
-    //[SerializeField] private GameObject detalleAsistenciaPrefab = null;
+ 
     [SerializeField] private Text aliasPlanilla = null;
     [SerializeField] private Button botonGuardar = null;
-    [SerializeField] private GameObject seccionError = null;
-    [SerializeField] private GameObject seccionAdvice = null;
-
+    [SerializeField] private MensajeError mensajeError = null;
+  
     private List<GameObject> listaPrefabsDetalles;
-    //private List<DetalleAsistencia> listaDetallesAsistencias;
 
     private Equipo equipo;
     private List<Jugador> jugadores;
@@ -37,17 +35,7 @@ public class PanelNuevaPlanilla : PanelAsistencia {
 
         base.SetPanelPlanilla();
 
-        seccionError.SetActive(false);
-        if (AppController.instance.equipoActual.GetJugadores().Count == 0)
-        {
-            seccionAdvice.SetActive(true);
-            botonGuardar.interactable = false;
-        }
-        else
-        {
-            seccionAdvice.SetActive(false);
-            botonGuardar.interactable = true;
-        }
+        mensajeError.Desactivar();
 
         CrearPrefabsHoja(jugadores);
 
@@ -89,8 +77,8 @@ public class PanelNuevaPlanilla : PanelAsistencia {
 
         if (equipo.ExistePlanilla(nombrePlanilla, aliasPlanilla.text))
         {
-            seccionError.SetActive(true);
-            seccionError.GetComponentInChildren<Text>().text = "Planilla Existente!";
+            mensajeError.SetText("Planilla Existente!");
+            mensajeError.Activar();
             return;
         }
 

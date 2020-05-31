@@ -13,7 +13,8 @@ public class HojaAsistencia : MonoBehaviour
 
     private int maxPorHoja = 13;
 
-    public void SetHojaAsistencia(List<DetalleAsistencia> detalles, int numeroHoja)
+    ///Llamada por PanelPlanilla, donde se setean los detalles segun los datos obtenidos
+    public void SetHojaAsistencia(List<DetalleAsistencia> detalles, int numeroHoja, bool activarBoton)
     {
         listaPrefabs = new List<GameObject>();
         animator = GetComponent<Animator>();
@@ -23,12 +24,13 @@ public class HojaAsistencia : MonoBehaviour
             GameObject detalleGO = Instantiate(detalleAsistenciaPrefab, parentTransform, false);
             detalleGO.SetActive(true);
 
-            detalleGO.GetComponent<DetalleAsistencia>().SetDetalle(detalles[i]);
+            detalleGO.GetComponent<DetalleAsistencia>().SetDetalle(detalles[i], activarBoton);
 
             listaPrefabs.Add(detalleGO);
         }
     }
 
+    /// Llamada por la PlanillaNueva donde se obtienen se arman los detalles según los jugadores
     public List<DetalleAsistencia> SetHojaAsistencia(List<Jugador> jugadores, int numeroHoja)
     {
         listaPrefabs = new List<GameObject>();
@@ -49,6 +51,29 @@ public class HojaAsistencia : MonoBehaviour
         }
 
         return detalles;
+    }
+
+    public List<DetalleAsistencia> SetHojaAsistencia(List<Jugador> jugadores, int numeroHoja, List<DetalleAsistencia> detalles)
+    {
+        listaPrefabs = new List<GameObject>();
+        animator = GetComponent<Animator>();
+
+        List<DetalleAsistencia> newDetalles = new List<DetalleAsistencia>();
+
+        for (int i = numeroHoja * maxPorHoja, j = 0; i < jugadores.Count && j < maxPorHoja; i++, j++)
+        {
+            GameObject detalleGO = Instantiate(detalleAsistenciaPrefab, parentTransform, false);
+            detalleGO.SetActive(true);
+
+            detalleGO.GetComponent<DetalleAsistencia>().SetNombreJugador(jugadores[i].GetNombre());
+            detalleGO.GetComponent<DetalleAsistencia>().SetAsistenciaInicial(detalles[i].GetAsistencia());
+
+            newDetalles.Add(detalleGO.GetComponent<DetalleAsistencia>());
+
+            listaPrefabs.Add(detalleGO);
+        }
+
+        return newDetalles;
     }
 
     public void AnimacionSiguiente(bool paginaActual)

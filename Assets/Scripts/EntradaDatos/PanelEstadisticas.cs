@@ -13,6 +13,9 @@ public class PanelEstadisticas : MonoBehaviour {
 
     private List<Toggle> listaToggles;
 
+    private ScrollRect scrollRect;
+    private int maxShown = 13; // esto es para determinar cuándo aparecen las flechas del scroll (cambiar según la cantidad total de cosas en el scroll) para este caso entran 12 sinnecesidad de scroll, a los 13 se activa el scroll
+
     private void Start()
     {
         parentTransform = transform.GetChild(0);
@@ -24,6 +27,8 @@ public class PanelEstadisticas : MonoBehaviour {
             toggleGO.GetComponent<TextScript>().SetName(listaEstadisticas[i], listaIniciales[i]);
             listaToggles.Add(toggleGO.GetComponent<Toggle>());
         }
+
+        scrollRect = GetComponent<ScrollRect>();
     }
 
     public void Activar()
@@ -64,5 +69,20 @@ public class PanelEstadisticas : MonoBehaviour {
         }
 
         return lista;
+    }
+
+    public ScrollRect GetScrollRect()
+    {
+        return scrollRect;
+    }
+
+    public int GetMaxShown()
+    {
+        return maxShown;
+    }
+
+    public int GetChildCount()
+    {
+        return parentTransform.childCount;
     }
 }

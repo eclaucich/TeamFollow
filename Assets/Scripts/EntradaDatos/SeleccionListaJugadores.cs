@@ -9,6 +9,10 @@ using UnityEngine.UI;
 
 public class SeleccionListaJugadores : MonoBehaviour
 {
+    [SerializeField] private FlechasScroll flechasScroll = null;
+    [SerializeField] private ScrollRect scrollRect = null;
+    [SerializeField] private Transform transformListaJugadores = null;
+
     private List<Jugador> listaJugadores;
     private List<Jugador> jugadoresSeleccionados;
 
@@ -19,6 +23,11 @@ public class SeleccionListaJugadores : MonoBehaviour
     [SerializeField] private GameObject botonJugador = null;
     [SerializeField] private Transform transformParent = null;
     [SerializeField] private GameObject opcionesAdicionalesTenis = null;
+
+    private void FixedUpdate()
+    {
+        flechasScroll.Actualizar(scrollRect, 8, transformListaJugadores.childCount);
+    }
 
     /// 
     /// Crea botones con los nombres de los jugadores
@@ -84,11 +93,7 @@ public class SeleccionListaJugadores : MonoBehaviour
     /// 
     public void TerminarSeleccion()
     {
-        if (actualJugadoresSeleccionados > 0)
-        {
-            GetComponentInParent<EntradaDatos>().TerminarSeleccionJugadores(jugadoresSeleccionados);
-        }
-        //Debug.Log(actualJugadoresSeleccionados);
+        GetComponentInParent<EntradaDatos>().TerminarSeleccionJugadores(jugadoresSeleccionados, actualJugadoresSeleccionados);
     }
 
     /// 

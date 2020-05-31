@@ -128,7 +128,7 @@ public class FlechaRecta : ObjetoEdicion
         positionFinal = new Vector3(positionFinal.x, positionFinal.y, 3f);
 
         puntaFlechaGO.transform.SetPositionAndRotation(positionFinal, Quaternion.identity);
-        puntaFlechaGO.transform.Rotate(Vector3.forward, grados);
+        puntaFlechaGO.transform.Rotate(Vector3.forward, grados+90f);
         puntaFlechaGO.transform.SetParent(this.transform);
         puntaFlechaGO.GetComponent<PuntaFlecha>().SetMaterialColor(PanelCrearJugada.instance.GetColorActual());
         // Image imagen = GetComponent<Image>();

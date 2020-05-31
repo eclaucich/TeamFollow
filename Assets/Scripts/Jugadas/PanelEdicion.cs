@@ -29,7 +29,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     [SerializeField] private List<Texture> texturesTenis;
     [SerializeField] private List<Texture> texturesRugby;
 
-    [SerializeField] private TextoImagenGuardada textoJugadaGuardada = null;
+    [SerializeField] private MensajeError textoJugadaGuardada = null;
 
     private List<Texture> currentTextures;
     private int currentTextureIndex = 0;
@@ -37,6 +37,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     private PanelOpcionesHerramienta panelOpcionesActual;
 
     int width = 1280;
+    int width2 = 1210;
     int height = 720;
 
     private Vector2 vectInitialPos;
@@ -55,32 +56,47 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];*/
         currentTextures = texturesFutbol;
         GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
+
+        textoJugadaGuardada.Desactivar();
+        panelHerramientas.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
     {
-        if (!panelHerramientas.GetComponent<MensajeDesplegable>().isDesplegado())
+        /*if (!panelHerramientas.GetComponent<MensajeDesplegable>().isDesplegado())
         {
             if (panelCrearJugada.GetHerramientaActual() != null && 
                 panelCrearJugada.GetHerramientaActual().GetNombre() != "Seleccionar" &&
                 panelCrearJugada.GetHerramientaActual().GetNombre() != "Flecha")
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    vectInitialPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                }
+            {*/
+        /*if (Input.GetMouseButtonDown(0))
+        {
+            vectInitialPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        }
 
-                if (Input.GetMouseButtonUp(0))
-                {
-                    vectFinalPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                    vectSwipe = new Vector2(vectFinalPos.x - vectInitialPos.x, vectFinalPos.y - vectInitialPos.y);
+        if (Input.GetMouseButtonUp(0))
+        {
+            vectFinalPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            vectSwipe = new Vector2(vectFinalPos.x - vectInitialPos.x, vectFinalPos.y - vectInitialPos.y);
 
-                    if (vectFinalPos.x - vectInitialPos.x >= 0.3f)
-                    {
-                        panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
-                    }
-                }
-            }
+            float diff = vectFinalPos.x - vectInitialPos.x;
+
+            if (diff >= 0.3f)
+                panelHerramientas.ToogleActive(); //panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
+            else if (diff < -0.3f && panelHerramientas.GetComponent<MensajeDesplegable>().isDesplegado())
+                panelHerramientas.ToogleActive(); //panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
+        }*/
+        //}
+        //}
+
+        if (panelHerramientas.isActive())
+        {
+            GetComponent<RectTransform>().sizeDelta = new Vector2(width2, height);
+        }
+        else
+        {
+            GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+            CerrarPanelOpcionesActual();
         }
     }
 
@@ -128,10 +144,10 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         if (snapshotCamera.gameObject.activeInHierarchy)
         { 
             CanvasController.instance.GetComponent<Canvas>().worldCamera = snapshotCamera;
-            Texture2D snapshot = new Texture2D(width-0, height, TextureFormat.RGB24, false);
+            Texture2D snapshot = new Texture2D(width2-0, height, TextureFormat.RGB24, false);
             snapshotCamera.Render();
             RenderTexture.active = snapshotCamera.targetTexture;
-            snapshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+            snapshot.ReadPixels(new Rect(0, 0, width2, height), 0, 0);
             byte[] bytes = snapshot.EncodeToPNG();
             SaveSystem.GuardarJugadaImagen(bytes);
             Debug.Log("Guardado");
@@ -140,20 +156,21 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
             panelHerramientas.gameObject.SetActive(true);
             botonDesplieguePanelHerramientas.SetActive(true);
+            textoJugadaGuardada.SetText("Jugada Guardada");
+            textoJugadaGuardada.Activar();
         }
     }
 
     public void GuardarJugadaImagen()
     {
-        if (panelHerramientas.GetComponent<MensajeDesplegable>().isDesplegado())
-            panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
-        //panelHerramientas.gameObject.SetActive(false);
+        if (panelHerramientas.isActive())// GetComponent<MensajeDesplegable>().isDesplegado())
+            panelHerramientas.ToogleActive(); //panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
+        CerrarPanelOpcionesActual();
+
         botonDesplieguePanelHerramientas.SetActive(false);
 
-        textoJugadaGuardada.Mostrar();
-
         snapshotCamera.gameObject.SetActive(true);
-        snapshotCamera.targetTexture = new RenderTexture(width, height, 24);
+        snapshotCamera.targetTexture = new RenderTexture(width2, height, 24);
     }
 
 

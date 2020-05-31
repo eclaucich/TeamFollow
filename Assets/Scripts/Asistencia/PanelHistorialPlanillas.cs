@@ -11,11 +11,10 @@ public class PanelHistorialPlanillas : Panel {
 
     [SerializeField] private GameObject seccionAdvice = null;
 
-    [SerializeField] private GameObject mensajeError = null;
+    [SerializeField] private MensajeError mensajeError = null;
 
     [SerializeField] private ScrollRect scrollRect = null;
-    [SerializeField] private GameObject flechaArriba = null;
-    [SerializeField] private GameObject flechaAbajo = null;
+    [SerializeField] private FlechasScroll flechasScroll = null;
 
     private Equipo equipo;
 
@@ -29,7 +28,8 @@ public class PanelHistorialPlanillas : Panel {
 
     private void FixedUpdate()
     {
-        if (parentTransform.childCount < 8)
+        flechasScroll.Actualizar(scrollRect, 8, parentTransform.childCount);
+        /*if (parentTransform.childCount < 8)
         {
             scrollRect.enabled = false;
             flechaAbajo.SetActive(false);
@@ -41,12 +41,12 @@ public class PanelHistorialPlanillas : Panel {
 
             if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
             if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
-        }
+        }*/
     }
 
     public void SetPanelHistorialPlanillas()
     {
-        mensajeError.SetActive(false);
+        mensajeError.Desactivar();
 
         AppController.instance.overlayPanel.SetNombrePanel("ASISTENCIAS");
 
@@ -111,7 +111,8 @@ public class PanelHistorialPlanillas : Panel {
     {
         if(AppController.instance.equipoActual.GetJugadores().Count == 0)
         {
-            mensajeError.SetActive(true);
+            mensajeError.SetText("No hay jugadores en este equipo");
+            mensajeError.Activar();
             return;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AppController : MonoBehaviour {
 
@@ -20,6 +21,7 @@ public class AppController : MonoBehaviour {
     [SerializeField] public OverlayPanel overlayPanel = null;
 
     [SerializeField] public Color colorBotonNormal;
+    [SerializeField] public Sprite imagenBotonNormal;
 
     public static AppController instance = null;                                            //Instancia estatica del controlador
     public List<Equipo> equipos;                                                            //Lista de equipos en la app
@@ -28,6 +30,8 @@ public class AppController : MonoBehaviour {
 
     private List<Texture> listaTexturas;
     private Texture textureActual;
+
+    public List<ImagenBiblioteca> imagenesGuardadas;
 
     private void Awake()
     {
@@ -43,6 +47,7 @@ public class AppController : MonoBehaviour {
         equipos = new List<Equipo>();                                                       //Inicializar equipos
         equipoActual = null;                                                                //No hay equipo enfocado al comenzar
         jugadorActual = null;
+        imagenesGuardadas = new List<ImagenBiblioteca>();
 
         listaTexturas = new List<Texture>();
         listaTexturas.Add(texturaPanelBasket);
@@ -71,6 +76,11 @@ public class AppController : MonoBehaviour {
     {
         equipos.Add(equipo);
         SaveSystem.GuardarEquipo(equipo);
+    }
+
+    public void AgregarImagen(ImagenBiblioteca imagen_)
+    {
+        imagenesGuardadas.Add(imagen_);
     }
 
     public void BorrarEquipo(string nombreEquipo)                                           //Borrar equipo de la lista de equipos

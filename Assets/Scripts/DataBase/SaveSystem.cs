@@ -193,7 +193,10 @@ public static class SaveSystem {
             Directory.CreateDirectory(imagenPath);
         }
 
-        File.WriteAllBytes(imagenPath + System.DateTime.Now.ToString("yyyy-mm-dd-hh-mm") + ".png", bytes);
+        string nombreImagen = System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss");
+
+        File.WriteAllBytes(imagenPath + nombreImagen + ".png", bytes);
+        AppController.instance.AgregarImagen(new ImagenBiblioteca(bytes, nombreImagen));
     }
 
 
