@@ -36,13 +36,26 @@ public class BotonJugador : MonoBehaviour {
 
     public void MostrarDetallesJugador()                                                            //Se muestran todos los detalles del jugador relacionado con el prefab
     {
-        panelJugadores.MostrarPanelInfoJugador(nombreJugador);
         AppController.instance.jugadorActual = AppController.instance.equipoActual.BuscarPorNombre(nombreJugador);
         panelJugadoresPrincipal.SetBotonJugadorFocus(gameObject);
+        panelJugadores.MostrarPanelInfoJugador(/*nombreJugador*/);
+    }
+
+    public void MostrarPartidosJugador()
+    {
+        panelJugadoresPrincipal.SetBotonJugadorFocus(gameObject);
+        AppController.instance.jugadorActual = AppController.instance.equipoActual.BuscarPorNombre(nombreJugador);
+        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.DetalleEquipoPrincipal);
+        panelJugadores.MostrarPanelPartidos();
     }
 
     public void AbrirPanelConfirmacionBorrado()
     {
         panelConfirmacionBorrado.GetComponent<ConfirmacionBorradoJugador>().Activar(nombreJugador, gameObject);
+    }
+
+    public string GetNombre()
+    {
+        return nombreJugador;
     }
 }

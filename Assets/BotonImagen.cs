@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class BotonImagen : MonoBehaviour
 {
     [SerializeField] private Text nombreImagenText = null;
-    [SerializeField] private Button botonVerImagen = null;
+    //[SerializeField] private Button botonVerImagen = null;
 
     private Sprite sprite = null;
 
@@ -15,10 +15,15 @@ public class BotonImagen : MonoBehaviour
 
     public void SetImagenPreview(Texture2D textura_)
     {
-        if(sprite == null)
-            sprite = Sprite.Create(textura_, new Rect(0, 0, 1210, 720), new Vector2(0f, 0f));
+        if (sprite == null)
+        {
+            if(AppController.instance.resHeight > AppController.instance.resWidth)
+                sprite = Sprite.Create(textura_, new Rect(0, 0, AppController.instance.resHeight - 70, AppController.instance.resWidth), new Vector2(0f, 0f));
+            else
+                sprite = Sprite.Create(textura_, new Rect(0, 0, AppController.instance.resWidth - 70, AppController.instance.resHeight), new Vector2(0f, 0f));
+        }
 
-        botonVerImagen.image.sprite = sprite;
+        //botonVerImagen.image.sprite = sprite;
     }
 
     public Sprite GetSprite()
@@ -30,5 +35,10 @@ public class BotonImagen : MonoBehaviour
         }
 
         return sprite;
+    }
+
+    public string GetNombre()
+    {
+        return nombreImagenText.text;
     }
 }

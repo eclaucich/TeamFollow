@@ -39,6 +39,7 @@ public class PanelPlanilla : PanelAsistencia {
         else nombrePlanillaText.text = "";
 
         nombrePlanilla = botonFocus.GetNombre();
+        nombrePlanillaText.gameObject.SetActive(false);
 
         mensajeError.Desactivar();
         botonBorrar.SetActive(true);

@@ -37,6 +37,9 @@ public class PanelPartidosEquipo : Panel
 
     private Estadisticas estadisticasGlobalesEquipo;
 
+    private int cantMinima;
+    private float prefabHeight;
+
     private void Awake()
     {
         parentTransform = GameObject.Find("PartidosEquipo").transform;
@@ -45,29 +48,20 @@ public class PanelPartidosEquipo : Panel
         listaPaneles = new List<GameObject>();
         listaPaneles.Add(panel_partidos);
         listaPaneles.Add(panel_detalle_partido);
+
+        prefabHeight = partidoprefab.GetComponent<RectTransform>().rect.height;
     }
 
     private void FixedUpdate()
     {
-        /*if (parentTransform.childCount < 9)
-        {
-            scrollRectEquipos.enabled = false;
-            flechaAbajo.SetActive(false);
-            flechaArriba.SetActive(false);
-        }
-        else
-        {
-            scrollRectEquipos.enabled = true;
-
-            if (scrollRectEquipos.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
-            if (scrollRectEquipos.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
-        }*/
-        flechasScroll.Actualizar(scrollRectEquipos, 7, parentTransform.childCount);
+        flechasScroll.Actualizar(scrollRectEquipos, cantMinima, listaPartidosPrefabs.Count);
     }
 
     public void SetearPanelPartidos()
     {
         ActivarPanel(0);
+
+        AppController.instance.overlayPanel.SetNombrePanel("partidos");
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.DetalleEquipoPrincipal);
 
@@ -101,6 +95,8 @@ public class PanelPartidosEquipo : Panel
             go.GetComponentInChildren<Text>().text = partido.GetNombre();
             listaPartidosPrefabs.Add(go);
         }
+
+        cantMinima = (int)(scrollRectEquipos.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing));
     }
 
     private void BorrarPrefabs()
@@ -121,21 +117,20 @@ public class PanelPartidosEquipo : Panel
 
         Estadisticas estadisticasPartido = equipoFocus.GetEstadisticasPartido();
 
-
-        botonSeleccionarPartido.SetColorDesactivado();
-        botonSeleccionarPractica.SetColorActivado();
-
-        if (estadisticasPartido.isEmpty())
-            botonVerEstadisticasGlobales.Desactivar();
-        else
-            botonVerEstadisticasGlobales.Activar();
-
         if (listaPartidos.Count == 0)
             warningTextPartidos.SetActive(true);
         else 
             warningTextPartidos.SetActive(false);
 
         warningTextPracticas.SetActive(false);
+
+        if (estadisticasPartido.isEmpty())
+            botonVerEstadisticasGlobales.Desactivar();
+        else
+            botonVerEstadisticasGlobales.Activar();
+
+        botonSeleccionarPartido.SetColorDesactivado();
+        botonSeleccionarPractica.SetColorActivado();
 
         ResetPrefabs();
     }
@@ -148,19 +143,19 @@ public class PanelPartidosEquipo : Panel
 
         Estadisticas estadisticasPracticas = equipoFocus.GetEstadisticasPractica();
 
-        botonSeleccionarPartido.SetColorActivado();
-        botonSeleccionarPractica.SetColorDesactivado();
+        if (listaPartidos.Count == 0)
+            warningTextPracticas.SetActive(true);
+        else
+            warningTextPracticas.SetActive(false);
+        warningTextPartidos.SetActive(false);
 
         if (estadisticasPracticas.isEmpty())
             botonVerEstadisticasGlobales.Desactivar();
         else
             botonVerEstadisticasGlobales.Activar();
 
-        if (listaPartidos.Count == 0)
-            warningTextPracticas.SetActive(true);
-        else
-            warningTextPracticas.SetActive(false);
-        warningTextPartidos.SetActive(false);
+        botonSeleccionarPartido.SetColorActivado();
+        botonSeleccionarPractica.SetColorDesactivado();
 
         ResetPrefabs();
     }

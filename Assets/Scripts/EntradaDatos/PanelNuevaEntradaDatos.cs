@@ -108,7 +108,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         //seccionNombrePartido.SetActive(false);
 
         panelSeleccionJugadores.SetearListaJugadores(false);
-        AppController.instance.overlayPanel.SetNombrePanel("JUGADORES");
+        AppController.instance.overlayPanel.SetNombrePanel("Selección JUGADORES");
 
         mensajeError.Desactivar();
         mensajeErrorGuardado.Desactivar();
@@ -152,7 +152,8 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
     public void CrearColumnas()
     {
-        GameObject columnaNombresGO = Instantiate(columnaNombresPrefab, parentColumnaNombres, false);
+        //GameObject columnaNombresGO = Instantiate(columnaNombresPrefab, parentColumnaNombres, false);
+        GameObject columnaNombresGO = columnaNombresPrefab.gameObject;
         columnas.Add(columnaNombresGO);
 
         //columnaNombresGO.transform.position = new Vector2(100f, 360f);

@@ -20,28 +20,19 @@ public class PanelHistorialPlanillas : Panel {
 
     private Transform parentTransform;
 
+    private float prefabHeight;
+    private int cantMinima;
+
     public void Awake()
     {
         listaBotonHistorial = new List<GameObject>();
         parentTransform = GameObject.Find("SeccionHistorialAsistencias").transform;
+        prefabHeight = botonHistorialPrefab.GetComponent<RectTransform>().rect.height;
     }
 
     private void FixedUpdate()
     {
-        flechasScroll.Actualizar(scrollRect, 8, parentTransform.childCount);
-        /*if (parentTransform.childCount < 8)
-        {
-            scrollRect.enabled = false;
-            flechaAbajo.SetActive(false);
-            flechaArriba.SetActive(false);
-        }
-        else
-        {
-            scrollRect.enabled = true;
-
-            if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
-            if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
-        }*/
+        flechasScroll.Actualizar(scrollRect, cantMinima, listaBotonHistorial.Count);
     }
 
     public void SetPanelHistorialPlanillas()
@@ -105,6 +96,8 @@ public class PanelHistorialPlanillas : Panel {
 
             listaBotonHistorial.Add(botonGO);
         }
+
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing));
     }
 
     public void NuevaPlanilla()

@@ -76,6 +76,33 @@ public class HojaAsistencia : MonoBehaviour
         return newDetalles;
     }
 
+    public List<DetalleAsistencia> SetHojaAsistenciaAux(List<DetalleAsistencia> detalles, int numeroHoja, bool activarBoton)
+    {
+        listaPrefabs = new List<GameObject>();
+        animator = GetComponent<Animator>();
+
+        List<DetalleAsistencia> newDetalles = new List<DetalleAsistencia>();
+
+        for (int i = numeroHoja * maxPorHoja, j = 0; i < detalles.Count && j < maxPorHoja; i++, j++)
+        {
+            GameObject detalleGO = Instantiate(detalleAsistenciaPrefab, parentTransform, false);
+            detalleGO.SetActive(true);
+
+            Debug.Log("NOmbre:" + detalles[i].GetNombre());
+            Debug.Log("Asist: " + detalles[i].GetAsistencia());
+
+            //detalleGO.GetComponent<DetalleAsistencia>().SetDetalle(detalles[i], activarBoton);
+            detalleGO.GetComponent<DetalleAsistencia>().SetNombreJugador(detalles[i].GetNombre());
+            detalleGO.GetComponent<DetalleAsistencia>().SetAsistenciaInicial(detalles[i].GetAsistencia());
+
+            newDetalles.Add(detalleGO.GetComponent<DetalleAsistencia>());
+
+            listaPrefabs.Add(detalleGO);
+        }
+
+        return newDetalles;
+    }
+
     public void AnimacionSiguiente(bool paginaActual)
     {
         if (paginaActual)

@@ -8,7 +8,7 @@ public class PanelImagen : MonoBehaviour
     public void SetPanel(BotonImagen botonFocus_)
     {
         Screen.orientation = ScreenOrientation.Landscape;
-        Screen.SetResolution(720, 1280, false);
+        //Screen.SetResolution(720, 1280, false);
 
         CanvasController.instance.botonDespliegueMenu.SetActive(false);
 

@@ -55,7 +55,7 @@ public class PanelJugadores : MonoBehaviour {
     {
         ActivarPanel(2);
 
-        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.JugadoresInfo);
+        //CanvasController.instance.AgregarPanelAnterior();
 
         panel_partidos.GetComponent<PanelPartidos>().SetearPanelPartidos(nombreJugadorFocus);
     }
@@ -71,21 +71,24 @@ public class PanelJugadores : MonoBehaviour {
     }
 
 
-    public void MostrarPanelInfoJugador(string nombreJugador_= null)
+    public void MostrarPanelInfoJugador(/*string nombreJugador_= null*/)
     {
         ActivarPanel(4);
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.JugadoresPrincipal);
 
-        string nombre = nombreJugador_ != null ? nombreJugador_ : nombreJugadorFocus;
+        /*string nombre = nombreJugador_ != null ? nombreJugador_ : nombreJugadorFocus;
 
         Jugador jugador = AppController.instance.equipoActual.BuscarPorNombre(nombre);
 
-        nombreJugadorFocus = nombre;
+        nombreJugadorFocus = nombre;*/
 
-        panel_infoJugador.GetComponent<PanelInfoJugador>().SetearPanelInfoJugador(jugador);  
+        Jugador jugActual = AppController.instance.jugadorActual;
+
+        nombreJugadorFocus = jugActual.GetNombre();
+
+        panel_infoJugador.GetComponent<PanelInfoJugador>().SetearPanelInfoJugador(jugActual);  
     }
-
      
 
     public void SetEstadsiticasFocus(Estadisticas estadisticas)
@@ -100,7 +103,17 @@ public class PanelJugadores : MonoBehaviour {
 
         string nombrePartido = botonpartido.GetComponentInChildren<Text>().text;
 
-        Jugador jugadorFocus = AppController.instance.equipoActual.BuscarPorNombre(nombreJugadorFocus);
+        Jugador jugadorFocus;
+
+        if (nombreJugadorFocus == null)
+        {
+            jugadorFocus = AppController.instance.jugadorActual;
+            nombreJugadorFocus = jugadorFocus.GetNombre();
+        }
+        else
+        {
+            jugadorFocus = AppController.instance.equipoActual.BuscarPorNombre(nombreJugadorFocus);
+        }
 
         bool isPartido = panel_partidos.GetComponent<PanelPartidos>().IsPartido();
 

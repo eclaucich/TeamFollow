@@ -20,6 +20,9 @@ public class PanelJugadoresPrincipal : Panel {
     [SerializeField] private ConfirmacionBorradoJugador panelConfirmacionBorrado = null;
     private GameObject botonJugadorFocus;
 
+    private float prefabHeight;
+    private int cantMinima;
+
     private void Awake()
     {
         jugadores = new List<Jugador>();
@@ -27,35 +30,24 @@ public class PanelJugadoresPrincipal : Panel {
         parentTransform = GameObject.Find("ListaJugadores").transform;
 
         ActivarYDesactivarAdviceText();
+
+        prefabHeight = botonJugadorPrefab.GetComponent<RectTransform>().rect.height;
     }
 
     private void FixedUpdate()
     {
-        flechasScroll.Actualizar(scrollRect, 8, parentTransform.childCount);
-        /*if (parentTransform.childCount < 8)
-        {
-            scrollRect.enabled = false;
-            flechaAbajo.SetActive(false);
-            flechaArriba.SetActive(false);
-        }
-        else
-        {
-            scrollRect.enabled = true;
-
-            if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
-            if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
-        }*/
+        flechasScroll.Actualizar(scrollRect, cantMinima, listaBotonJugador.Count);
     }
 
     public void SetPanelJugadores(Equipo equipo_)
     {
         base.Start();
 
-        AppController.instance.overlayPanel.SetNombrePanel("JUGADORES");
-
         equipo = equipo_;
 
-        jugadores =equipo.GetJugadores();
+        AppController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre());
+
+        jugadores = equipo.GetJugadores();
         DetallarJugadores();
 
         botonNuevoJugador.SetActive(true);
@@ -74,10 +66,13 @@ public class PanelJugadoresPrincipal : Panel {
     private void AgregarNuevoDetalle(Jugador nuevoJugador)
     {
         GameObject botonJugadorGO = Instantiate(botonJugadorPrefab, parentTransform, false);
+        botonJugadorGO.SetActive(true);
         //botonJugadorGO.GetComponentInChildren<Text>().text = nuevoJugador.GetNombre();  ESTO ESTA MAL HACERLO ACA, LA LINEA DE ABAJO ES MAS CORRECTA
         botonJugadorGO.GetComponent<BotonJugador>().SetNombreJugador(nuevoJugador.GetNombre());
 
         listaBotonJugador.Add(botonJugadorGO);
+
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing));
     }
 
 
@@ -115,6 +110,12 @@ public class PanelJugadoresPrincipal : Panel {
     {
         botonJugadorFocus = botonJugador_;
     }
+
+    public BotonJugador GetBotonJugadorFocus()
+    {
+        return botonJugadorFocus.GetComponent<BotonJugador>();
+    }
+
 
     public void AbrirPanelConfirmacionBorrado()
     {

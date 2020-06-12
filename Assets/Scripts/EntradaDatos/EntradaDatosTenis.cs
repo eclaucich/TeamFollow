@@ -105,7 +105,7 @@ public class EntradaDatosTenis : EntradaDatos
         //Primero se muestra el panel para elegir al jugador
         //Se desactivan todos los demas paneles
         seccionListaJugadores.SetActive(true);      
-        AppController.instance.overlayPanel.SetNombrePanel("JUGADORES");
+        AppController.instance.overlayPanel.SetNombrePanel("Selección JUGADORES");
 
         //seccionOpcionesAdicionales.SetActive(false);
         seccionEntradaDatos.SetActive(false);

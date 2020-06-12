@@ -38,6 +38,8 @@ public class PanelSeleccionEstadisticas : Panel {
     //Lista para simplificar sintaxis
     private List<PanelEstadisticas> listaPaneles = null;
 
+    int cantMinima;
+
     private void Awake()
     {
         if (instance == null)
@@ -76,11 +78,10 @@ public class PanelSeleccionEstadisticas : Panel {
 
     private void FixedUpdate()
     {
-        if (panelActual != null)
+        if (panelActual != null && cantMinima>0)
         {
-            flechasScroll.Actualizar(panelActual.GetScrollRect(), panelActual.GetMaxShown(), panelActual.GetChildCount());
+            flechasScroll.Actualizar(panelActual.GetScrollRect(), cantMinima, panelActual.GetChildCount());
         }
-
     }
 
     /// 
@@ -97,6 +98,9 @@ public class PanelSeleccionEstadisticas : Panel {
         panelActual.Activar();
 
         mensajeError.Desactivar();
+
+        cantMinima = panelActual.GetCantMInima();
+        Debug.Log("CANT MINIMA: " + cantMinima); 
     }
 
     /// 

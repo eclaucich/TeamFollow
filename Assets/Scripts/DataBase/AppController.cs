@@ -23,6 +23,8 @@ public class AppController : MonoBehaviour {
     [SerializeField] public Color colorBotonNormal;
     [SerializeField] public Sprite imagenBotonNormal;
 
+    [SerializeField] private Text resolucionText = null;
+
     public static AppController instance = null;                                            //Instancia estatica del controlador
     public List<Equipo> equipos;                                                            //Lista de equipos en la app
     public Equipo equipoActual;                                                            //Equipo al cual se le esta dando foco en el momento
@@ -32,6 +34,9 @@ public class AppController : MonoBehaviour {
     private Texture textureActual;
 
     public List<ImagenBiblioteca> imagenesGuardadas;
+
+    public int resWidth;
+    public int resHeight;
 
     private void Awake()
     {
@@ -62,11 +67,16 @@ public class AppController : MonoBehaviour {
         listaTexturas.Add(texturaPanelVoley);
         listaTexturas.Add(texturaPanelNormal);
 
+        resWidth = Screen.currentResolution.width;
+        resHeight = Screen.currentResolution.height;
+        resolucionText.text = "W:" + resWidth + ", H:" + resHeight;
+
         LoadSystem.LoadData();
 
         DontDestroyOnLoad(this);
 
-        Screen.SetResolution(720, 1280, true);
+        //Screen.SetResolution(720, 1280, true);
+
 
         textureActual = texturaPanelNormal;
     }
@@ -144,5 +154,29 @@ public class AppController : MonoBehaviour {
     {
         //UpdateTexture();
         return textureActual;
+    }
+
+    public bool ExistsJugada(string nombre_)
+    {
+        foreach (var imagen in imagenesGuardadas)
+        {
+            if (imagen.GetNombre() == nombre_)
+                return true;
+        }
+
+        return false;
+    }
+
+    public void BorrarJugada(string nombreJugada)
+    {
+        foreach (var jugada in imagenesGuardadas)
+        {
+            if (jugada.GetNombre() == nombreJugada)
+            {
+                imagenesGuardadas.Remove(jugada);
+                SaveSystem.BorrarJugada(nombreJugada);
+                return;
+            }
+        }
     }
 }

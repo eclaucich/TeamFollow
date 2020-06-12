@@ -17,10 +17,6 @@ public class PanelAsistencia : Panel
     protected List<GameObject> listaPrefabsHojas;
     protected List<DetalleAsistencia> detalles;
 
-    override public void Start()
-    {
-        base.Start();
-    }
 
     virtual public void SetPanelPlanilla()
     {
@@ -28,13 +24,17 @@ public class PanelAsistencia : Panel
 
         hojaActual = 1;
 
-        numeroHojaText.text = hojaActual + "/" + cantidadHojas;
+        /*numeroHojaText.text = hojaActual + "/" + cantidadHojas;
 
         flechaAnterior.SetActive(false);
         if (cantidadHojas == 1)
             flechaSiguiente.SetActive(false);
         else
-            flechaSiguiente.SetActive(true);
+            flechaSiguiente.SetActive(true);*/
+
+        flechaAnterior.SetActive(false);
+        flechaSiguiente.SetActive(false);
+        numeroHojaText.gameObject.SetActive(false);
     }
 
     public void CrearPrefabsHoja(bool activarBoton)
@@ -85,7 +85,7 @@ public class PanelAsistencia : Panel
             hojaAsistenciaGO.SetActive(true);
             hojaAsistenciaGO.transform.SetAsFirstSibling();
 
-            newDetalles.AddRange(hojaAsistenciaGO.GetComponent<HojaAsistencia>().SetHojaAsistencia(jugadores, i, detalles));
+            newDetalles.AddRange(hojaAsistenciaGO.GetComponent<HojaAsistencia>().SetHojaAsistenciaAux(detalles, i, true));
 
             listaPrefabsHojas.Add(hojaAsistenciaGO);
         }

@@ -30,10 +30,7 @@ public abstract class Herramienta : MonoBehaviour, IPointerClickHandler
             panelHerramientas.GetPanelCrearJugadas().SetHerramientaActual(this);
             ChangeFondo(true);
 
-            if (hasOptions && panelOpciones.isDesplegado())
-            {
-                panelOpciones.Cerrar();
-            }
+            GameObject.Find("PanelEdicion").GetComponent<PanelEdicion>().CerrarPanelOpcionesActual();
 
             //panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
         }

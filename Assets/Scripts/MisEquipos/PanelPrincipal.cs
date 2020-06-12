@@ -24,6 +24,9 @@ public class PanelPrincipal : Panel {
 
     private List<GameObject> listaPrefabsBoton;
 
+    private float prefabHeight;
+    private int cantMinima;
+
     private void Awake()
     {
         nombrePanel = "MIS EQUIPOS";
@@ -32,24 +35,13 @@ public class PanelPrincipal : Panel {
         listaPrefabsBoton = new List<GameObject>();
 
         ActivarYDesactivarAdviceText();
+
+        prefabHeight = prefabBotonEquipo.GetComponent<RectTransform>().rect.height;
     }
 
     private void FixedUpdate()
     {
-        flechasScroll.Actualizar(scrollRect, 5, seccionEquiposTransform.childCount);
-        /*if(seccionEquiposTransform.childCount < 6)
-        {
-            scrollRect.enabled = false;
-            flechaAbajo.SetActive(false);
-            flechaArriba.SetActive(false);
-        }
-        else
-        {
-            scrollRect.enabled = true;
-
-            if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
-            if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
-        } */
+        flechasScroll.Actualizar(scrollRect, cantMinima, listaPrefabsBoton.Count);
     }
 
     public void SetearPanelPrincipal()
@@ -86,13 +78,16 @@ public class PanelPrincipal : Panel {
             //GameObject botonEquipoGO = Instantiate(listaPrefabsDeportes[(int)equipo.GetDeporte()].gameObject, parentTransform, false);
 
             GameObject botonEquipoGO = Instantiate(prefabBotonEquipo.gameObject, seccionEquiposTransform, false);
+            botonEquipoGO.SetActive(true);
 
             botonEquipoGO.GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = equipo.GetNombre();
             botonEquipoGO.GetComponent<BotonEquipo>().SetSpriteBotonEquipo(equipo);
 
             listaPrefabsBoton.Add(botonEquipoGO);
-        } 
-        
+        }
+
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + seccionEquiposTransform.GetComponent<VerticalLayoutGroup>().spacing));
+
     }
 
 

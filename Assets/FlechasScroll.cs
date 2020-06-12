@@ -8,7 +8,7 @@ public class FlechasScroll : MonoBehaviour
 
     public void Actualizar(ScrollRect scrollRect, int top, int childCount)
     {
-        if (childCount < top)
+        if (childCount <= top)
         {
             scrollRect.enabled = false;
             Abajo(false);

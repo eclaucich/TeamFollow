@@ -204,7 +204,7 @@ public class CanvasController : MonoBehaviour {
                 case (int)Paneles.MisEquiposPrincipal: panelMisEquipos.MostrarPanelPrincipal();
                     break;
 
-                case (int)Paneles.DetalleEquipoPrincipal: panelDetalleEquipo.MostrarPanelPrincipal();
+                case (int)Paneles.DetalleEquipoPrincipal: panelDetalleEquipo.MostrarPanelJugadores();//panelDetalleEquipo.MostrarPanelPrincipal();
                     break;
 
                 case (int)Paneles.EstadisticasGlobalesEquipo: panelDetalleEquipo.MostrarPanelEstadisticasGlobalesEquipo();

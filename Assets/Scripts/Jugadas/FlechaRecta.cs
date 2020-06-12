@@ -55,7 +55,11 @@ public class FlechaRecta : ObjetoEdicion
 
     public void CreateLineRenderer(int mode)
     {
-        if(mode == 0)   //Flecha normal
+        Vector3 mPos = Input.mousePosition;
+        mPos.z = 2f;
+        Vector3 goPos = Camera.main.ScreenToWorldPoint(mPos);
+
+        if (mode == 0)   //Flecha normal
         {
             Debug.Log("FLECHA NORMAL");
             if (line == null)
@@ -64,13 +68,13 @@ public class FlechaRecta : ObjetoEdicion
                 line.positionCount = 1;
                 line.startColor = Color.black;
                 line.endColor = Color.black;
-                line.SetPosition(0, Input.mousePosition);
+                line.SetPosition(0, goPos);
             }
 
             if (currentTime >= timeBtwPoints)
             {
                 line.positionCount++;
-                line.SetPosition(line.positionCount - 1, Input.mousePosition);
+                line.SetPosition(line.positionCount - 1, goPos);
                 currentTime = 0f;
             }
 
@@ -85,6 +89,7 @@ public class FlechaRecta : ObjetoEdicion
                 line.startColor = Color.black;
                 line.endColor = Color.black;
                 line.SetPosition(0, Input.mousePosition);
+                line.transform.localPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f);
             }
 
         }
@@ -95,19 +100,23 @@ public class FlechaRecta : ObjetoEdicion
         }
         else
         {
-            Debug.Log("ERROR EN EL MODE DE FLECHA RECTA");
+            Debug.Log("ERROR EN EL MODO DE FLECHA");
         }
         
     }
 
     public void CrearPunta(int mode)
     {
-        if(line == null) return;
+        Vector3 mPos = Input.mousePosition;
+        mPos.z = 2f;
+        Vector3 goPos = Camera.main.ScreenToWorldPoint(mPos);
+
+        if (line == null) return;
         
         if(mode == 1)
         {
             line.positionCount++;
-            line.SetPosition(line.positionCount - 1, Input.mousePosition);
+            line.SetPosition(line.positionCount - 1, goPos);
         }
         positionInitial = line.GetPosition(line.positionCount - 2);
         positionFinal = line.GetPosition(line.positionCount - 1);
@@ -117,9 +126,9 @@ public class FlechaRecta : ObjetoEdicion
         float rad = Mathf.Atan2(op, ady);
         float grados = rad * 180f / Mathf.PI;
 
-        transform.SetPositionAndRotation(positionFinal, Quaternion.identity);
+        //transform.SetPositionAndRotation(positionFinal, Quaternion.identity);
         //transform.Rotate(Vector3.forward, grados);
-
+        
         line.startColor = PanelCrearJugada.instance.GetColorActual();
         line.endColor = PanelCrearJugada.instance.GetColorActual();
 
@@ -127,7 +136,8 @@ public class FlechaRecta : ObjetoEdicion
 
         positionFinal = new Vector3(positionFinal.x, positionFinal.y, 3f);
 
-        puntaFlechaGO.transform.SetPositionAndRotation(positionFinal, Quaternion.identity);
+        //puntaFlechaGO.transform.SetPositionAndRotation(positionFinal, Quaternion.identity);
+        puntaFlechaGO.transform.localPosition = new Vector3(positionFinal.x, positionFinal.y, 0f);
         puntaFlechaGO.transform.Rotate(Vector3.forward, grados+90f);
         puntaFlechaGO.transform.SetParent(this.transform);
         puntaFlechaGO.GetComponent<PuntaFlecha>().SetMaterialColor(PanelCrearJugada.instance.GetColorActual());

@@ -36,7 +36,7 @@ public class PanelDetalleEquipo : MonoBehaviour {
         AppController.instance.SetEquipoActual(equipo);
 
         panel_principal.GetComponent<PanelPrincipalDetalleEquipo>().SetBotonEquipoFocus(botonEquipo_);
-        MostrarPanelPrincipal();
+        MostrarPanelJugadores();
     }
 
     //Por alguna razon poner ActivarPanel(0) no anda acá
@@ -66,11 +66,22 @@ public class PanelDetalleEquipo : MonoBehaviour {
 
     public void MostrarPanelJugadores()                                                                    //Se activa el panel de jugadores, y se desactivan los otros
     {
-        ActivarPanel(2);
+        //ActivarPanel(2);
+
+        panel_principal.SetActive(false);
+        panel_estadisticasGlobalesEquipo.SetActive(false);
+        panel_jugadores.SetActive(true);
+        panel_entradaDatos.SetActive(false);
+        panel_planillaAsistencias.SetActive(false);
+
+        CanvasController.instance.botonDespliegueMenu.SetActive(true);
+
+        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.MisEquiposPrincipal);
+
 
         panel_jugadores.GetComponent<PanelJugadores>().MostrarPanelPrincipal(equipo);
 
-        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.DetalleEquipoPrincipal);
+        //CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.DetalleEquipoPrincipal);
     }
 
     public void MostrarPanelEntradaDatos()                                                                //Se activa el panel de entrada de datos, y se desactivan los otros

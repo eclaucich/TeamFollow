@@ -23,7 +23,7 @@ public class EleccionBorradoEstadisticas : ConfirmacionBorradoJugador
         AppController.instance.equipoActual.BorrarJugador(jugadorFocus.GetNombre(), borrarEstadisticas);
         //Destroy(botonJugadorFocus);
         panelJugadoresPrincipal.BorrarBotonJugador(botonJugadorFocus);
-        ToggleDesplegar();
-        CanvasController.instance.MostrarPanelAnterior();
+        Cerrar();
+        //CanvasController.instance.MostrarPanelAnterior();
     }
 }

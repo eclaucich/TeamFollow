@@ -13,10 +13,18 @@ public class PanelPrincipalBiblioteca : Panel
 
     //private List<GameObject> listaPrefabs = null; //BotonBiblioteca
 
+    private float prefabHeight;
+    private int cantMinima;
+
+    override public void Start()
+    {
+        base.Start();
+        prefabHeight = botonImagenPrefab.GetComponent<RectTransform>().rect.height;
+    }
 
     public void FixedUpdate()
     {
-        flechasScroll.Actualizar(scrollRect, 2, parentTransform.childCount);
+        flechasScroll.Actualizar(scrollRect, cantMinima, parentTransform.childCount-1);
     }
 
     public void SetPanePrincipal()
@@ -66,7 +74,9 @@ public class PanelPrincipalBiblioteca : Panel
             IGO.SetImagenPreview(imagen.GetTexture());
             Debug.Log("IMAGEN: " + imagen.GetNombre());
         }
-        
+
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing));
+
         /*GameObject botonImagenGO = Instantiate(botonImagenPrefab.gameObject, parentTransform, false);
 
         botonImagenGO.GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = "NOMBRE IMAGEN";

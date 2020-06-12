@@ -183,7 +183,7 @@ public static class SaveSystem {
         }
     }
 
-    public static void GuardarJugadaImagen(byte[] bytes)
+    public static void GuardarJugadaImagen(byte[] bytes, string nombreJugada)
     {
        // string imagenPath = Application.persistentDataPath + "/SaveData/ImagenesJugadas";
         string imagenPath = pathImagenJugadas;
@@ -193,10 +193,10 @@ public static class SaveSystem {
             Directory.CreateDirectory(imagenPath);
         }
 
-        string nombreImagen = System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss");
+        //string nombreImagen = System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss");
 
-        File.WriteAllBytes(imagenPath + nombreImagen + ".png", bytes);
-        AppController.instance.AgregarImagen(new ImagenBiblioteca(bytes, nombreImagen));
+        File.WriteAllBytes(imagenPath + nombreJugada + ".png", bytes);
+        AppController.instance.AgregarImagen(new ImagenBiblioteca(bytes, nombreJugada));
     }
 
 
@@ -258,6 +258,15 @@ public static class SaveSystem {
         {
             Directory.Delete(path, true);
         }
+    }
+
+    public static void BorrarJugada(string nombreJugada)
+    {
+        string path = pathImagenJugadas + nombreJugada + ".png";
+
+        if (File.Exists(path))
+            File.Delete(path);
+
     }
 
 }

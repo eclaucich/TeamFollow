@@ -27,6 +27,13 @@ public class PanelInfoJugador : Panel
     private List<InputPrefab> inputsObligatorios;
     private InputPrefabFecha inputFecha;
 
+    private string nombreActual;
+
+    private PanelJugadores panelJugadores;
+
+    private int cantMinima;
+    private float prefabHeight;
+
     void Awake()
     {
         //listaPrefabs = new List<InputPrefab>();
@@ -36,24 +43,24 @@ public class PanelInfoJugador : Panel
         inputsObligatorios = new List<InputPrefab>();
     }
 
-    private void FixedUpdate()
+    override public void Start()
     {
-        flechasScroll.Actualizar(scrollRect, 6, parentTransform.childCount);
-        /*if (parentTransform.childCount < 6)
-        {
-            scrollRect.enabled = false;
-            flechasScroll.Abajo(false);
-            flechasScroll.Arriba(false);
-        }
-        else
-        {
-            scrollRect.enabled = true;
+        base.Start();
+        panelJugadores = GameObject.Find("PanelJugadores").GetComponent<PanelJugadores>();
 
-            if (scrollRect.verticalNormalizedPosition > .95f) flechasScroll.Arriba(false); else flechasScroll.Arriba(true);
-            if (scrollRect.verticalNormalizedPosition < 0.05f) flechasScroll.Abajo(false); else flechasScroll.Abajo(true);
-        }*/
+        prefabHeight = prefabInputInfo.GetComponent<RectTransform>().rect.height;
     }
 
+    private void FixedUpdate()
+    {
+        flechasScroll.Actualizar(scrollRect, cantMinima, inputsString.Count+inputsEspecial.Count+inputsObligatorios.Count+1);//el +1 es el de inputfecha
+    }
+
+    public void MostrarPanelPartidos()
+    {
+        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.JugadoresInfo);
+        panelJugadores.MostrarPanelPartidos();
+    }
 
     public void SetearPanelInfoJugador(Jugador jugador)
     {
@@ -69,6 +76,9 @@ public class PanelInfoJugador : Panel
 
         BorrarPrefabs();
         CrearPrefabs();
+
+        if (prefabHeight == 0) prefabHeight = prefabInputInfo.GetComponent<RectTransform>().rect.height;
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing));
     }
 
     private void CrearPrefabs()
@@ -78,13 +88,16 @@ public class PanelInfoJugador : Panel
         foreach (var info in infoJugador.GetInfoObligatoria())
         {  
             InputPrefab IPgo = Instantiate(prefabInputInfo, parentTransform).GetComponent<InputPrefab>();
+            IPgo.gameObject.SetActive(true);
             IPgo.SetNombreCategoria(info.Key.ToString());
             IPgo.SetPlaceholder(info.Value.ToString());
             IPgo.HabilitarInput(false);
             inputsObligatorios.Add(IPgo);
+            nombreActual = info.Value.ToString();
         }
 
         InputPrefabFecha IPGO = Instantiate(prefabInputFecha, parentTransform).GetComponent<InputPrefabFecha>();
+        IPGO.gameObject.SetActive(true);
         IPGO.SetNombreCategoria("Fecha Nacimiento");
         IPGO.SetValorCategoria(infoJugador.GetFechaNac().ToShortDateString());
         IPGO.HabilitarInput(false);
@@ -96,6 +109,7 @@ public class PanelInfoJugador : Panel
         foreach (var info in infoJugador.GetInfoString())
         {
             InputPrefab IPgo = Instantiate(prefabInputInfo, parentTransform).GetComponent<InputPrefab>();
+            IPgo.gameObject.SetActive(true);
             IPgo.SetNombreCategoria(info.Key.ToString());
             IPgo.SetPlaceholder(info.Value.ToString());
             IPgo.HabilitarInput(false);
@@ -108,6 +122,7 @@ public class PanelInfoJugador : Panel
         foreach (var info in infoJugador.GetInfoInt())
         {
             InputPrefab IPgo = Instantiate(prefabInputInfo, parentTransform).GetComponent<InputPrefab>();
+            IPgo.gameObject.SetActive(true);
             IPgo.SetNombreCategoria(info.Key.ToString());
             IPgo.SetPlaceholder(info.Value.ToString());
             IPgo.HabilitarInput(false);
@@ -120,6 +135,7 @@ public class PanelInfoJugador : Panel
         foreach (var info in infoJugador.GetInfoEspecial())
         {
             InputPrefabEspecial IPgo = Instantiate(prefabInputInfoEspecial, parentTransform).GetComponent<InputPrefabEspecial>();
+            IPgo.gameObject.SetActive(true);
             IPgo.SetNombreCategoria(info.Key.ToString());
             IPgo.SetValor(info.Value.ToString());
             IPgo.HabilitarInput(false);
@@ -185,7 +201,7 @@ public class PanelInfoJugador : Panel
         }
 
         //Reviasr si existe el nombre (hacer una función de comporbación de nombres general en appcontroller
-        if (AppController.instance.equipoActual.BuscarPorNombre(ij.GetNombre()) != null || ij.GetNombre() == "" || ij.GetNombre() == " ")
+        if (nombreActual!=ij.GetNombre() && AppController.instance.equipoActual.BuscarPorNombre(ij.GetNombre()) != null || ij.GetNombre() == "" || ij.GetNombre() == " ")
         {
             mensajeError.SetText("Nombre inválido/existente");
             mensajeError.Activar();

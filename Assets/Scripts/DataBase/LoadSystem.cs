@@ -235,7 +235,9 @@ public static class LoadSystem
 
             for (int i = 0; i < pathImagen.Length; i++)
             {
-                string nombreArchivo = pathImagen[i].Substring(pathImagen[i].Length-20, 16);//son los últimos 16 quitando los ultimos 4(.png)
+                //string nombreArchivo = pathImagen[i].Substring(pathImagen[i].Length-23, 19); //son los últimos 19 quitando los ultimos 4(.png)
+
+                string nombreArchivo = Path.GetFileNameWithoutExtension(pathImagen[i]);
 
                 byte[] bytes = File.ReadAllBytes(pathImagen[i]);
 

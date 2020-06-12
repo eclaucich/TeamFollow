@@ -13,8 +13,9 @@ public class PanelEstadisticas : MonoBehaviour {
 
     private List<Toggle> listaToggles;
 
-    private ScrollRect scrollRect;
-    private int maxShown = 13; // esto es para determinar cuándo aparecen las flechas del scroll (cambiar según la cantidad total de cosas en el scroll) para este caso entran 12 sinnecesidad de scroll, a los 13 se activa el scroll
+    [SerializeField] private ScrollRect scrollRect = null;
+
+    private float prefabHeight;
 
     private void Start()
     {
@@ -28,7 +29,7 @@ public class PanelEstadisticas : MonoBehaviour {
             listaToggles.Add(toggleGO.GetComponent<Toggle>());
         }
 
-        scrollRect = GetComponent<ScrollRect>();
+        prefabHeight = togglePrefab.GetComponent<RectTransform>().rect.height;
     }
 
     public void Activar()
@@ -76,13 +77,15 @@ public class PanelEstadisticas : MonoBehaviour {
         return scrollRect;
     }
 
-    public int GetMaxShown()
+    public int GetCantMInima()
     {
-        return maxShown;
+        if (scrollRect == null) Debug.Log("SCROLL RECT NULL");
+        if(prefabHeight == 0) prefabHeight = togglePrefab.GetComponent<RectTransform>().rect.height;
+        return (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + 20)); //20 es el spacing
     }
 
     public int GetChildCount()
     {
-        return parentTransform.childCount;
+        return listaEstadisticas.Count;
     }
 }

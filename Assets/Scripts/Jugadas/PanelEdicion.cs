@@ -15,45 +15,52 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     [SerializeField] private PanelHerramientas panelHerramientas = null;
     [SerializeField] private GameObject botonDesplieguePanelHerramientas = null;
+    [SerializeField] private Text resolucionText = null;
 
     private int deporteIndex = 0;
 
-    [SerializeField] private List<Texture> texturesFutbol;
-    [SerializeField] private List<Texture> texturesBasket;
-    [SerializeField] private List<Texture> texturesHockeyCesped;
-    [SerializeField] private List<Texture> texturesHockeyPatines;
-    [SerializeField] private List<Texture> texturesHandball;
-    [SerializeField] private List<Texture> texturesPadel;
-    [SerializeField] private List<Texture> texturesSoftball;
-    [SerializeField] private List<Texture> texturesVoley;
-    [SerializeField] private List<Texture> texturesTenis;
-    [SerializeField] private List<Texture> texturesRugby;
+    [SerializeField] private List<Texture> texturesFutbol = null;
+    [SerializeField] private List<Texture> texturesBasket = null;
+    [SerializeField] private List<Texture> texturesHockeyCesped = null;
+    [SerializeField] private List<Texture> texturesHockeyPatines = null;
+    [SerializeField] private List<Texture> texturesHandball = null;
+    [SerializeField] private List<Texture> texturesPadel = null;
+    [SerializeField] private List<Texture> texturesSoftball = null;
+    [SerializeField] private List<Texture> texturesVoley = null;
+    [SerializeField] private List<Texture> texturesTenis = null;
+    [SerializeField] private List<Texture> texturesRugby = null;
+
+    [SerializeField] private GameObject seccionGuardarJugada = null;
+    [SerializeField] private Text nombreJugadaText = null;
 
     [SerializeField] private MensajeError textoJugadaGuardada = null;
+    [SerializeField] private MensajeError mensajeTutorial = null;
+    [SerializeField] private MensajeError mensajeErrorGuardar = null;
 
     private List<Texture> currentTextures;
     private int currentTextureIndex = 0;
 
     private PanelOpcionesHerramienta panelOpcionesActual;
 
-    int width = 1280;
-    int width2 = 1210;
-    int height = 720;
+    int width;// = 1280;
+    int width2;// = 1210;
+    int height;// = 720;
+
+    private float swipeMax;
 
     private Vector2 vectInitialPos;
     private Vector2 vectFinalPos;
     private Vector2 vectSwipe;
+    private float swipeDiff;
+    private bool swipeEnabled = true;
+
+    private string nombreJugada = string.Empty;
 
     private void Awake()
     {
         panelCrearJugada = GetComponentInParent<PanelCrearJugadas>();
         snapshotCamera.gameObject.SetActive(false);
 
-       /* texturesFutbol = new List<Texture>();
-        texturesFutbol.Add(fullField);
-        texturesFutbol.Add(halfField);
-        texturesFutbol.Add(areaField);
-        GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];*/
         currentTextures = texturesFutbol;
         GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
 
@@ -61,7 +68,34 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         panelHerramientas.gameObject.SetActive(false);
     }
 
-    private void FixedUpdate()
+    private void Start()
+    {
+        width = AppController.instance.resWidth;
+        height = AppController.instance.resHeight;
+
+        if(height > width)
+        {
+            int aux = width;
+            width = height;
+            height = aux;
+        }
+        width2 = width - 70;
+
+        swipeMax = 0.2f * height;
+        Debug.Log("SWIPE: " + swipeMax);
+
+        //Debug.Log("WE: " + width + " HE: " + height);
+        resolucionText.text = "WE: " + width + ", HE: " + height;
+        //panelHerramientas.ToogleActive();
+
+        mensajeTutorial.SetText("Deslizar hacia arriba/abajo para abrir/cerrar las herramientas");
+        mensajeTutorial.Activar();
+
+        seccionGuardarJugada.SetActive(false);
+        mensajeErrorGuardar.Desactivar();
+    }
+
+    private void Update()
     {
         /*if (!panelHerramientas.GetComponent<MensajeDesplegable>().isDesplegado())
         {
@@ -69,40 +103,51 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
                 panelCrearJugada.GetHerramientaActual().GetNombre() != "Seleccionar" &&
                 panelCrearJugada.GetHerramientaActual().GetNombre() != "Flecha")
             {*/
-        /*if (Input.GetMouseButtonDown(0))
+
+
+        if (Input.GetMouseButtonDown(0))
         {
             vectInitialPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            vectFinalPos = Camera.main.WorldToScreenPoint(vectFinalPos);
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             vectFinalPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            vectSwipe = new Vector2(vectFinalPos.x - vectInitialPos.x, vectFinalPos.y - vectInitialPos.y);
+            vectFinalPos = Camera.main.WorldToScreenPoint(vectFinalPos);
+            vectSwipe = vectFinalPos - vectInitialPos;
 
-            float diff = vectFinalPos.x - vectInitialPos.x;
+            swipeDiff = vectFinalPos.y - vectInitialPos.y;
 
-            if (diff >= 0.3f)
+            /*if (swipeDiff >= 0.3f)
                 panelHerramientas.ToogleActive(); //panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
-            else if (diff < -0.3f && panelHerramientas.GetComponent<MensajeDesplegable>().isDesplegado())
-                panelHerramientas.ToogleActive(); //panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
-        }*/
+            else if (swipeDiff < -0.3f && panelHerramientas.GetComponent<MensajeDesplegable>().isDesplegado())
+                panelHerramientas.ToogleActive(); //panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();*/
+        }
         //}
         //}
 
         if (panelHerramientas.isActive())
         {
-            GetComponent<RectTransform>().sizeDelta = new Vector2(width2, height);
+            if (swipeEnabled && swipeDiff < -swipeMax)
+                if (panelCrearJugada.GetHerramientaActual() == null || panelCrearJugada.GetHerramientaActual().GetNombre() != "Flecha")
+                    panelHerramientas.ToogleActive();
         }
         else
         {
-            GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+            if (swipeEnabled && swipeDiff > swipeMax)
+                if (panelCrearJugada.GetHerramientaActual() == null || panelCrearJugada.GetHerramientaActual().GetNombre() != "Flecha")
+                    panelHerramientas.ToogleActive();
             CerrarPanelOpcionesActual();
         }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(panelCrearJugada.GetHerramientaActual() != null && panelCrearJugada.GetHerramientaActual().GetNombre() != "Flecha")
+        Herramienta herramientaActual = panelCrearJugada.GetHerramientaActual();
+        if (herramientaActual == null) return;
+
+        if (herramientaActual.GetNombre() != "Flecha")
         {
             panelCrearJugada.UsarHerramientaActual();
         }
@@ -110,7 +155,10 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (panelCrearJugada.GetHerramientaActual().GetNombre() == "Flecha" && Input.GetMouseButton(0))
+        Herramienta herramientaActual = panelCrearJugada.GetHerramientaActual();
+        if (herramientaActual == null) return;
+
+        if (herramientaActual.GetNombre() == "Flecha" && Input.GetMouseButton(0))
         {
             panelCrearJugada.UsarHerramientaActual();
         }
@@ -118,7 +166,10 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (panelCrearJugada.GetHerramientaActual().GetNombre() == "Flecha")
+        Herramienta herramientaActual = panelCrearJugada.GetHerramientaActual();
+        if (herramientaActual == null) return;
+
+        if (herramientaActual.GetNombre() == "Flecha")
         {
             panelCrearJugada.GetHerramientaActual().DejarDeUsar();
         }
@@ -144,33 +195,57 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         if (snapshotCamera.gameObject.activeInHierarchy)
         { 
             CanvasController.instance.GetComponent<Canvas>().worldCamera = snapshotCamera;
-            Texture2D snapshot = new Texture2D(width2-0, height, TextureFormat.RGB24, false);
+            Texture2D snapshot = new Texture2D(width-0, height, TextureFormat.RGB24, false);
             snapshotCamera.Render();
             RenderTexture.active = snapshotCamera.targetTexture;
-            snapshot.ReadPixels(new Rect(0, 0, width2, height), 0, 0);
+            snapshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
             byte[] bytes = snapshot.EncodeToPNG();
-            SaveSystem.GuardarJugadaImagen(bytes);
-            Debug.Log("Guardado");
+            SaveSystem.GuardarJugadaImagen(bytes, nombreJugada);
             snapshotCamera.gameObject.SetActive(false);
             CanvasController.instance.GetComponent<Canvas>().worldCamera = Camera.main;
 
             panelHerramientas.gameObject.SetActive(true);
-            botonDesplieguePanelHerramientas.SetActive(true);
             textoJugadaGuardada.SetText("Jugada Guardada");
             textoJugadaGuardada.Activar();
+            swipeEnabled = true;
         }
+    }
+
+    public void AbrirSeccionGuardarJugada()
+    {
+        seccionGuardarJugada.SetActive(true);
+    }
+
+    public void CerrarSeccionGuardarJugada()
+    {
+        seccionGuardarJugada.SetActive(false);
     }
 
     public void GuardarJugadaImagen()
     {
-        if (panelHerramientas.isActive())// GetComponent<MensajeDesplegable>().isDesplegado())
-            panelHerramientas.ToogleActive(); //panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
+        string nombre = nombreJugadaText.text;
+        if (AppController.instance.ExistsJugada(nombre))
+        {
+            mensajeErrorGuardar.SetText("Nombre existente");
+            mensajeErrorGuardar.Activar();
+            return;
+        }
+        else if(nombre == "" || nombre == " " || nombre == "  ")
+        {
+            mensajeErrorGuardar.SetText("Nombre inválido");
+            mensajeErrorGuardar.Activar();
+            return;
+        }
+
+        nombreJugada = nombre;
+
+        CerrarSeccionGuardarJugada();
+        swipeEnabled = false;
+        panelHerramientas.gameObject.SetActive(false);
         CerrarPanelOpcionesActual();
 
-        botonDesplieguePanelHerramientas.SetActive(false);
-
         snapshotCamera.gameObject.SetActive(true);
-        snapshotCamera.targetTexture = new RenderTexture(width2, height, 24);
+        snapshotCamera.targetTexture = new RenderTexture(width, height, 24);
     }
 
 
@@ -211,4 +286,26 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         panelOpcionesActual = panel_;
     }
 
+    public void CerrarPanelHerramientas()
+    {
+        if (panelHerramientas.isActive())
+        {
+            panelHerramientas.ToogleActive();
+            Debug.Log("CERRAR PANEL");
+        }
+    }
+
+    public void AbrirPanelHerramientas()
+    {
+        if (!panelHerramientas.isActive())
+        {
+            panelHerramientas.ToogleActive();
+            Debug.Log("ABRIR PANEL");
+        }
+    }
+
+    public void SetSwipe(bool aux)
+    {
+        swipeEnabled = aux;
+    }
 }

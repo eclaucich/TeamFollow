@@ -69,9 +69,16 @@ public class BotonEquipo : MonoBehaviour {
 
     public void SetSpriteBotonEquipo(Equipo equipo)
     {
-        cantidadJugadoresText.text = equipo.GetJugadores().Count + " jugadores";
+        int cantJugadores = equipo.GetJugadores().Count;
+        if (cantJugadores == 0)
+            cantidadJugadoresText.text = "sin jugadores";
+        else if(cantJugadores == 1)
+            cantidadJugadoresText.text = equipo.GetJugadores().Count + " jugador";
+        else
+            cantidadJugadoresText.text = equipo.GetJugadores().Count + " jugadores";
+
         //Debug.Log("DEPORTE: " + equipo.GetDeporteNombre() + ", " + (int)equipo.GetDeporte());
-         switch (equipo.GetDeporte())
+        switch (equipo.GetDeporte())
          {
              case Deportes.Deporte.Futbol:
                  spriteDeporte.texture = spriteFutbol.texture;

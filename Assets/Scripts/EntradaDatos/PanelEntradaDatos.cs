@@ -40,6 +40,8 @@ public class PanelEntradaDatos : MonoBehaviour {
         //panel_nuevaEntradaDatos.SetActive(false);
         panel_seleccionEstadisticas.SetActive(true);
 
+        AppController.instance.overlayPanel.SetNombrePanel("selección estadísticas");
+
         panel_seleccionEstadisticas.GetComponent<PanelSeleccionEstadisticas>().SetearPanelEstadisticas();
 
         //CanvasController.instance.escenas.Add(9);

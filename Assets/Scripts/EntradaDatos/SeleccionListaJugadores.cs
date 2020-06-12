@@ -24,9 +24,17 @@ public class SeleccionListaJugadores : MonoBehaviour
     [SerializeField] private Transform transformParent = null;
     [SerializeField] private GameObject opcionesAdicionalesTenis = null;
 
+    private int cantMinima;
+    private float prefabHeight;
+
+    private void Start()
+    {
+        prefabHeight = botonJugador.GetComponent<RectTransform>().rect.height;
+    }
+
     private void FixedUpdate()
     {
-        flechasScroll.Actualizar(scrollRect, 8, transformListaJugadores.childCount);
+        flechasScroll.Actualizar(scrollRect, cantMinima, listaJugadores.Count);
     }
 
     /// 
@@ -34,10 +42,10 @@ public class SeleccionListaJugadores : MonoBehaviour
     /// 
     public void SetearListaJugadores(bool opcionesAdicionales_)
     {
-        if(opcionesAdicionales_) opcionesAdicionalesTenis.SetActive(true);
-        else opcionesAdicionalesTenis.SetActive(false);
-
         gameObject.SetActive(true);
+
+        if (opcionesAdicionales_) opcionesAdicionalesTenis.SetActive(true);
+        else opcionesAdicionalesTenis.SetActive(false);
 
         listaJugadores = AppController.instance.GetEquipoActual().GetJugadores();
         jugadoresSeleccionados = new List<Jugador>();
@@ -48,6 +56,9 @@ public class SeleccionListaJugadores : MonoBehaviour
             go.GetComponentInChildren<Text>().text = jugador.GetNombre();
             go.SetActive(true);
         }
+
+        if(prefabHeight == 0) prefabHeight = botonJugador.GetComponent<RectTransform>().rect.height;
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + transformParent.GetComponent<VerticalLayoutGroup>().spacing));
     }
 
     /// 

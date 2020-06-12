@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PanelEstadisticasGlobalesEquipo : Panel {
 
-    [SerializeField] private Text nombreEquipoText = null;
+    //[SerializeField] private Text nombreEquipoText = null;
     [SerializeField] private EstadisticasGlobalesEquipo estadisticasGlobales = null;
     [SerializeField] private GameObject estadisticaPrefab = null;
     [SerializeField] private ConfirmacionBorradoPartido confirmacionBorradoPartido = null;
@@ -39,12 +39,13 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
         if (listaPrefabsTextos == null) listaPrefabsTextos = new List<GameObject>();
 
-        equipo = AppController.instance.GetEquipoActual();
-        nombreEquipoText.text = equipo.GetNombre();
+        equipo = AppController.instance.equipoActual;
+        if (equipo == null) Debug.Log("EQUIPO NULO");
+        //nombreEquipoText.text = equipo.GetNombre();
 
         estadisticas = _estadisticas;
         
-        Debug.Log("ESTADISTICAS: " + _estadisticas.GetDictionary() == null);
+        //Debug.Log("ESTADISTICAS: " + _estadisticas.GetDictionary() == null);
 
         /*diccEstadisticas = new Dictionary<string, int>();
         diccEstadisticas = estadisticas.GetDictionary();

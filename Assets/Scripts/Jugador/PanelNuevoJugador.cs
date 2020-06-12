@@ -27,6 +27,9 @@ public class PanelNuevoJugador : Panel
     private InputPrefabFecha inputFecha;
     private InfoJugador infoJugador;
 
+    private int cantMinima;
+    private float prefabHeight;
+
     public override void Start()
     {
         base.Start();
@@ -52,9 +55,12 @@ public class PanelNuevoJugador : Panel
         inputsInt = new List<InputPrefab>();
         inputsEspecial = new List<InputPrefab>();*/
 
+        prefabHeight = prefabInputInfo.GetComponent<RectTransform>().rect.height;
+
         foreach (var info in infoJugador.GetInfoObligatoria())
         {
             GameObject go = Instantiate(prefabInputInfo, parentTransform);
+            go.gameObject.SetActive(true);
             InputPrefab IPgo = go.GetComponent<InputPrefab>();
             IPgo.SetNombreCategoria(info.Key.ToString());
             IPgo.SetCampoObligatorio(true);
@@ -63,6 +69,7 @@ public class PanelNuevoJugador : Panel
         }
 
         GameObject GO = Instantiate(prefabInputFecha, parentTransform);
+        GO.SetActive(true);
         inputFecha = GO.GetComponent<InputPrefabFecha>();
         inputFecha.SetCampoObligatorio(true);
         inputFecha.SetNombreCategoria("Fecha Nacimiento");
@@ -71,6 +78,7 @@ public class PanelNuevoJugador : Panel
         foreach (var info in infoJugadorAux.GetInfoString())
         {
             GameObject go = Instantiate(prefabInputInfo, parentTransform);
+            go.SetActive(true);
             InputPrefab IPgo = go.GetComponent<InputPrefab>();
             IPgo.SetNombreCategoria(info.Key.ToString());
             IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
@@ -83,6 +91,7 @@ public class PanelNuevoJugador : Panel
         foreach (var info in infoJugadorAux.GetInfoInt())
         {
             GameObject go = Instantiate(prefabInputInfo, parentTransform);
+            go.SetActive(true);
             InputPrefab IPgo = go.GetComponent<InputPrefab>();
             IPgo.SetNombreCategoria(info.Key.ToString());
             IPgo.SetKeyboardType(TouchScreenKeyboardType.NumberPad);
@@ -95,6 +104,7 @@ public class PanelNuevoJugador : Panel
         foreach (var info in infoJugadorAux.GetInfoEspecial())
         {
             GameObject go = Instantiate(prefabInputInfoEspecial, parentTransform);
+            go.SetActive(true);
             InputPrefabEspecial IPgo = go.GetComponent<InputPrefabEspecial>();
             IPgo.SetNombreCategoria(info.Key.ToString());
             inputsEspecial.Add(IPgo);
@@ -118,24 +128,16 @@ public class PanelNuevoJugador : Panel
                 input.ResetValor();
         if (inputFecha != null)
             inputFecha.ResetValor();
+
+        if(prefabHeight == 0) prefabHeight = prefabInputInfo.GetComponent<RectTransform>().rect.height;
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing));
     }
 
     private void FixedUpdate()
     {
-        flechasScroll.Actualizar(scrollRect, 6, parentTransform.childCount);
-        /*if (parentTransform.childCount < 6)
-        {
-            scrollRect.enabled = false;
-            flechaAbajo.SetActive(false);
-            flechaArriba.SetActive(false);
-        }
-        else
-        {
-            scrollRect.enabled = true;
-
-            if (scrollRect.verticalNormalizedPosition > .95f) flechaArriba.SetActive(false); else flechaArriba.SetActive(true);
-            if (scrollRect.verticalNormalizedPosition < 0.05f) flechaAbajo.SetActive(false); else flechaAbajo.SetActive(true);
-        }*/
+        if (prefabHeight == 0) prefabHeight = prefabInputInfo.GetComponent<RectTransform>().rect.height;
+        
+        flechasScroll.Actualizar(scrollRect, cantMinima, inputsString.Count + inputsEspecial.Count + inputsObligatorios.Count + 1);
     }
 
     public void GuardarNuevoJugador()
