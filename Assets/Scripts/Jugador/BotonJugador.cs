@@ -18,14 +18,14 @@ public class BotonJugador : MonoBehaviour {
 
     private PanelJugadores panelJugadores;                                                          //Panel principal PANEL JUGADORES
 
-    private GameObject panelConfirmacionBorrado;
+    private ConfirmacionBorradoJugador panelConfirmacionBorrado;
     private PanelJugadoresPrincipal panelJugadoresPrincipal;
 
     public void Start()
     {
         panelJugadores = GameObject.Find("PanelJugadores").GetComponent<PanelJugadores>();          //Se busca el panel por nombre, solo puede haber uno
-        panelConfirmacionBorrado = AppController.instance.panelConfirmacionBorradoJugador;
         panelJugadoresPrincipal = GameObject.Find("PanelJugadoresPrincipal").GetComponent<PanelJugadoresPrincipal>();
+        panelConfirmacionBorrado = panelJugadoresPrincipal.GetPanelConfirmacionBorrado();
     }
 
     public void SetNombreJugador(string nombre)
@@ -51,7 +51,7 @@ public class BotonJugador : MonoBehaviour {
 
     public void AbrirPanelConfirmacionBorrado()
     {
-        panelConfirmacionBorrado.GetComponent<ConfirmacionBorradoJugador>().Activar(nombreJugador, gameObject);
+        panelConfirmacionBorrado.Activar(nombreJugador, gameObject);
     }
 
     public string GetNombre()

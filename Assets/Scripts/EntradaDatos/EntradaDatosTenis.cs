@@ -56,10 +56,8 @@ public class EntradaDatosTenis : EntradaDatos
 
     private Jugador jugadorFocus;                   //Jugador focus en la entrada de datos
         
-    override public void Start()
+    private void Start()
     {
-        base.Start();
- 
         listaEstadisticas = PanelSeleccionEstadisticas.instance.GetListaEstadisticas();
         SetearSeccionListaEstadisticas();
         
@@ -98,7 +96,7 @@ public class EntradaDatosTenis : EntradaDatos
     {
         isPartido = _isPartido;     
 
-        gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
+        //gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
 
         gameObject.SetActive(true);  //asegurarse de que esté activo el panel
 
@@ -142,8 +140,8 @@ public class EntradaDatosTenis : EntradaDatos
 
         jugadorFocus = listaJugadores[0];
 
-        AppController.instance.UpdateTexture();
-        gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
+        //AppController.instance.UpdateTexture();
+        //gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
 
         CanvasController.instance.botonDespliegueMenu.SetActive(false);
 

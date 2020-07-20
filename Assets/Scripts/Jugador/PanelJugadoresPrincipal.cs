@@ -41,8 +41,6 @@ public class PanelJugadoresPrincipal : Panel {
 
     public void SetPanelJugadores(Equipo equipo_)
     {
-        base.Start();
-
         equipo = equipo_;
 
         AppController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre());
@@ -120,5 +118,10 @@ public class PanelJugadoresPrincipal : Panel {
     public void AbrirPanelConfirmacionBorrado()
     {
         panelConfirmacionBorrado.Activar(AppController.instance.jugadorActual.GetNombre(), botonJugadorFocus);
+    }
+
+    public ConfirmacionBorradoJugador GetPanelConfirmacionBorrado()
+    {
+        return panelConfirmacionBorrado;
     }
 }

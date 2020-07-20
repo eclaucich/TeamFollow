@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 /// <summary>
 /// 
 /// Clase base para el manejo de estadísticas, tanto de equipos como de jugadores
@@ -8,9 +10,10 @@
 public class Estadisticas {
 
     //Parametros a llevar por las estadísticas
-    protected Dictionary<string, int> listaEstadisticas; 
+    protected Dictionary<string, int> listaEstadisticas;
+    protected DateTime fecha;
 
-    public Estadisticas()                                                       //Constructor por defecto, todos los campos en 0
+    public Estadisticas()                                                       
     {
         listaEstadisticas = new Dictionary<string, int>();
     }
@@ -30,7 +33,17 @@ public class Estadisticas {
         }
     }
 
-    public void AgregarEstadisticas(string categoria, int cantidad)                  //Suma a los campos actuales, los campos de otra estadística
+    public void SetFecha(DateTime _fecha)
+    {
+        fecha = _fecha;
+    }
+
+    public DateTime GetFecha()
+    {
+        return fecha;
+    }
+
+    public void AgregarEstadisticas(string categoria, int cantidad)                  //Suma, a los campos actuales, los campos de otra estadística
     {
         if (!listaEstadisticas.ContainsKey(categoria)) listaEstadisticas[categoria] = cantidad;      //si el campo nunca fue seteado, inicializarlo
         else                                           listaEstadisticas[categoria] += cantidad;     //si ya existe el campo, se le agregan "cantidad"

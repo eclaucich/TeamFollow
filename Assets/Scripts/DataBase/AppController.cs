@@ -4,7 +4,11 @@ using UnityEngine.UI;
 
 public class AppController : MonoBehaviour {
 
-    [SerializeField] public Texture2D texturaPanelNormal = null;
+    [SerializeField] public ColorTheme colorTheme = null;
+    [SerializeField] public Font textFont = null;
+    [SerializeField] public Font numberFont = null;
+
+    /*[SerializeField] public Texture2D texturaPanelNormal = null;
     [SerializeField] public Texture2D texturaPanelFutbol = null;
     [SerializeField] public Texture2D texturaPanelHockeyPatines = null;
     [SerializeField] public Texture2D texturaPanelHockeyCesped = null;
@@ -14,14 +18,11 @@ public class AppController : MonoBehaviour {
     [SerializeField] public Texture2D texturaPanelPadel = null;
     [SerializeField] public Texture2D texturaPanelBasket = null;
     [SerializeField] public Texture2D texturaPanelSoftball = null;
-    [SerializeField] public Texture2D texturaPanelVoley = null;
+    [SerializeField] public Texture2D texturaPanelVoley = null;*/
 
-    [SerializeField] public GameObject panelConfirmacionBorradoEquipo = null;
-    [SerializeField] public GameObject panelConfirmacionBorradoJugador = null;
+    //[SerializeField] public GameObject panelConfirmacionBorradoEquipo = null;
+    //[SerializeField] public GameObject panelConfirmacionBorradoJugador = null;
     [SerializeField] public OverlayPanel overlayPanel = null;
-
-    [SerializeField] public Color colorBotonNormal;
-    [SerializeField] public Sprite imagenBotonNormal;
 
     [SerializeField] private Text resolucionText = null;
 
@@ -30,8 +31,8 @@ public class AppController : MonoBehaviour {
     public Equipo equipoActual;                                                            //Equipo al cual se le esta dando foco en el momento
     public Jugador jugadorActual;
 
-    private List<Texture> listaTexturas;
-    private Texture textureActual;
+    /*private List<Texture> listaTexturas;
+    private Texture textureActual;*/
 
     public List<ImagenBiblioteca> imagenesGuardadas;
 
@@ -54,7 +55,7 @@ public class AppController : MonoBehaviour {
         jugadorActual = null;
         imagenesGuardadas = new List<ImagenBiblioteca>();
 
-        listaTexturas = new List<Texture>();
+        /*listaTexturas = new List<Texture>();
         listaTexturas.Add(texturaPanelBasket);
         listaTexturas.Add(texturaPanelFutbol);
         listaTexturas.Add(texturaPanelHandball);
@@ -65,7 +66,7 @@ public class AppController : MonoBehaviour {
         listaTexturas.Add(texturaPanelSoftball);
         listaTexturas.Add(texturaPanelTenis);
         listaTexturas.Add(texturaPanelVoley);
-        listaTexturas.Add(texturaPanelNormal);
+        listaTexturas.Add(texturaPanelNormal);*/
 
         resWidth = Screen.currentResolution.width;
         resHeight = Screen.currentResolution.height;
@@ -78,7 +79,7 @@ public class AppController : MonoBehaviour {
         //Screen.SetResolution(720, 1280, true);
 
 
-        textureActual = texturaPanelNormal;
+        //textureActual = texturaPanelNormal;
     }
 
 
@@ -127,7 +128,7 @@ public class AppController : MonoBehaviour {
         equipoActual = equipo_;
     }
 
-    public void ChangeTexture(int i)
+    /*public void ChangeTexture(int i)
     {
         //Debug.Log("Entro1");
         if(i < 0)
@@ -135,9 +136,9 @@ public class AppController : MonoBehaviour {
             //Debug.Log("Entro2");
             textureActual = texturaPanelNormal;
         }
-    }
+    }*/
 
-    public void UpdateTexture()
+    /*public void UpdateTexture()
     {
         //Debug.Log("UPDATED");
         if (equipoActual != null)
@@ -148,13 +149,13 @@ public class AppController : MonoBehaviour {
         {
             textureActual = texturaPanelNormal;
         }
-    }
+    }*/
 
-    public Texture GetTextureActual()
+    /*public Texture GetTextureActual()
     {
         //UpdateTexture();
         return textureActual;
-    }
+    }*/
 
     public bool ExistsJugada(string nombre_)
     {

@@ -30,6 +30,7 @@ public class CanvasController : MonoBehaviour {
     private MensajeDesplegable menuSeleccion;
 
     [SerializeField] private ConfirmacionBorradoJugador confirmacionBorradoJugador = null;
+    [SerializeField] private EleccionBorradoEstadisticas eleccionBorradoEstadisticas = null;
     [SerializeField] private ConfirmacionBorradoEquipo confirmacionBorradoEquipo = null;
     [SerializeField] private ConfirmacionBorradoAsistencia confirmacionBorradoAsistencia = null;
     [SerializeField] private MensajeDesplegable panelHerramientasTablero = null;
@@ -43,7 +44,7 @@ public class CanvasController : MonoBehaviour {
     private PanelEntradaDatos panelEntradaDatos;
 
     private List<GameObject> listaPaneles;
-    
+
     public enum Paneles
     {
         Salir,
@@ -92,7 +93,7 @@ public class CanvasController : MonoBehaviour {
         listaPaneles.Add(panel_tablero);
         listaPaneles.Add(panel_biblioteca);
 
-        AbrirMisEquipos();  
+        AbrirMisEquipos();
     }
 
     public void Update()
@@ -156,37 +157,42 @@ public class CanvasController : MonoBehaviour {
             menuSeleccion.Cerrar();
             return;
         }
-        if (confirmacionBorradoPartidoEquipo.isDesplegado())
+        else if (confirmacionBorradoPartidoEquipo.isDesplegado())
         {
             confirmacionBorradoPartidoEquipo.Cerrar();
             return;
         }
-        if (confirmacionBorradoPartidoJugador.isDesplegado())
+        else if (confirmacionBorradoPartidoJugador.isDesplegado())
         {
             confirmacionBorradoPartidoJugador.Cerrar();
             return;
         }
-        if (confirmacionBorradoEquipo.isDesplegado())
+        else if (confirmacionBorradoEquipo.isDesplegado())
         {
             confirmacionBorradoEquipo.Cerrar();
             return;
         }
-        if (confirmacionBorradoJugador.isDesplegado())
+        else if (confirmacionBorradoJugador.isDesplegado())
         {
             confirmacionBorradoJugador.Cerrar();
             return;
         }
-        if(confirmacionBorradoAsistencia.isDesplegado())
+        else if (eleccionBorradoEstadisticas.isDesplegado())
+        {
+            eleccionBorradoEstadisticas.Cerrar();
+            return;
+        }
+        else if(confirmacionBorradoAsistencia.isDesplegado())
         {
             confirmacionBorradoAsistencia.Cerrar();
             return;
         }
-        if (panelHerramientasTablero.isDesplegado())
+        else if (panelHerramientasTablero.isDesplegado())
         {
             panelHerramientasTablero.Cerrar();
             return;
         }
-        if (panelHerramientasJugadas.isDesplegado())
+        else if (panelHerramientasJugadas.isDesplegado())
         {
             panelHerramientasJugadas.Cerrar();
             return;

@@ -16,9 +16,8 @@ public class PanelPrincipalBiblioteca : Panel
     private float prefabHeight;
     private int cantMinima;
 
-    override public void Start()
+    private void Start()
     {
-        base.Start();
         prefabHeight = botonImagenPrefab.GetComponent<RectTransform>().rect.height;
     }
 

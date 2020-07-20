@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EstadisticasGlobalesFutbol : PanelEstadisticasGlobalesEquipo
 {
-    public override void Start()
+    private void Start()
     {
         diccEstadisticas = new Dictionary<string, int>();
     }

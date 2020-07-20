@@ -103,17 +103,7 @@ public class PanelJugadores : MonoBehaviour {
 
         string nombrePartido = botonpartido.GetComponentInChildren<Text>().text;
 
-        Jugador jugadorFocus;
-
-        if (nombreJugadorFocus == null)
-        {
-            jugadorFocus = AppController.instance.jugadorActual;
-            nombreJugadorFocus = jugadorFocus.GetNombre();
-        }
-        else
-        {
-            jugadorFocus = AppController.instance.equipoActual.BuscarPorNombre(nombreJugadorFocus);
-        }
+        Jugador jugadorFocus = AppController.instance.jugadorActual;
 
         bool isPartido = panel_partidos.GetComponent<PanelPartidos>().IsPartido();
 

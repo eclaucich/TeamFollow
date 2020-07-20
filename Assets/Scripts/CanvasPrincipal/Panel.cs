@@ -5,7 +5,7 @@ public class Panel : MonoBehaviour
 {
     protected string nombrePanel = "";
 
-    public virtual void Start()
+    /*public virtual void Start()
     {
         UpdateTexture();
     }
@@ -14,5 +14,5 @@ public class Panel : MonoBehaviour
     {
         AppController.instance.UpdateTexture();
         GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
-    }
+    }*/
 }

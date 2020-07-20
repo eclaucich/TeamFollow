@@ -10,9 +10,9 @@ using System.Collections.Generic;
 
 public class PanelDetalleJugador : Panel{
 
-    //Campos a mostrar
-    [SerializeField] private Text nombreJugadorText = null;
     [SerializeField] private GameObject estadisticaPrefab = null;
+    [SerializeField] private GameObject botonEstadisticaPrefab = null;
+    [SerializeField] private Transform transformParent = null;
 
     [SerializeField] private Text tipoEstadisticasText = null;
 
@@ -21,7 +21,7 @@ public class PanelDetalleJugador : Panel{
     protected Transform parentTransform;
 
     protected Estadisticas estadisticas;
-    protected Jugador jugador;                                                                //Jugador enfocado
+    protected Jugador jugador;                                                               
     
     private bool tipoEstadisticasPartido = true;
 
@@ -40,7 +40,6 @@ public class PanelDetalleJugador : Panel{
 
         if (listaPrefabsTextos == null) listaPrefabsTextos = new List<GameObject>();
         jugador = AppController.instance.GetEquipoActual().BuscarPorNombre(nombreJugador);
-        nombreJugadorText.text = nombreJugador;
 
         estadisticas = _estadisticas;
 
@@ -83,12 +82,19 @@ public class PanelDetalleJugador : Panel{
         for (int i = 0; i < estadisticas.GetCantidadCategorias(); i++)
         {
             //Debug.Log(estadisticas.GetKeyAtIndex(i) + "  " + estadisticas.GetValueAtIndex(i).ToString());
-            GameObject estadisticaGO = Instantiate(estadisticaPrefab, parentTransform, false);
+            /*GameObject estadisticaGO = Instantiate(estadisticaPrefab, parentTransform, false);
             Text[] textos = estadisticaGO.GetComponentsInChildren<Text>();
             textos[0].text = estadisticas.GetKeyAtIndex(i);
             textos[1].text = estadisticas.GetValueAtIndex(i).ToString();
 
-            listaPrefabsTextos.Add(estadisticaGO);
+            listaPrefabsTextos.Add(estadisticaGO);*/
+
+            GameObject botonEstadisticaGO = Instantiate(botonEstadisticaPrefab, transformParent, false);
+            botonEstadisticaGO.SetActive(true);
+            BotonEstadistica botonEstadistica = botonEstadisticaGO.GetComponent<BotonEstadistica>();
+            botonEstadistica.SetNombreEstadistica(estadisticas.GetKeyAtIndex(i));
+            botonEstadistica.SetValorEstadistica(estadisticas.GetValueAtIndex(i).ToString());
+            listaPrefabsTextos.Add(botonEstadisticaGO);
         }
     }
 

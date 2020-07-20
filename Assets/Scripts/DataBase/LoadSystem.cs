@@ -192,7 +192,7 @@ public static class LoadSystem
 
 
             //CARGAR PLANILLAS
-            string pathPlanillas = Application.persistentDataPath + "/SaveData" + "/Equipos/" + equipo.GetNombre() + "/planillas";
+            string pathPlanillas = pathEquipos + equipo.GetNombre() + "/planillas";
 
             if (Directory.Exists(pathPlanillas))
             {

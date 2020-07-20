@@ -43,9 +43,8 @@ public class PanelInfoJugador : Panel
         inputsObligatorios = new List<InputPrefab>();
     }
 
-    override public void Start()
-    {
-        base.Start();
+    private void Start()
+    { 
         panelJugadores = GameObject.Find("PanelJugadores").GetComponent<PanelJugadores>();
 
         prefabHeight = prefabInputInfo.GetComponent<RectTransform>().rect.height;
@@ -93,6 +92,7 @@ public class PanelInfoJugador : Panel
             IPgo.SetPlaceholder(info.Value.ToString());
             IPgo.HabilitarInput(false);
             inputsObligatorios.Add(IPgo);
+            IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             nombreActual = info.Value.ToString();
         }
 
@@ -113,6 +113,7 @@ public class PanelInfoJugador : Panel
             IPgo.SetNombreCategoria(info.Key.ToString());
             IPgo.SetPlaceholder(info.Value.ToString());
             IPgo.HabilitarInput(false);
+            IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             inputsString.Add(IPgo);
 
             //go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
@@ -126,6 +127,7 @@ public class PanelInfoJugador : Panel
             IPgo.SetNombreCategoria(info.Key.ToString());
             IPgo.SetPlaceholder(info.Value.ToString());
             IPgo.HabilitarInput(false);
+            IPgo.SetKeyboardType(TouchScreenKeyboardType.NumberPad);
             inputsInt.Add(IPgo);
 
             //go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();

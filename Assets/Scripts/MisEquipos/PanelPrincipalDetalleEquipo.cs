@@ -14,8 +14,6 @@ public class PanelPrincipalDetalleEquipo : Panel
 
     public void SetBotonesDisponibles()
     {
-        base.Start();
-
         AppController.instance.overlayPanel.SetNombrePanel(AppController.instance.equipoActual.GetNombre());
 
         if(AppController.instance.equipoActual.GetDeporte() == Deportes.Deporte.Tenis)

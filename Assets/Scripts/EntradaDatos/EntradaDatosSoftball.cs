@@ -62,7 +62,7 @@ public class EntradaDatosSoftball : EntradaDatos
 
     private Estados estadoActual;
 
-    override public void Start()
+    private void Start()
     {
         jugadores = new List<Jugador>();
 

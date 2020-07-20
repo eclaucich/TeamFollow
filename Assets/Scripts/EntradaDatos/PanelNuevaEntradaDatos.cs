@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,10 +36,9 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
     [SerializeField] private GameObject textEstadisticaPrefab = null;
 
-    [SerializeField] private Image botonGuardarPartido = null;
-    [SerializeField] private Image botonGuardarPractica = null;
-    [SerializeField] private Color colorSeleccionado;
-    [SerializeField] private Color colorNoSeleccionado;
+    [SerializeField] private Sprite botonGuardarPartido = null;
+    [SerializeField] private Sprite botonGuardarPractica = null;
+    [SerializeField] private Image imagenSeleccion = null;
 
     private PanelEntradaDatos panelEntradaDatos;
 
@@ -55,7 +55,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         panelEntradaDatos = GetComponentInParent<PanelEntradaDatos>();   
         listaEstadisticas = PanelSeleccionEstadisticas.instance.GetListaEstadisticas();
         listaIniciales = PanelSeleccionEstadisticas.instance.GetListaInicialesEstadisticas();
-
+        GuardarComoPartido();
         //gameObject.GetComponent<RawImage>().texture = AppController.instance.GetComponent<Test>().myGradient.GetTexture(1280);
     }
 
@@ -95,7 +95,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         else
             scrollHorizontal.enabled = true;
 
-        gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
+        //gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
 
         //parentColumna = transform;
 
@@ -206,31 +206,33 @@ public class PanelNuevaEntradaDatos : EntradaDatos
     public void GuardarComoPartido()
     {
         isPartido = true;
-        botonGuardarPartido.color = colorSeleccionado;
-        botonGuardarPractica.color = colorNoSeleccionado;
+        imagenSeleccion.sprite = botonGuardarPartido;
     }
 
     public void GuardarComoPractica()
     {
         isPartido = false;
-        botonGuardarPartido.color = colorNoSeleccionado;
-        botonGuardarPractica.color = colorSeleccionado;
+        imagenSeleccion.sprite = botonGuardarPractica;
     }
 
     override public void GuardarEntradaDatos()
     {
         string tipoEntradaDatos = isPartido ? "Partido" : "Practica";
-       
+
+        Debug.Log("Guardando como: " + tipoEntradaDatos);
+
         if (nombrePartidoText.text == "")
         {
             mensajeErrorGuardado.SetText("Nombre inválido");
             mensajeErrorGuardado.Activar();
+            Debug.Log("Nombre inválido");
             return;
         }
         else if(equipo.ContienePartido(tipoEntradaDatos, nombrePartidoText.text))
         {
             mensajeErrorGuardado.SetText("Nombre existente");
             mensajeErrorGuardado.Activar();
+            Debug.Log("Nombre existente");
             return;
         }
 
@@ -245,6 +247,8 @@ public class PanelNuevaEntradaDatos : EntradaDatos
                 Button[] botones = columnas[j + 1].GetComponentsInChildren<Button>();
                 estadistica.AgregarEstadisticas(listaEstadisticas[j], botones[i].GetComponent<BotonEntradaDato>().GetCantidad()); 
             }
+            estadistica.SetFecha(DateTime.Now);
+            estEquipo.SetFecha(DateTime.Now);
 
             estEquipo.AgregarEstadisticas(estadistica);
             //jugadores[i].SetEstadisticas(estadistica, tipoEntradaDatos);
@@ -256,11 +260,13 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         //equipo.AgregarPartido(new Partido(nombrePartidoText.text, estEquipo), tipoEntradaDatos);
         equipo.GuardarEntradaDato(tipoEntradaDatos, estEquipo, new Partido(nombrePartidoText.text, estEquipo));
 
-        CanvasController.instance.escenas.Add(1);
+        Debug.Log("Entrada guardado como: " + tipoEntradaDatos);
+
+        //CanvasController.instance.escenas.Add(1);
         CanvasController.instance.retrocesoPausado = false;
         CanvasController.instance.MostrarPanelAnterior();
-        Destroy(gameObject);
         CanvasController.instance.botonDespliegueMenu.SetActive(true);
+        Destroy(gameObject);
     }
 
     public override void DescartarDatos()

@@ -11,8 +11,8 @@ public class ImagenBiblioteca
     {
         nombre = nombre_;
         bytes = bytes_;
-        Debug.Log("W: " + AppController.instance.resWidth);
-        Debug.Log("H: " + AppController.instance.resHeight);
+        //Debug.Log("W: " + AppController.instance.resWidth);
+        //Debug.Log("H: " + AppController.instance.resHeight);
 
         texture = new Texture2D(AppController.instance.resWidth, AppController.instance.resHeight, TextureFormat.RGB24, false);
         texture.LoadImage(bytes);

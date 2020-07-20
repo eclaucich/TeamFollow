@@ -19,15 +19,16 @@ public class PanelNuevoEquipo : Panel {
     [SerializeField] private Text nombreDeporteElegido = null;
 
     private GameObject botonDeporteActual = null;
-    [SerializeField] private Color notSelectedColor;
-    [SerializeField] private Color selectedColor;
+    private Color notSelectedColor;
+    private Color selectedColor;
 
     private PanelMisEquipos panelMisEquipos;                                                //Componente padre para poder acceder a las funciones
 
-    public override void Start()
+    private void Start()
     {
-        base.Start();
         panelMisEquipos = GetComponentInParent<PanelMisEquipos>();
+        notSelectedColor = AppController.instance.colorTheme.botonActivado;
+        selectedColor = new Color(notSelectedColor.r, notSelectedColor.g, notSelectedColor.b, 160f / 255f);
     }
 
     public void SetPanel()

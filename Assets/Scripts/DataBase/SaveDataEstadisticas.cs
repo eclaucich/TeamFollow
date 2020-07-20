@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class SaveDataEstadisticas {
@@ -7,6 +8,7 @@ public class SaveDataEstadisticas {
 
     public List<string> nombresCategorias;
     public List<int> valoresCategorias;
+    public DateTime fecha;
 
     public SaveDataEstadisticas(Estadisticas estadisticas_)
     {
@@ -24,6 +26,8 @@ public class SaveDataEstadisticas {
             nombresCategorias.Add(keys[i]);
             valoresCategorias.Add(values[i]);
         }
+
+        fecha = estadisticas_.GetFecha();
     }
 
 

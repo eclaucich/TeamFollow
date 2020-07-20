@@ -30,10 +30,8 @@ public class PanelNuevoJugador : Panel
     private int cantMinima;
     private float prefabHeight;
 
-    public override void Start()
+    private void Start()
     {
-        base.Start();
-
         infoJugador = new InfoJugador();
 
         //listaPrefabs = new List<GameObject>();

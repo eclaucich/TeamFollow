@@ -36,7 +36,6 @@ public class BotonEquipo : MonoBehaviour {
 
     [SerializeField] private Text cantidadJugadoresText = null;
 
-    private GameObject panelConfirmacionBorrado;
 
     private List<Sprite> listaSprites;
 
@@ -44,7 +43,6 @@ public class BotonEquipo : MonoBehaviour {
     {
         panelMisEquiposGO = GameObject.Find("PanelMisEquipos");                                 //Se busca el panel por nombre, solo puede haber uno
         panelMisEquipos = panelMisEquiposGO.GetComponent<PanelMisEquipos>();                    //Se obtiene el componente del panel
-        panelConfirmacionBorrado = AppController.instance.panelConfirmacionBorradoEquipo;
     }
 
     private void Start()
@@ -117,9 +115,4 @@ public class BotonEquipo : MonoBehaviour {
         spriteDeporte.transform.localScale.Set(2f, 2f, 1f);
     }
 
-
-    public void AbrirPanelConfirmacionBorrado()
-    {
-        panelConfirmacionBorrado.GetComponent<ConfirmacionBorradoEquipo>().Activar(nombreEquipoText.text, gameObject);
-    }
 }

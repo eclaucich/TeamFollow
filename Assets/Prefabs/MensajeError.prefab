@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7178783127265984094}
   - component: {fileID: 7178783127265984093}
   - component: {fileID: 7178783127265984095}
+  - component: {fileID: 7824232583514770621}
   m_Layer: 5
   m_Name: MensajeError
   m_TagString: Untagged
@@ -89,6 +90,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mensajeText: {fileID: 7178783127847732054}
   aliveTime: 2
+--- !u!114 &7824232583514770621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178783127265984091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bb6159f7a2ea841938d5f8773b1a50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7178783127847732052
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,6 +113,7 @@ GameObject:
   - component: {fileID: 7178783127847732053}
   - component: {fileID: 7178783127847732055}
   - component: {fileID: 7178783127847732054}
+  - component: {fileID: 587964072090638181}
   m_Layer: 5
   m_Name: Mensaje
   m_TagString: Untagged
@@ -166,3 +180,15 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Mensaje de Error
+--- !u!114 &587964072090638181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178783127847732052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc33faf2046797747a0df0be8aa77b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

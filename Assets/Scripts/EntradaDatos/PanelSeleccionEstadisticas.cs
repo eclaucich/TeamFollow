@@ -69,10 +69,8 @@ public class PanelSeleccionEstadisticas : Panel {
         seleccionarPractica.GetComponent<Image>().color = colorNoSeleccionado;
     }
 
-    public override void Start()
+    private void Start()
     {
-        base.Start();
-
         AppController.instance.overlayPanel.SetNombrePanel("ESTADISTICAS");
     }
 

@@ -10,12 +10,6 @@ public class BotonNormal : MonoBehaviour
         Activar();
     }
 
-    /*
-    private void Update()
-    {
-        button.image.color = AppController.instance.colorBotonNormal;
-    }*/
-
     public void Activar()
     {
         if (button == null)
@@ -36,13 +30,13 @@ public class BotonNormal : MonoBehaviour
     {
         if (button == null)
             button = GetComponent<Button>();
-        button.image.color = AppController.instance.colorBotonNormal;
+        button.image.color = AppController.instance.colorTheme.botonActivado;
     }
 
     public void SetColorDesactivado()
     {
         if (button == null)
             button = GetComponent<Button>();
-        button.image.color = new Color(AppController.instance.colorBotonNormal.r, AppController.instance.colorBotonNormal.g, AppController.instance.colorBotonNormal.b, 0.55f);
+        button.image.color = AppController.instance.colorTheme.botonDesactivado;
     }
 }

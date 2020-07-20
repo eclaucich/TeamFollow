@@ -108,13 +108,13 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         if (Input.GetMouseButtonDown(0))
         {
             vectInitialPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            vectFinalPos = Camera.main.WorldToScreenPoint(vectFinalPos);
+            vectFinalPos = Camera.main.ScreenToWorldPoint(vectFinalPos);
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             vectFinalPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            vectFinalPos = Camera.main.WorldToScreenPoint(vectFinalPos);
+            vectFinalPos = Camera.main.ScreenToWorldPoint(vectFinalPos);
             vectSwipe = vectFinalPos - vectInitialPos;
 
             swipeDiff = vectFinalPos.y - vectInitialPos.y;
