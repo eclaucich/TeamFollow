@@ -121,11 +121,33 @@ public class Estadisticas {
         return value;
     }
 
+    public int[] Find(string _key) //Busca si la estadistica "_key" esta en el diccionario. Devuelve en [0] si la encontró (1) o no (0), y en [1] el valor de esa estadistica
+    {
+        int[] result = new int[2];
+        bool aux = false;
+
+        foreach (var est in listaEstadisticas)
+        {
+            if (est.Key == _key)
+            {
+                result[0] = 1;
+                result[1] = est.Value;
+                aux = true;
+                break;
+            }
+        }
+        if (!aux)
+        {
+            result[0] = 0;
+            result[1] = -1;
+        }
+
+        return result;
+    }
 
     public bool isEmpty()
     {
         return listaEstadisticas == null || listaEstadisticas.Keys.Count == 0;
     }
-
 
 }

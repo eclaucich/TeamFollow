@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 
 public static class LoadSystem
 {
@@ -41,7 +42,8 @@ public static class LoadSystem
             {
                 FileStream estPartidoStream = new FileStream(pathEquipo + "/estGlobalPartido.txt", FileMode.Open);
                 SaveDataEstadisticas dataEstPartido = (SaveDataEstadisticas)formatter.Deserialize(estPartidoStream);
-                equipo.CargarEstadisticasGlobalesPartido(new Estadisticas(dataEstPartido));
+                Estadisticas est = new Estadisticas(dataEstPartido);
+                equipo.CargarEstadisticasGlobalesPartido(est);
                 estPartidoStream.Close();
             }
             if (File.Exists(pathEquipo + "/estGlobalPractica.txt"))
@@ -231,17 +233,33 @@ public static class LoadSystem
         if (Directory.Exists(pathImagenJugadas))
         {
             //Por cada imagen guardada creo un objeto imagen
-            string[] pathImagen = Directory.GetFiles(pathImagenJugadas);
+            string[] directories = Directory.GetDirectories(pathImagenJugadas);
 
-            for (int i = 0; i < pathImagen.Length; i++)
+            for (int i = 0; i < directories.Length; i++)
             {
                 //string nombreArchivo = pathImagen[i].Substring(pathImagen[i].Length-23, 19); //son los últimos 19 quitando los ultimos 4(.png)
+                string[] pathArchivos = Directory.GetFiles(directories[i]);
+                
+                byte[] bytes = null;
+                string nombre = string.Empty;
+                string categoria = string.Empty;
 
-                string nombreArchivo = Path.GetFileNameWithoutExtension(pathImagen[i]);
+                for (int j = 0; j < pathArchivos.Length; j++)
+                {
+                    if(Path.GetExtension(pathArchivos[j]) == ".png")
+                    {
+                        nombre = Path.GetFileNameWithoutExtension(pathArchivos[j]);
 
-                byte[] bytes = File.ReadAllBytes(pathImagen[i]);
+                        bytes = File.ReadAllBytes(pathArchivos[j]);
+                    }
+                    else
+                    {
+                        FileStream streamCategoria = new FileStream(pathArchivos[j], FileMode.Open);
+                        categoria = (string)formatter.Deserialize(streamCategoria);
+                    }
+                }
 
-                AppController.instance.AgregarImagen(new ImagenBiblioteca(bytes, nombreArchivo));
+                AppController.instance.AgregarImagen(new ImagenBiblioteca(bytes, nombre, categoria));
             }
         }
     }

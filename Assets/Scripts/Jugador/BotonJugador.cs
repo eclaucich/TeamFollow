@@ -13,17 +13,17 @@ using UnityEngine.UI;
 
 public class BotonJugador : MonoBehaviour {
 
-    [SerializeField] private Text nombreJugadorText = null;                                                //Texto que muestra el nombre del jugador
+    [SerializeField] private Text nombreJugadorText = null;                                                
     private string nombreJugador;
 
-    private PanelJugadores panelJugadores;                                                          //Panel principal PANEL JUGADORES
+    private PanelJugadores panelJugadores;                                                          
 
     private ConfirmacionBorradoJugador panelConfirmacionBorrado;
     private PanelJugadoresPrincipal panelJugadoresPrincipal;
 
     public void Start()
     {
-        panelJugadores = GameObject.Find("PanelJugadores").GetComponent<PanelJugadores>();          //Se busca el panel por nombre, solo puede haber uno
+        panelJugadores = GameObject.Find("PanelJugadores").GetComponent<PanelJugadores>();          
         panelJugadoresPrincipal = GameObject.Find("PanelJugadoresPrincipal").GetComponent<PanelJugadoresPrincipal>();
         panelConfirmacionBorrado = panelJugadoresPrincipal.GetPanelConfirmacionBorrado();
     }
@@ -34,11 +34,11 @@ public class BotonJugador : MonoBehaviour {
         nombreJugadorText.text = nombreJugador;
     }
 
-    public void MostrarDetallesJugador()                                                            //Se muestran todos los detalles del jugador relacionado con el prefab
+    public void MostrarDetallesJugador()                                                            
     {
         AppController.instance.jugadorActual = AppController.instance.equipoActual.BuscarPorNombre(nombreJugador);
         panelJugadoresPrincipal.SetBotonJugadorFocus(gameObject);
-        panelJugadores.MostrarPanelInfoJugador(/*nombreJugador*/);
+        panelJugadores.MostrarPanelInfoJugador();
     }
 
     public void MostrarPartidosJugador()

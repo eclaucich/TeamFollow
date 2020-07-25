@@ -176,9 +176,9 @@ public class PanelPartidos : Panel
 
 
 
-    public void BorrarPartido(BotonPartido botonPartido)
+    public void BorrarPartido(Partido _partido)
     {
-        string nombrePartido = botonPartido.GetComponentInChildren<Text>().text;
+        string nombrePartido = _partido.GetNombre();
 
         List<Partido> partidos = isPartido ? jugadorFocus.GetPartidos() : jugadorFocus.GetPracticas();
 
@@ -203,14 +203,15 @@ public class PanelPartidos : Panel
         SaveSystem.BorrarPartido(isPartido, partidoFocus, jugadorFocus, AppController.instance.equipoActual);
 
         //Eliminar el prefab
-        Destroy(botonPartido.transform.parent.gameObject);
-        listaPartidosPrefabs.Remove(botonPartido.transform.parent.gameObject);
+        //Destroy(botonPartido.transform.parent.gameObject);
+        //listaPartidosPrefabs.Remove(botonPartido.transform.parent.gameObject);
 
         //Eliminar el partido de la lista de partidos
         listaPartidos.Remove(partidoFocus);
+
+        ResetPrefabs();
+        
     }
-
-
 
     public bool IsPartido()
     {

@@ -23,34 +23,35 @@ public class PanelDetalleJugador : Panel{
     protected Estadisticas estadisticas;
     protected Jugador jugador;                                                               
     
-    private bool tipoEstadisticasPartido = true;
+    private bool isPartido = true;
 
     protected List<GameObject> listaPrefabsTextos;
 
     [SerializeField] private EstadisticasJugador panelEstadisticas = null;
     [SerializeField] private GameObject botonBorrar = null;
 
-    private BotonPartido botonFocus;
+    private Partido partidoFocus;
 
-    public void SetDetallesJugador(BotonPartido botonPartido, string nombreJugador, Estadisticas _estadisticas)                     //Setear el panel
+    public void SetDetallesJugador(Partido _partido, string nombreJugador, Estadisticas _estadisticas)
     {
-        botonFocus = botonPartido;
+        partidoFocus = _partido;
 
-        if (botonFocus == null) botonBorrar.SetActive(false); else botonBorrar.SetActive(true); 
+        if (_partido == null) botonBorrar.SetActive(false); else botonBorrar.SetActive(true); 
 
         if (listaPrefabsTextos == null) listaPrefabsTextos = new List<GameObject>();
         jugador = AppController.instance.GetEquipoActual().BuscarPorNombre(nombreJugador);
 
         estadisticas = _estadisticas;
 
-        parentTransform = panelEstadisticas.Set(botonPartido);
+        parentTransform = panelEstadisticas.GetPanelEstadisticaTransform();
+
         BorrarPrefabs();
         CrearPrefabs();
     }
 
     public void SetDetallesEstadisticas()
     {
-        if (tipoEstadisticasPartido)
+        if (isPartido)
         {
             estadisticas = jugador.GetEstadisticasPartido();
             tipoEstadisticasText.text = "Partido";
@@ -61,7 +62,7 @@ public class PanelDetalleJugador : Panel{
             tipoEstadisticasText.text = "Practica";
         }
 
-        parentTransform = panelEstadisticas.Set(null);
+        parentTransform = panelEstadisticas.GetPanelEstadisticaTransform();
 
         BorrarPrefabs();
         CrearPrefabs();
@@ -81,32 +82,30 @@ public class PanelDetalleJugador : Panel{
     {
         for (int i = 0; i < estadisticas.GetCantidadCategorias(); i++)
         {
-            //Debug.Log(estadisticas.GetKeyAtIndex(i) + "  " + estadisticas.GetValueAtIndex(i).ToString());
-            /*GameObject estadisticaGO = Instantiate(estadisticaPrefab, parentTransform, false);
-            Text[] textos = estadisticaGO.GetComponentsInChildren<Text>();
-            textos[0].text = estadisticas.GetKeyAtIndex(i);
-            textos[1].text = estadisticas.GetValueAtIndex(i).ToString();
-
-            listaPrefabsTextos.Add(estadisticaGO);*/
-
             GameObject botonEstadisticaGO = Instantiate(botonEstadisticaPrefab, transformParent, false);
             botonEstadisticaGO.SetActive(true);
+
             BotonEstadistica botonEstadistica = botonEstadisticaGO.GetComponent<BotonEstadistica>();
             botonEstadistica.SetNombreEstadistica(estadisticas.GetKeyAtIndex(i));
             botonEstadistica.SetValorEstadistica(estadisticas.GetValueAtIndex(i).ToString());
+
             listaPrefabsTextos.Add(botonEstadisticaGO);
         }
     }
 
-
     public void CambiarTipoEstadisticas()
     {
-        tipoEstadisticasPartido = !tipoEstadisticasPartido;
+        isPartido = !isPartido;
         SetDetallesEstadisticas();
     }
 
     public void ActivarPanelConfirmacionBorradoPartido()
     {
-        confirmacionBorradoPartido.ActivarPanel(botonFocus);
+        confirmacionBorradoPartido.ActivarPanel(partidoFocus);
+    }
+
+    public bool GetIsPartido()
+    {
+        return isPartido;
     }
 }

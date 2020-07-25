@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -358,6 +359,7 @@ public class EntradaDatosTenis : EntradaDatos
     public override void GuardarEntradaDatos()
     {
         string tipoEntradaDato = isPartido ? "Partido" : "Practica";
+        DateTime fecha = DateTime.Now;
 
         if (jugadorFocus.ContienePartido(tipoEntradaDato, nombrePartidoText.text))
         {
@@ -367,7 +369,7 @@ public class EntradaDatosTenis : EntradaDatos
             return;
         }
 
-        Partido partido = new Partido(nombrePartidoText.text, estadisticas);
+        Partido partido = new Partido(nombrePartidoText.text, estadisticas, fecha);
 
         jugadorFocus.GuardarEntradaDato(tipoEntradaDato, estadisticas, partido);
 

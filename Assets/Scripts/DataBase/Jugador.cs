@@ -109,15 +109,15 @@ public class Jugador {
         if(tipoEntradaDato == "Partido")
         {
             estadisticasGlobalesPartido.AgregarEstadisticas(estadisticas);
-            partidos.Add(partido);  
+            partidos.Add(partido);
+            SaveSystem.GuardarEntradaDato(tipoEntradaDato, estadisticasGlobalesPartido, partido, this, AppController.instance.equipoActual);
         }
         else
         {
             estadisticasGlobalesPractica.AgregarEstadisticas(estadisticas);
             practicas.Add(partido);
+            SaveSystem.GuardarEntradaDato(tipoEntradaDato, estadisticasGlobalesPractica, partido, this, AppController.instance.equipoActual);
         }
-
-        SaveSystem.GuardarEntradaDato(tipoEntradaDato, estadisticasGlobalesPartido, partido, this, AppController.instance.equipoActual);
     }
 
     /*public void SetEstadisticas(Estadisticas estadisticas_, string tipoEntradaDatos_)

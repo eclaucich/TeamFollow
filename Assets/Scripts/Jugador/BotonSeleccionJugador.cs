@@ -3,22 +3,14 @@ using UnityEngine.UI;
 
 public class BotonSeleccionJugador : MonoBehaviour
 {
-    [SerializeField] private Color colorSeleccionado = new Color();
-    [SerializeField] private Color colorNoSeleccionado = new Color();
-
     private bool seleccionado = false;
-
-    private void Start()
-    {
-        GetComponent<Image>().color = colorNoSeleccionado;
-    }
 
     public void ToggleSeleccionado()
     {
         seleccionado = !seleccionado;
 
-        if (seleccionado) GetComponent<Image>().color = colorSeleccionado;
-        else GetComponent<Image>().color = colorNoSeleccionado;
+        if (seleccionado) GetComponent<BotonNormal>().SetColorDesactivado();
+        else GetComponent<BotonNormal>().SetColorActivado();
     }
 
     public bool isSeleccionado()

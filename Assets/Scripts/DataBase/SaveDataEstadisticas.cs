@@ -30,6 +30,10 @@ public class SaveDataEstadisticas {
         fecha = estadisticas_.GetFecha();
     }
 
+    public DateTime GetFecha()
+    {
+        return fecha;
+    }
 
     private List<string> ListaKeys(Dictionary<string, int>.KeyCollection keys)
     {

@@ -22,7 +22,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     private Transform parentTransform;
     private List<GameObject> listaPrefabsTextos;
 
-    private BotonPartido botonFocus;
+    private Partido partidoFocus;
 
     [SerializeField] private GameObject botonBorrar;
 
@@ -32,10 +32,12 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     }
 
 
-    public void SetPanelEstadisticasGlobalesEquipo(BotonPartido _botonPartido, Estadisticas _estadisticas)
+    public void SetPanelEstadisticasGlobalesEquipo(/*BotonPartido _botonPartido, */Estadisticas _estadisticas)
     {
-        if (_botonPartido == null) botonBorrar.SetActive(false); else botonBorrar.SetActive(true);
-        botonFocus = _botonPartido;
+        AppController.instance.overlayPanel.SetNombrePanel("Estadisticas globales");
+
+        /*if (_botonPartido == null) */botonBorrar.SetActive(false);// else botonBorrar.SetActive(true);
+        //botonFocus = _botonPartido;
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.EstadisticasGlobalesEquipo);
 
@@ -61,8 +63,30 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
         CrearPrefabs();
     }
 
+    public void SetPanelEstadisticasGlobalesEquipo(Partido _partido)
+    {
+        partidoFocus = _partido;
+
+        AppController.instance.overlayPanel.SetNombrePanel("Partido: " + _partido.GetNombre());
+
+        botonBorrar.SetActive(true);
+
+        Screen.orientation = ScreenOrientation.Portrait;
+
+        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.EstadisticasGlobalesEquipo);
+
+        if (listaPrefabsTextos == null) listaPrefabsTextos = new List<GameObject>();
+
+        estadisticas = _partido.GetEstadisticas();
+
+        parentTransform = estadisticasGlobales.SetPanelEstadisticas();
+
+        BorrarPrefabs();
+        CrearPrefabs();
+    }
+
     virtual public void CrearPrefabs()
-    {  
+    {
         for (int i = 0; i < estadisticas.GetCantidadCategorias(); i++)
         {
             //Debug.Log(estadisticas.GetKeyAtIndex(i) + "  " + estadisticas.GetValueAtIndex(i).ToString());
@@ -72,7 +96,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
             textos[1].text = estadisticas.GetValueAtIndex(i).ToString();
 
             listaPrefabsTextos.Add(estadisticaGO);*/
-
+            
             GameObject botonEstadisticaGO = Instantiate(botonEstadisticaPrefab, transformParent, false);
             botonEstadisticaGO.SetActive(true);
             BotonEstadistica botonEstadistica = botonEstadisticaGO.GetComponent<BotonEstadistica>();
@@ -93,6 +117,6 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
     public void ActivarPanelConfirmacionBorrado()
     {
-        confirmacionBorradoPartido.ActivarPanel(botonFocus);
+        confirmacionBorradoPartido.ActivarPanel(partidoFocus);
     }
 }

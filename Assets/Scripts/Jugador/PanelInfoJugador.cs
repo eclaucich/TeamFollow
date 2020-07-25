@@ -148,13 +148,6 @@ public class PanelInfoJugador : Panel
 
     private void BorrarPrefabs()
     {
-        //if(listaPrefabs == null) return;
-
-        /*for(int i=0; i<listaPrefabs.Count; i++)
-        {
-            Destroy(listaPrefabs[i].gameObject);
-        }*/
-
         foreach (var input in inputsObligatorios)
             Destroy(input.gameObject);
         foreach (var input in inputsString)
@@ -163,7 +156,8 @@ public class PanelInfoJugador : Panel
             Destroy(input.gameObject);
         foreach (var input in inputsEspecial)
             Destroy(input.gameObject);
-        if(inputFecha != null) Destroy(inputFecha.gameObject);
+        if(inputFecha != null) 
+            Destroy(inputFecha.gameObject);
 
         inputsObligatorios.Clear();
         inputsString.Clear();

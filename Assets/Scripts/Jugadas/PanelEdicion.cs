@@ -55,6 +55,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     private bool swipeEnabled = true;
 
     private string nombreJugada = string.Empty;
+    private string categoriaActual = string.Empty;
 
     private void Awake()
     {
@@ -93,6 +94,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
         seccionGuardarJugada.SetActive(false);
         mensajeErrorGuardar.Desactivar();
+        CambiarCategoriaJugada("null");
     }
 
     private void Update()
@@ -200,7 +202,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             RenderTexture.active = snapshotCamera.targetTexture;
             snapshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
             byte[] bytes = snapshot.EncodeToPNG();
-            SaveSystem.GuardarJugadaImagen(bytes, nombreJugada);
+            SaveSystem.GuardarJugadaImagen(bytes, nombreJugada, categoriaActual);
             snapshotCamera.gameObject.SetActive(false);
             CanvasController.instance.GetComponent<Canvas>().worldCamera = Camera.main;
 
@@ -219,6 +221,11 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     public void CerrarSeccionGuardarJugada()
     {
         seccionGuardarJugada.SetActive(false);
+    }
+
+    public void CambiarCategoriaJugada(string categoria_)
+    {
+        categoriaActual = categoria_;
     }
 
     public void GuardarJugadaImagen()

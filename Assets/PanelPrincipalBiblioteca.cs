@@ -24,6 +24,8 @@ public class PanelPrincipalBiblioteca : Panel
     public void FixedUpdate()
     {
         flechasScroll.Actualizar(scrollRect, cantMinima, parentTransform.childCount-1);
+        if (parentTransform.childCount <= 1)
+            adviceText.SetActive(true);
     }
 
     public void SetPanePrincipal()
@@ -71,6 +73,7 @@ public class PanelPrincipalBiblioteca : Panel
             BotonImagen IGO = botonImagenGO.GetComponent<BotonImagen>();
             IGO.SetNombreBoton(imagen.GetNombre());
             IGO.SetImagenPreview(imagen.GetTexture());
+            IGO.SetCategoria(imagen.GetCategoria());
             Debug.Log("IMAGEN: " + imagen.GetNombre());
         }
 

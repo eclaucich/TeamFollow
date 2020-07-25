@@ -17,7 +17,22 @@ public class EstadisticasJugador : MonoBehaviour
 
     private List<GameObject> panelesEstadisticas;
 
-    private BotonPartido botonFocus;
+    public Transform GetPanelEstadisticaTransform()
+    {
+        SetListaPaneles();
+
+        foreach (var panel in panelesEstadisticas)
+        {
+            panel.SetActive(false);
+        }
+
+        int index = (int)AppController.instance.equipoActual.GetDeporte();
+        panelesEstadisticas[index].SetActive(true);
+
+        GetComponent<ScrollRect>().content = panelesEstadisticas[index].GetComponent<RectTransform>();
+
+        return panelesEstadisticas[index].transform;
+    }
 
     private void SetListaPaneles()
     {
@@ -33,24 +48,5 @@ public class EstadisticasJugador : MonoBehaviour
         panelesEstadisticas.Add(panelSoftball);
         panelesEstadisticas.Add(panelTenis);
         panelesEstadisticas.Add(panelVoley);
-    }
-
-    public Transform Set(BotonPartido _botonFocus)
-    {
-        SetListaPaneles();
-
-        botonFocus = _botonFocus;
-
-        foreach (var panel in panelesEstadisticas)
-        {
-            panel.SetActive(false);
-        }
-
-        int index = (int)AppController.instance.equipoActual.GetDeporte();
-        panelesEstadisticas[index].SetActive(true);
-
-        GetComponent<ScrollRect>().content = panelesEstadisticas[index].GetComponent<RectTransform>();
-
-        return panelesEstadisticas[index].transform;
     }
 }

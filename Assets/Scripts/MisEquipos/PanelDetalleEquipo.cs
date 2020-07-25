@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 /// <summary>
 /// 
@@ -14,12 +15,13 @@ public class PanelDetalleEquipo : MonoBehaviour {
     [SerializeField] private GameObject panel_entradaDatos = null;                                                 //Panel para ingresar datos
     [SerializeField] private GameObject panel_estadisticasGlobalesEquipo = null;                                   //Panel para ver las estadisticas del equipo
     [SerializeField] private GameObject panel_planillaAsistencias = null;
+    [SerializeField] private GameObject panel_graficoEstadistica = null;
 
     private List<GameObject> listaPaneles;
 
     private Equipo equipo;                                                                                  //Equipo enfocado
 
-    private void Start()
+    private void Awake()
     {
         listaPaneles = new List<GameObject>();
         listaPaneles.Add(panel_principal);
@@ -27,6 +29,7 @@ public class PanelDetalleEquipo : MonoBehaviour {
         listaPaneles.Add(panel_jugadores);
         listaPaneles.Add(panel_entradaDatos);
         listaPaneles.Add(panel_planillaAsistencias);
+        listaPaneles.Add(panel_graficoEstadistica);
     }
 
 
@@ -42,11 +45,12 @@ public class PanelDetalleEquipo : MonoBehaviour {
     //Por alguna razon poner ActivarPanel(0) no anda acá
     public void MostrarPanelPrincipal()                                                                     //Se activa el panel principal, y se desactivan los otros
     {
-        panel_principal.SetActive(true);
+        /*panel_principal.SetActive(true);
         panel_estadisticasGlobalesEquipo.SetActive(false);
         panel_jugadores.SetActive(false);
         panel_entradaDatos.SetActive(false);
-        panel_planillaAsistencias.SetActive(false);
+        panel_planillaAsistencias.SetActive(false);*/
+        ActivarPanel(0);
 
         CanvasController.instance.botonDespliegueMenu.SetActive(true);
 
@@ -66,13 +70,13 @@ public class PanelDetalleEquipo : MonoBehaviour {
 
     public void MostrarPanelJugadores()                                                                    //Se activa el panel de jugadores, y se desactivan los otros
     {
-        //ActivarPanel(2);
+        ActivarPanel(2);
 
-        panel_principal.SetActive(false);
+        /*panel_principal.SetActive(false);
         panel_estadisticasGlobalesEquipo.SetActive(false);
         panel_jugadores.SetActive(true);
         panel_entradaDatos.SetActive(false);
-        panel_planillaAsistencias.SetActive(false);
+        panel_planillaAsistencias.SetActive(false);*/
 
         CanvasController.instance.botonDespliegueMenu.SetActive(true);
 
@@ -98,6 +102,15 @@ public class PanelDetalleEquipo : MonoBehaviour {
         panel_planillaAsistencias.GetComponent<PanelPlanillaAsistencia>().MostrarPanelHistorialPlanillas();  
     }
 
+
+    public void MostrarPanelGraficoEstadistica(string nombreEstadistica, bool isPartido, bool isDatosJugador)
+    {
+        ActivarPanel(5);
+
+        Screen.orientation = ScreenOrientation.Landscape;
+
+        panel_graficoEstadistica.GetComponent<PanelGraficoEstadistica>().SetPanel(nombreEstadistica, isPartido, isDatosJugador);
+    }
 
     private void ActivarPanel(int index)
     {

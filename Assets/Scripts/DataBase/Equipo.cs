@@ -256,14 +256,14 @@ public class Equipo {
         {
             estadisticasGlobalesPartido.AgregarEstadisticas(estadisticas);
             partidos.Add(partido);
+            SaveSystem.GuardarEntradaDato(tipoEntradaDato, estadisticasGlobalesPartido, partido, this);
         }
         else
         {
             estadisticasGlobalesPractica.AgregarEstadisticas(estadisticas);
-            practicas.Add(partido);     
+            practicas.Add(partido);
+            SaveSystem.GuardarEntradaDato(tipoEntradaDato, estadisticasGlobalesPractica, partido, this);
         }
-
-        SaveSystem.GuardarEntradaDato(tipoEntradaDato, estadisticas, partido, this);
     }
 
     /*public void SetEstadisticas(Estadisticas estadisticas_, string tipoEntradaDatos_)

@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PanelCrearJugadas : MonoBehaviour
 {
-    /*[SerializeField] public Material materialRojo = null;
-    [SerializeField] public Material materialNegro = null;
-    [SerializeField] public Material materialAzul = null;
-    [SerializeField] public Material materialAmarillo = null;*/
+    [SerializeField] private Image imagenBotonFicha = null;
+    [SerializeField] private PanelEdicion panelEdicion = null;
 
     protected GameObject objectoActual;
     protected Herramienta herramientaActual;
@@ -46,6 +45,8 @@ public class PanelCrearJugadas : MonoBehaviour
     public void SetColorActual(Color _color)
     {
         colorActual = _color;
+        imagenBotonFicha.color = colorActual;
+        panelEdicion.CerrarPanelOpcionesActual();
     }
 
     public void ChangeHerramientaActualFondo(bool seleccionar)

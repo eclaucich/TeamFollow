@@ -61,7 +61,9 @@ public class PanelPartidosEquipo : Panel
     {
         ActivarPanel(0);
 
-        AppController.instance.overlayPanel.SetNombrePanel("partidos");
+        Screen.orientation = ScreenOrientation.Portrait;
+
+        AppController.instance.overlayPanel.SetNombrePanel("Estadisticas globales");
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.DetalleEquipoPrincipal);
 
@@ -76,7 +78,14 @@ public class PanelPartidosEquipo : Panel
     {
         ActivarPanel(1);
 
-        panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(botonPartidoFocus, _estadisticas);
+        panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(_estadisticas);
+    }
+
+    public void MostrarPanelDetallePartido(Partido _partido)
+    {
+        ActivarPanel(1);
+        if (!gameObject.activeSelf) gameObject.SetActive(true);
+        panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(_partido);
     }
 
     private void ResetPrefabs()
@@ -167,10 +176,8 @@ public class PanelPartidosEquipo : Panel
 
         Estadisticas estEquipo = isPartido ? equipoFocus.GetEstadisticasPartido() : equipoFocus.GetEstadisticasPractica();
 
-
-        panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(null, estEquipo);
+        panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(estEquipo);
     }
-
 
 
     public void SetPartidoFocus(BotonPartido botonpartido)
@@ -183,17 +190,15 @@ public class PanelPartidosEquipo : Panel
         {
             if (partido.GetNombre() == nombrePartido)
             {
-                MostrarPanelDetallePartido(botonpartido, partido.GetEstadisticas());
+                MostrarPanelDetallePartido(partido);// (botonpartido, partido.GetEstadisticas());
                 return;
             }
         }
     }
 
-    public void BorrarPartido(BotonPartido botonPartido)
+    public void BorrarPartido(Partido _partido)
     {
-        if (botonPartido == null) Debug.Log("NULL PARTIDO");
-
-        string nombrePartido = botonPartido.GetComponentInChildren<Text>().text;
+        string nombrePartido = _partido.GetNombre();
 
         equipoFocus.BorrarPartido(isPartido, nombrePartido);
 
@@ -202,8 +207,10 @@ public class PanelPartidosEquipo : Panel
             jugador.BorrarPartido(isPartido, nombrePartido);
         }
 
-        listaPartidosPrefabs.Remove(botonPartido.transform.parent.gameObject);
-        Destroy(botonPartido.transform.parent.gameObject);
+        //listaPartidosPrefabs.Remove(botonPartido.transform.parent.gameObject);
+        //Destroy(botonPartido.transform.parent.gameObject);
+        listaPartidos.Remove(_partido);
+        ResetPrefabs();
     }
 
 
@@ -212,5 +219,10 @@ public class PanelPartidosEquipo : Panel
         foreach (var panel in listaPaneles) panel.SetActive(false);
 
         listaPaneles[index].SetActive(true);
+    }
+
+    public bool GetIsPartido()
+    {
+        return isPartido;
     }
 }

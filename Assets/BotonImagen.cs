@@ -4,13 +4,27 @@ using UnityEngine.UI;
 public class BotonImagen : MonoBehaviour
 {
     [SerializeField] private Text nombreImagenText = null;
+    [SerializeField] private Image categoriaImagen = null;
     //[SerializeField] private Button botonVerImagen = null;
+
+    [SerializeField] private Sprite attackIcon = null;
+    [SerializeField] private Sprite defenseIcon = null;
 
     private Sprite sprite = null;
 
     public void SetNombreBoton(string nombre_)
     {
         nombreImagenText.text = nombre_;
+    }
+
+    public void SetCategoria(string categoria_)
+    {
+        if (categoria_ == "ataque")
+            categoriaImagen.sprite = attackIcon;
+        else if (categoria_ == "defensa")
+            categoriaImagen.sprite = defenseIcon;
+        else
+            categoriaImagen.gameObject.SetActive(false);
     }
 
     public void SetImagenPreview(Texture2D textura_)

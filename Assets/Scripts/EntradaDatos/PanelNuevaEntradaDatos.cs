@@ -237,6 +237,8 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         }
 
         Estadisticas estEquipo = new Estadisticas();
+        DateTime fecha = DateTime.Now;
+        Debug.Log("Fehca guardada: " + fecha.ToString());
 
         for (int i = 0; i < jugadores.Count; i++)
         {
@@ -245,20 +247,21 @@ public class PanelNuevaEntradaDatos : EntradaDatos
             for (int j = 0; j < listaEstadisticas.Count; j++)
             {
                 Button[] botones = columnas[j + 1].GetComponentsInChildren<Button>();
-                estadistica.AgregarEstadisticas(listaEstadisticas[j], botones[i].GetComponent<BotonEntradaDato>().GetCantidad()); 
+                estadistica.AgregarEstadisticas(listaEstadisticas[j], botones[i].GetComponent<BotonEntradaDato>().GetCantidad());
             }
-            estadistica.SetFecha(DateTime.Now);
-            estEquipo.SetFecha(DateTime.Now);
-
+ 
+            estadistica.SetFecha(fecha);
+            estEquipo.SetFecha(fecha);
+            Debug.Log("Estadsitica - cant : " + estadistica.GetCantidadCategorias());
             estEquipo.AgregarEstadisticas(estadistica);
             //jugadores[i].SetEstadisticas(estadistica, tipoEntradaDatos);
             //jugadores[i].AgregarPartido(new Partido(nombrePartidoText.text, estadistica), tipoEntradaDatos);
-            jugadores[i].GuardarEntradaDato(tipoEntradaDatos, estadistica, new Partido(nombrePartidoText.text, estadistica));
+            jugadores[i].GuardarEntradaDato(tipoEntradaDatos, estadistica, new Partido(nombrePartidoText.text, estadistica, fecha));
         }
 
         //equipo.SetEstadisticas(estEquipo, tipoEntradaDatos);
         //equipo.AgregarPartido(new Partido(nombrePartidoText.text, estEquipo), tipoEntradaDatos);
-        equipo.GuardarEntradaDato(tipoEntradaDatos, estEquipo, new Partido(nombrePartidoText.text, estEquipo));
+        equipo.GuardarEntradaDato(tipoEntradaDatos, estEquipo, new Partido(nombrePartidoText.text, estEquipo, fecha));
 
         Debug.Log("Entrada guardado como: " + tipoEntradaDatos);
 
@@ -266,6 +269,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         CanvasController.instance.retrocesoPausado = false;
         CanvasController.instance.MostrarPanelAnterior();
         CanvasController.instance.botonDespliegueMenu.SetActive(true);
+        Screen.orientation = ScreenOrientation.Portrait;
         Destroy(gameObject);
     }
 
