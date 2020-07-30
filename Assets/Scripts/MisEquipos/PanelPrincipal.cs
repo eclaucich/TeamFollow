@@ -29,8 +29,6 @@ public class PanelPrincipal : Panel {
 
     private void Awake()
     {
-        nombrePanel = "MIS EQUIPOS";
-
         panelMisEquipos = GetComponentInParent<PanelMisEquipos>();
         listaPrefabsBoton = new List<GameObject>();
 
@@ -48,7 +46,8 @@ public class PanelPrincipal : Panel {
     {
         //CanvasController.instance.botonDespliegueMenu.SetActive(true);
 
-        AppController.instance.overlayPanel.SetNombrePanel(nombrePanel);
+        AppController.instance.overlayPanel.SetNombrePanel("MIS EQUIPOS", AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("MY TEAMS", AppController.Idiomas.Ingles);
 
         if (gameObject.activeSelf)
         {

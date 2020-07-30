@@ -564,6 +564,7 @@ MonoBehaviour:
   valorCategoria: {fileID: 9113972841080679009}
   inputField: {fileID: 5386894888984331904}
   textCampoObligatorio: {fileID: 1940804977519156110}
+  text: {fileID: 1272175455}
 --- !u!1 &8906126291637510876
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,6 +577,7 @@ GameObject:
   - component: {fileID: 6735913811126962269}
   - component: {fileID: 4015419046088936963}
   - component: {fileID: 6431574827049483587}
+  - component: {fileID: 1272175455}
   m_Layer: 5
   m_Name: NombreCategoria
   m_TagString: Untagged
@@ -654,3 +656,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc33faf2046797747a0df0be8aa77b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1272175455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8906126291637510876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f78e6f09c65ab34aa5defcbe035a640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  "textEspa\xF1ol": 
+  textIngles: 

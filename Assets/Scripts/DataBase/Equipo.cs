@@ -13,7 +13,7 @@ public class Equipo {
 
     private string nombre;                                                  //Nombre del Equipo
     private string deporteNombre;
-    private Deportes.Deporte deporte;
+    private Deportes.DeporteEnum deporte;
 
     private List<Jugador> jugadores;                                        //Lista de jugadores
 
@@ -27,15 +27,15 @@ public class Equipo {
     private List<Partido> partidos;
     private List<Partido> practicas;
 
-    public Equipo(string nombre_, string deporte_)                                           //Constructor por nombre
+    public Equipo(string nombre_, Deportes.DeporteEnum deporte_)                                           //Constructor por nombre
     {
         nombre = nombre_;
-        deporteNombre = deporte_;
-        deporte = GetDeporte(deporte_);
+        //deporteNombre = deporte_;
+        deporte = deporte_;
 
         jugadores = new List<Jugador>();
-        estadisticasGlobalesPartido = new Estadisticas();
-        estadisticasGlobalesPractica = new Estadisticas();
+        estadisticasGlobalesPartido = new Estadisticas(deporte);
+        estadisticasGlobalesPractica = new Estadisticas(deporte);
         //planillasAsistencia = new Dictionary<string, List<DetalleAsistencia>>();
         planillasAsistencia = new List<PlanillaAsistencia>();
 
@@ -46,14 +46,15 @@ public class Equipo {
     public Equipo(SaveDataEquipo saveData)//{, SaveDataEstadisticas saveDataEstPartido, SaveDataEstadisticas saveDataEstPractica)
     {
         nombre = saveData.GetNombre();
-        deporteNombre = saveData.GetDeporte();
-        deporte = GetDeporte(deporteNombre);
+        //deporteNombre = saveData.GetDeporte();
+        //deporte = GetDeporte(deporteNombre);
+        deporte = saveData.GetDeporte();
 
         /*estadisticasGlobalesPartido = new Estadisticas(saveDataEstPartido);
         estadisticasGlobalesPractica = new Estadisticas(saveDataEstPractica);*/
 
-        estadisticasGlobalesPartido = new Estadisticas();
-        estadisticasGlobalesPractica = new Estadisticas();
+        estadisticasGlobalesPartido = new Estadisticas(deporte);
+        estadisticasGlobalesPractica = new Estadisticas(deporte);
 
         jugadores = new List<Jugador>();
         //planillasAsistencia = new Dictionary<string, List<DetalleAsistencia>>();
@@ -90,7 +91,7 @@ public class Equipo {
 
     public void NuevoJugador(InfoJugador info)                               //Agregar nuevo jugador a la lista de jugadores
     { 
-        Jugador newJug = new Jugador(info);
+        Jugador newJug = new Jugador(info, deporte);
         SaveSystem.GuardarJugador(newJug, this);
         
         jugadores.Add(newJug);
@@ -302,12 +303,12 @@ public class Equipo {
         return nombre;
     }
 
-    public string GetDeporteNombre()
+    public string GetDeporteNombre(AppController.Idiomas _idioma)
     {
-        return deporte.ToString();
+        return Deportes.instance.GetDisplayName(deporte, _idioma);
     }
 
-    public Deportes.Deporte GetDeporte()
+    public Deportes.DeporteEnum GetDeporte()
     {
         return deporte;
     }
@@ -444,32 +445,32 @@ public class Equipo {
     }
 
 
-    public Deportes.Deporte GetDeporte(string deporte_)
+    public Deportes.DeporteEnum GetDeporte(string deporte_)
     {
         switch (deporte_)
         {
             case "Fútbol": case "Futbol":
-                return Deportes.Deporte.Futbol;
+                return Deportes.DeporteEnum.Futbol;
             case "Hockey Patines": case "HockeyPatines":
-                return Deportes.Deporte.HockeyPatines;
+                return Deportes.DeporteEnum.HockeyPatines;
             case "Hockey Cesped": case "HockeyCesped":
-                return Deportes.Deporte.HockeyCesped;
+                return Deportes.DeporteEnum.HockeyCesped;
             case "Voley":
-                return Deportes.Deporte.Voley;
+                return Deportes.DeporteEnum.Voley;
             case "Rugby":
-                return Deportes.Deporte.Rugby;
+                return Deportes.DeporteEnum.Rugby;
             case "Handball":
-                return Deportes.Deporte.Handball;
+                return Deportes.DeporteEnum.Handball;
             case "Tenis":
-                return Deportes.Deporte.Tenis;
+                return Deportes.DeporteEnum.Tenis;
             case "Padel":
-                return Deportes.Deporte.Padel;
+                return Deportes.DeporteEnum.Padel;
             case "Softball":
-                return Deportes.Deporte.Softball;
+                return Deportes.DeporteEnum.Softball;
             case "Basket":
-                return Deportes.Deporte.Basket;
+                return Deportes.DeporteEnum.Basket;
         }
 
-        return Deportes.Deporte.NULL;
+        return Deportes.DeporteEnum.NULL;
     }
 }

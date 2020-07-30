@@ -43,7 +43,8 @@ public class PanelJugadoresPrincipal : Panel {
     {
         equipo = equipo_;
 
-        AppController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre());
+        AppController.instance.overlayPanel.SetNombrePanel("EQUIPO: " + equipo.GetNombre(), AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("TEAM: " + equipo.GetNombre(), AppController.Idiomas.Ingles);
 
         jugadores = equipo.GetJugadores();
         DetallarJugadores();

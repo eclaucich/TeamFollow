@@ -20,6 +20,11 @@ public class FlechaRecta : ObjetoEdicion
 
     [SerializeField] private GameObject puntaFlecha = null;
 
+    [SerializeField] private Material materialFlechaNormal = null;
+    [SerializeField] private Material materialFlechaPunteada = null;
+    private float dist = 0f;
+    private int positionIndex = 0;
+
     private void Start()
     {
         line = new LineRenderer();
@@ -56,7 +61,7 @@ public class FlechaRecta : ObjetoEdicion
     public void CreateLineRenderer(int mode)
     {
         Vector3 mPos = Input.mousePosition;
-        mPos.z = 2f;
+        mPos.z = 85f;
         Vector3 goPos = Camera.main.ScreenToWorldPoint(mPos);
 
         if (mode == 0)   //Flecha normal
@@ -65,6 +70,7 @@ public class FlechaRecta : ObjetoEdicion
             if (line == null)
             {
                 line = GetComponent<LineRenderer>();
+                line.material = materialFlechaNormal;
                 line.positionCount = 1;
                 line.startColor = Color.black;
                 line.endColor = Color.black;
@@ -95,14 +101,35 @@ public class FlechaRecta : ObjetoEdicion
         }
         else if(mode == 2)  //Flecha punteada
         {
-            
+            if (line == null)
+            {
+                line = GetComponent<LineRenderer>();
+                line.material = materialFlechaPunteada;
+                line.positionCount = 1;
+                line.SetPosition(0, goPos);
+                dist = 0f;
+                positionIndex = 0;
+            }
 
+            if (currentTime >= timeBtwPoints)
+            {
+                line.positionCount++;
+                line.SetPosition(line.positionCount - 1, goPos);
+                currentTime = 0f;
+                positionIndex++;
+            }
+
+            currentTime += Time.deltaTime;
+            
+            if(line.positionCount>2)
+                dist += Vector2.Distance(line.GetPosition(positionIndex-1), line.GetPosition(positionIndex))/100;
+            if (dist < 1) dist = 1;
         }
         else
         {
             Debug.Log("ERROR EN EL MODO DE FLECHA");
         }
-        
+
     }
 
     public void CrearPunta(int mode)
@@ -118,6 +145,11 @@ public class FlechaRecta : ObjetoEdicion
             line.positionCount++;
             line.SetPosition(line.positionCount - 1, goPos);
         }
+        else if(mode==2)
+        { 
+            line.material.mainTextureScale = new Vector2(dist/2f, 1f);
+        }
+
         positionInitial = line.GetPosition(line.positionCount - 2);
         positionFinal = line.GetPosition(line.positionCount - 1);
 
@@ -129,15 +161,14 @@ public class FlechaRecta : ObjetoEdicion
         //transform.SetPositionAndRotation(positionFinal, Quaternion.identity);
         //transform.Rotate(Vector3.forward, grados);
         
-        line.startColor = PanelCrearJugada.instance.GetColorActual();
-        line.endColor = PanelCrearJugada.instance.GetColorActual();
+        line.material.color = PanelCrearJugada.instance.GetColorActual();
 
         GameObject puntaFlechaGO = Instantiate(puntaFlecha);
 
-        positionFinal = new Vector3(positionFinal.x, positionFinal.y, 3f);
+        Vector3 positionFlecha = new Vector3(positionFinal.x, positionFinal.y, 3f);
 
         //puntaFlechaGO.transform.SetPositionAndRotation(positionFinal, Quaternion.identity);
-        puntaFlechaGO.transform.localPosition = new Vector3(positionFinal.x, positionFinal.y, 0f);
+        puntaFlechaGO.transform.localPosition = new Vector3(positionFlecha.x, positionFlecha.y, 0f);
         puntaFlechaGO.transform.Rotate(Vector3.forward, grados+90f);
         puntaFlechaGO.transform.SetParent(this.transform);
         puntaFlechaGO.GetComponent<PuntaFlecha>().SetMaterialColor(PanelCrearJugada.instance.GetColorActual());

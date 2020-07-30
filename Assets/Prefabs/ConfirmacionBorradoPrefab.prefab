@@ -342,7 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 0.29803923}
+  m_Color: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 0.48235294}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -369,6 +369,7 @@ GameObject:
   - component: {fileID: 406786012159025014}
   - component: {fileID: 406786012159025015}
   - component: {fileID: 9112054994596681115}
+  - component: {fileID: 2952131352747120247}
   m_Layer: 5
   m_Name: MensajeDeConfirmacionBorrado
   m_TagString: Untagged
@@ -447,6 +448,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc33faf2046797747a0df0be8aa77b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2952131352747120247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406786012159025012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f78e6f09c65ab34aa5defcbe035a640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  "textEspa\xF1ol": 
+  textIngles: 
 --- !u!1 &406786012202278778
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,6 +720,7 @@ GameObject:
   - component: {fileID: 406786012612548586}
   - component: {fileID: 406786012612548587}
   - component: {fileID: 406786012612548584}
+  - component: {fileID: 6462743679264790859}
   m_Layer: 5
   m_Name: CancelarText
   m_TagString: Untagged
@@ -783,6 +799,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc33faf2046797747a0df0be8aa77b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6462743679264790859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406786012612548582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f78e6f09c65ab34aa5defcbe035a640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  "textEspa\xF1ol": CANCELAR
+  textIngles: CANCEL
 --- !u!1 &406786012837935188
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,6 +1151,7 @@ GameObject:
   - component: {fileID: 406786013726245129}
   - component: {fileID: 406786013726245126}
   - component: {fileID: 406786013726245127}
+  - component: {fileID: 4549609662229834809}
   m_Layer: 5
   m_Name: EliminarText
   m_TagString: Untagged
@@ -1199,6 +1230,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc33faf2046797747a0df0be8aa77b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4549609662229834809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406786013726245125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f78e6f09c65ab34aa5defcbe035a640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  "textEspa\xF1ol": BORRAR
+  textIngles: DELETE
 --- !u!1 &406786013873478041
 GameObject:
   m_ObjectHideFlags: 0

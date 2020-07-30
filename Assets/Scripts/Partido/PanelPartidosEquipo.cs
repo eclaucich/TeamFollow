@@ -28,10 +28,10 @@ public class PanelPartidosEquipo : Panel
     [SerializeField] private ScrollRect scrollRectEquipos = null;
     [SerializeField] private FlechasScroll flechasScroll = null;
 
+    [SerializeField] private Transform parentTransform = null;
+
     private List<GameObject> listaPartidosPrefabs;
     private List<Partido> listaPartidos;
-
-    private Transform parentTransform;
 
     private bool isPartido = true;
 
@@ -42,7 +42,6 @@ public class PanelPartidosEquipo : Panel
 
     private void Awake()
     {
-        parentTransform = GameObject.Find("PartidosEquipo").transform;
         listaPartidosPrefabs = new List<GameObject>();
 
         listaPaneles = new List<GameObject>();
@@ -62,12 +61,14 @@ public class PanelPartidosEquipo : Panel
         ActivarPanel(0);
 
         Screen.orientation = ScreenOrientation.Portrait;
-
-        AppController.instance.overlayPanel.SetNombrePanel("Estadisticas globales");
-
-        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.DetalleEquipoPrincipal);
+        AppController.instance.overlayPanel.gameObject.SetActive(true);
 
         equipoFocus = AppController.instance.equipoActual;
+
+        AppController.instance.overlayPanel.SetNombrePanel(equipoFocus.GetNombre() + ": ESTADISTICAS GLOBALES", AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel(equipoFocus.GetNombre() + ": GLOBAL STATISTICS", AppController.Idiomas.Ingles);
+
+        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.DetalleEquipoPrincipal);
 
         if (listaPartidosPrefabs == null) listaPartidosPrefabs = new List<GameObject>();
 
@@ -138,7 +139,7 @@ public class PanelPartidosEquipo : Panel
         else
             botonVerEstadisticasGlobales.Activar();
 
-        botonSeleccionarPartido.SetColorDesactivado();
+        botonSeleccionarPartido.SetColorSeleccionado();
         botonSeleccionarPractica.SetColorActivado();
 
         ResetPrefabs();
@@ -164,7 +165,7 @@ public class PanelPartidosEquipo : Panel
             botonVerEstadisticasGlobales.Activar();
 
         botonSeleccionarPartido.SetColorActivado();
-        botonSeleccionarPractica.SetColorDesactivado();
+        botonSeleccionarPractica.SetColorSeleccionado();
 
         ResetPrefabs();
     }

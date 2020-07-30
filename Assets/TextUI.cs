@@ -2,14 +2,14 @@
 
 public class TextUI : UIComponent
 {
-    protected Text text;
+    protected Text _text;
 
     override public void Start()
     {
-        text = GetComponent<Text>();
+        _text = GetComponent<Text>();
         colorUI = AppController.instance.colorTheme.texto;
 
-        text.color = colorUI;
-        text.font = AppController.instance.textFont;
+        _text.color = colorUI;
+        _text.font = AppController.instance.textFont;
     }
 }

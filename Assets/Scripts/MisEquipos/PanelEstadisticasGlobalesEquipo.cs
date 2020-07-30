@@ -34,17 +34,21 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
     public void SetPanelEstadisticasGlobalesEquipo(/*BotonPartido _botonPartido, */Estadisticas _estadisticas)
     {
-        AppController.instance.overlayPanel.SetNombrePanel("Estadisticas globales");
+        equipo = AppController.instance.equipoActual;
+        if (equipo == null) Debug.Log("EQUIPO NULO");
 
-        /*if (_botonPartido == null) */botonBorrar.SetActive(false);// else botonBorrar.SetActive(true);
+        AppController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() + ": ESTADISTICAS GLOBALES", AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() + ": GLOBAL STATISTICS", AppController.Idiomas.Ingles);
+
+        /*if (_botonPartido == null) */
+        botonBorrar.SetActive(false);// else botonBorrar.SetActive(true);
         //botonFocus = _botonPartido;
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.EstadisticasGlobalesEquipo);
 
         if (listaPrefabsTextos == null) listaPrefabsTextos = new List<GameObject>();
 
-        equipo = AppController.instance.equipoActual;
-        if (equipo == null) Debug.Log("EQUIPO NULO");
+
         //nombreEquipoText.text = equipo.GetNombre();
 
         estadisticas = _estadisticas;
@@ -67,7 +71,8 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     {
         partidoFocus = _partido;
 
-        AppController.instance.overlayPanel.SetNombrePanel("Partido: " + _partido.GetNombre());
+        AppController.instance.overlayPanel.SetNombrePanel("PARTIDO: " + _partido.GetNombre(), AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("MATCH: " + _partido.GetNombre(), AppController.Idiomas.Ingles);
 
         botonBorrar.SetActive(true);
 
@@ -87,23 +92,33 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
     virtual public void CrearPrefabs()
     {
-        for (int i = 0; i < estadisticas.GetCantidadCategorias(); i++)
-        {
-            //Debug.Log(estadisticas.GetKeyAtIndex(i) + "  " + estadisticas.GetValueAtIndex(i).ToString());
-            /*GameObject estadisticaGO = Instantiate(estadisticaPrefab, parentTransform, false);
-            Text[] textos = estadisticaGO.GetComponentsInChildren<Text>();
-            textos[0].text = estadisticas.GetKeyAtIndex(i);
-            textos[1].text = estadisticas.GetValueAtIndex(i).ToString();
+        EstadisticaDeporte estDeporte = estadisticas.GetEstadisticaDeporte();
 
-            listaPrefabsTextos.Add(estadisticaGO);*/
-            
+        for (int i = 0; i < estDeporte.GetSize(); i++) //este cantidad categorias en realidad devuelve la cantidad que haya en el enum de estadisticas
+        {
+            if (estadisticas.Find(estDeporte.GetValueAtIndex(i))[0]==1)
+            {
+                GameObject botonEstadisticaGO = Instantiate(botonEstadisticaPrefab, transformParent, false);
+                botonEstadisticaGO.SetActive(true);
+                BotonEstadistica botonEstadistica = botonEstadisticaGO.GetComponent<BotonEstadistica>();
+
+                string statsName = estDeporte.GetStatisticsName(i, AppController.Idiomas.Español)[0];
+
+                botonEstadistica.SetTextInLanguage(statsName, AppController.Idiomas.Español);
+                botonEstadistica.SetTextInLanguage(estDeporte.GetStatisticsName(i, AppController.Idiomas.Ingles)[0], AppController.Idiomas.Ingles);
+                botonEstadistica.SetValorEstadistica(estadisticas.GetValueAtIndex(i).ToString());
+                listaPrefabsTextos.Add(botonEstadisticaGO);
+            }
+        }
+        /*for (int i = 0; i < estadisticas.GetCantidadCategorias(); i++)
+        {            
             GameObject botonEstadisticaGO = Instantiate(botonEstadisticaPrefab, transformParent, false);
             botonEstadisticaGO.SetActive(true);
             BotonEstadistica botonEstadistica = botonEstadisticaGO.GetComponent<BotonEstadistica>();
             botonEstadistica.SetNombreEstadistica(estadisticas.GetKeyAtIndex(i));
             botonEstadistica.SetValorEstadistica(estadisticas.GetValueAtIndex(i).ToString());
             listaPrefabsTextos.Add(botonEstadisticaGO);
-        }
+        }*/
     }
 
     public void BorrarPrefabs()

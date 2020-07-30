@@ -14,9 +14,12 @@ public class PanelPrincipalDetalleEquipo : Panel
 
     public void SetBotonesDisponibles()
     {
-        AppController.instance.overlayPanel.SetNombrePanel(AppController.instance.equipoActual.GetNombre());
+        Equipo equipoActual = AppController.instance.equipoActual;
 
-        if(AppController.instance.equipoActual.GetDeporte() == Deportes.Deporte.Tenis)
+        AppController.instance.overlayPanel.SetNombrePanel("EQUIPO: " + equipoActual.GetNombre(), AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("TEAM: " + equipoActual.GetNombre(), AppController.Idiomas.Ingles);
+
+        if (AppController.instance.equipoActual.GetDeporte() == Deportes.DeporteEnum.Tenis)
         {
             botonVerEstadisticasGlobalesEquipo.SetActive(false);
         }

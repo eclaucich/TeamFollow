@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,10 +14,16 @@ using UnityEngine.UI;
 public class PanelNuevoEquipo : Panel {
 
     [SerializeField] private Text inputNombreNuevoEquipo = null;                                   //Nombre del nuevo equipo ingresado por el usuario
+
     [SerializeField] private Text inputNombreDeporte = null;
     [SerializeField] private MensajeError mensajeError = null;
     [SerializeField] private InputField inputNombreEquipo = null;
     [SerializeField] private Text nombreDeporteElegido = null;
+
+    [SerializeField] private GameObject botonElegirDeportePrefab = null;
+    [SerializeField] private Transform botonesParentTransform = null;
+    private List<GameObject> listaPrefabs = null;
+    private Deportes.DeporteEnum deporteActual;
 
     private GameObject botonDeporteActual = null;
     private Color notSelectedColor;
@@ -29,11 +36,13 @@ public class PanelNuevoEquipo : Panel {
         panelMisEquipos = GetComponentInParent<PanelMisEquipos>();
         notSelectedColor = AppController.instance.colorTheme.botonActivado;
         selectedColor = new Color(notSelectedColor.r, notSelectedColor.g, notSelectedColor.b, 160f / 255f);
+        listaPrefabs = new List<GameObject>();
+        deporteActual = Deportes.DeporteEnum.Basket;
+        nombreDeporteElegido.text = Deportes.instance.GetDisplayName(deporteActual, AppController.instance.idioma);
     }
-
     public void SetPanel()
     {
-        mensajeError.Desactivar();
+        //mensajeError.Desactivar();
     }
 
 
@@ -41,37 +50,44 @@ public class PanelNuevoEquipo : Panel {
     {
         if(AppController.instance.BuscarPorNombre(inputNombreNuevoEquipo.text) != -1)
         {
-            mensajeError.SetText("Equipo Existente!");
+            mensajeError.SetText("EQUIPO EXISTENTE!", AppController.Idiomas.Español);
+            mensajeError.SetText("EXISTING TEAM!", AppController.Idiomas.Ingles);
             mensajeError.Activar();
             return;
         }
         if (inputNombreNuevoEquipo.text == "")
         { 
-            mensajeError.SetText("Nombre Necesario!");
+            mensajeError.SetText("NAME NEEDED!", AppController.Idiomas.Ingles);
+            mensajeError.SetText("NOMBRE NECESARIO!", AppController.Idiomas.Español);
             mensajeError.Activar();
             return;
         }
         if(inputNombreNuevoEquipo.text == " " || inputNombreNuevoEquipo.text == "  " || inputNombreNuevoEquipo.text == "   ")
         {
-            mensajeError.SetText("Nombre Inválido!");
+            mensajeError.SetText("NOMBRE INVALIDO!", AppController.Idiomas.Español);
+            mensajeError.SetText("INVALID NAME!", AppController.Idiomas.Español);
             mensajeError.Activar();
             return;
         }
 
-        AppController.instance.AgregarEquipo(new Equipo(inputNombreNuevoEquipo.text, nombreDeporteElegido.text));
+        AppController.instance.AgregarEquipo(new Equipo(inputNombreNuevoEquipo.text, deporteActual));
 
         inputNombreEquipo.text = "";
 
         panelMisEquipos.MostrarPanelPrincipal();
     }
 
-    public void CambiarDeporteElegido(GameObject botonDeporte)
+    public void CambiarDeporteElegido(Deportes.DeporteEnum _deporte)
     {
-        nombreDeporteElegido.text = botonDeporte.name;
-        if(botonDeporteActual!=null) botonDeporteActual.GetComponent<Image>().color = notSelectedColor;
+        deporteActual = _deporte;
+        nombreDeporteElegido.text = Deportes.instance.GetDisplayName(_deporte, AppController.instance.idioma);
+        /*if(botonDeporteActual!=null) botonDeporteActual.GetComponent<Image>().color = notSelectedColor;
         botonDeporteActual = botonDeporte;
-        botonDeporteActual.GetComponent<Image>().color = selectedColor;
+        botonDeporteActual.GetComponent<Image>().color = selectedColor;*/
     }
 
-
+    public Deportes.DeporteEnum GetDeporteActual()
+    {
+        return deporteActual;
+    }
 }

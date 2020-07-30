@@ -157,4 +157,70 @@ public class InfoJugador
 
         fechaNac = new DateTime(year, month, day);
     }
+
+    public string GetKeyInLaguage(string _key, AppController.Idiomas idioma)
+    {
+        switch (_key)
+        {
+            case "Nombre":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "Name";
+                break;
+            case "Mail":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "Mail";
+                break;
+            case "Alergias":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "Allergies";
+                break;
+            case "Direccion":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "Address";
+                break;
+            case "Ciudad":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "City";
+                break;
+            case "Provincia":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "State";
+                break;
+            case "Categoria":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "Category";
+                break;
+            case "DNI":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "ID number";
+                break;
+            case "Altura":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "Height";
+                break;
+            case "Numero Celular":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "Cellphone";
+                break;
+            case "Numero Contacto Emergencia":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "Emergency Contact Phone Number";
+                break;
+            case "Sexo":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "Sex";
+                break;
+            case "Factor Sanguineo":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "Blood Factor";
+                break;
+            case "Ficha Medica":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "Medical Form";
+                break;
+            default:
+                return "ERROR";
+        }
+        return "ERROR";
+    }
 }

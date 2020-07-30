@@ -21,7 +21,13 @@ public class PanelGraficoEstadistica : MonoBehaviour
 
     public void SetPanel(string nombreEstadistica, bool isPartido, bool datosJugador) //datosJugador=true => estadisticas gobales del jugadoractual, datosJugador=false => estadisticas globales del equipo actual
     {
-        ejeXText.text = "Partido";
+        AppController.instance.overlayPanel.gameObject.SetActive(false);
+        
+        if (AppController.instance.idioma == AppController.Idiomas.Español)
+            ejeXText.text = "Partido";
+        else if (AppController.instance.idioma == AppController.Idiomas.Ingles)
+            ejeXText.text = "Match";
+
         ejeYText.text = nombreEstadistica;
 
         Dictionary<Partido, int> datosGraficaPartidos;

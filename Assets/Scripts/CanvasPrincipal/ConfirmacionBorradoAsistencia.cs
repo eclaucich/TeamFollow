@@ -4,13 +4,14 @@ using UnityEngine.UI;
 public class ConfirmacionBorradoAsistencia : MensajeDesplegable
 {
     private BotonHistorialAsistencia botonAsistenciaFocus;
-    [SerializeField] protected Text textoConfirmacion = null;
     [SerializeField] private PanelHistorialPlanillas panelHistorialAsistencias = null;
 
     public void Activar(BotonHistorialAsistencia botonFocus)
     {
         botonAsistenciaFocus = botonFocus;
-        textoConfirmacion.text = "Borrar Asistencia \"" + botonFocus.GetDisplayNombre() + "\"?";
+        //textoConfirmacion.text = "Borrar Asistencia \"" + botonFocus.GetDisplayNombre() + "\"?";
+        text.SetText("Borrar Asistencia \"" + botonFocus.GetDisplayNombre() + "\"?".ToUpper(), AppController.Idiomas.Español);
+        text.SetText("Delete assitence form \"" + botonFocus.GetDisplayNombre() + "\"?".ToUpper(), AppController.Idiomas.Ingles);
         ToggleDesplegar();
     }
 

@@ -7,6 +7,7 @@ public class InputPrefab : MonoBehaviour
     [SerializeField] protected Text valorCategoria = null;
     [SerializeField] protected InputField inputField = null;
     [SerializeField] private Text textCampoObligatorio = null;
+    [SerializeField] private TextLanguage text = null;
 
     private string nombre;
 
@@ -18,7 +19,7 @@ public class InputPrefab : MonoBehaviour
     public void SetNombreCategoria(string _nombre)
     {
         nombre = _nombre;
-        nombreCategoria.text = _nombre;
+        //nombreCategoria.text = _nombre;
     }
 
     public void SetValorCategoria(string _valor)
@@ -49,7 +50,7 @@ public class InputPrefab : MonoBehaviour
 
     public string GetNombreCategoria()
     {
-        return nombreCategoria.text;
+        return nombre; // return nombreCategoria.text;
     }
 
     public string GetValorCategoria()
@@ -62,4 +63,8 @@ public class InputPrefab : MonoBehaviour
         inputField.enabled = _aux;
     }
 
+    public void SetText(string _text, AppController.Idiomas idioma)
+    {
+        text.SetText(_text, idioma);
+    }
 }

@@ -62,7 +62,7 @@ public class EntradaDatosTenis : EntradaDatos
         listaEstadisticas = PanelSeleccionEstadisticas.instance.GetListaEstadisticas();
         SetearSeccionListaEstadisticas();
         
-        estadisticas = new Estadisticas();  
+        estadisticas = new Estadisticas(Deportes.DeporteEnum.Tenis);  
     }
 
     /// 
@@ -103,8 +103,10 @@ public class EntradaDatosTenis : EntradaDatos
 
         //Primero se muestra el panel para elegir al jugador
         //Se desactivan todos los demas paneles
-        seccionListaJugadores.SetActive(true);      
-        AppController.instance.overlayPanel.SetNombrePanel("Selección JUGADORES");
+        seccionListaJugadores.SetActive(true);
+
+        AppController.instance.overlayPanel.SetNombrePanel("SELECCION JUGADORES", AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("PLAYERS SELECTION", AppController.Idiomas.Ingles);
 
         //seccionOpcionesAdicionales.SetActive(false);
         seccionEntradaDatos.SetActive(false);
@@ -113,9 +115,6 @@ public class EntradaDatosTenis : EntradaDatos
         //panelConfirmacionGuardado.SetActive(false);
 
         textoPartidoFinalizado.SetActive(false);
-
-        mensajeError.Desactivar();
-        mensajeErrorGuardado.Desactivar();
 
         //Se setea el panel que muestra la lista de jugadores
         seccionListaJugadores.GetComponent<SeleccionListaJugadores>().SetearListaJugadores(true);
@@ -128,12 +127,14 @@ public class EntradaDatosTenis : EntradaDatos
     {
         if (cantSeleccionados <= 0)
         {
-            mensajeError.SetText("No hay jugadores seleccionados");
+            mensajeError.SetText("Seleccionar al menos un jugador".ToUpper(), AppController.Idiomas.Español);
+            mensajeError.SetText("Select at least one player".ToUpper(), AppController.Idiomas.Ingles);
             mensajeError.Activar();
             return;
         }
 
-        AppController.instance.overlayPanel.SetNombrePanel("");
+        AppController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Ingles);
 
         seccionListaJugadores.SetActive(false);
         //seccionOpcionesAdicionales.SetActive(true);
@@ -363,7 +364,8 @@ public class EntradaDatosTenis : EntradaDatos
 
         if (jugadorFocus.ContienePartido(tipoEntradaDato, nombrePartidoText.text))
         {
-            mensajeErrorGuardado.SetText("Nombre Existente");
+            mensajeErrorGuardado.SetText("Nombre existente!".ToString(), AppController.Idiomas.Español);
+            mensajeErrorGuardado.SetText("Existing name!".ToString(), AppController.Idiomas.Ingles);
             mensajeErrorGuardado.Activar();
             panelConfirmacionGuardado.Cerrar();
             return;

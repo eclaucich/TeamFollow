@@ -35,8 +35,6 @@ public class PanelNuevaPlanilla : PanelAsistencia {
 
         base.SetPanelPlanilla();
 
-        mensajeError.Desactivar();
-
         CrearPrefabsHoja(jugadores);
 
         /*BorrarPrefabs();
@@ -77,7 +75,8 @@ public class PanelNuevaPlanilla : PanelAsistencia {
 
         if (equipo.ExistePlanilla(nombrePlanilla, aliasPlanilla.text))
         {
-            mensajeError.SetText("Planilla Existente!");
+            mensajeError.SetText(("Nombre Existente!").ToUpper(), AppController.Idiomas.Español);
+            mensajeError.SetText(("Existing Name!").ToUpper(), AppController.Idiomas.Ingles);
             mensajeError.Activar();
             return;
         }

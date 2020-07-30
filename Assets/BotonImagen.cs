@@ -34,7 +34,7 @@ public class BotonImagen : MonoBehaviour
             if(AppController.instance.resHeight > AppController.instance.resWidth)
                 sprite = Sprite.Create(textura_, new Rect(0, 0, AppController.instance.resHeight - 70, AppController.instance.resWidth), new Vector2(0f, 0f));
             else
-                sprite = Sprite.Create(textura_, new Rect(0, 0, AppController.instance.resWidth - 70, AppController.instance.resHeight), new Vector2(0f, 0f));
+                sprite = Sprite.Create(textura_, new Rect(0, 0, AppController.instance.resWidth, AppController.instance.resHeight), new Vector2(0f, 0f));
         }
 
         //botonVerImagen.image.sprite = sprite;
@@ -44,7 +44,7 @@ public class BotonImagen : MonoBehaviour
     {
         if(sprite == null)
         {
-            Debug.Log("Tratando de regresar Sprite nula!");
+            Debug.Log("Sprite nula");
             return null;
         }
 

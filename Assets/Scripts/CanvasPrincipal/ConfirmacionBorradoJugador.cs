@@ -5,14 +5,15 @@ public class ConfirmacionBorradoJugador : MensajeDesplegable
 {
     protected Jugador jugadorFocus;
     protected GameObject botonJugadorFocus;
-    [SerializeField] protected Text textoConfirmacion = null;
     [SerializeField] private ConfirmacionBorradoJugador eleccionBorradoEstadistica = null;
 
 
     virtual public void Activar(string nombreJugador, GameObject botonJugador)
     {
         jugadorFocus = AppController.instance.equipoActual.BuscarPorNombre(nombreJugador);
-        textoConfirmacion.text = "Borrar Jugador \"" + jugadorFocus.GetNombre() + "\"?";
+        //textoConfirmacion.text = "Borrar Jugador \"" + jugadorFocus.GetNombre() + "\"?";
+        text.SetText("Borrar jugador \"" + jugadorFocus.GetNombre() + "\"?".ToUpper(), AppController.Idiomas.Español);
+        text.SetText("Borrar player \"" + jugadorFocus.GetNombre() + "\"?".ToUpper(), AppController.Idiomas.Ingles);
         botonJugadorFocus = botonJugador;
         ToggleDesplegar();
     }

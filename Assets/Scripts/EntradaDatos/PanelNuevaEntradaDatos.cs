@@ -108,17 +108,17 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         //seccionNombrePartido.SetActive(false);
 
         panelSeleccionJugadores.SetearListaJugadores(false);
-        AppController.instance.overlayPanel.SetNombrePanel("Selección JUGADORES");
 
-        mensajeError.Desactivar();
-        mensajeErrorGuardado.Desactivar();
+        AppController.instance.overlayPanel.SetNombrePanel("SELECCION JUGADORES", AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("PLAYERS SELECTION", AppController.Idiomas.Ingles);
     }
 
     public override void TerminarSeleccionJugadores(List<Jugador> listaJugadores, int cantSeleccionados)
     {
         if (cantSeleccionados <= 0)
         {
-            mensajeError.SetText("No hay jugadores seleccionados");
+            mensajeError.SetText("Seleccionar al menos un jugador".ToUpper(), AppController.Idiomas.Español);
+            mensajeError.SetText("Select at least one player".ToUpper(), AppController.Idiomas.Ingles);
             mensajeError.Activar();
             return;
         }
@@ -126,20 +126,20 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         // Por ahora la cantidad de filas tiene un límite, hay que averiguar cómo cambiar esto (probablemente páginas de filas sea lo mejor)
         if(cantSeleccionados > 9)
         {
-            mensajeError.SetText("Máximo número de Jugadores es 9");
+            mensajeError.SetText("El maximo numero de jugadores es 9".ToUpper(), AppController.Idiomas.Español);
+            mensajeError.SetText("The max number of player is 9".ToUpper(), AppController.Idiomas.Ingles);
             mensajeError.Activar();
             return;
         }
 
-        Debug.Log("pasó , cant selecc: " + cantSeleccionados);
-
         Screen.orientation = ScreenOrientation.Landscape;
 
+        mensajeErrorGuardado.gameObject.SetActive(true);
         CanvasController.instance.botonDespliegueMenu.SetActive(false);
 
         jugadores = listaJugadores;
         panelSeleccionJugadores.gameObject.SetActive(false);
-        AppController.instance.overlayPanel.SetNombrePanel("");
+        AppController.instance.overlayPanel.gameObject.SetActive(false);
 
         //AppController.instance.ChangeTexture(-1);
         //gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
@@ -221,28 +221,33 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
         Debug.Log("Guardando como: " + tipoEntradaDatos);
 
+        mensajeErrorGuardado.gameObject.SetActive(true);
+
         if (nombrePartidoText.text == "")
         {
-            mensajeErrorGuardado.SetText("Nombre inválido");
+            mensajeErrorGuardado.SetText("Nombre inválido!".ToUpper(), AppController.Idiomas.Español);
+            mensajeErrorGuardado.SetText("Invalid name!".ToUpper(), AppController.Idiomas.Ingles);
             mensajeErrorGuardado.Activar();
             Debug.Log("Nombre inválido");
             return;
         }
         else if(equipo.ContienePartido(tipoEntradaDatos, nombrePartidoText.text))
         {
-            mensajeErrorGuardado.SetText("Nombre existente");
+            mensajeErrorGuardado.SetText("Nombre existente!".ToUpper(), AppController.Idiomas.Español);
+            mensajeErrorGuardado.SetText("Existing name!".ToUpper(), AppController.Idiomas.Ingles);
             mensajeErrorGuardado.Activar();
             Debug.Log("Nombre existente");
             return;
         }
 
-        Estadisticas estEquipo = new Estadisticas();
+        Deportes.DeporteEnum deporteActual = equipo.GetDeporte();
+        Estadisticas estEquipo = new Estadisticas(deporteActual);
         DateTime fecha = DateTime.Now;
         Debug.Log("Fehca guardada: " + fecha.ToString());
 
         for (int i = 0; i < jugadores.Count; i++)
         {
-            Estadisticas estadistica = new Estadisticas();
+            Estadisticas estadistica = new Estadisticas(deporteActual);
 
             for (int j = 0; j < listaEstadisticas.Count; j++)
             {
@@ -268,6 +273,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         //CanvasController.instance.escenas.Add(1);
         CanvasController.instance.retrocesoPausado = false;
         CanvasController.instance.MostrarPanelAnterior();
+        AppController.instance.overlayPanel.gameObject.SetActive(true);
         CanvasController.instance.botonDespliegueMenu.SetActive(true);
         Screen.orientation = ScreenOrientation.Portrait;
         Destroy(gameObject);

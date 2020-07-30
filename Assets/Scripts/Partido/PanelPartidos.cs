@@ -103,6 +103,8 @@ public class PanelPartidos : Panel
     {
         isPartido = true;
 
+        AppController.instance.overlayPanel.SetNombrePanel("PARTIDOS DE: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("MATCHES OF: " + jugadorFocus.GetNombre(), AppController.Idiomas.Ingles);
         //imagenPartido.color = colorSeleccionado;
         //imagenPractica.color = colorNoSeleccionado;
 
@@ -127,7 +129,7 @@ public class PanelPartidos : Panel
 
         warningTextPracticas.SetActive(false);
 
-        botonSeleccionarPartidos.SetColorDesactivado();
+        botonSeleccionarPartidos.SetColorSeleccionado();
         botonSeleccionarPracticas.SetColorActivado();
 
         ResetPrefabs();
@@ -136,6 +138,9 @@ public class PanelPartidos : Panel
     public void MostrarPracticas()
     {
         isPartido = false;
+
+        AppController.instance.overlayPanel.SetNombrePanel("PRACTICAS DE: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("PRACTICES OF: " + jugadorFocus.GetNombre(), AppController.Idiomas.Ingles);
 
         //imagenPartido.color = colorNoSeleccionado;
         //imagenPractica.color = colorSeleccionado;
@@ -161,7 +166,7 @@ public class PanelPartidos : Panel
 
         warningTextPartidos.SetActive(false);
 
-        botonSeleccionarPracticas.SetColorDesactivado();
+        botonSeleccionarPracticas.SetColorSeleccionado();
         botonSeleccionarPartidos.SetColorActivado();
 
         ResetPrefabs();
@@ -170,6 +175,9 @@ public class PanelPartidos : Panel
     public void MostrarEstadisticasGlobales()
     {
         Estadisticas estadisticas = isPartido ? jugadorFocus.GetEstadisticasPartido() : jugadorFocus.GetEstadisticasPractica();
+
+        AppController.instance.overlayPanel.SetNombrePanel("ESATADISTICAS GLOBALES DE JUGADOR: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("GLOBAL STATISTICS OF: " + jugadorFocus.GetNombre(), AppController.Idiomas.Ingles);
 
         GetComponentInParent<PanelJugadores>().MostrarPanelDetalleJugador(null, jugadorFocus.GetNombre(), estadisticas);
     }

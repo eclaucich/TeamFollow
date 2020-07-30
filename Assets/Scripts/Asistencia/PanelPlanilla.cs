@@ -12,11 +12,10 @@ public class PanelPlanilla : PanelAsistencia {
     [SerializeField] private GameObject botonEditar = null;
     [SerializeField] private GameObject botonGuardar = null;
 
-    [SerializeField] private InputField nuevoNombreInput = null;
+    [SerializeField] private InputField inputNuevoAlias = null;
     [SerializeField] private MensajeError mensajeError = null;
 
     private BotonHistorialAsistencia botonFocus;
-    private string nombrePlanilla;
 
     private List<DetalleAsistencia> newDetalles;
 
@@ -31,21 +30,20 @@ public class PanelPlanilla : PanelAsistencia {
 
         base.SetPanelPlanilla();
 
-        AppController.instance.overlayPanel.SetNombrePanel(botonFocus_.GetDisplayNombre());
+        AppController.instance.overlayPanel.SetNombrePanel("PLANILLA: " + botonFocus_.GetDisplayNombre(), AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("FORM: " + botonFocus_.GetDisplayNombre(), AppController.Idiomas.Ingles);
 
         CrearPrefabsHoja(false);
 
         if (botonFocus_.GetAlias() != "") nombrePlanillaText.text = botonFocus_.GetFecha();
         else nombrePlanillaText.text = "";
 
-        nombrePlanilla = botonFocus.GetNombre();
         nombrePlanillaText.gameObject.SetActive(false);
 
-        mensajeError.Desactivar();
         botonBorrar.SetActive(true);
         botonEditar.SetActive(true);
         botonGuardar.SetActive(false);
-        nuevoNombreInput.gameObject.SetActive(false);
+        inputNuevoAlias.gameObject.SetActive(false);
     }
 
     public void BorrarAsistencia()
@@ -58,7 +56,7 @@ public class PanelPlanilla : PanelAsistencia {
         botonEditar.SetActive(false);
         botonBorrar.SetActive(false);
         botonGuardar.SetActive(true);
-        nuevoNombreInput.gameObject.SetActive(true);
+        inputNuevoAlias.gameObject.SetActive(true);
 
         base.BorrarPrefabs();
         newDetalles.Clear();
@@ -76,27 +74,34 @@ public class PanelPlanilla : PanelAsistencia {
          */
         Equipo equipoActual = AppController.instance.equipoActual;
 
-        string nuevoNombre = nuevoNombreInput.text;
-        Debug.Log("nobmre actual: " + nombrePlanilla);
-        Debug.Log("nuevo nombre: " + nuevoNombre);
+        string nuevoAlias = inputNuevoAlias.text;
+        string nombrePlanilla = botonFocus.GetNombre();
+        string aliasPlanilla = botonFocus.GetAlias();
 
-        /*if (nuevoNombre == "")
-            nuevoNombre = nombrePlanilla;*/
-        /*if(nombrePlanilla != nuevoNombre)
+        Debug.Log("Nuevo alias: " + nuevoAlias);
+        Debug.Log("Viejo alias: " + aliasPlanilla);
+
+
+        if (nuevoAlias == "")
+            nuevoAlias = aliasPlanilla;
+        else if(nuevoAlias != aliasPlanilla)
         {
-            if (equipoActual.ExistePlanilla(nombrePlanilla, ""))
+            if (equipoActual.ExistePlanilla(nombrePlanilla, nuevoAlias))
             {
-                mensajeError.SetText("Planilla Existente!");
+                Debug.Log("EXISTIA");
+                mensajeError.SetText("Nombre existente", AppController.Idiomas.Español);
+                mensajeError.SetText("Existing name", AppController.Idiomas.Ingles);
                 mensajeError.Activar();
                 return;
             }
-        }*/
+            Debug.Log("NO EXISTIA");
+        }
 
-        botonFocus.SetBotonHistorialAsistencia(nombrePlanilla, nuevoNombre);
+        botonFocus.SetBotonHistorialAsistencia(nombrePlanilla, nuevoAlias);
         CanvasController.instance.MostrarPanelAnterior();
         CanvasController.instance.MostrarPanelAnterior();
         equipoActual.BorrarAsistencia(nombrePlanilla);
-        equipoActual.NuevaPlanilla(nombrePlanilla, nuevoNombre, newDetalles);
+        equipoActual.NuevaPlanilla(nombrePlanilla, nuevoAlias, newDetalles);
 
     }
 }

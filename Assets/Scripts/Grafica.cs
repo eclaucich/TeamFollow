@@ -22,7 +22,7 @@ public abstract class Grafica : MonoBehaviour
     protected int[] valores;
 
     protected bool debug = true;
-    protected int cantidadDatos = 10;
+    protected int cantidadDatos = 50;
 
     public virtual void Graficar<T>(Dictionary<T, int> datos)
     {

@@ -71,7 +71,8 @@ public class PanelSeleccionEstadisticas : Panel {
 
     private void Start()
     {
-        AppController.instance.overlayPanel.SetNombrePanel("ESTADISTICAS");
+        AppController.instance.overlayPanel.SetNombrePanel("SELECCION ESTADISTICAS", AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("STATISTICS SELECTION", AppController.Idiomas.Ingles);
     }
 
     private void FixedUpdate()
@@ -91,11 +92,9 @@ public class PanelSeleccionEstadisticas : Panel {
         {
             listaPaneles[i].Desactivar();
         }
-
+        Debug.Log("Deporte: " + (int)AppController.instance.equipoActual.GetDeporte());
         panelActual = listaPaneles[(int)AppController.instance.equipoActual.GetDeporte()];
         panelActual.Activar();
-
-        mensajeError.Desactivar();
 
         cantMinima = panelActual.GetCantMInima();
         Debug.Log("CANT MINIMA: " + cantMinima); 
@@ -158,16 +157,18 @@ public class PanelSeleccionEstadisticas : Panel {
         int cantEstSeleccionadas = GetListaEstadisticas().Count;
 
         if (AppController.instance.equipoActual.GetJugadores().Count == 0)
-            MostrarMensajeError("Este equipo no tiene jugadores");
+        {
+            mensajeError.SetText("Este equipo no tiene jugadores".ToUpper(), AppController.Idiomas.Español);
+            mensajeError.SetText("This team has no players".ToUpper(), AppController.Idiomas.Ingles);
+            mensajeError.Activar();
+        }
         else if (cantEstSeleccionadas == 0)
-            MostrarMensajeError("No hay estadísticas seleccionadas");
+        {
+            mensajeError.SetText("Seleccionar al menos una estadística".ToUpper(), AppController.Idiomas.Español);
+            mensajeError.SetText("Select at least one statistic".ToUpper(), AppController.Idiomas.Ingles);
+            mensajeError.Activar();
+        }
         else
             GetComponentInParent<PanelEntradaDatos>().MostrarPanelNuevaEntradaDatos(isPartido);
-    }
-
-    public void MostrarMensajeError(string error_)
-    {
-        mensajeError.SetText(error_);
-        mensajeError.Activar();
     }
 }

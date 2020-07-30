@@ -39,19 +39,8 @@ public class PanelNuevoJugador : Panel
         inputsInt = new List<InputPrefab>();
         inputsEspecial = new List<InputPrefab>();
         inputsObligatorios = new List<InputPrefab>();
-        //inputAltura.keyboardType = TouchScreenKeyboardType.NumberPad;
-        //inputPeso.keyboardType = TouchScreenKeyboardType.NumberPad;
-
-        mensajeError.Desactivar();
-
-        //GO.transform.GetChild(0).GetComponent<Text>().text = "Fecha Nacimiento";
-        //listaPrefabs.Add(GO);
 
         InfoJugador infoJugadorAux = new InfoJugador();
-
-        /*inputsString = new List<InputPrefab>();
-        inputsInt = new List<InputPrefab>();
-        inputsEspecial = new List<InputPrefab>();*/
 
         prefabHeight = prefabInputInfo.GetComponent<RectTransform>().rect.height;
 
@@ -61,6 +50,8 @@ public class PanelNuevoJugador : Panel
             go.gameObject.SetActive(true);
             InputPrefab IPgo = go.GetComponent<InputPrefab>();
             IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetText(info.Key.ToString().ToUpper(), AppController.Idiomas.Español);
+            IPgo.SetText(infoJugador.GetKeyInLaguage(info.Key.ToString(), AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             IPgo.SetCampoObligatorio(true);
             IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             inputsObligatorios.Add(IPgo);
@@ -71,6 +62,8 @@ public class PanelNuevoJugador : Panel
         inputFecha = GO.GetComponent<InputPrefabFecha>();
         inputFecha.SetCampoObligatorio(true);
         inputFecha.SetNombreCategoria("Fecha Nacimiento");
+        inputFecha.SetText("Fecha Nacimiento".ToUpper(), AppController.Idiomas.Español);
+        inputFecha.SetText("Date of birth".ToUpper(), AppController.Idiomas.Ingles);
         inputFecha.ResetValor();
 
         foreach (var info in infoJugadorAux.GetInfoString())
@@ -79,6 +72,8 @@ public class PanelNuevoJugador : Panel
             go.SetActive(true);
             InputPrefab IPgo = go.GetComponent<InputPrefab>();
             IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetText(info.Key.ToString().ToUpper(), AppController.Idiomas.Español);
+            IPgo.SetText(infoJugador.GetKeyInLaguage(info.Key.ToString(), AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             inputsString.Add(IPgo);
 
@@ -92,6 +87,8 @@ public class PanelNuevoJugador : Panel
             go.SetActive(true);
             InputPrefab IPgo = go.GetComponent<InputPrefab>();
             IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetText(info.Key.ToString().ToUpper(), AppController.Idiomas.Español);
+            IPgo.SetText(infoJugador.GetKeyInLaguage(info.Key.ToString(), AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             IPgo.SetKeyboardType(TouchScreenKeyboardType.NumberPad);
             inputsInt.Add(IPgo);
 
@@ -105,6 +102,8 @@ public class PanelNuevoJugador : Panel
             go.SetActive(true);
             InputPrefabEspecial IPgo = go.GetComponent<InputPrefabEspecial>();
             IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetText(info.Key.ToString().ToUpper(), AppController.Idiomas.Español);
+            IPgo.SetText(infoJugador.GetKeyInLaguage(info.Key.ToString(), AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             inputsEspecial.Add(IPgo);
         }
 
@@ -146,7 +145,8 @@ public class PanelNuevoJugador : Panel
         
         if (!inputFecha.IsDateValid())
         {
-            mensajeError.SetText("Completar campos obligatorios (*)");
+            mensajeError.SetText("Completar campos obligatorios (*)".ToUpper(), AppController.Idiomas.Español);
+            mensajeError.SetText("Complete required fields (*)".ToUpper(), AppController.Idiomas.Ingles);
             mensajeError.Activar();
             return;
         }
@@ -154,7 +154,8 @@ public class PanelNuevoJugador : Panel
         {
             if (input.GetValorCategoria() == "")
             {
-                mensajeError.SetText("Completar campos obligatorios (*)");
+                mensajeError.SetText("Completar campos obligatorios (*)".ToUpper(), AppController.Idiomas.Español);
+                mensajeError.SetText("Complete required fields (*)".ToUpper(), AppController.Idiomas.Ingles);
                 mensajeError.Activar();
                 return;
             }
@@ -164,7 +165,8 @@ public class PanelNuevoJugador : Panel
         //Reviasr si existe el nombre (hacer una función de comporbación de nombres general en appcontroller
         if (equipoActual.BuscarPorNombre(ij.GetNombre()) != null || ij.GetNombre() == "" || ij.GetNombre() == " ")
         {
-            mensajeError.SetText("Nombre inválido/existente");
+            mensajeError.SetText("Nombre inválido/existente!".ToUpper(), AppController.Idiomas.Español);
+            mensajeError.SetText("Invalid/Existing name!".ToUpper(), AppController.Idiomas.Ingles);
             mensajeError.Activar();
             return;
         }

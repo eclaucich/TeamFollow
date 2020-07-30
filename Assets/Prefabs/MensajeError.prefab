@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7178783127265984094}
   - component: {fileID: 7178783127265984093}
   - component: {fileID: 7178783127265984095}
-  - component: {fileID: 7824232583514770621}
+  - component: {fileID: 1260241055923404512}
+  - component: {fileID: 6146879108378506553}
   m_Layer: 5
   m_Name: MensajeError
   m_TagString: Untagged
@@ -88,9 +89,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30184c7479e48674db46c5c496479f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mensajeText: {fileID: 7178783127847732054}
+  mensajeText: {fileID: 4529611710701882680}
   aliveTime: 2
---- !u!114 &7824232583514770621
+--- !u!114 &1260241055923404512
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,9 +100,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 7178783127265984091}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01bb6159f7a2ea841938d5f8773b1a50, type: 3}
+  m_Script: {fileID: 11500000, guid: d3bf3ccc2ce3e1642bf1ca6445effa35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &6146879108378506553
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178783127265984091}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ae26c9f38d5fb4046a75be143877b795, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7178783127847732052
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,6 +134,7 @@ GameObject:
   - component: {fileID: 7178783127847732055}
   - component: {fileID: 7178783127847732054}
   - component: {fileID: 587964072090638181}
+  - component: {fileID: 4529611710701882680}
   m_Layer: 5
   m_Name: Mensaje
   m_TagString: Untagged
@@ -168,11 +189,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 71f2e0a2844995a45ba60447e1b36573, type: 3}
-    m_FontSize: 1
+    m_FontSize: 0
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 1
-    m_MaxSize: 20
+    m_MinSize: 0
+    m_MaxSize: 45
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -192,3 +213,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc33faf2046797747a0df0be8aa77b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4529611710701882680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7178783127847732052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f78e6f09c65ab34aa5defcbe035a640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  "textEspa\xF1ol": 
+  textIngles: 

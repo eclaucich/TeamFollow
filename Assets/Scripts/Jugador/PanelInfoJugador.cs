@@ -34,6 +34,8 @@ public class PanelInfoJugador : Panel
     private int cantMinima;
     private float prefabHeight;
 
+    private bool editando = false;
+
     void Awake()
     {
         //listaPrefabs = new List<InputPrefab>();
@@ -63,15 +65,14 @@ public class PanelInfoJugador : Panel
 
     public void SetearPanelInfoJugador(Jugador jugador)
     {
-        AppController.instance.overlayPanel.SetNombrePanel(jugador.GetNombre());
+        AppController.instance.overlayPanel.SetNombrePanel("JUGADOR: " + jugador.GetNombre(), AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("PLAYER: " + jugador.GetNombre(), AppController.Idiomas.Ingles);
 
         textEditando.SetActive(false);
         botonGuardarCambios.SetActive(false);
 
         infoJugador = jugador.GetInfoJugador();
         jugadorFocus = jugador;
-
-        mensajeError.Desactivar();
 
         BorrarPrefabs();
         CrearPrefabs();
@@ -89,6 +90,8 @@ public class PanelInfoJugador : Panel
             InputPrefab IPgo = Instantiate(prefabInputInfo, parentTransform).GetComponent<InputPrefab>();
             IPgo.gameObject.SetActive(true);
             IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetText(info.Key.ToString().ToUpper(), AppController.Idiomas.Español);
+            IPgo.SetText(infoJugador.GetKeyInLaguage(info.Key.ToString(), AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             IPgo.SetPlaceholder(info.Value.ToString());
             IPgo.HabilitarInput(false);
             inputsObligatorios.Add(IPgo);
@@ -99,6 +102,8 @@ public class PanelInfoJugador : Panel
         InputPrefabFecha IPGO = Instantiate(prefabInputFecha, parentTransform).GetComponent<InputPrefabFecha>();
         IPGO.gameObject.SetActive(true);
         IPGO.SetNombreCategoria("Fecha Nacimiento");
+        IPGO.SetText("Fecha Nacimiento".ToUpper(), AppController.Idiomas.Español);
+        IPGO.SetText("Date of Birth".ToUpper(), AppController.Idiomas.Ingles);
         IPGO.SetValorCategoria(infoJugador.GetFechaNac().ToShortDateString());
         IPGO.HabilitarInput(false);
         //listaPrefabs.Add(IPGO);
@@ -111,6 +116,8 @@ public class PanelInfoJugador : Panel
             InputPrefab IPgo = Instantiate(prefabInputInfo, parentTransform).GetComponent<InputPrefab>();
             IPgo.gameObject.SetActive(true);
             IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetText(info.Key.ToString().ToUpper(), AppController.Idiomas.Español);
+            IPgo.SetText(infoJugador.GetKeyInLaguage(info.Key.ToString(), AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             IPgo.SetPlaceholder(info.Value.ToString());
             IPgo.HabilitarInput(false);
             IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
@@ -125,6 +132,8 @@ public class PanelInfoJugador : Panel
             InputPrefab IPgo = Instantiate(prefabInputInfo, parentTransform).GetComponent<InputPrefab>();
             IPgo.gameObject.SetActive(true);
             IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetText(info.Key.ToString().ToUpper(), AppController.Idiomas.Español);
+            IPgo.SetText(infoJugador.GetKeyInLaguage(info.Key.ToString(), AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             IPgo.SetPlaceholder(info.Value.ToString());
             IPgo.HabilitarInput(false);
             IPgo.SetKeyboardType(TouchScreenKeyboardType.NumberPad);
@@ -139,6 +148,8 @@ public class PanelInfoJugador : Panel
             InputPrefabEspecial IPgo = Instantiate(prefabInputInfoEspecial, parentTransform).GetComponent<InputPrefabEspecial>();
             IPgo.gameObject.SetActive(true);
             IPgo.SetNombreCategoria(info.Key.ToString());
+            IPgo.SetText(info.Key.ToString().ToUpper(), AppController.Idiomas.Español);
+            IPgo.SetText(infoJugador.GetKeyInLaguage(info.Key.ToString(), AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             IPgo.SetValor(info.Value.ToString());
             IPgo.HabilitarInput(false);
             inputsEspecial.Add(IPgo);
@@ -165,6 +176,12 @@ public class PanelInfoJugador : Panel
         inputsEspecial.Clear();
     }
 
+    public void ToggleEditar()
+    {
+        editando = !editando;
+        HabilitarEdicion(editando);
+    }
+
     public void HabilitarEdicion(bool _aux)
     {
         foreach (var input in inputsObligatorios)
@@ -189,7 +206,8 @@ public class PanelInfoJugador : Panel
         {
             if (input.GetValorCategoria() == "")
             {
-                mensajeError.SetText("Completar campos obligatorios (*)");
+                mensajeError.SetText("Completar campos obligatorios (*)".ToUpper(), AppController.Idiomas.Español);
+                mensajeError.SetText("Complete required fields (*)".ToUpper(), AppController.Idiomas.Ingles);
                 mensajeError.Activar();
                 return;
             }
@@ -199,7 +217,8 @@ public class PanelInfoJugador : Panel
         //Reviasr si existe el nombre (hacer una función de comporbación de nombres general en appcontroller
         if (nombreActual!=ij.GetNombre() && AppController.instance.equipoActual.BuscarPorNombre(ij.GetNombre()) != null || ij.GetNombre() == "" || ij.GetNombre() == " ")
         {
-            mensajeError.SetText("Nombre inválido/existente");
+            mensajeError.SetText("Nombre inválido/existente!".ToUpper(), AppController.Idiomas.Español);
+            mensajeError.SetText("Invalid/Existing name!".ToUpper(), AppController.Idiomas.Ingles);
             mensajeError.Activar();
             return;
         }
@@ -226,6 +245,5 @@ public class PanelInfoJugador : Panel
         jugadorFocus.Editar(ij);
 
         HabilitarEdicion(false);
-        AppController.instance.overlayPanel.SetNombrePanel(jugadorFocus.GetNombre());
     }
 }

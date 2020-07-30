@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 3304834646137607891}
   - component: {fileID: 5124610584608329869}
   - component: {fileID: 8389348121841223147}
+  - component: {fileID: 1989065631}
   m_Layer: 5
   m_Name: NombreCategoria
   m_TagString: Untagged
@@ -177,6 +178,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc33faf2046797747a0df0be8aa77b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1989065631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810382783529843794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f78e6f09c65ab34aa5defcbe035a640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  "textEspa\xF1ol": 
+  textIngles: 
 --- !u!1 &1392383346797475133
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +247,7 @@ MonoBehaviour:
   valorCategoria: {fileID: 8723456483916764760}
   inputField: {fileID: 0}
   textCampoObligatorio: {fileID: 5415182269285231663}
+  text: {fileID: 1989065631}
   menuOpcionesEspecialesPrefab: {fileID: 4019503295937046282, guid: bab8f65c6e2c1e74b9f23b01048409d8,
     type: 3}
 --- !u!114 &4627491010737891621

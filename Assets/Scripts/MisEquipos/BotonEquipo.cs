@@ -34,7 +34,7 @@ public class BotonEquipo : MonoBehaviour {
     [SerializeField] private Sprite spriteHandball = null;
     [SerializeField] private Sprite spritePadel = null;
 
-    [SerializeField] private Text cantidadJugadoresText = null;
+    [SerializeField] private TextLanguage cantidadJugadoresText = null;
 
 
     private List<Sprite> listaSprites;
@@ -69,43 +69,52 @@ public class BotonEquipo : MonoBehaviour {
     {
         int cantJugadores = equipo.GetJugadores().Count;
         if (cantJugadores == 0)
-            cantidadJugadoresText.text = "sin jugadores";
-        else if(cantJugadores == 1)
-            cantidadJugadoresText.text = equipo.GetJugadores().Count + " jugador";
+        {
+            cantidadJugadoresText.SetText("Equipo vacio".ToUpper(), AppController.Idiomas.Español);
+            cantidadJugadoresText.SetText("empy team".ToUpper(), AppController.Idiomas.Ingles);
+        }
+        else if (cantJugadores == 1)
+        {
+            cantidadJugadoresText.SetText(equipo.GetJugadores().Count + " jugador".ToUpper(), AppController.Idiomas.Español);
+            cantidadJugadoresText.SetText(equipo.GetJugadores().Count + " player".ToUpper(), AppController.Idiomas.Ingles);
+        }
         else
-            cantidadJugadoresText.text = equipo.GetJugadores().Count + " jugadores";
+        {
+            cantidadJugadoresText.SetText(equipo.GetJugadores().Count + " jugadores".ToUpper(), AppController.Idiomas.Español);
+            cantidadJugadoresText.SetText(equipo.GetJugadores().Count + " players".ToUpper(), AppController.Idiomas.Ingles);
+        }
 
         //Debug.Log("DEPORTE: " + equipo.GetDeporteNombre() + ", " + (int)equipo.GetDeporte());
         switch (equipo.GetDeporte())
          {
-             case Deportes.Deporte.Futbol:
+             case Deportes.DeporteEnum.Futbol:
                  spriteDeporte.texture = spriteFutbol.texture;
                  break;
-             case Deportes.Deporte.HockeyCesped:
+             case Deportes.DeporteEnum.HockeyCesped:
                  spriteDeporte.texture = spriteHockeyCesped.texture;
                  break;
-             case Deportes.Deporte.Tenis:
+             case Deportes.DeporteEnum.Tenis:
                  spriteDeporte.texture = spriteTenis.texture;
                  break;
-             case Deportes.Deporte.Softball:
+             case Deportes.DeporteEnum.Softball:
                  spriteDeporte.texture = spriteSoftball.texture;
                  break;
-             case Deportes.Deporte.Voley:
+             case Deportes.DeporteEnum.Voley:
                  spriteDeporte.texture = spriteVoley.texture;
                  break;
-             case Deportes.Deporte.HockeyPatines:
+             case Deportes.DeporteEnum.HockeyPatines:
                  spriteDeporte.texture = spriteHockeyPatines.texture;
                  break;
-             case Deportes.Deporte.Rugby:
+             case Deportes.DeporteEnum.Rugby:
                  spriteDeporte.texture = spriteRugby.texture;
                  break;
-             case Deportes.Deporte.Basket:
+             case Deportes.DeporteEnum.Basket:
                  spriteDeporte.texture = spriteBasket.texture;
                  break;
-             case Deportes.Deporte.Handball:
+             case Deportes.DeporteEnum.Handball:
                  spriteDeporte.texture = spriteHandball.texture;
                  break;
-             case Deportes.Deporte.Padel:
+             case Deportes.DeporteEnum.Padel:
                  spriteDeporte.texture = spritePadel.texture;
                  break;
          }

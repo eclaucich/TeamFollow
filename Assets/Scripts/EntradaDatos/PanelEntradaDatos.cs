@@ -40,7 +40,8 @@ public class PanelEntradaDatos : MonoBehaviour {
         //panel_nuevaEntradaDatos.SetActive(false);
         panel_seleccionEstadisticas.SetActive(true);
 
-        AppController.instance.overlayPanel.SetNombrePanel("selección estadísticas");
+        AppController.instance.overlayPanel.SetNombrePanel("SELECCION ESTADISTICAS", AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("STATISTICS SELECTION", AppController.Idiomas.Ingles);
 
         panel_seleccionEstadisticas.GetComponent<PanelSeleccionEstadisticas>().SetearPanelEstadisticas();
 
@@ -113,14 +114,14 @@ public class PanelEntradaDatos : MonoBehaviour {
     /// 
     private EntradaDatos GetEntradaDatosActual()
     {
-        if(AppController.instance.equipoActual.GetDeporte() == Deportes.Deporte.Tenis || AppController.instance.equipoActual.GetDeporte() == Deportes.Deporte.Padel)
+        if(AppController.instance.equipoActual.GetDeporte() == Deportes.DeporteEnum.Tenis || AppController.instance.equipoActual.GetDeporte() == Deportes.DeporteEnum.Padel)
         {
             GameObject go = Instantiate(entradaDatosTenis, this.transform, false);
             go.transform.name = "EntradaDatosTenisPartido";
 
             entradaDatosActual = go.GetComponent<EntradaDatosTenis>();
         }
-        else if(AppController.instance.equipoActual.GetDeporte() == Deportes.Deporte.Softball)
+        else if(AppController.instance.equipoActual.GetDeporte() == Deportes.DeporteEnum.Softball)
         {
             GameObject go = Instantiate(entradaDatosSoftball, this.transform, false);
             go.transform.name = "EntradaDatosSoftball";

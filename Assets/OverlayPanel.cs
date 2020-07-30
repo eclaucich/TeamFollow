@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public class OverlayPanel : MonoBehaviour
 {
-    [SerializeField] private Text nombrePanel = null;
+    [SerializeField] private TextLanguage nombrePanel = null;
 
-    public void SetNombrePanel(string nombrePanel_)
+    public void SetNombrePanel(string _nombre, AppController.Idiomas _idioma)
     {
-        nombrePanel.text = nombrePanel_;
+        nombrePanel.SetText(_nombre, _idioma);
     }
 }

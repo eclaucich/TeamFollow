@@ -39,4 +39,11 @@ public class BotonNormal : MonoBehaviour
             button = GetComponent<Button>();
         button.image.color = AppController.instance.colorTheme.botonDesactivado;
     }
+
+    public void SetColorSeleccionado()
+    {
+        if (button == null)
+            button = GetComponent<Button>();
+        button.image.color = AppController.instance.colorTheme.botonSeleccionado;
+    }
 }

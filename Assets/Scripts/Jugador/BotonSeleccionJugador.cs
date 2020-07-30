@@ -9,7 +9,7 @@ public class BotonSeleccionJugador : MonoBehaviour
     {
         seleccionado = !seleccionado;
 
-        if (seleccionado) GetComponent<BotonNormal>().SetColorDesactivado();
+        if (seleccionado) GetComponent<BotonNormal>().SetColorSeleccionado();
         else GetComponent<BotonNormal>().SetColorActivado();
     }
 

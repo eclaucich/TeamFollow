@@ -73,11 +73,13 @@ public class PanelJugadores : MonoBehaviour {
     {
         ActivarPanel(4);
 
-        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.JugadoresPrincipal);
-
         Jugador jugActual = AppController.instance.jugadorActual;
-
         nombreJugadorFocus = jugActual.GetNombre();
+
+        AppController.instance.overlayPanel.SetNombrePanel(nombreJugadorFocus + ": ESTADISTICAS", AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel(nombreJugadorFocus + ": STATISTICS", AppController.Idiomas.Ingles);
+
+        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.JugadoresPrincipal);
 
         panel_infoJugador.GetComponent<PanelInfoJugador>().SetearPanelInfoJugador(jugActual);  
     }

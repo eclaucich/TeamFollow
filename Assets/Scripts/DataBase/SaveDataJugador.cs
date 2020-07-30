@@ -3,6 +3,8 @@
 [System.Serializable]
 public class SaveDataJugador {
 
+    public Deportes.DeporteEnum deporte;
+
     public int fechaNacYear;
     public int fechaNacMonth;
     public int fechaNacDay;
@@ -19,8 +21,10 @@ public class SaveDataJugador {
     public List<string> catEspecial;
     public List<string> valEspecial;
 
-    public SaveDataJugador(InfoJugador infoJugador_)
+    public SaveDataJugador(InfoJugador infoJugador_, Deportes.DeporteEnum deporte_)
     {
+        deporte = deporte_;
+
         catObligatoria = ListaKeysString(infoJugador_.GetInfoObligatoria().Keys);
         valObligatoria = ListaValuesString(infoJugador_.GetInfoObligatoria().Values);
 

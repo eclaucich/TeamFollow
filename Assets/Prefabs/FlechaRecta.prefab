@@ -93,6 +93,10 @@ MonoBehaviour:
   timeBtwPoints: 0.02
   puntaFlecha: {fileID: 3642387342300360435, guid: efba7290eeaa99043bb42c0c497c5f35,
     type: 3}
+  materialFlechaNormal: {fileID: 2100000, guid: 111eef38851b97d4493c288af600b524,
+    type: 2}
+  materialFlechaPunteada: {fileID: 2100000, guid: 98633823f15afe64ba9b982f7c4aa6d8,
+    type: 2}
 --- !u!61 &-5550123111278388133
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -137,7 +141,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 111eef38851b97d4493c288af600b524, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -161,7 +165,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 10
+    widthMultiplier: 6
     widthCurve:
       serializedVersion: 2
       m_Curve:

@@ -8,10 +8,11 @@ public class PanelEstadisticas : MonoBehaviour {
     [SerializeField] protected List<string> listaEstadisticas;
     [SerializeField] protected List<string> listaIniciales;
     [SerializeField] private GameObject togglePrefab = null;
+    protected EstadisticaDeporte nombreEstadisticas;
 
     private Transform parentTransform;
 
-    private List<Toggle> listaToggles;
+    private List<TextScript> listaToggles;
 
     [SerializeField] private ScrollRect scrollRect = null;
 
@@ -20,14 +21,26 @@ public class PanelEstadisticas : MonoBehaviour {
     private void Start()
     {
         parentTransform = transform.GetChild(0);
-        listaToggles = new List<Toggle>();
-        
+        listaToggles = new List<TextScript>();
+        nombreEstadisticas = GetComponent<EstadisticaDeporte>();
+
+        Debug.Log("CANT EST: " + nombreEstadisticas.GetSize());
+        for (int i = 0; i < nombreEstadisticas.GetSize(); i++)
+        {
+            GameObject toggleGO = Instantiate(togglePrefab, parentTransform, false);
+            string[] nameEspañol = nombreEstadisticas.GetStatisticsName(i, AppController.Idiomas.Español);
+            string[] nameIngles = nombreEstadisticas.GetStatisticsName(i, AppController.Idiomas.Ingles);
+            toggleGO.GetComponent<TextScript>().SetName(nameEspañol[0], nameEspañol[1], AppController.Idiomas.Español);
+            toggleGO.GetComponent<TextScript>().SetName(nameIngles[0], nameIngles[1], AppController.Idiomas.Ingles);
+            listaToggles.Add(toggleGO.GetComponent<TextScript>());
+        }
+        /*
         for (int i = 0; i < listaEstadisticas.Count; i++)
         {
             GameObject toggleGO = Instantiate(togglePrefab, parentTransform, false);
             toggleGO.GetComponent<TextScript>().SetName(listaEstadisticas[i], listaIniciales[i]);
             listaToggles.Add(toggleGO.GetComponent<Toggle>());
-        }
+        }*/
 
         prefabHeight = togglePrefab.GetComponent<RectTransform>().rect.height;
     }
@@ -48,9 +61,9 @@ public class PanelEstadisticas : MonoBehaviour {
 
         for (int i = 0; i < listaToggles.Count; i++)
         {
-            if (listaToggles[i].isOn)
+            if (listaToggles[i].IsOn())
             {
-                lista.Add(listaToggles[i].name);
+                lista.Add(listaToggles[i].GetNombre());
             }
         }
 
@@ -63,9 +76,9 @@ public class PanelEstadisticas : MonoBehaviour {
 
         for (int i = 0; i < listaToggles.Count; i++)
         {
-            if (listaToggles[i].isOn)
+            if (listaToggles[i].IsOn())
             {
-                lista.Add(listaIniciales[i]);
+                lista.Add(listaToggles[i].GetInicial());
             }
         }
 
@@ -81,7 +94,7 @@ public class PanelEstadisticas : MonoBehaviour {
     {
         if (scrollRect == null) Debug.Log("SCROLL RECT NULL");
         if(prefabHeight == 0) prefabHeight = togglePrefab.GetComponent<RectTransform>().rect.height;
-        return (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + 20)); //20 es el spacing
+        return (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + 50 +60)); //20 es el spacing
     }
 
     public int GetChildCount()

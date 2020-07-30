@@ -12,16 +12,19 @@ public class Estadisticas {
     //Parametros a llevar por las estadísticas
     protected Dictionary<string, int> listaEstadisticas;
     protected DateTime fecha;
+    protected Deportes.DeporteEnum deporte;
 
-    public Estadisticas()                                                       
+    public Estadisticas(Deportes.DeporteEnum _deporte)                                                       
     {
         listaEstadisticas = new Dictionary<string, int>();
+        deporte = _deporte;
     }
 
     public Estadisticas(SaveDataEstadisticas saveData)
     {
         //A partir de saveData, extraer los dos arrays publicos
         //y crear el diccionario (listaEstadisticas) con ellos
+        deporte = saveData.deporte;
         listaEstadisticas = new Dictionary<string, int>();
 
         List<string> keys = saveData.nombresCategorias;
@@ -150,4 +153,13 @@ public class Estadisticas {
         return listaEstadisticas == null || listaEstadisticas.Keys.Count == 0;
     }
 
+    public EstadisticaDeporte GetEstadisticaDeporte()
+    {
+        return Deportes.instance.GetEstadisticaDeporte(deporte);
+    }
+
+    public Deportes.DeporteEnum GetDeporte()
+    {
+        return deporte;
+    }
 }

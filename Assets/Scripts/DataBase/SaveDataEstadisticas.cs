@@ -9,9 +9,11 @@ public class SaveDataEstadisticas {
     public List<string> nombresCategorias;
     public List<int> valoresCategorias;
     public DateTime fecha;
+    public Deportes.DeporteEnum deporte;
 
     public SaveDataEstadisticas(Estadisticas estadisticas_)
     {
+        deporte = estadisticas_.GetDeporte();
         estadisticas = estadisticas_.GetDictionary();
 
         nombresCategorias = new List<string>();

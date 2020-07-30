@@ -6,6 +6,7 @@ public class MensajeDesplegable : MonoBehaviour
     protected bool desplegado = false;
   
     [SerializeField] protected GameObject closeZone = null;
+    [SerializeField] protected TextLanguage text = null;
 
     virtual public void Start()
     {

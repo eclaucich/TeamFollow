@@ -36,6 +36,20 @@ public class PanelDetalleJugador : Panel{
     {
         partidoFocus = _partido;
 
+        if (_partido != null)
+        {
+            if (isPartido)
+            {
+                AppController.instance.overlayPanel.SetNombrePanel("PARTIDO: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
+                AppController.instance.overlayPanel.SetNombrePanel("MATCH: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
+            }
+            else
+            {
+                AppController.instance.overlayPanel.SetNombrePanel("PRACTICA: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
+                AppController.instance.overlayPanel.SetNombrePanel("PRACTICE: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
+            }
+        }
+
         if (_partido == null) botonBorrar.SetActive(false); else botonBorrar.SetActive(true); 
 
         if (listaPrefabsTextos == null) listaPrefabsTextos = new List<GameObject>();
@@ -53,11 +67,17 @@ public class PanelDetalleJugador : Panel{
     {
         if (isPartido)
         {
+            AppController.instance.overlayPanel.SetNombrePanel("PARTIDO: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
+            AppController.instance.overlayPanel.SetNombrePanel("MATCH: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
+
             estadisticas = jugador.GetEstadisticasPartido();
             tipoEstadisticasText.text = "Partido";
         }
         else
         {
+            AppController.instance.overlayPanel.SetNombrePanel("PRACTICA: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
+            AppController.instance.overlayPanel.SetNombrePanel("PRACTICE: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
+
             estadisticas = jugador.GetEstadisticasPractica();
             tipoEstadisticasText.text = "Practica";
         }
@@ -80,6 +100,25 @@ public class PanelDetalleJugador : Panel{
 
     virtual public void CrearPrefabs()
     {
+        EstadisticaDeporte estDeporte = estadisticas.GetEstadisticaDeporte();
+
+        for (int i = 0; i < estDeporte.GetSize(); i++) //este cantidad categorias en realidad devuelve la cantidad que haya en el enum de estadisticas
+        {
+            if (estadisticas.Find(estDeporte.GetValueAtIndex(i))[0] == 1)
+            {
+                GameObject botonEstadisticaGO = Instantiate(botonEstadisticaPrefab, transformParent, false);
+                botonEstadisticaGO.SetActive(true);
+                BotonEstadistica botonEstadistica = botonEstadisticaGO.GetComponent<BotonEstadistica>();
+
+                string statsName = estDeporte.GetStatisticsName(i, AppController.Idiomas.Español)[0];
+
+                botonEstadistica.SetTextInLanguage(statsName, AppController.Idiomas.Español);
+                botonEstadistica.SetTextInLanguage(estDeporte.GetStatisticsName(i, AppController.Idiomas.Ingles)[0], AppController.Idiomas.Ingles);
+                botonEstadistica.SetValorEstadistica(estadisticas.GetValueAtIndex(i).ToString());
+                listaPrefabsTextos.Add(botonEstadisticaGO);
+            }
+        }
+        /*
         for (int i = 0; i < estadisticas.GetCantidadCategorias(); i++)
         {
             GameObject botonEstadisticaGO = Instantiate(botonEstadisticaPrefab, transformParent, false);
@@ -90,7 +129,7 @@ public class PanelDetalleJugador : Panel{
             botonEstadistica.SetValorEstadistica(estadisticas.GetValueAtIndex(i).ToString());
 
             listaPrefabsTextos.Add(botonEstadisticaGO);
-        }
+        }*/
     }
 
     public void CambiarTipoEstadisticas()

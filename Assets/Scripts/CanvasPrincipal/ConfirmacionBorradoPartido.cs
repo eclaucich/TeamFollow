@@ -9,7 +9,10 @@ public class ConfirmacionBorradoPartido : ConfirmacionBorradoJugador
 
     public void ActivarPanel(Partido _partido)
     {
-        textoConfirmacion.text = $"Borrar partido {_partido.GetNombre()} ? \n Se verán afectadas las estadísticas de los jugadores y/o del equipo";
+        Debug.Log("Idioma: "+ AppController.instance.idioma);
+        //textoConfirmacion.text = $"Borrar partido {_partido.GetNombre()} ? \n Se verán afectadas las estadísticas de los jugadores y/o del equipo";
+        text.SetText($"Borrar partido {_partido.GetNombre()} ? \n Se verán afectadas las estadísticas de los jugadores y/o del equipo".ToUpper(), AppController.Idiomas.Español);
+        text.SetText($"Delete match {_partido.GetNombre()} ? \n All team and player statistics will be affected".ToUpper(), AppController.Idiomas.Ingles);
         ToggleDesplegar();
         partidoFocus = _partido;
     }

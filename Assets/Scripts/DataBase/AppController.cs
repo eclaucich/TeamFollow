@@ -39,6 +39,22 @@ public class AppController : MonoBehaviour {
     public int resWidth;
     public int resHeight;
 
+    public enum Idiomas
+    {
+        Español = 0,
+        Ingles = 1
+    };
+    public Idiomas idioma;
+
+    //SOLO DE DEBUG!!
+    public void ToogleLanguage()
+    {
+        if (idioma == Idiomas.Español)
+            idioma = Idiomas.Ingles;
+        else
+            idioma = Idiomas.Español;
+    }
+    
     private void Awake()
     {
         if(instance == null)                                                                //Control del singleton
@@ -80,6 +96,8 @@ public class AppController : MonoBehaviour {
 
 
         //textureActual = texturaPanelNormal;
+
+        idioma = Idiomas.Español;
     }
 
 

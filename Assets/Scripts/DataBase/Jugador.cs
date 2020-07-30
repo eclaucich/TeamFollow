@@ -11,9 +11,8 @@ using System.Collections.Generic;
 public class Jugador {
 
     private string nombre;                                                          //Nombre de jugador (único)
-    private int peso;
-    private int altura;
     private InfoJugador infoJugador;
+    private Deportes.DeporteEnum deporte;
 
     private Estadisticas estadisticasGlobalesPartido;                                       //Estadísticas correspondientes a Partidos
     private Estadisticas estadisticasGlobalesPractica;                                      //Estadísticas correspondientes a Practicas
@@ -21,15 +20,16 @@ public class Jugador {
     private List<Partido> partidos;
     private List<Partido> practicas;
 
-    public Jugador(/*string nombre_, int peso_, int altura_, */InfoJugador infoJugador_)                                                  //Constructor por nombre
+    public Jugador(/*string nombre_, int peso_, int altura_, */InfoJugador infoJugador_, Deportes.DeporteEnum deporte_)                                                  //Constructor por nombre
     {
         /*nombre = nombre_;
         peso = peso_;
         altura = altura_;*/
         infoJugador = infoJugador_;
+        deporte = deporte_;
 
-        estadisticasGlobalesPartido = new Estadisticas();
-        estadisticasGlobalesPractica = new Estadisticas();
+        estadisticasGlobalesPartido = new Estadisticas(deporte_);
+        estadisticasGlobalesPractica = new Estadisticas(deporte_);
 
         partidos = new List<Partido>();
         practicas = new List<Partido>();
@@ -45,8 +45,8 @@ public class Jugador {
 
         infoJugador = new InfoJugador(dataJugador); //CAMBIAR ESTO, EL SAVE DATA JUGADOR TIENE QUE GUARDAR UN INFOJUGADOR
 
-        estadisticasGlobalesPartido = new Estadisticas();
-        estadisticasGlobalesPractica = new Estadisticas();
+        estadisticasGlobalesPartido = new Estadisticas(dataJugador.deporte);
+        estadisticasGlobalesPractica = new Estadisticas(dataJugador.deporte);
 
         partidos = new List<Partido>();
         practicas = new List<Partido>();
@@ -87,16 +87,6 @@ public class Jugador {
     public string GetNombre()                                                       //Devuelve el nombre de jugador
     {
         return infoJugador.GetNombre();
-    }
-
-    public int GetPeso()
-    {
-        return peso;
-    }
-
-    public int GetAltura()
-    {
-        return altura;
     }
 
     public Estadisticas GetEstadisticasPartido()                                    //Devuelve las estadísticas correspondietes a Partidos
@@ -243,7 +233,7 @@ public class Jugador {
 
     public SaveDataJugador CreateSaveData()
     {
-        return new SaveDataJugador(infoJugador);
+        return new SaveDataJugador(infoJugador, deporte);
     }
 
     public SaveDataEstadisticas CreateSaveDataEstadisticasPartido()

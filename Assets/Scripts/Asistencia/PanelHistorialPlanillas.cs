@@ -37,11 +37,10 @@ public class PanelHistorialPlanillas : Panel {
 
     public void SetPanelHistorialPlanillas()
     {
-        mensajeError.Desactivar();
-
-        AppController.instance.overlayPanel.SetNombrePanel("ASISTENCIAS");
-
         equipo = AppController.instance.equipoActual;
+
+        AppController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() +  ": ASISTENCIAS", AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() + ": ASSISTS", AppController.Idiomas.Ingles);
 
         BorrarPrefabs();
         CrearPrefabs();
@@ -104,7 +103,8 @@ public class PanelHistorialPlanillas : Panel {
     {
         if(AppController.instance.equipoActual.GetJugadores().Count == 0)
         {
-            mensajeError.SetText("No hay jugadores en este equipo");
+            mensajeError.SetText(("No hay jugadores en este equipo").ToUpper(), AppController.Idiomas.Español);
+            mensajeError.SetText(("There are no players in this team").ToUpper(), AppController.Idiomas.Ingles);
             mensajeError.Activar();
             return;
         }

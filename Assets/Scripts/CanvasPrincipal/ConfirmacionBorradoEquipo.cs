@@ -5,7 +5,6 @@ public class ConfirmacionBorradoEquipo : MensajeDesplegable
 {
     private Equipo equipoFocus;
     private GameObject botonEquipoFocus;
-    [SerializeField] protected Text textoConfirmacion = null;
     private PanelPrincipal panelPrincipal;
 
     public override void Start()
@@ -19,7 +18,10 @@ public class ConfirmacionBorradoEquipo : MensajeDesplegable
     {
         equipoFocus = AppController.instance.equipos[AppController.instance.BuscarPorNombre(nombreEquipo)];
         botonEquipoFocus = botonEquipo;
-        textoConfirmacion.text = "Borrar Equipo \"" + equipoFocus.GetNombre() + "\"?";
+        //textoConfirmacion.text = "Borrar Equipo \"" + equipoFocus.GetNombre() + "\"?";
+        text.SetText("Delete team \"" + equipoFocus.GetNombre() + "\"?".ToUpper(), AppController.Idiomas.Ingles);
+        text.SetText("Borrar equipo \"" + equipoFocus.GetNombre() + "\"?".ToUpper(), AppController.Idiomas.Español);
+        Debug.Log(text.GetTextActual());
         ToggleDesplegar();
     }
 

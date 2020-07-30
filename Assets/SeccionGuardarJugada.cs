@@ -19,9 +19,9 @@ public class SeccionGuardarJugada : MonoBehaviour
         botonCategoriaAtaque.SetColorActivado();
         botonCategoriaDefensa.SetColorActivado();
 
-        if (i == 0) botonSinCategoria.SetColorDesactivado();
-        else if (i == 1) botonCategoriaAtaque.SetColorDesactivado();
-        else if (i == 2) botonCategoriaDefensa.SetColorDesactivado();
+        if (i == 0) botonSinCategoria.SetColorSeleccionado();
+        else if (i == 1) botonCategoriaAtaque.SetColorSeleccionado();
+        else if (i == 2) botonCategoriaDefensa.SetColorSeleccionado();
     }
 
 }

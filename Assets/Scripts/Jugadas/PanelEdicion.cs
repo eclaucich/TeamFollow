@@ -65,7 +65,6 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         currentTextures = texturesFutbol;
         GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
 
-        textoJugadaGuardada.Desactivar();
         panelHerramientas.gameObject.SetActive(false);
     }
 
@@ -89,11 +88,11 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         resolucionText.text = "WE: " + width + ", HE: " + height;
         //panelHerramientas.ToogleActive();
 
-        mensajeTutorial.SetText("Deslizar hacia arriba/abajo para abrir/cerrar las herramientas");
+        mensajeTutorial.SetText("Deslizar hacia arriba/abajo para abrir/cerrar las herramientas".ToUpper(), AppController.Idiomas.Español);
+        mensajeTutorial.SetText("Slide up/down to toggle open the tools window".ToUpper(), AppController.Idiomas.Ingles);
         mensajeTutorial.Activar();
 
         seccionGuardarJugada.SetActive(false);
-        mensajeErrorGuardar.Desactivar();
         CambiarCategoriaJugada("null");
     }
 
@@ -207,7 +206,8 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             CanvasController.instance.GetComponent<Canvas>().worldCamera = Camera.main;
 
             panelHerramientas.gameObject.SetActive(true);
-            textoJugadaGuardada.SetText("Jugada Guardada");
+            textoJugadaGuardada.SetText("Jugada guardada existosamente".ToUpper(), AppController.Idiomas.Español);
+            textoJugadaGuardada.SetText("Strategy successfully saved".ToUpper(), AppController.Idiomas.Ingles);
             textoJugadaGuardada.Activar();
             swipeEnabled = true;
         }
@@ -233,13 +233,15 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         string nombre = nombreJugadaText.text;
         if (AppController.instance.ExistsJugada(nombre))
         {
-            mensajeErrorGuardar.SetText("Nombre existente");
+            mensajeErrorGuardar.SetText("Nombre existente!".ToUpper(), AppController.Idiomas.Español);
+            mensajeErrorGuardar.SetText("Existing name!".ToUpper(), AppController.Idiomas.Ingles);
             mensajeErrorGuardar.Activar();
             return;
         }
         else if(nombre == "" || nombre == " " || nombre == "  ")
         {
-            mensajeErrorGuardar.SetText("Nombre inválido");
+            mensajeErrorGuardar.SetText("Nombre invalido!".ToUpper(), AppController.Idiomas.Español);
+            mensajeErrorGuardar.SetText("Invalid name!".ToUpper(), AppController.Idiomas.Ingles);
             mensajeErrorGuardar.Activar();
             return;
         }

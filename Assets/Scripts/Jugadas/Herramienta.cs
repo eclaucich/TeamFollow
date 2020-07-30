@@ -80,7 +80,7 @@ public abstract class Herramienta : MonoBehaviour, IPointerClickHandler
             Debug.Log("NULL");
             return;
         }
-        if (seleccionar) fondo.GetComponent<Image>().color = new Color32(67, 92, 67, 255);
-        else fondo.GetComponent<Image>().color = new Color32(137, 183, 137, 1);
+        if (seleccionar) fondo.GetComponent<Image>().color = AppController.instance.colorTheme.botonDesactivado;//new Color32(67, 92, 67, 255);
+        else fondo.GetComponent<Image>().color = AppController.instance.colorTheme.detalle3;//new Color32(137, 183, 137, 1);
     }
 }
