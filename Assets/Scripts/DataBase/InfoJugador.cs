@@ -5,7 +5,7 @@ public class InfoJugador
 {
     public Dictionary<string, string> infoObligatoria;
     public Dictionary<string, string> infoString;
-    public Dictionary<string, int> infoInt;
+    public Dictionary<string, string> infoInt;
     public Dictionary<string, string> infoEspecial;
     public DateTime fechaNac;
 
@@ -13,33 +13,39 @@ public class InfoJugador
     {
         infoObligatoria = new Dictionary<string, string>();
         infoString = new Dictionary<string, string>();
-        infoInt = new Dictionary<string, int>();
+        infoInt = new Dictionary<string, string>();
         infoEspecial = new Dictionary<string, string>();
 
-        infoObligatoria["Nombre"] = "nombre";
 
-        infoString["Mail"] = "";
-        infoString["Alergias"] = "";
-        infoString["Direccion"] = "";
-        infoString["Ciudad"] = "";
-        infoString["Provincia"] = "";
-        infoString["Categoria"] = "";
-
-        infoString["DNI"] = "0";
-        infoString["Altura"] = "0";
-        infoString["Numero Celular"] = "0";
-        infoString["Numero Contacto Emergencia"] = "0";
-
-        /*infoInt["DNI"] = 0;
-        infoInt["Altura"] = 0;
-        infoInt["Numero Celular"] = 0;
-        infoInt["Numero Contacto Emergencia"] = 0;*/
-
-        infoEspecial["Sexo"] = "";
-        infoEspecial["Factor Sanguineo"] = "";
-        infoEspecial["Ficha Medica"] = "";
-
+        //OBLIGATORIOS
+        infoObligatoria["NOMBRE"] = "NOMBRE";
         fechaNac = DateTime.MinValue;
+
+        //STRINGS
+        infoString["MAIL"] = "";
+        infoString["ALERGIAS"] = "";
+        infoString["DIRECCION"] = "";
+        infoString["CIUDAD"] = "";
+        infoString["PROVINCIA"] = "";
+        infoString["CATEGORIA"] = "";
+
+        /*infoString["DNI"] = "0";
+        infoString["ALTURA"] = "0";
+        infoString["PESO"] = "0";
+        infoString["NUMERO CELULAR"] = "0";
+        infoString["NUMERO CONTACTO EMERGENCIA"] = "0";*/
+
+        //ENTEROS
+        infoInt["DNI"] = "0";
+        infoInt["ALTURA"] = "0";
+        infoInt["PESO"] = "0";
+        infoInt["NUMERO CELULAR"] = "0";
+        infoInt["NUMERO CONTACTO EMERGENCIA"] = "0";
+
+        //ESPECIALES
+        infoEspecial["SEXO"] = "";
+        infoEspecial["FACTOR SANGUINEO"] = "";
+        infoEspecial["FICHA MEDICA"] = "";
     }
 
     public InfoJugador(SaveDataJugador dataJugador)
@@ -70,7 +76,7 @@ public class InfoJugador
         return infoString;
     }
 
-    public Dictionary<string , int> GetInfoInt()
+    public Dictionary<string , string> GetInfoInt()
     {
         return infoInt;
     }
@@ -87,7 +93,7 @@ public class InfoJugador
 
     public string GetNombre()
     {
-        return infoObligatoria["Nombre"];
+        return infoObligatoria["NOMBRE"];
     } 
 
     public void SetEspecial(string categoria, string valor)
@@ -162,65 +168,112 @@ public class InfoJugador
     {
         switch (_key)
         {
-            case "Nombre":
+            case "NOMBRE":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "Name";
+                    return "NAME";
                 break;
-            case "Mail":
+            case "MAIL":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "Mail";
+                    return "MAIL";
                 break;
-            case "Alergias":
+            case "ALERGIAS":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "Allergies";
+                    return "ALLERGIES";
                 break;
-            case "Direccion":
+            case "DIRECCION":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "Address";
+                    return "ADDRESS";
                 break;
-            case "Ciudad":
+            case "CIUDAD":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "City";
+                    return "CITY";
                 break;
-            case "Provincia":
+            case "PROVINCIA":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "State";
+                    return "STATE";
                 break;
-            case "Categoria":
+            case "CATEGORIA":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "Category";
+                    return "CATEGORY";
                 break;
             case "DNI":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "ID number";
+                    return "ID NUMBER";
                 break;
-            case "Altura":
+            case "ALTURA":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "Height";
+                    return "HEIGHT";
                 break;
-            case "Numero Celular":
+            case "PESO":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "Cellphone";
+                    return "WEIGHT";
                 break;
-            case "Numero Contacto Emergencia":
+            case "NUMERO CELULAR":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "Emergency Contact Phone Number";
+                    return "CELLPHONE";
                 break;
-            case "Sexo":
+            case "NUMERO CONTACTO EMERGENCIA":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "Sex";
+                    return "EMERGENCY CONTACT PHONE NUMBER";
                 break;
-            case "Factor Sanguineo":
+            case "SEXO":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "Blood Factor";
+                    return "SEX";
                 break;
-            case "Ficha Medica":
+            case "FACTOR SANGUINEO":
                 if (idioma == AppController.Idiomas.Ingles)
-                    return "Medical Form";
+                    return "BLOOD FACTOR";
+                break;
+            case "FICHA MEDICA":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "MEDICAL FORM";
                 break;
             default:
                 return "ERROR";
         }
         return "ERROR";
+    }
+
+    public string GetSpecialValueInLanguage(string _value, AppController.Idiomas _idioma)
+    {
+        if(_value == "NO ESPECIFICA" || _value == "DOES NOT SPECIFY")
+        {
+            if (_idioma == AppController.Idiomas.Español)
+                return "NO ESPECIFICA";
+            else
+                return "DOES NOT SPECIFY";
+        }
+        else if(_value == "MASCULINO" || _value == "MALE")
+        {
+            if (_idioma == AppController.Idiomas.Español)
+                return "MASCULINO";
+            else
+                return "MALE";
+        }
+        else if (_value == "FEMENINO" || _value == "FEMALE")
+        {
+            if (_idioma == AppController.Idiomas.Español)
+                return "FEMENINO";
+            else
+                return "FEMALE";
+        }
+        else if (_value == "FICHA MEDICA" || _value == "MEDICAL FORM")
+        {
+            if (_idioma == AppController.Idiomas.Español)
+                return "FICHA MEDICA";
+            else
+                return "MEDICAL FORM";
+        }
+        else if (_value == "SI" || _value == "YES")
+        {
+            if (_idioma == AppController.Idiomas.Español)
+                return "SI";
+            else
+                return "YES";
+        }
+        else
+        {
+            return _value;
+        }
     }
 }

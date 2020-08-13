@@ -35,6 +35,7 @@ public class AppController : MonoBehaviour {
     private Texture textureActual;*/
 
     public List<ImagenBiblioteca> imagenesGuardadas;
+    public List<CarpetaJugada> carpetasJugadas;
 
     public int resWidth;
     public int resHeight;
@@ -70,6 +71,8 @@ public class AppController : MonoBehaviour {
         equipoActual = null;                                                                //No hay equipo enfocado al comenzar
         jugadorActual = null;
         imagenesGuardadas = new List<ImagenBiblioteca>();
+
+        carpetasJugadas = new List<CarpetaJugada>();
 
         /*listaTexturas = new List<Texture>();
         listaTexturas.Add(texturaPanelBasket);
@@ -112,6 +115,21 @@ public class AppController : MonoBehaviour {
         imagenesGuardadas.Add(imagen_);
     }
 
+    public void AgregarCarpetaJugada(CarpetaJugada _carpeta)
+    {
+        carpetasJugadas.Add(_carpeta);
+    }
+
+    public bool VerificarNombreCarpeta(string _nombreCarpeta)
+    {
+        foreach (var carpeta in carpetasJugadas)
+        {
+            if (carpeta.GetNombre() == _nombreCarpeta || _nombreCarpeta == "SIN CARPETA" || _nombreCarpeta == " ")
+                return false;
+        }
+        return true;
+    }
+
     public void BorrarEquipo(string nombreEquipo)                                           //Borrar equipo de la lista de equipos
     {
         int index = BuscarPorNombre(nombreEquipo);                                          //Se busca el equipo por su nombre (el nombre de cada equipo es unico)
@@ -134,6 +152,16 @@ public class AppController : MonoBehaviour {
         }
 
         return -1;                                                                          //Equipo no encontrado -> indice invalido
+    }
+
+    public ImagenBiblioteca BuscarJugada(string _nombre)
+    {
+        foreach (var jugada in imagenesGuardadas)
+        {
+            if (jugada.GetNombre() == _nombre)
+                return jugada;
+        }
+        return null;
     }
 
     public Equipo GetEquipoActual()                                                         //Devuelve el equipo enfocada actualmente
@@ -186,16 +214,12 @@ public class AppController : MonoBehaviour {
         return false;
     }
 
-    public void BorrarJugada(string nombreJugada)
+    public void BorrarCarpeta(CarpetaJugada _carpeta)
     {
-        foreach (var jugada in imagenesGuardadas)
-        {
-            if (jugada.GetNombre() == nombreJugada)
-            {
-                imagenesGuardadas.Remove(jugada);
-                SaveSystem.BorrarJugada(nombreJugada);
-                return;
-            }
-        }
+        if (!carpetasJugadas.Contains(_carpeta))
+            return;
+
+        carpetasJugadas.Remove(_carpeta);
+        SaveSystem.BorrarCarpeta(_carpeta);
     }
 }

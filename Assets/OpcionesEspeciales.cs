@@ -17,13 +17,16 @@ public class OpcionesEspeciales : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void SetMenu(List<string> opciones, string nombreCategoria_, InputPrefabEspecial input)
+    public void SetMenu(List<string> opcionesEspañol, List<string> opcionesIngles, string nombreCategoria_, InputPrefabEspecial input)
     {
-        for (int i = 0; i < opciones.Count; i++)
+        Debug.Log("OPCIONES: " + opcionesEspañol.Count);
+        for (int i = 0; i < opcionesEspañol.Count; i++)
         {
             GameObject go = Instantiate(opcionPrefab, parentTransformOpciones, false);
             go.SetActive(true);
-            go.GetComponentInChildren<Text>().text = opciones[i];
+            TextLanguage textLanguage = go.GetComponentInChildren<TextLanguage>();
+            textLanguage.SetText(opcionesEspañol[i], AppController.Idiomas.Español);
+            textLanguage.SetText(opcionesIngles[i], AppController.Idiomas.Ingles);
         }
 
         nombreCategoria.text = nombreCategoria_;
@@ -33,7 +36,8 @@ public class OpcionesEspeciales : MonoBehaviour
 
     public void SeleccionarOpcion(BotonOpcion opcion_)
     {
-        inputEspecial.SetValor(opcion_.GetValor());
+        inputEspecial.SetValor(opcion_.GetValor(AppController.Idiomas.Español), AppController.Idiomas.Español);
+        inputEspecial.SetValor(opcion_.GetValor(AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
         Cerrar();
     }
 

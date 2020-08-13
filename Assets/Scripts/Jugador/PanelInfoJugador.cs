@@ -131,8 +131,8 @@ public class PanelInfoJugador : Panel
         {
             InputPrefab IPgo = Instantiate(prefabInputInfo, parentTransform).GetComponent<InputPrefab>();
             IPgo.gameObject.SetActive(true);
-            IPgo.SetNombreCategoria(info.Key.ToString());
-            IPgo.SetText(info.Key.ToString().ToUpper(), AppController.Idiomas.Español);
+            IPgo.SetNombreCategoria(info.Key.ToUpper());
+            IPgo.SetText(info.Key.ToUpper(), AppController.Idiomas.Español);
             IPgo.SetText(infoJugador.GetKeyInLaguage(info.Key.ToString(), AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             IPgo.SetPlaceholder(info.Value.ToString());
             IPgo.HabilitarInput(false);
@@ -150,7 +150,8 @@ public class PanelInfoJugador : Panel
             IPgo.SetNombreCategoria(info.Key.ToString());
             IPgo.SetText(info.Key.ToString().ToUpper(), AppController.Idiomas.Español);
             IPgo.SetText(infoJugador.GetKeyInLaguage(info.Key.ToString(), AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
-            IPgo.SetValor(info.Value.ToString());
+            IPgo.SetValor(infoJugador.GetSpecialValueInLanguage(info.Value.ToString(), AppController.Idiomas.Español), AppController.Idiomas.Español);
+            IPgo.SetValor(infoJugador.GetSpecialValueInLanguage(info.Value.ToString(), AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             IPgo.HabilitarInput(false);
             inputsEspecial.Add(IPgo);
         }

@@ -5,7 +5,7 @@ public class BackgroundUI : UIComponent
 {
     override public void Start()
     {
-        colorUI = AppController.instance.colorTheme.detalle1;
+        colorUI = AppController.instance.colorTheme.detalle2;
 
         base.Start();
     }

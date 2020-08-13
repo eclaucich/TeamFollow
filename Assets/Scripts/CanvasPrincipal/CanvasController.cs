@@ -24,6 +24,7 @@ public class CanvasController : MonoBehaviour {
     [SerializeField] private PanelJugadores panel_jugadores = null;
     [SerializeField] private PanelPlanillaAsistencia panel_planillas_asistencias = null;
     [SerializeField] private GameObject panel_tablero = null;
+    [SerializeField] private PanelGraficoEstadistica panel_graficas = null;
     [SerializeField] private GameObject panel_biblioteca = null;
 
     [SerializeField] private GameObject panel_menuSeleccion = null;
@@ -65,7 +66,9 @@ public class CanvasController : MonoBehaviour {
         PlanillaAsistenciaPrincipal,
         HistorialPlanilla,
 
-        Biblioteca
+        Graficas,
+
+        BibliotecaPrincipal
     }
 
     private void Awake()
@@ -182,7 +185,7 @@ public class CanvasController : MonoBehaviour {
             eleccionBorradoEstadisticas.Cerrar();
             return;
         }
-        else if(confirmacionBorradoAsistencia.isDesplegado())
+        else if (confirmacionBorradoAsistencia.isDesplegado())
         {
             confirmacionBorradoAsistencia.Cerrar();
             return;
@@ -197,6 +200,8 @@ public class CanvasController : MonoBehaviour {
             panelHerramientasJugadas.Cerrar();
             return;
         }
+        if (panel_graficas.gameObject.activeSelf)
+            panel_graficas.gameObject.SetActive(false);
 
         if (!retrocesoPausado && escenas.Count != 0)
         {
@@ -237,7 +242,10 @@ public class CanvasController : MonoBehaviour {
                 case (int)Paneles.JugadoresPartidos: panel_jugadores.MostrarPanelPartidos();
                     break;
 
-                case (int)Paneles.Biblioteca: AbrirBiblioteca();
+                case (int)Paneles.Graficas: panel_graficas.ActivarPanel();
+                    break;
+
+                case (int)Paneles.BibliotecaPrincipal: AbrirBiblioteca();
                     break;
             }
 

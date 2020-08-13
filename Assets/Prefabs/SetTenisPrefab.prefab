@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7832925970933981954}
   - component: {fileID: 672953229093345511}
   - component: {fileID: 3986664652907258938}
+  - component: {fileID: 3240465669424804016}
   m_Layer: 5
   m_Name: GamesJ1
   m_TagString: Untagged
@@ -78,6 +79,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 7
+--- !u!114 &3240465669424804016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9308019590978644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c457e1363d90746428c6a223fe6c0dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &21462318642676938
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,6 +102,7 @@ GameObject:
   - component: {fileID: 320676749350549773}
   - component: {fileID: 1555785448641606259}
   - component: {fileID: 8917776193870826519}
+  - component: {fileID: 1779862026352760934}
   m_Layer: 5
   m_Name: GamesJ2
   m_TagString: Untagged
@@ -156,6 +170,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 6
+--- !u!114 &1779862026352760934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21462318642676938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c457e1363d90746428c6a223fe6c0dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &87592533391644686
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,6 +193,7 @@ GameObject:
   - component: {fileID: 329713107093860195}
   - component: {fileID: 5374687067802091869}
   - component: {fileID: 8085277553777336778}
+  - component: {fileID: 996306219776846156}
   m_Layer: 5
   m_Name: TiebreakJ2
   m_TagString: Untagged
@@ -233,6 +260,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 5
+--- !u!114 &996306219776846156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87592533391644686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c457e1363d90746428c6a223fe6c0dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1019548820661529933
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +337,7 @@ GameObject:
   - component: {fileID: 4527368050220926933}
   - component: {fileID: 1661936672863349135}
   - component: {fileID: 6698478347206038389}
+  - component: {fileID: 7792845127535874855}
   m_Layer: 5
   m_Name: TiebreakJ1
   m_TagString: Untagged
@@ -364,3 +404,15 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 7
+--- !u!114 &7792845127535874855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492498921622638861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c457e1363d90746428c6a223fe6c0dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

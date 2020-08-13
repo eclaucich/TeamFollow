@@ -5,7 +5,7 @@ public class DetalleAsistencia : MonoBehaviour {
 
     [SerializeField] private Text nombreJugadorText = null;
     [SerializeField] private Button botonCambiarAsistencia = null;
-    [SerializeField] private Text textBotonAsistencia = null;
+    [SerializeField] private TextLanguage textBotonAsistencia = null;
 
     [SerializeField] private Color colorPresente;
     [SerializeField] private Color colorTarde;
@@ -71,17 +71,20 @@ public class DetalleAsistencia : MonoBehaviour {
         if (asistencia == 0)
         {
             imagen.color = colorPresente;
-            textBotonAsistencia.text = "P";
+            textBotonAsistencia.SetText("PRESENTE", AppController.Idiomas.Español);
+            textBotonAsistencia.SetText("PRESENT", AppController.Idiomas.Ingles);
         }
         else if (asistencia == 1)
         {
             imagen.color = colorTarde;
-            textBotonAsistencia.text = "T";
+            textBotonAsistencia.SetText("TARDE", AppController.Idiomas.Español);
+            textBotonAsistencia.SetText("LATE", AppController.Idiomas.Ingles);
         }
         else
         {
             imagen.color = colorAusente;
-            textBotonAsistencia.text = "A";
+            textBotonAsistencia.SetText("AUSENTE", AppController.Idiomas.Español);
+            textBotonAsistencia.SetText("ABSENT", AppController.Idiomas.Ingles);
         }
     }
 

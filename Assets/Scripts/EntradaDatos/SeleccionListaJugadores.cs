@@ -9,9 +9,13 @@ using UnityEngine.UI;
 
 public class SeleccionListaJugadores : MonoBehaviour
 {
+    [SerializeField] private MensajeError mensajeErrorSeleccionJugadores = null;
+
     [SerializeField] private FlechasScroll flechasScroll = null;
     [SerializeField] private ScrollRect scrollRect = null;
     [SerializeField] private Transform transformListaJugadores = null;
+
+    [SerializeField] private GameObject opcionesAdicionales = null;
 
     private List<Jugador> listaJugadores;
     private List<Jugador> jugadoresSeleccionados;
@@ -22,7 +26,6 @@ public class SeleccionListaJugadores : MonoBehaviour
 
     [SerializeField] private GameObject botonJugador = null;
     [SerializeField] private Transform transformParent = null;
-    [SerializeField] private GameObject opcionesAdicionalesTenis = null;
 
     private int cantMinima;
     private float prefabHeight;
@@ -34,18 +37,27 @@ public class SeleccionListaJugadores : MonoBehaviour
 
     private void FixedUpdate()
     {
-        flechasScroll.Actualizar(scrollRect, cantMinima, listaJugadores.Count);
+        if(listaJugadores != null) flechasScroll.Actualizar(scrollRect, cantMinima, listaJugadores.Count);
     }
 
     /// 
     /// Crea botones con los nombres de los jugadores
     /// 
-    public void SetearListaJugadores(bool opcionesAdicionales_)
+    public void SetOpcionesAdicioanles()
+    {
+        if (actualJugadoresSeleccionados <= 0)
+        {
+            mensajeErrorSeleccionJugadores.SetText("Seleccionar al menos un jugador".ToUpper(), AppController.Idiomas.Español);
+            mensajeErrorSeleccionJugadores.SetText("Select at least one player".ToUpper(), AppController.Idiomas.Ingles);
+            mensajeErrorSeleccionJugadores.Activar();
+            return;
+        }
+        opcionesAdicionales.SetActive(true);
+    }
+
+    public void SetearListaJugadores()
     {
         gameObject.SetActive(true);
-
-        if (opcionesAdicionales_) opcionesAdicionalesTenis.SetActive(true);
-        else opcionesAdicionalesTenis.SetActive(false);
 
         listaJugadores = AppController.instance.GetEquipoActual().GetJugadores();
         jugadoresSeleccionados = new List<Jugador>();
@@ -55,6 +67,7 @@ public class SeleccionListaJugadores : MonoBehaviour
             GameObject go = Instantiate(botonJugador, transformParent, false);
             go.GetComponentInChildren<Text>().text = jugador.GetNombre();
             go.SetActive(true);
+            go.GetComponent<BotonNormal>().SetColorActivado();
         }
 
         if(prefabHeight == 0) prefabHeight = botonJugador.GetComponent<RectTransform>().rect.height;
@@ -103,7 +116,7 @@ public class SeleccionListaJugadores : MonoBehaviour
     /// Se llama desde el boton "continuar" en el panel de seleccion de jugadores
     /// 
     public void TerminarSeleccion()
-    {
+    { 
         GetComponentInParent<EntradaDatos>().TerminarSeleccionJugadores(jugadoresSeleccionados, actualJugadoresSeleccionados);
     }
 

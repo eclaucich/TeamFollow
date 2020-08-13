@@ -6,15 +6,15 @@ using UnityEngine.UI;
 public class BotonOpcion : MonoBehaviour
 {
     [SerializeField] private Text categoria = null;
-    [SerializeField] private Text valor = null;
+    [SerializeField] private TextLanguage valor = null;
 
     public string GetCategoria()
     {
         return categoria.text;
     }
 
-    public string GetValor()
+    public string GetValor(AppController.Idiomas _idioma)
     {
-        return valor.text;
+        return valor.GetTextInLanguage(_idioma);
     }
 }

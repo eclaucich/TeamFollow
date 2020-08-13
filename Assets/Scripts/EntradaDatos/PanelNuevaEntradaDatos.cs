@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PanelNuevaEntradaDatos : EntradaDatos
 {
+    [SerializeField] protected MensajeError mensajeError = null;
     [SerializeField] private MensajeError mensajeErrorGuardado = null;
 
     //[SerializeField] private GameObject seccionNombrePartido = null;
@@ -107,7 +108,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
         //seccionNombrePartido.SetActive(false);
 
-        panelSeleccionJugadores.SetearListaJugadores(false);
+        panelSeleccionJugadores.SetearListaJugadores();
 
         AppController.instance.overlayPanel.SetNombrePanel("SELECCION JUGADORES", AppController.Idiomas.Español);
         AppController.instance.overlayPanel.SetNombrePanel("PLAYERS SELECTION", AppController.Idiomas.Ingles);
@@ -170,6 +171,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         for (int i = 0; i < listaEstadisticas.Count; i++)
         {
             GameObject columnaGO = Instantiate(columnaPrefab, parentColumnaEstadisticas, false);
+            columnaGO.SetActive(true);
             columnas.Add(columnaGO);
 
             GameObject textCategoriaGO = Instantiate(textEstadisticaPrefab, columnaGO.transform, false);
@@ -190,6 +192,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         }
 
         panelConfirmacionGuardado.transform.SetAsLastSibling();
+        mensajeErrorGuardado.transform.SetAsLastSibling();
     }
 
     public void BorrarPrefabs()
@@ -223,7 +226,9 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
         mensajeErrorGuardado.gameObject.SetActive(true);
 
-        if (nombrePartidoText.text == "")
+        string nombrePatido = nombrePartidoText.text.ToUpper();
+
+        if (nombrePatido == "")
         {
             mensajeErrorGuardado.SetText("Nombre inválido!".ToUpper(), AppController.Idiomas.Español);
             mensajeErrorGuardado.SetText("Invalid name!".ToUpper(), AppController.Idiomas.Ingles);
@@ -231,7 +236,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
             Debug.Log("Nombre inválido");
             return;
         }
-        else if(equipo.ContienePartido(tipoEntradaDatos, nombrePartidoText.text))
+        else if(equipo.ContienePartido(tipoEntradaDatos, nombrePatido))
         {
             mensajeErrorGuardado.SetText("Nombre existente!".ToUpper(), AppController.Idiomas.Español);
             mensajeErrorGuardado.SetText("Existing name!".ToUpper(), AppController.Idiomas.Ingles);
@@ -252,7 +257,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
             for (int j = 0; j < listaEstadisticas.Count; j++)
             {
                 Button[] botones = columnas[j + 1].GetComponentsInChildren<Button>();
-                estadistica.AgregarEstadisticas(listaEstadisticas[j], botones[i].GetComponent<BotonEntradaDato>().GetCantidad());
+                estadistica.AgregarEstadisticas(listaEstadisticas[j].ToUpper(), botones[i].GetComponent<BotonEntradaDato>().GetCantidad());
             }
  
             estadistica.SetFecha(fecha);
@@ -261,12 +266,12 @@ public class PanelNuevaEntradaDatos : EntradaDatos
             estEquipo.AgregarEstadisticas(estadistica);
             //jugadores[i].SetEstadisticas(estadistica, tipoEntradaDatos);
             //jugadores[i].AgregarPartido(new Partido(nombrePartidoText.text, estadistica), tipoEntradaDatos);
-            jugadores[i].GuardarEntradaDato(tipoEntradaDatos, estadistica, new Partido(nombrePartidoText.text, estadistica, fecha));
+            //jugadores[i].GuardarEntradaDato(tipoEntradaDatos, estadistica, new Partido(nombrePatido, estadistica, fecha));
         }
 
         //equipo.SetEstadisticas(estEquipo, tipoEntradaDatos);
         //equipo.AgregarPartido(new Partido(nombrePartidoText.text, estEquipo), tipoEntradaDatos);
-        equipo.GuardarEntradaDato(tipoEntradaDatos, estEquipo, new Partido(nombrePartidoText.text, estEquipo, fecha));
+        equipo.GuardarEntradaDato(tipoEntradaDatos, estEquipo, new Partido(nombrePatido, estEquipo, fecha));
 
         Debug.Log("Entrada guardado como: " + tipoEntradaDatos);
 

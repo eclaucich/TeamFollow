@@ -30,15 +30,20 @@ public class PanelPlanilla : PanelAsistencia {
 
         base.SetPanelPlanilla();
 
-        AppController.instance.overlayPanel.SetNombrePanel("PLANILLA: " + botonFocus_.GetDisplayNombre(), AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("FORM: " + botonFocus_.GetDisplayNombre(), AppController.Idiomas.Ingles);
+        AppController.instance.overlayPanel.SetNombrePanel("PLANILLA DE ASISTENCIA", AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel("ASSISTANCE FORM", AppController.Idiomas.Ingles);
 
         CrearPrefabsHoja(false);
 
-        if (botonFocus_.GetAlias() != "") nombrePlanillaText.text = botonFocus_.GetFecha();
-        else nombrePlanillaText.text = "";
-
-        nombrePlanillaText.gameObject.SetActive(false);
+        nombrePlanillaText.gameObject.SetActive(true);
+        if (botonFocus_.GetAlias() != "")
+        {
+            nombrePlanillaText.text = botonFocus_.GetAlias();
+        }
+        else
+        {
+            nombrePlanillaText.text = botonFocus_.GetFecha();
+        }
 
         botonBorrar.SetActive(true);
         botonEditar.SetActive(true);
@@ -53,6 +58,7 @@ public class PanelPlanilla : PanelAsistencia {
 
     public void EditarPlanilla()
     {
+        nombrePlanillaText.gameObject.SetActive(false);
         botonEditar.SetActive(false);
         botonBorrar.SetActive(false);
         botonGuardar.SetActive(true);
@@ -81,12 +87,11 @@ public class PanelPlanilla : PanelAsistencia {
         Debug.Log("Nuevo alias: " + nuevoAlias);
         Debug.Log("Viejo alias: " + aliasPlanilla);
 
-
         if (nuevoAlias == "")
             nuevoAlias = aliasPlanilla;
         else if(nuevoAlias != aliasPlanilla)
         {
-            if (equipoActual.ExistePlanilla(nombrePlanilla, nuevoAlias))
+            if (equipoActual.ExistePlanillaConAlias(nuevoAlias))
             {
                 Debug.Log("EXISTIA");
                 mensajeError.SetText("Nombre existente", AppController.Idiomas.Español);
@@ -97,11 +102,9 @@ public class PanelPlanilla : PanelAsistencia {
             Debug.Log("NO EXISTIA");
         }
 
-        botonFocus.SetBotonHistorialAsistencia(nombrePlanilla, nuevoAlias);
-        CanvasController.instance.MostrarPanelAnterior();
-        CanvasController.instance.MostrarPanelAnterior();
         equipoActual.BorrarAsistencia(nombrePlanilla);
         equipoActual.NuevaPlanilla(nombrePlanilla, nuevoAlias, newDetalles);
-
+        botonFocus.SetBotonHistorialAsistencia(nombrePlanilla, nuevoAlias);
+        CanvasController.instance.MostrarPanelAnterior();
     }
 }

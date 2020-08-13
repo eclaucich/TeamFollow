@@ -40,8 +40,8 @@ public class HerramientaFichaAliado : Herramienta {
     public override void Usar()
     {
         Vector3 mPos = Input.mousePosition;
-        mPos.z = 2f;
         Vector3 goPos = Camera.main.ScreenToWorldPoint(mPos);
+        goPos.z = 0f;
 
         GameObject go = Instantiate(actualFicha, goPos, Quaternion.identity, panelEdicionTransform);
 

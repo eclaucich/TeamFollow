@@ -33,7 +33,6 @@ public class PanelPrincipal : Panel {
         listaPrefabsBoton = new List<GameObject>();
 
         ActivarYDesactivarAdviceText();
-
         prefabHeight = prefabBotonEquipo.GetComponent<RectTransform>().rect.height;
     }
 
@@ -45,6 +44,7 @@ public class PanelPrincipal : Panel {
     public void SetearPanelPrincipal()
     {
         //CanvasController.instance.botonDespliegueMenu.SetActive(true);
+        cantMinima = (int)Mathf.Ceil(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + seccionEquiposTransform.GetComponent<VerticalLayoutGroup>().spacing));
 
         AppController.instance.overlayPanel.SetNombrePanel("MIS EQUIPOS", AppController.Idiomas.Español);
         AppController.instance.overlayPanel.SetNombrePanel("MY TEAMS", AppController.Idiomas.Ingles);
@@ -86,7 +86,7 @@ public class PanelPrincipal : Panel {
         }
 
         cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + seccionEquiposTransform.GetComponent<VerticalLayoutGroup>().spacing));
-
+        flechasScroll.Actualizar(scrollRect, cantMinima, listaPrefabsBoton.Count);
     }
 
 

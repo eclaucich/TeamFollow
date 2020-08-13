@@ -13,7 +13,7 @@ public class PanelJugadores : MonoBehaviour {
 
     private List<GameObject> listaPaneles;
 
-    private string nombreJugadorFocus;
+    private Jugador jugadorFocus;
     private Estadisticas estadisticasFocus;
 
     private void Awake()
@@ -42,20 +42,26 @@ public class PanelJugadores : MonoBehaviour {
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.JugadoresPartidos);
 
-        string nombre = _nombreJugador != null ? _nombreJugador : nombreJugadorFocus;
+        string nombre = _nombreJugador != null ? _nombreJugador : AppController.instance.jugadorActual.GetNombre();
         Estadisticas estadisticas = _estadisticas != null ? _estadisticas : estadisticasFocus;
 
         panel_detalleJugador.GetComponent<PanelDetalleJugador>().SetDetallesJugador(_partido, nombre, estadisticas);
     }
 
 
-    public void MostrarPanelPartidos()
+    public void MostrarPanelPartidos(Jugador _jugador = null)
     {
+        if (!gameObject.activeSelf)
+            gameObject.SetActive(true);
+        CanvasController.instance.botonDespliegueMenu.SetActive(true);
+        AppController.instance.overlayPanel.gameObject.SetActive(true);
+
         ActivarPanel(2);
 
-        //CanvasController.instance.AgregarPanelAnterior();
+        if (_jugador != null)
+            jugadorFocus = _jugador;
 
-        panel_partidos.GetComponent<PanelPartidos>().SetearPanelPartidos(nombreJugadorFocus);
+        panel_partidos.GetComponent<PanelPartidos>().SetearPanelPartidos(jugadorFocus);
     }
 
 
@@ -73,15 +79,14 @@ public class PanelJugadores : MonoBehaviour {
     {
         ActivarPanel(4);
 
-        Jugador jugActual = AppController.instance.jugadorActual;
-        nombreJugadorFocus = jugActual.GetNombre();
-
-        AppController.instance.overlayPanel.SetNombrePanel(nombreJugadorFocus + ": ESTADISTICAS", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel(nombreJugadorFocus + ": STATISTICS", AppController.Idiomas.Ingles);
+        jugadorFocus = AppController.instance.jugadorActual;
+         
+        AppController.instance.overlayPanel.SetNombrePanel(jugadorFocus.GetNombre() + ": ESTADISTICAS", AppController.Idiomas.Español);
+        AppController.instance.overlayPanel.SetNombrePanel(jugadorFocus.GetNombre() + ": STATISTICS", AppController.Idiomas.Ingles);
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.JugadoresPrincipal);
 
-        panel_infoJugador.GetComponent<PanelInfoJugador>().SetearPanelInfoJugador(jugActual);  
+        panel_infoJugador.GetComponent<PanelInfoJugador>().SetearPanelInfoJugador(jugadorFocus);  
     }
      
 

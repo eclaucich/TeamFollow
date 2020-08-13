@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Threading;
 
 public class PanelEstadisticasGlobalesEquipo : Panel {
 
@@ -11,6 +12,10 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     [SerializeField] private EstadisticasGlobalesEquipo estadisticasGlobales = null;
     [SerializeField] private GameObject estadisticaPrefab = null;
     [SerializeField] private ConfirmacionBorradoPartido confirmacionBorradoPartido = null;
+
+    [SerializeField] private ResultadoNormal resultadoNormal = null;
+    [SerializeField] private ResultadoSets resultadoSets = null;
+    [SerializeField] private TextLanguage resultadoText = null;
 
     protected Dictionary<string, int> diccEstadisticas;
 
@@ -34,6 +39,9 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
     public void SetPanelEstadisticasGlobalesEquipo(/*BotonPartido _botonPartido, */Estadisticas _estadisticas)
     {
+        resultadoNormal.gameObject.SetActive(false);
+        resultadoSets.gameObject.SetActive(false);
+
         equipo = AppController.instance.equipoActual;
         if (equipo == null) Debug.Log("EQUIPO NULO");
 
@@ -67,9 +75,54 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
         CrearPrefabs();
     }
 
-    public void SetPanelEstadisticasGlobalesEquipo(Partido _partido)
+    public void SetPanelEstadisticasGlobalesEquipo(Partido _partido, bool fromGrafica=false)
     {
         partidoFocus = _partido;
+        ResultadoEntradaDatos.Resultado _tipoResultado;
+
+        if (partidoFocus.GetTipoResultadoPartido() == Partido.TipoResultadoPartido.Normal)
+        {
+            resultadoSets.gameObject.SetActive(false);
+            resultadoNormal.gameObject.SetActive(true);
+
+            ResultadoNormal _res = (ResultadoNormal)partidoFocus.GetResultadoEntradaDato();
+            Debug.Log(_res == null);
+            resultadoNormal.CopyDataFrom(_res);
+            resultadoNormal.DisableEdition();
+            _tipoResultado = resultadoNormal.GetResultado();
+        }
+        else
+        {
+            resultadoSets.gameObject.SetActive(true);
+            resultadoNormal.gameObject.SetActive(false);
+
+            ResultadoSets _res = (ResultadoSets)partidoFocus.GetResultadoEntradaDato();
+            List<SetPrefab> _lista = _res.GetListaSets();
+
+            resultadoSets.BorrarPrefabs();
+            foreach (var set in _lista)
+            {
+                resultadoSets.AgregarSet(set);
+            }
+            resultadoSets.DisableEdition();
+            _tipoResultado = resultadoSets.GetResultado();
+        }
+        if (_tipoResultado == ResultadoEntradaDatos.Resultado.Victoria)
+        {
+            resultadoText.SetText("Victoria", AppController.Idiomas.Español);
+            resultadoText.SetText("Victory", AppController.Idiomas.Ingles);
+        }
+        else if (_tipoResultado == ResultadoEntradaDatos.Resultado.Derrota)
+        {
+            resultadoText.SetText("Derrota", AppController.Idiomas.Español);
+            resultadoText.SetText("Loss", AppController.Idiomas.Ingles);
+        }
+        else
+        {
+            resultadoText.SetText("Empate", AppController.Idiomas.Español);
+            resultadoText.SetText("Tie", AppController.Idiomas.Ingles);
+        }
+
 
         AppController.instance.overlayPanel.SetNombrePanel("PARTIDO: " + _partido.GetNombre(), AppController.Idiomas.Español);
         AppController.instance.overlayPanel.SetNombrePanel("MATCH: " + _partido.GetNombre(), AppController.Idiomas.Ingles);
@@ -78,7 +131,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
         Screen.orientation = ScreenOrientation.Portrait;
 
-        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.EstadisticasGlobalesEquipo);
+        if (!fromGrafica) CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.EstadisticasGlobalesEquipo);
 
         if (listaPrefabsTextos == null) listaPrefabsTextos = new List<GameObject>();
 
@@ -94,6 +147,11 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     {
         EstadisticaDeporte estDeporte = estadisticas.GetEstadisticaDeporte();
 
+        foreach (var est in estadisticas.GetDictionary())
+        {
+            Debug.Log(est.Key + ": " + est.Value);
+        }
+
         for (int i = 0; i < estDeporte.GetSize(); i++) //este cantidad categorias en realidad devuelve la cantidad que haya en el enum de estadisticas
         {
             if (estadisticas.Find(estDeporte.GetValueAtIndex(i))[0]==1)
@@ -106,7 +164,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
                 botonEstadistica.SetTextInLanguage(statsName, AppController.Idiomas.Español);
                 botonEstadistica.SetTextInLanguage(estDeporte.GetStatisticsName(i, AppController.Idiomas.Ingles)[0], AppController.Idiomas.Ingles);
-                botonEstadistica.SetValorEstadistica(estadisticas.GetValueAtIndex(i).ToString());
+                botonEstadistica.SetValorEstadistica(estadisticas.Find(statsName.Replace(" ", string.Empty))[1].ToString());
                 listaPrefabsTextos.Add(botonEstadisticaGO);
             }
         }

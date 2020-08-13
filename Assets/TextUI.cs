@@ -11,5 +11,6 @@ public class TextUI : UIComponent
 
         _text.color = colorUI;
         _text.font = AppController.instance.textFont;
+        _text.text = _text.text.ToUpper();
     }
 }

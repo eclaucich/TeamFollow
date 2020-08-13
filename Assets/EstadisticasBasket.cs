@@ -212,6 +212,8 @@ public class EstadisticasBasket : EstadisticaDeporte
                 break;
         }
 
+        res[0] = res[0].ToUpper();
+
         return res;
     }
     
@@ -224,6 +226,6 @@ public class EstadisticasBasket : EstadisticaDeporte
     {
         string[] nombresEnum = Enum.GetNames(typeof(Estadisticas));
 
-        return nombresEnum[i];
+        return nombresEnum[i].ToUpper();
     }
 }

@@ -8,11 +8,15 @@ public class ImagenBiblioteca
 
     private Texture2D texture;
 
-    public ImagenBiblioteca(byte[] bytes_, string nombre_, string categoria_)
+    private CarpetaJugada carpetaActual;
+
+    public ImagenBiblioteca(byte[] bytes_, string nombre_, string categoria_, CarpetaJugada _carpeta)
     {
         nombre = nombre_;
         bytes = bytes_;
         categoria = categoria_;
+
+        carpetaActual = _carpeta;
 
         //Debug.Log("W: " + AppController.instance.resWidth);
         //Debug.Log("H: " + AppController.instance.resHeight);
@@ -21,6 +25,10 @@ public class ImagenBiblioteca
         texture.LoadImage(bytes);
     }
 
+    public void SetNombre(string _nombre)
+    {
+        nombre = _nombre;
+    }
     public string GetNombre()
     {
         return nombre;
@@ -34,5 +42,14 @@ public class ImagenBiblioteca
     public string GetCategoria()
     {
         return categoria;
+    }
+
+    public void SetCarpetaActual(CarpetaJugada _carpeta)
+    {
+        carpetaActual = _carpeta;
+    }
+    public CarpetaJugada GetCarpetaActual()
+    {
+        return carpetaActual;
     }
 }

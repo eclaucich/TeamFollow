@@ -64,6 +64,11 @@ public class Equipo {
         practicas = new List<Partido>();
     }
 
+    public void SetNombre(string _nombre)
+    {
+        nombre = _nombre;
+    }
+
     public void CargarEstadisticasGlobalesPartido(Estadisticas estadisticas)    //SOLO LLAMADA DESDE EL LOAD SYSTEM PARA CARGAR LOS DATOS
     {
         estadisticasGlobalesPartido = estadisticas;
@@ -395,8 +400,8 @@ public class Equipo {
     public bool ExistePlanilla(string nombrePlanilla, string aliasPlanilla)
     {
         //return planillasAsistencia.ContainsKey(nombrePlanilla);
-        foreach(var planilla in planillasAsistencia)
-        {  
+        foreach (var planilla in planillasAsistencia)
+        {
             if (planilla.GetAlias() == "")
             {
                 if (planilla.GetNombre() == nombrePlanilla)
@@ -409,6 +414,16 @@ public class Equipo {
             }
         }
 
+        return false;
+    }
+
+    public bool ExistePlanillaConAlias(string _alias)
+    {
+        foreach (var planilla in planillasAsistencia)
+        {
+            if (planilla.GetAlias() == _alias)
+                return true;
+        }
         return false;
     }
 

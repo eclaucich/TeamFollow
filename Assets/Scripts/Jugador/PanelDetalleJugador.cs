@@ -14,8 +14,6 @@ public class PanelDetalleJugador : Panel{
     [SerializeField] private GameObject botonEstadisticaPrefab = null;
     [SerializeField] private Transform transformParent = null;
 
-    [SerializeField] private Text tipoEstadisticasText = null;
-
     [SerializeField] private ConfirmacionBorradoPartido confirmacionBorradoPartido = null;
 
     protected Transform parentTransform;
@@ -30,14 +28,63 @@ public class PanelDetalleJugador : Panel{
     [SerializeField] private EstadisticasJugador panelEstadisticas = null;
     [SerializeField] private GameObject botonBorrar = null;
 
+    [SerializeField] private ResultadoNormal resultadoNormal = null;
+    [SerializeField] private ResultadoSets resultadoSets = null;
+    [SerializeField] private TextLanguage resultadoText = null;
+
     private Partido partidoFocus;
 
     public void SetDetallesJugador(Partido _partido, string nombreJugador, Estadisticas _estadisticas)
     {
         partidoFocus = _partido;
+        ResultadoEntradaDatos.Resultado _tipoResultado;
 
         if (_partido != null)
         {
+            if (partidoFocus.GetTipoResultadoPartido() == Partido.TipoResultadoPartido.Normal)
+            {
+                resultadoSets.gameObject.SetActive(false);
+                resultadoNormal.gameObject.SetActive(true);
+
+                ResultadoNormal _res = (ResultadoNormal)partidoFocus.GetResultadoEntradaDato();
+
+                resultadoNormal.CopyDataFrom(_res);
+                resultadoNormal.DisableEdition();
+                _tipoResultado = resultadoNormal.GetResultado();
+            }
+            else
+            {
+                resultadoSets.gameObject.SetActive(true);
+                resultadoNormal.gameObject.SetActive(false);
+
+                ResultadoSets _res = (ResultadoSets)partidoFocus.GetResultadoEntradaDato();
+                List<SetPrefab> _lista = _res.GetListaSets();
+
+                resultadoSets.BorrarPrefabs();
+                foreach (var set in _lista)
+                {
+                    resultadoSets.AgregarSet(set);
+                }
+                resultadoSets.DisableEdition();
+                _tipoResultado = resultadoSets.GetResultado();
+            }
+
+            if (_tipoResultado == ResultadoEntradaDatos.Resultado.Victoria)
+            {
+                resultadoText.SetText("Victoria", AppController.Idiomas.Español);
+                resultadoText.SetText("Victory", AppController.Idiomas.Ingles);
+            }
+            else if (_tipoResultado == ResultadoEntradaDatos.Resultado.Derrota)
+            {
+                resultadoText.SetText("Derrota", AppController.Idiomas.Español);
+                resultadoText.SetText("Loss", AppController.Idiomas.Ingles);
+            }
+            else
+            {
+                resultadoText.SetText("Empate", AppController.Idiomas.Español);
+                resultadoText.SetText("Tie", AppController.Idiomas.Ingles);
+            }
+
             if (isPartido)
             {
                 AppController.instance.overlayPanel.SetNombrePanel("PARTIDO: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
@@ -50,7 +97,13 @@ public class PanelDetalleJugador : Panel{
             }
         }
 
-        if (_partido == null) botonBorrar.SetActive(false); else botonBorrar.SetActive(true); 
+        if (_partido == null)
+        {
+            botonBorrar.SetActive(false);
+            resultadoSets.gameObject.SetActive(false);
+            resultadoNormal.gameObject.SetActive(false);
+        }
+        else botonBorrar.SetActive(true); 
 
         if (listaPrefabsTextos == null) listaPrefabsTextos = new List<GameObject>();
         jugador = AppController.instance.GetEquipoActual().BuscarPorNombre(nombreJugador);
@@ -71,7 +124,6 @@ public class PanelDetalleJugador : Panel{
             AppController.instance.overlayPanel.SetNombrePanel("MATCH: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
 
             estadisticas = jugador.GetEstadisticasPartido();
-            tipoEstadisticasText.text = "Partido";
         }
         else
         {
@@ -79,7 +131,6 @@ public class PanelDetalleJugador : Panel{
             AppController.instance.overlayPanel.SetNombrePanel("PRACTICE: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
 
             estadisticas = jugador.GetEstadisticasPractica();
-            tipoEstadisticasText.text = "Practica";
         }
 
         parentTransform = panelEstadisticas.GetPanelEstadisticaTransform();
@@ -114,7 +165,7 @@ public class PanelDetalleJugador : Panel{
 
                 botonEstadistica.SetTextInLanguage(statsName, AppController.Idiomas.Español);
                 botonEstadistica.SetTextInLanguage(estDeporte.GetStatisticsName(i, AppController.Idiomas.Ingles)[0], AppController.Idiomas.Ingles);
-                botonEstadistica.SetValorEstadistica(estadisticas.GetValueAtIndex(i).ToString());
+                botonEstadistica.SetValorEstadistica(estadisticas.Find(statsName.Replace(" ", string.Empty))[1].ToString());
                 listaPrefabsTextos.Add(botonEstadisticaGO);
             }
         }

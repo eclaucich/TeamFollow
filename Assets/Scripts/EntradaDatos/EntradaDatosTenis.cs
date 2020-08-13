@@ -117,7 +117,7 @@ public class EntradaDatosTenis : EntradaDatos
         textoPartidoFinalizado.SetActive(false);
 
         //Se setea el panel que muestra la lista de jugadores
-        seccionListaJugadores.GetComponent<SeleccionListaJugadores>().SetearListaJugadores(true);
+        seccionListaJugadores.GetComponent<SeleccionListaJugadores>().SetearListaJugadores();
     }
 
     /// 
@@ -125,14 +125,6 @@ public class EntradaDatosTenis : EntradaDatos
     /// 
     public override void TerminarSeleccionJugadores(List<Jugador> listaJugadores, int cantSeleccionados)
     {
-        if (cantSeleccionados <= 0)
-        {
-            mensajeError.SetText("Seleccionar al menos un jugador".ToUpper(), AppController.Idiomas.Español);
-            mensajeError.SetText("Select at least one player".ToUpper(), AppController.Idiomas.Ingles);
-            mensajeError.Activar();
-            return;
-        }
-
         AppController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Español);
         AppController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Ingles);
 
@@ -373,7 +365,7 @@ public class EntradaDatosTenis : EntradaDatos
 
         Partido partido = new Partido(nombrePartidoText.text, estadisticas, fecha);
 
-        jugadorFocus.GuardarEntradaDato(tipoEntradaDato, estadisticas, partido);
+        //jugadorFocus.GuardarEntradaDato(tipoEntradaDato, estadisticas, partido);
 
         CanvasController.instance.escenas.Add(1);
         CanvasController.instance.retrocesoPausado = false;

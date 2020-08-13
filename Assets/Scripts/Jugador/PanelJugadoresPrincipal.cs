@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,10 @@ public class PanelJugadoresPrincipal : Panel {
     [SerializeField] private ConfirmacionBorradoJugador panelConfirmacionBorrado = null;
     private GameObject botonJugadorFocus;
 
+    [SerializeField] private InputField inputfield;
+    [SerializeField] private MensajeError mensajeErrorNuevoNombre = null;
+    [SerializeField] private MensajeError mensajeCambioNombreExitoso = null;
+
     private float prefabHeight;
     private int cantMinima;
 
@@ -31,12 +36,44 @@ public class PanelJugadoresPrincipal : Panel {
 
         ActivarYDesactivarAdviceText();
 
-        prefabHeight = botonJugadorPrefab.GetComponent<RectTransform>().rect.height;
+        prefabHeight = botonJugadorPrefab.GetComponent<RectTransform>().rect.height; 
+    }
+
+    private void Start()
+    {
+        mensajeErrorNuevoNombre.SetText("NOMBRE EXISTENTE", AppController.Idiomas.Español);
+        mensajeErrorNuevoNombre.SetText("EXISTING NAME", AppController.Idiomas.Ingles);
+
+        mensajeCambioNombreExitoso.SetText("NOMBRE CAMBIADO EXITOSAMENTE", AppController.Idiomas.Español);
+        mensajeCambioNombreExitoso.SetText("NAME SUCCESSFULLY CHANGED", AppController.Idiomas.Ingles);
+
+        inputfield.onEndEdit.AddListener(VerificarEdicionNombreEquipo);
     }
 
     private void FixedUpdate()
     {
         flechasScroll.Actualizar(scrollRect, cantMinima, listaBotonJugador.Count);
+    }
+
+    private void VerificarEdicionNombreEquipo(string _nombreNuevo)
+    {
+        if(_nombreNuevo != equipo.GetNombre())
+        {
+            if (AppController.instance.BuscarPorNombre(_nombreNuevo.ToUpper()) != -1)
+            {
+                Debug.Log("NOMBRE EXISTENTE: " + _nombreNuevo);
+                mensajeErrorNuevoNombre.Activar();
+                return;
+            }
+            else
+            {
+                Debug.Log("NOMBRE CAMBIADO");
+                mensajeCambioNombreExitoso.Activar();
+                SaveSystem.EditarEquipo(equipo, _nombreNuevo.ToUpper());
+                AppController.instance.overlayPanel.SetNombrePanel("EQUIPO: " + equipo.GetNombre(), AppController.Idiomas.Español);
+                AppController.instance.overlayPanel.SetNombrePanel("TEAM: " + equipo.GetNombre(), AppController.Idiomas.Ingles);
+            }
+        }
     }
 
     public void SetPanelJugadores(Equipo equipo_)

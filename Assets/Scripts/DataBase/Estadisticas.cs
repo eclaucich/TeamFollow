@@ -111,11 +111,11 @@ public class Estadisticas {
     {
         int i = 0;
         int value = 0;
-        foreach (var item in listaEstadisticas.Values)
+        foreach (var val in listaEstadisticas.Values)
         {
             if (i == index)
             {
-                value = item;
+                value = val;
                 break;
             }
             i++;
@@ -131,7 +131,8 @@ public class Estadisticas {
 
         foreach (var est in listaEstadisticas)
         {
-            if (est.Key == _key)
+            string _keyAux = est.Key.Replace(" ", string.Empty);
+            if (_keyAux == _key)
             {
                 result[0] = 1;
                 result[1] = est.Value;
@@ -161,5 +162,14 @@ public class Estadisticas {
     public Deportes.DeporteEnum GetDeporte()
     {
         return deporte;
+    }
+
+    public int GetValorEstadistica(string _categoria)
+    {
+        if (!listaEstadisticas.ContainsKey(_categoria))
+        {
+            return 0;
+        }
+        return listaEstadisticas[_categoria];
     }
 }

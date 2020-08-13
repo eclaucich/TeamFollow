@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5515244599660074064}
   - component: {fileID: 4101863809033552072}
   - component: {fileID: 5386894888984331904}
-  - component: {fileID: 8646027190229629618}
+  - component: {fileID: 3051888839048386953}
   m_Layer: 5
   m_Name: InputField
   m_TagString: Untagged
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
---- !u!114 &8646027190229629618
+--- !u!114 &3051888839048386953
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 7499374471173524363}
   - component: {fileID: 1370215341568571284}
   - component: {fileID: 1879367030907041921}
-  - component: {fileID: 7205574109168012844}
+  - component: {fileID: 2849159678571434875}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7205574109168012844
+--- !u!114 &2849159678571434875
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1022398698531752250}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0370e99504827f40acdcc5dbc3709cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c506551d201b1e4f92f0637fe6ff8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1264904434042419864

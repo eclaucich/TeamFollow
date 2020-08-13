@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 406786012064728047}
   - component: {fileID: 406786012064728044}
   - component: {fileID: 406786012064728045}
-  - component: {fileID: 406786012064728042}
+  - component: {fileID: 5786169455203424991}
   m_Layer: 5
   m_Name: BotonConfirmarBorrado
   m_TagString: Untagged
@@ -130,7 +130,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &406786012064728042
+--- !u!114 &5786169455203424991
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 406786012064728040}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aafe95227d50f744acacc74faf601d5, type: 3}
+  m_Script: {fileID: 11500000, guid: c7993a8a960dc484cb6e987aebefa8e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &406786012081063545
@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 406786012081063548}
   - component: {fileID: 406786012081063549}
   - component: {fileID: 406786012081063546}
-  - component: {fileID: 406786012081063547}
+  - component: {fileID: 556153657011634322}
   m_Layer: 5
   m_Name: BotonCancelarBorrado
   m_TagString: Untagged
@@ -272,7 +272,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &406786012081063547
+--- !u!114 &556153657011634322
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -281,7 +281,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 406786012081063545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aafe95227d50f744acacc74faf601d5, type: 3}
+  m_Script: {fileID: 11500000, guid: c7993a8a960dc484cb6e987aebefa8e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &406786012086169239
@@ -633,7 +633,7 @@ GameObject:
   - component: {fileID: 406786012550273951}
   - component: {fileID: 406786012550273920}
   - component: {fileID: 406786012550273921}
-  - component: {fileID: 406786012550273950}
+  - component: {fileID: 8005487030251601742}
   m_Layer: 5
   m_Name: Image (1)
   m_TagString: Untagged
@@ -696,7 +696,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &406786012550273950
+--- !u!114 &8005487030251601742
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -705,7 +705,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 406786012550273948}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0370e99504827f40acdcc5dbc3709cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c0e44020ee8db64a8bd8abf8ebb0d3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &406786012612548582

@@ -27,8 +27,9 @@ public class GraficaEstadistica : Grafica
 
     private List<GameObject> graphPoints;
 
-    private void Awake()
+    override protected void Awake()
     {
+        base.Awake();
         lr = GetComponent<LineRenderer>();
         graphPoints = new List<GameObject>();
     }
@@ -65,6 +66,8 @@ public class GraficaEstadistica : Grafica
                 graphPoints.Add(pointGO);
                 coordX += deltaT;
             }
+
+            lr.material.color = new Color(255f, 255f, 255f, 255f);
         }
         else
         {
@@ -78,8 +81,8 @@ public class GraficaEstadistica : Grafica
 
             if (cantidadDatos == 1)
             {
-                deltaT = w / 2;
-                coordX = deltaT;
+                deltaT = 4;
+                coordX = xi;
             }
             else
             {
@@ -106,7 +109,7 @@ public class GraficaEstadistica : Grafica
                 lr.positionCount++;
 
                 float mapValue = MapYValue(dato.Value);
-                if (cantidadDatos == 1) mapValue = yf / 2;
+                if (cantidadDatos == 1) mapValue = yi;
  
                 lr.SetPosition(index, new Vector3(coordX, mapValue, -10));
 
@@ -122,6 +125,7 @@ public class GraficaEstadistica : Grafica
         }
     }
 
+    
     #region Funciones para setear estructura con mínimo, máximo, media y de mapeo
     private infoDatos SetInfoStruct<T>(Dictionary<T, int> datos)
     {
@@ -172,7 +176,21 @@ public class GraficaEstadistica : Grafica
     }
     #endregion
 
-    #region Funciones para setear Puntos y Lineas
+    #region Funciones para setear Puntos, lineas y prefabs
+    public override void CrearPrefabs<T>(Dictionary<T, int> datos, bool isDatoJugador)
+    {
+        foreach (var dato in datos)
+        {
+            GameObject go = Instantiate(botonDatoGraficaPrefab, datosTransform, false);
+            go.SetActive(true);
+            go.GetComponent<BotonDatoGrafica>().SetDato(dato.Key, dato.Value, isDatoJugador);
+        }
+
+        if (vertical)
+        {
+            cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + datosTransform.GetComponent<VerticalLayoutGroup>().spacing));
+        }
+    }
     private void SetLineRenderer(LineRenderer lr, float value)
     {
         for (int i = 0; i < lr.positionCount; i++)
@@ -183,7 +201,7 @@ public class GraficaEstadistica : Grafica
     {
         float coordX = (float)(deltaT * index) - 4f; //el 4 es un offset para que esté bien centrado. Probar con distintos valores y resoluciones
         float coordY = MapYValue(value) - yi;
-        point.transform.localPosition = new Vector3(coordX, coordY, 0);
+        point.transform.localPosition = new Vector3(coordX, coordY, -30f);
     }
     #endregion
 

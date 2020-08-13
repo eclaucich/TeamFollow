@@ -6,47 +6,51 @@ using UnityEngine.UI;
 public class InputPrefabEspecial : InputPrefab
 {
     [SerializeField] private GameObject menuOpcionesEspecialesPrefab = null;
-
-    private List<string> opciones;
+    [SerializeField] private TextLanguage textValor = null;
+    
+    private List<string> opcionesEspañol;
+    private List<string> opcionesIngles;
 
     public void MostrarOpcionesEspeciales()
     {
-        opciones = new List<string>();
+        opcionesEspañol = new List<string>();
+        opcionesIngles = new List<string>();
 
         switch (nombreCategoria.text)
         {
-            case "Sexo":
-                opciones.Add("Masculino");
-                opciones.Add("Femenino");
+            case "SEXO": case "SEX":
+                opcionesEspañol.Add("No especifica"); opcionesIngles.Add("Does not specify");
+                opcionesEspañol.Add("Masculino"); opcionesIngles.Add("Male");
+                opcionesEspañol.Add("Femenino"); opcionesIngles.Add("Female");
                 break;
 
-            case "Factor Sanguineo":
-                opciones.Add("No especifica");
-                opciones.Add("O-");
-                opciones.Add("O+");
-                opciones.Add("A-");
-                opciones.Add("A+");
-                opciones.Add("B-");
-                opciones.Add("B+");
-                opciones.Add("AB-");
-                opciones.Add("AB+");
+            case "FACTOR SANGUINEO": case "BLOOD FACTOR":
+                opcionesEspañol.Add("No especifica"); opcionesIngles.Add("Does not specify");
+                opcionesEspañol.Add("O-"); opcionesIngles.Add("O-");
+                opcionesEspañol.Add("O+"); opcionesIngles.Add("O+");
+                opcionesEspañol.Add("A-"); opcionesIngles.Add("A-");
+                opcionesEspañol.Add("A+"); opcionesIngles.Add("A+");
+                opcionesEspañol.Add("B-"); opcionesIngles.Add("B-");
+                opcionesEspañol.Add("B+"); opcionesIngles.Add("B+");
+                opcionesEspañol.Add("AB-"); opcionesIngles.Add("AB-");
+                opcionesEspañol.Add("AB+"); opcionesIngles.Add("AB+");
                 break;
 
-            case "Ficha Medica":
-                opciones.Add("SI");
-                opciones.Add("NO");
+            case "FICHA MEDICA": case "MEDICAL FORM":
+                opcionesEspañol.Add("SI"); opcionesIngles.Add("YES");
+                opcionesEspañol.Add("NO"); opcionesIngles.Add("NO");
                 break;
         }
 
         GameObject parent = GameObject.Find("PanelNuevoJugador");
         if (parent == null) parent = GameObject.Find("PanelInfoJugador");
         GameObject go = Instantiate(menuOpcionesEspecialesPrefab, parent.transform, false);
-        go.GetComponent<OpcionesEspeciales>().SetMenu(opciones, nombreCategoria.text, this);
+        go.GetComponent<OpcionesEspeciales>().SetMenu(opcionesEspañol, opcionesIngles, nombreCategoria.text, this);
     }
 
-    public void SetValor(string valor)
+    public void SetValor(string valor, AppController.Idiomas _idioma)
     {
-        valorCategoria.text = valor;
+        textValor.SetText(valor, _idioma);
     }
 
     public override void HabilitarInput(bool _aux)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 /// <summary>
 /// 
 /// Clase base de un jugador
@@ -94,19 +95,22 @@ public class Jugador {
         return estadisticasGlobalesPartido;
     }
 
-    public void GuardarEntradaDato(string tipoEntradaDato, Estadisticas estadisticas, Partido partido)
+    public void GuardarEntradaDato(string tipoEntradaDato, Estadisticas estadisticas, string _nombrePartido, DateTime _fecha, ResultadoEntradaDatos _res, Partido.TipoResultadoPartido _tipoResultado)
     {
+        Partido _partido = new Partido(_nombrePartido, estadisticas, _fecha);
+        _partido.AgregarResultadoEntradaDatos(_res, _tipoResultado);
+
         if(tipoEntradaDato == "Partido")
         {
             estadisticasGlobalesPartido.AgregarEstadisticas(estadisticas);
-            partidos.Add(partido);
-            SaveSystem.GuardarEntradaDato(tipoEntradaDato, estadisticasGlobalesPartido, partido, this, AppController.instance.equipoActual);
+            partidos.Add(_partido);
+            SaveSystem.GuardarEntradaDato(tipoEntradaDato, estadisticasGlobalesPartido, _partido, this, AppController.instance.equipoActual);
         }
         else
         {
             estadisticasGlobalesPractica.AgregarEstadisticas(estadisticas);
-            practicas.Add(partido);
-            SaveSystem.GuardarEntradaDato(tipoEntradaDato, estadisticasGlobalesPractica, partido, this, AppController.instance.equipoActual);
+            practicas.Add(_partido);
+            SaveSystem.GuardarEntradaDato(tipoEntradaDato, estadisticasGlobalesPractica, _partido, this, AppController.instance.equipoActual);
         }
     }
 

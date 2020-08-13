@@ -31,7 +31,7 @@ public class PanelBiblioteca : MonoBehaviour
 
         panel_imagen.GetComponent<PanelImagen>().SetPanel(botonFocus_);
 
-        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.Biblioteca);
+        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.BibliotecaPrincipal);
     }
 
 

@@ -16,7 +16,7 @@ public class SaveDataJugador {
     public List<string> valString;
 
     public List<string> catInt;
-    public List<int> valInt;
+    public List<string> valInt;
 
     public List<string> catEspecial;
     public List<string> valEspecial;
@@ -66,9 +66,9 @@ public class SaveDataJugador {
         return dict;
     }
 
-    public Dictionary<string, int> GetInfoInt()
+    public Dictionary<string, string> GetInfoInt()
     {
-        Dictionary<string, int> dict = new Dictionary<string, int>();
+        Dictionary<string, string> dict = new Dictionary<string, string>();
 
         for (int i = 0; i < catInt.Count; i++)
         {
@@ -117,7 +117,7 @@ public class SaveDataJugador {
         return lista;
     }
 
-    private List<string> ListaKeysInt(Dictionary<string, int>.KeyCollection keys)
+    private List<string> ListaKeysInt(Dictionary<string, string>.KeyCollection keys)
     {
         List<string> lista = new List<string>();
         foreach (var item in keys)
@@ -128,9 +128,9 @@ public class SaveDataJugador {
         return lista;
     }
 
-    private List<int> ListaValuesInt(Dictionary<string, int>.ValueCollection values)
+    private List<string> ListaValuesInt(Dictionary<string, string>.ValueCollection values)
     {
-        List<int> lista = new List<int>();
+        List<string> lista = new List<string>();
         foreach (var item in values)
         {
             lista.Add(item);

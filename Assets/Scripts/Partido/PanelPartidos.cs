@@ -41,26 +41,16 @@ public class PanelPartidos : Panel
         flechasScroll.Actualizar(scrollRect, cantMinima, listaPartidosPrefabs.Count);
     }
 
-    public void SetearPanelPartidos(string nombreJugador)
+    public void SetearPanelPartidos(Jugador _jugador)
     {
-        jugadorFocus = AppController.instance.jugadorActual;//equipoActual.BuscarPorNombre(nombreJugador);
+        if (_jugador == null)
+            jugadorFocus = AppController.instance.jugadorActual;//equipoActual.BuscarPorNombre(nombreJugador);
+        else
+            jugadorFocus = _jugador;
 
         if (listaPartidosPrefabs == null) listaPartidosPrefabs = new List<GameObject>();
 
         Estadisticas estadisticas = isPartido ? jugadorFocus.GetEstadisticasPartido() : jugadorFocus.GetEstadisticasPractica();
-
-        /*Image imagen = botonVerEstadisticasGlobales.GetComponent<Image>();
-
-        if (estadisticas.isEmpty())
-        {
-            imagen.color = new Color(imagen.color.r, imagen.color.g, imagen.color.b, 0.25f);
-            botonVerEstadisticasGlobales.enabled = false;
-        }
-        else
-        {
-            imagen.color = new Color(imagen.color.r, imagen.color.g, imagen.color.b, 255f);
-            botonVerEstadisticasGlobales.enabled = true;
-        }*/
 
         MostrarPartidos();
     }
@@ -101,6 +91,7 @@ public class PanelPartidos : Panel
 
     public void MostrarPartidos()
     {
+        Debug.Log("PARTIDOS");
         isPartido = true;
 
         AppController.instance.overlayPanel.SetNombrePanel("PARTIDOS DE: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);

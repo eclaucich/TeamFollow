@@ -18,7 +18,7 @@ public class ConfirmacionBorradoJugada : MensajeDesplegable
     public void BorrarJugada()
     {
         ToggleDesplegar();
-        AppController.instance.BorrarJugada(botonFocus.GetNombre());
+        botonFocus.BorrarJugadaFocus();
         panelPrincipalBiblioteca.SetPanePrincipal();
     }
 }

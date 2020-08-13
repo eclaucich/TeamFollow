@@ -7,9 +7,7 @@ using UnityEngine;
 /// </summary>
 
 public class EntradaDatos : Panel
-{
-    [SerializeField] protected MensajeError mensajeError = null;
-    
+{    
     virtual public void GuardarEntradaDatos()
     {
 

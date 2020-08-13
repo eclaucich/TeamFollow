@@ -7,6 +7,14 @@ public class Partido
     private Estadisticas estadisticas;
     private DateTime fecha;
 
+    public enum TipoResultadoPartido
+    {
+        Normal,
+        Sets
+    }
+    private TipoResultadoPartido tipoResultado;
+    private ResultadoEntradaDatos resultadoPartido;
+
     public Partido(string _nombre, Estadisticas _estadisticas, DateTime _fecha)
     {
         nombre = _nombre;
@@ -38,5 +46,21 @@ public class Partido
     public void BorrarEstadistica(Estadisticas estadisticas_)
     {
         estadisticas.BorrarEstadisticas(estadisticas_);
+    }
+
+    public void AgregarResultadoEntradaDatos(ResultadoEntradaDatos _resultadoPartido, TipoResultadoPartido _tipoResultado)
+    {
+        resultadoPartido = _resultadoPartido;
+        tipoResultado = _tipoResultado;
+    }
+
+    public ResultadoEntradaDatos GetResultadoEntradaDato()
+    {
+        return resultadoPartido;
+    }
+
+    public TipoResultadoPartido GetTipoResultadoPartido()
+    {
+        return tipoResultado;
     }
 }

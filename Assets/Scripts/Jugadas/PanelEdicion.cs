@@ -37,6 +37,9 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     [SerializeField] private MensajeError mensajeTutorial = null;
     [SerializeField] private MensajeError mensajeErrorGuardar = null;
 
+    [SerializeField] private GameObject botonSeleccionarCarpetaPrefab = null;
+    [SerializeField] private Transform parentSeleccionCarpeta = null;
+
     private List<Texture> currentTextures;
     private int currentTextureIndex = 0;
 
@@ -56,6 +59,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     private string nombreJugada = string.Empty;
     private string categoriaActual = string.Empty;
+    private BotonSeleccionarCarpeta carpetaSeleccionada = null;
 
     private void Awake()
     {
@@ -141,6 +145,12 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
                     panelHerramientas.ToogleActive();
             CerrarPanelOpcionesActual();
         }
+
+        if (seccionGuardarJugada.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+                CerrarSeccionGuardarJugada();
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -201,7 +211,19 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             RenderTexture.active = snapshotCamera.targetTexture;
             snapshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
             byte[] bytes = snapshot.EncodeToPNG();
-            SaveSystem.GuardarJugadaImagen(bytes, nombreJugada, categoriaActual);
+
+            CarpetaJugada _carpeta;
+            if (carpetaSeleccionada == null)
+            {
+                Debug.Log("SELECCIONADA NULL");
+                _carpeta = null;
+            }
+            else
+            {
+                _carpeta = carpetaSeleccionada.GetCarpeta();
+            }
+            SaveSystem.GuardarJugadaImagen(bytes, nombreJugada, categoriaActual, _carpeta);
+
             snapshotCamera.gameObject.SetActive(false);
             CanvasController.instance.GetComponent<Canvas>().worldCamera = Camera.main;
 
@@ -215,12 +237,51 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     public void AbrirSeccionGuardarJugada()
     {
+        CanvasController.instance.retrocesoPausado = true;
         seccionGuardarJugada.SetActive(true);
+        bool aux = true; //poner en false para que la primera carpeta este seleccionada al empezar
+        foreach (var carpeta in AppController.instance.carpetasJugadas)
+        {
+            Debug.Log("CARP: " + carpeta.GetNombre());
+            GameObject go = Instantiate(botonSeleccionarCarpetaPrefab, parentSeleccionCarpeta, false);
+            go.SetActive(true);
+            BotonSeleccionarCarpeta botonGO = go.GetComponent<BotonSeleccionarCarpeta>();
+            botonGO.SetCarpeta(carpeta);
+            if (!aux)
+            {
+                SetCarpetaSeleccionada(botonGO);
+                aux = true;
+            }
+            else
+                botonGO.Deseleccionar();
+            if (carpeta.GetNombre() == "SIN CARPETA")
+            {
+                go.transform.SetAsFirstSibling();
+                SetCarpetaSeleccionada(botonGO);
+                parentSeleccionCarpeta.GetChild(1).SetAsFirstSibling();
+            }
+        }
+    }
+
+    public void SetCarpetaSeleccionada(BotonSeleccionarCarpeta _botonCarpeta)
+    {
+        Debug.Log("CARPETA SELECCIONADA: " + _botonCarpeta.GetCarpeta().GetNombre());
+        if (carpetaSeleccionada != null)
+        {
+            carpetaSeleccionada.Deseleccionar();
+        }
+        carpetaSeleccionada = _botonCarpeta;
+        carpetaSeleccionada.Seleccionar();
     }
 
     public void CerrarSeccionGuardarJugada()
     {
+        for (int i = 1; i < parentSeleccionCarpeta.childCount; i++)
+        {
+            Destroy(parentSeleccionCarpeta.GetChild(i).gameObject);
+        }
         seccionGuardarJugada.SetActive(false);
+        CanvasController.instance.retrocesoPausado = false;
     }
 
     public void CambiarCategoriaJugada(string categoria_)
@@ -230,23 +291,22 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     public void GuardarJugadaImagen()
     {
-        string nombre = nombreJugadaText.text;
-        if (AppController.instance.ExistsJugada(nombre))
+        nombreJugada = nombreJugadaText.text.ToUpper();
+
+        if (carpetaSeleccionada!=null && carpetaSeleccionada.GetCarpeta().ExistsJugada(nombreJugada))
         {
             mensajeErrorGuardar.SetText("Nombre existente!".ToUpper(), AppController.Idiomas.Español);
             mensajeErrorGuardar.SetText("Existing name!".ToUpper(), AppController.Idiomas.Ingles);
             mensajeErrorGuardar.Activar();
             return;
         }
-        else if(nombre == "" || nombre == " " || nombre == "  ")
+        else if(nombreJugada == "" || nombreJugada == " " || nombreJugada == "  ")
         {
             mensajeErrorGuardar.SetText("Nombre invalido!".ToUpper(), AppController.Idiomas.Español);
             mensajeErrorGuardar.SetText("Invalid name!".ToUpper(), AppController.Idiomas.Ingles);
             mensajeErrorGuardar.Activar();
             return;
         }
-
-        nombreJugada = nombre;
 
         CerrarSeccionGuardarJugada();
         swipeEnabled = false;

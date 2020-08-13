@@ -48,21 +48,23 @@ public class PanelNuevoEquipo : Panel {
 
     public void GuardarNuevoEquipo()                                                        //Función llamada al apretar el botón GUARDAR. Se agrega un EQUIPO a la lista de EQUIPOS. Se vuelve a la sección principal. Se crea el botón en la sección de equipos.
     {
-        if(AppController.instance.BuscarPorNombre(inputNombreNuevoEquipo.text) != -1)
+        string nombreNuevoEquipo = inputNombreNuevoEquipo.text.ToUpper();
+
+        if(AppController.instance.BuscarPorNombre(nombreNuevoEquipo) != -1)
         {
             mensajeError.SetText("EQUIPO EXISTENTE!", AppController.Idiomas.Español);
             mensajeError.SetText("EXISTING TEAM!", AppController.Idiomas.Ingles);
             mensajeError.Activar();
             return;
         }
-        if (inputNombreNuevoEquipo.text == "")
+        if (nombreNuevoEquipo == "")
         { 
             mensajeError.SetText("NAME NEEDED!", AppController.Idiomas.Ingles);
             mensajeError.SetText("NOMBRE NECESARIO!", AppController.Idiomas.Español);
             mensajeError.Activar();
             return;
         }
-        if(inputNombreNuevoEquipo.text == " " || inputNombreNuevoEquipo.text == "  " || inputNombreNuevoEquipo.text == "   ")
+        if(nombreNuevoEquipo == " " || nombreNuevoEquipo == "  " || nombreNuevoEquipo == "   ")
         {
             mensajeError.SetText("NOMBRE INVALIDO!", AppController.Idiomas.Español);
             mensajeError.SetText("INVALID NAME!", AppController.Idiomas.Español);
@@ -70,9 +72,9 @@ public class PanelNuevoEquipo : Panel {
             return;
         }
 
-        AppController.instance.AgregarEquipo(new Equipo(inputNombreNuevoEquipo.text, deporteActual));
+        AppController.instance.AgregarEquipo(new Equipo(nombreNuevoEquipo, deporteActual));
 
-        inputNombreEquipo.text = "";
+        inputNombreEquipo.text = string.Empty;
 
         panelMisEquipos.MostrarPanelPrincipal();
     }

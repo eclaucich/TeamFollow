@@ -250,6 +250,8 @@ public class EstadisticasHockeyPatines : EstadisticaDeporte
                 break;
         }
 
+        res[0] = res[0].ToUpper();
+
         return res;
     }
 
@@ -262,6 +264,6 @@ public class EstadisticasHockeyPatines : EstadisticaDeporte
     {
         string[] nombresEnum = Enum.GetNames(typeof(Estadisticas));
 
-        return nombresEnum[i];
+        return nombresEnum[i].ToUpper();
     }
 }

@@ -61,6 +61,8 @@ public class PanelDetalleEquipo : MonoBehaviour {
 
     public void MostrarPanelEstadisticasGlobalesEquipo()                                                   //Se activa el panel de estadisticas, y se desactivan los otros. A la vez se setean el panel
     {
+        CanvasController.instance.botonDespliegueMenu.SetActive(true);
+
         ActivarPanel(1);
 
         panel_estadisticasGlobalesEquipo.GetComponent<PanelPartidosEquipo>().SetearPanelPartidos();
@@ -106,8 +108,6 @@ public class PanelDetalleEquipo : MonoBehaviour {
     public void MostrarPanelGraficoEstadistica(string nombreEstadistica, bool isPartido, bool isDatosJugador)
     {
         ActivarPanel(5);
-
-        Screen.orientation = ScreenOrientation.Landscape;
 
         panel_graficoEstadistica.GetComponent<PanelGraficoEstadistica>().SetPanel(nombreEstadistica, isPartido, isDatosJugador);
     }

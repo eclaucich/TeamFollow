@@ -7,8 +7,8 @@ using System;
 
 public static class SaveSystem {
 
-    public static string pathEquipos = Application.persistentDataPath + "/SaveData/Equipos/";
-    public static string pathImagenJugadas = Application.persistentDataPath + "/SaveData/ImagenJugadas/";
+    public static string pathEquipos = Application.persistentDataPath + "/SaveData5/Equipos/";
+    public static string pathImagenJugadas = Application.persistentDataPath + "/SaveData5/ImagenJugadas/";
 
     public static void GuardarEquipo(Equipo equipo)
     {
@@ -55,6 +55,58 @@ public static class SaveSystem {
         Directory.Delete(pathJugador, true);
     }
 
+    public static void EditarEquipo(Equipo equipo, string nuevoNombre)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        string pathEquipo = pathEquipos + equipo.GetNombre();
+        string nuevoPath = pathEquipos + nuevoNombre;
+        Directory.Move(pathEquipo, nuevoPath);
+
+        equipo.SetNombre(nuevoNombre);
+
+        string filePath = nuevoPath + "/equipo.txt";
+        File.Delete(filePath);
+
+        FileStream stream = new FileStream(filePath, FileMode.Create);                      //Archivo con la info del Equipo a guardar
+
+        SaveDataEquipo dataEquipo = new SaveDataEquipo(equipo);                                         //Clase con la información del equipo
+
+        formatter.Serialize(stream, dataEquipo);                                                        //Guardar datos del Equipo
+        stream.Close();
+    }
+
+    public static void EditarJugada(string nombreViejo, string nombreNuevo, CarpetaJugada _carpeta)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        string pathViejo = pathImagenJugadas + _carpeta.GetNombre() + "/" + nombreViejo;
+        string pathNuevo = pathImagenJugadas + _carpeta.GetNombre() + "/" + nombreNuevo;
+        Directory.Move(pathViejo, pathNuevo);
+
+        ImagenBiblioteca jugada = _carpeta.BuscarJugada(nombreViejo);
+        if (jugada == null)
+        {
+            Debug.Log("JUGADA NULL");
+            return;
+        }
+
+        jugada.SetNombre(nombreNuevo);
+
+        string filePathViejo = pathNuevo + "/" + nombreViejo + ".png";
+        string filePathNuevo = pathNuevo + "/" + nombreNuevo+ ".png";
+        File.Move(filePathViejo, filePathNuevo);
+    }
+
+    public static void EditarCarpeta(string nombreViejo, string nombreNuevo)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        string pathViejo = pathImagenJugadas + nombreViejo;
+        string pathNuevo = pathImagenJugadas + nombreNuevo;
+        Directory.Move(pathViejo, pathNuevo);
+    }
+
     public static void GuardarEntradaDato(string tipoEntradaDato, Estadisticas estadisticas_globales, Partido partido, Equipo equipo)
     {
         BinaryFormatter formatter = new BinaryFormatter();
@@ -78,14 +130,35 @@ public static class SaveSystem {
         SaveDataPartido dataPartido = new SaveDataPartido(partido);
         FileStream streamPartido = new FileStream(pathPartido + "/partido.txt", FileMode.Create);
 
+
+        Partido.TipoResultadoPartido tiporesultado = partido.GetTipoResultadoPartido();
+
+        SaveDataResultadoNormal resPartidoNormal;
+        SaveDataResultadoSets resPartidoSets;
+
+        FileStream streamResultado = new FileStream(pathPartido + "/resultado.txt", FileMode.Create);
+
+        if (tiporesultado == Partido.TipoResultadoPartido.Normal)
+        {
+            resPartidoNormal = new SaveDataResultadoNormal((ResultadoNormal)partido.GetResultadoEntradaDato());
+            formatter.Serialize(streamResultado, resPartidoNormal);
+        }
+        else
+        {
+            resPartidoSets = new SaveDataResultadoSets((ResultadoSets)partido.GetResultadoEntradaDato());
+            formatter.Serialize(streamResultado, resPartidoSets);
+        }
+        
+
         SaveDataEstadisticas dataEstPartido = new SaveDataEstadisticas(partido.GetEstadisticas());
         FileStream streamEstPartido = new FileStream(pathPartido + "/estadisticas.txt", FileMode.Create);
 
         //SERIALIZAR Y CERRAR                                              //Guarda los archivos
         formatter.Serialize(streamPartido, dataPartido);
         formatter.Serialize(streamEstPartido, dataEstPartido);
-
+        
         streamPartido.Close();
+        streamResultado.Close();
         streamEstPartido.Close();
     }
 
@@ -112,9 +185,28 @@ public static class SaveSystem {
         SaveDataPartido dataPartido = new SaveDataPartido(partido);
         FileStream streamPartido = new FileStream(pathPartido + "/partido.txt", FileMode.Create);
 
+
+        Partido.TipoResultadoPartido tiporesultado = partido.GetTipoResultadoPartido();
+
+        SaveDataResultadoNormal resPartidoNormal;
+        SaveDataResultadoSets resPartidoSets;
+
+        FileStream streamResultado = new FileStream(pathPartido + "/resultado.txt", FileMode.Create);
+
+        if (tiporesultado == Partido.TipoResultadoPartido.Normal)
+        {
+            resPartidoNormal = new SaveDataResultadoNormal((ResultadoNormal)partido.GetResultadoEntradaDato());
+            formatter.Serialize(streamResultado, resPartidoNormal);
+        }
+        else
+        {
+            resPartidoSets = new SaveDataResultadoSets((ResultadoSets)partido.GetResultadoEntradaDato());
+            formatter.Serialize(streamResultado, resPartidoSets);
+        }
+
+
         SaveDataEstadisticas dataEstPartido = new SaveDataEstadisticas(partido.GetEstadisticas());
         FileStream streamEstPartido = new FileStream(pathPartido + "/estadisticas.txt", FileMode.Create);
-
 
         //SERIALIZAR Y CERRAR                                                //Guarda los archivos
         formatter.Serialize(streamPartido, dataPartido);
@@ -192,16 +284,35 @@ public static class SaveSystem {
         }
     }
 
-    public static void GuardarJugadaImagen(byte[] bytes, string nombreJugada, string categoria)
+    public static void GuardarCarpetaBiblioteca(CarpetaJugada _carpeta)
+    {
+        string path = pathImagenJugadas + _carpeta.GetNombre();
+        Directory.CreateDirectory(path);
+    }
+
+    public static void GuardarJugadaImagen(byte[] bytes, string nombreJugada, string categoria, CarpetaJugada _carpeta)
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
-        // string imagenPath = Application.persistentDataPath + "/SaveData/ImagenesJugadas";
-        string imagenPath = pathImagenJugadas + nombreJugada + "/";
+        string carpetaPath;
+        if (_carpeta == null)
+        {
+            Debug.LogError("CARPETA NULL " + _carpeta == null);
+            carpetaPath = pathImagenJugadas + "-" + "/";
+        }
+        else
+            carpetaPath = pathImagenJugadas + _carpeta.GetNombre() + "/";
+        
+        string imagenPath = carpetaPath + nombreJugada + "/";
 
         if (!Directory.Exists(imagenPath))
         {
             Directory.CreateDirectory(imagenPath);
+            if (_carpeta == null)
+            {
+                _carpeta = new CarpetaJugada("-");
+                AppController.instance.AgregarCarpetaJugada(_carpeta);
+            }
         }
 
         //string nombreImagen = System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss");
@@ -211,7 +322,10 @@ public static class SaveSystem {
         streamCategoria.Close();
 
         File.WriteAllBytes(imagenPath + nombreJugada + ".png", bytes);
-        AppController.instance.AgregarImagen(new ImagenBiblioteca(bytes, nombreJugada, categoria));
+
+        ImagenBiblioteca _imagenBiblioteca = new ImagenBiblioteca(bytes, nombreJugada, categoria, _carpeta);
+        _carpeta.AgregarJugada(_imagenBiblioteca);
+        AppController.instance.AgregarImagen(_imagenBiblioteca);
     }
 
 
@@ -275,13 +389,20 @@ public static class SaveSystem {
         }
     }
 
-    public static void BorrarJugada(string nombreJugada)
+    public static void BorrarJugada(ImagenBiblioteca _jugada, CarpetaJugada _carpeta)
     {
-        string path = pathImagenJugadas + nombreJugada;
+        string path = pathImagenJugadas + _carpeta.GetNombre() + "/" + _jugada.GetNombre();
 
         if (Directory.Exists(path))
             Directory.Delete(path, true);
+    }
 
+    public static void BorrarCarpeta(CarpetaJugada _carpeta)
+    {
+        string path = pathImagenJugadas + _carpeta.GetNombre();
+
+        if (Directory.Exists(path))
+            Directory.Delete(path, true);
     }
 
     private static string GetDateString(DateTime datePartido)

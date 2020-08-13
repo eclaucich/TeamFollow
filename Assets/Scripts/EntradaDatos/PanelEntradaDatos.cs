@@ -17,6 +17,7 @@ public class PanelEntradaDatos : MonoBehaviour {
     [SerializeField] private GameObject entradaDatosTenis = null;
     [SerializeField] private GameObject entradaDatosSoftball = null;
     [SerializeField] private GameObject entradaDatosNormal = null;
+    [SerializeField] private GameObject entradaDatosGenerico = null;
 
     private EntradaDatos entradaDatosActual;
 
@@ -114,7 +115,7 @@ public class PanelEntradaDatos : MonoBehaviour {
     /// 
     private EntradaDatos GetEntradaDatosActual()
     {
-        if(AppController.instance.equipoActual.GetDeporte() == Deportes.DeporteEnum.Tenis || AppController.instance.equipoActual.GetDeporte() == Deportes.DeporteEnum.Padel)
+        /*if(AppController.instance.equipoActual.GetDeporte() == Deportes.DeporteEnum.Tenis || AppController.instance.equipoActual.GetDeporte() == Deportes.DeporteEnum.Padel)
         {
             GameObject go = Instantiate(entradaDatosTenis, this.transform, false);
             go.transform.name = "EntradaDatosTenisPartido";
@@ -129,12 +130,16 @@ public class PanelEntradaDatos : MonoBehaviour {
             entradaDatosActual = go.GetComponent<EntradaDatosSoftball>();
         }
         else
-        {
-            GameObject go = Instantiate(entradaDatosNormal, this.transform, false);
+        {*/
+            /*GameObject go = Instantiate(entradaDatosNormal, this.transform, false);
             go.transform.name = "EntradaDatosNormal";
 
-            entradaDatosActual = go.GetComponent<PanelNuevaEntradaDatos>();
-        }
+            entradaDatosActual = go.GetComponent<PanelNuevaEntradaDatos>();*/
+            GameObject go = Instantiate(entradaDatosGenerico, transform, false);
+            go.transform.name = "EntradaDatosGenerico";
+
+            entradaDatosActual = go.GetComponent<EntradaDatosGenerico>();
+        //}
 
         return entradaDatosActual;
     }

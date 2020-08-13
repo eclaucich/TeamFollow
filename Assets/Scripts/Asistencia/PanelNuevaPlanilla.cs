@@ -72,8 +72,9 @@ public class PanelNuevaPlanilla : PanelAsistencia {
 
         //string nombrePlanilla = dayInput.text + "-" + monthInput.text + "-" + yearInput.text + " - " + hourInput.text + "-" + minuteInput.text;
         string nombrePlanilla = timeNow.ToString("yyyy-MM-dd-HH-mm-ss");
+        string alias = aliasPlanilla.text.ToUpper();
 
-        if (equipo.ExistePlanilla(nombrePlanilla, aliasPlanilla.text))
+        if (equipo.ExistePlanilla(nombrePlanilla, alias))
         {
             mensajeError.SetText(("Nombre Existente!").ToUpper(), AppController.Idiomas.Español);
             mensajeError.SetText(("Existing Name!").ToUpper(), AppController.Idiomas.Ingles);
@@ -81,7 +82,7 @@ public class PanelNuevaPlanilla : PanelAsistencia {
             return;
         }
 
-        equipo.NuevaPlanilla(nombrePlanilla, aliasPlanilla.text, detalles);
+        equipo.NuevaPlanilla(nombrePlanilla, alias, detalles);
 
         GetComponentInParent<PanelPlanillaAsistencia>().MostrarPanelHistorialPlanillas();
     }

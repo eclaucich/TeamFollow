@@ -82,11 +82,11 @@ public class PanelPartidosEquipo : Panel
         panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(_estadisticas);
     }
 
-    public void MostrarPanelDetallePartido(Partido _partido)
+    public void MostrarPanelDetallePartido(Partido _partido, bool fromGrafica=false)
     {
-        ActivarPanel(1);
         if (!gameObject.activeSelf) gameObject.SetActive(true);
-        panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(_partido);
+        ActivarPanel(1);
+        panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(_partido, fromGrafica);
     }
 
     private void ResetPrefabs()

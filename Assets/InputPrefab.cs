@@ -14,6 +14,7 @@ public class InputPrefab : MonoBehaviour
     public void SetKeyboardType(TouchScreenKeyboardType _keyboardType)
     {
         inputField.keyboardType = _keyboardType;
+        Debug.Log("TIPO: " + _keyboardType.ToString());
     }
 
     public void SetNombreCategoria(string _nombre)
@@ -50,12 +51,12 @@ public class InputPrefab : MonoBehaviour
 
     public string GetNombreCategoria()
     {
-        return nombre; // return nombreCategoria.text;
+        return nombre.ToUpper(); // return nombreCategoria.text;
     }
 
     public string GetValorCategoria()
     {
-        return valorCategoria.text;
+        return valorCategoria.text.ToUpper();
     }
 
     public virtual void HabilitarInput(bool _aux)

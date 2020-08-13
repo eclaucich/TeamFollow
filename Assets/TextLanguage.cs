@@ -44,12 +44,12 @@ public class TextLanguage : MonoBehaviour
     {
         if (idioma == AppController.Idiomas.Español)
         {
-            textEspañol = text;
+            textEspañol = text.ToUpper();
             //_text.text = textEspañol;
         }
         else if (idioma == AppController.Idiomas.Ingles)
         {
-            textIngles = text;
+            textIngles = text.ToUpper();
             //_text.text = textIngles;
         }
 
@@ -70,6 +70,6 @@ public class TextLanguage : MonoBehaviour
         else if (idioma == AppController.Idiomas.Ingles)
             textInLanguage = textIngles;
 
-        return textInLanguage;
+        return textInLanguage.ToUpper();
     }
 }
