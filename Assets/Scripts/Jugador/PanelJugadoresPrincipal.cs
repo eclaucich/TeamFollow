@@ -59,7 +59,7 @@ public class PanelJugadoresPrincipal : Panel {
     {
         if(_nombreNuevo != equipo.GetNombre())
         {
-            if (AppController.instance.BuscarPorNombre(_nombreNuevo.ToUpper()) != -1)
+            if (AppController.instance.BuscarEquipoPorNombre(_nombreNuevo) != null)
             {
                 Debug.Log("NOMBRE EXISTENTE: " + _nombreNuevo);
                 mensajeErrorNuevoNombre.Activar();
@@ -70,8 +70,8 @@ public class PanelJugadoresPrincipal : Panel {
                 Debug.Log("NOMBRE CAMBIADO");
                 mensajeCambioNombreExitoso.Activar();
                 SaveSystem.EditarEquipo(equipo, _nombreNuevo.ToUpper());
-                AppController.instance.overlayPanel.SetNombrePanel("EQUIPO: " + equipo.GetNombre(), AppController.Idiomas.Español);
-                AppController.instance.overlayPanel.SetNombrePanel("TEAM: " + equipo.GetNombre(), AppController.Idiomas.Ingles);
+                CanvasController.instance.overlayPanel.SetNombrePanel("EQUIPO: " + equipo.GetNombre(), AppController.Idiomas.Español);
+                CanvasController.instance.overlayPanel.SetNombrePanel("TEAM: " + equipo.GetNombre(), AppController.Idiomas.Ingles);
             }
         }
     }
@@ -80,8 +80,8 @@ public class PanelJugadoresPrincipal : Panel {
     {
         equipo = equipo_;
 
-        AppController.instance.overlayPanel.SetNombrePanel("EQUIPO: " + equipo.GetNombre(), AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("TEAM: " + equipo.GetNombre(), AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("EQUIPO: " + equipo.GetNombre(), AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("TEAM: " + equipo.GetNombre(), AppController.Idiomas.Ingles);
 
         jugadores = equipo.GetJugadores();
         DetallarJugadores();

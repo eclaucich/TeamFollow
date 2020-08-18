@@ -54,7 +54,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         listaEntradaDatosPrefab = new List<GameObject>();
         listaEntradaDatos = new List<EntradaDatosJugador>();
         panelEntradaDatos = GetComponentInParent<PanelEntradaDatos>();   
-        listaEstadisticas = PanelSeleccionEstadisticas.instance.GetListaEstadisticas();
+        listaEstadisticas = PanelSeleccionEstadisticas.instance.GetListaNombreEstadisticas();
         listaIniciales = PanelSeleccionEstadisticas.instance.GetListaInicialesEstadisticas();
         GuardarComoPartido();
         //gameObject.GetComponent<RawImage>().texture = AppController.instance.GetComponent<Test>().myGradient.GetTexture(1280);
@@ -101,7 +101,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         //parentColumna = transform;
 
         columnas = new List<GameObject>();
-        equipo = AppController.instance.GetEquipoActual();
+        equipo = AppController.instance.equipoActual;
         //jugadores = equipo.GetJugadores();
 
         //CanvasController.instance.botonDespliegueMenu.SetActive(false);
@@ -110,8 +110,8 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
         panelSeleccionJugadores.SetearListaJugadores();
 
-        AppController.instance.overlayPanel.SetNombrePanel("SELECCION JUGADORES", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("PLAYERS SELECTION", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("SELECCION JUGADORES", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("PLAYERS SELECTION", AppController.Idiomas.Ingles);
     }
 
     public override void TerminarSeleccionJugadores(List<Jugador> listaJugadores, int cantSeleccionados)
@@ -140,7 +140,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
         jugadores = listaJugadores;
         panelSeleccionJugadores.gameObject.SetActive(false);
-        AppController.instance.overlayPanel.gameObject.SetActive(false);
+        CanvasController.instance.overlayPanel.gameObject.SetActive(false);
 
         //AppController.instance.ChangeTexture(-1);
         //gameObject.GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
@@ -278,7 +278,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
         //CanvasController.instance.escenas.Add(1);
         CanvasController.instance.retrocesoPausado = false;
         CanvasController.instance.MostrarPanelAnterior();
-        AppController.instance.overlayPanel.gameObject.SetActive(true);
+        CanvasController.instance.overlayPanel.gameObject.SetActive(true);
         CanvasController.instance.botonDespliegueMenu.SetActive(true);
         Screen.orientation = ScreenOrientation.Portrait;
         Destroy(gameObject);

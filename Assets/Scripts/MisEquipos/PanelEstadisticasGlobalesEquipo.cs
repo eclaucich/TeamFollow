@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Threading;
+using System;
+using System.IO.IsolatedStorage;
 
 public class PanelEstadisticasGlobalesEquipo : Panel {
 
@@ -9,6 +11,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     [SerializeField] private GameObject botonEstadisticaPrefab = null;
     [SerializeField] private Transform transformParent = null;
 
+    [SerializeField] private GraficaResumen graficaResumen = null;
     [SerializeField] private EstadisticasGlobalesEquipo estadisticasGlobales = null;
     [SerializeField] private GameObject estadisticaPrefab = null;
     [SerializeField] private ConfirmacionBorradoPartido confirmacionBorradoPartido = null;
@@ -45,8 +48,8 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
         equipo = AppController.instance.equipoActual;
         if (equipo == null) Debug.Log("EQUIPO NULO");
 
-        AppController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() + ": ESTADISTICAS GLOBALES", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() + ": GLOBAL STATISTICS", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() + ": ESTADISTICAS GLOBALES", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() + ": GLOBAL STATISTICS", AppController.Idiomas.Ingles);
 
         /*if (_botonPartido == null) */
         botonBorrar.SetActive(false);// else botonBorrar.SetActive(true);
@@ -124,8 +127,8 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
         }
 
 
-        AppController.instance.overlayPanel.SetNombrePanel("PARTIDO: " + _partido.GetNombre(), AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("MATCH: " + _partido.GetNombre(), AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("PARTIDO: " + _partido.GetNombre(), AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("MATCH: " + _partido.GetNombre(), AppController.Idiomas.Ingles);
 
         botonBorrar.SetActive(true);
 
@@ -147,10 +150,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     {
         EstadisticaDeporte estDeporte = estadisticas.GetEstadisticaDeporte();
 
-        foreach (var est in estadisticas.GetDictionary())
-        {
-            Debug.Log(est.Key + ": " + est.Value);
-        }
+        Array listaTipoEstadisticas = estDeporte.GetEstadisticas();
 
         for (int i = 0; i < estDeporte.GetSize(); i++) //este cantidad categorias en realidad devuelve la cantidad que haya en el enum de estadisticas
         {
@@ -160,11 +160,12 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
                 botonEstadisticaGO.SetActive(true);
                 BotonEstadistica botonEstadistica = botonEstadisticaGO.GetComponent<BotonEstadistica>();
 
-                string statsName = estDeporte.GetStatisticsName(i, AppController.Idiomas.Español)[0];
+                string statsNameEspañol = EstadisticasDeporteDisplay.GetStatisticsName((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i), AppController.Idiomas.Español)[0]; //estDeporte.GetStatisticsName(i, AppController.Idiomas.Español)[0];
+                string statsNameIngles = EstadisticasDeporteDisplay.GetStatisticsName((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i), AppController.Idiomas.Ingles)[0];
 
-                botonEstadistica.SetTextInLanguage(statsName, AppController.Idiomas.Español);
-                botonEstadistica.SetTextInLanguage(estDeporte.GetStatisticsName(i, AppController.Idiomas.Ingles)[0], AppController.Idiomas.Ingles);
-                botonEstadistica.SetValorEstadistica(estadisticas.Find(statsName.Replace(" ", string.Empty))[1].ToString());
+                botonEstadistica.SetTextInLanguage(statsNameEspañol, AppController.Idiomas.Español);
+                botonEstadistica.SetTextInLanguage(statsNameIngles, AppController.Idiomas.Ingles);
+                botonEstadistica.SetValorEstadistica(estadisticas.Find(statsNameEspañol.Replace(" ", string.Empty))[1].ToString());
                 listaPrefabsTextos.Add(botonEstadisticaGO);
             }
         }
@@ -177,6 +178,13 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
             botonEstadistica.SetValorEstadistica(estadisticas.GetValueAtIndex(i).ToString());
             listaPrefabsTextos.Add(botonEstadisticaGO);
         }*/
+    }
+
+    public void VerResumenPartido()
+    {
+        graficaResumen.SetGraficaResumen(partidoFocus);
+        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.EstadisticasGlobalesEquipo);
+        CanvasController.instance.botonDespliegueMenu.SetActive(false);
     }
 
     public void BorrarPrefabs()

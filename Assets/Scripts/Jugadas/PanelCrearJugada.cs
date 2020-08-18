@@ -18,4 +18,14 @@ public class PanelCrearJugada : PanelCrearJugadas {
         colorActual = Color.black;
     }
 
+
+    public void SetPanelOpcionesActual(PanelOpcionesHerramienta _panelOpciones)
+    {
+        panelEdicion.SetPanelOpcionesActual(_panelOpciones);
+    }
+
+    public void CerrarPanelOpcionesActual()
+    {
+        panelEdicion.CerrarPanelOpcionesActual();
+    }
 }

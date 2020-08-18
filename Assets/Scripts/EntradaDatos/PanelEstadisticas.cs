@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,14 +24,19 @@ public class PanelEstadisticas : MonoBehaviour {
         parentTransform = transform.GetChild(0);
         listaToggles = new List<TextScript>();
         nombreEstadisticas = GetComponent<EstadisticaDeporte>();
+        Array listaTipoEstadisticas = nombreEstadisticas.GetEstadisticas();
 
-        Debug.Log("CANT EST: " + nombreEstadisticas.GetSize());
-        for (int i = 0; i < nombreEstadisticas.GetSize(); i++)
+        for (int i = 0; i < listaTipoEstadisticas.Length; i++)
         {
+            //SE DEBERÍA OBTENER DE nombreEstadisticas, EL TIPO DEL ENUM Y TRABAJR CON ESO EN VEZ DE CON EL NOMBRE
             GameObject toggleGO = Instantiate(togglePrefab, parentTransform, false);
-            string[] nameEspañol = nombreEstadisticas.GetStatisticsName(i, AppController.Idiomas.Español);
-            string[] nameIngles = nombreEstadisticas.GetStatisticsName(i, AppController.Idiomas.Ingles);
-            toggleGO.GetComponent<TextScript>().SetName(nameEspañol[0], nameEspañol[1], AppController.Idiomas.Español);
+
+            string[] nameEspañol = EstadisticasDeporteDisplay.GetStatisticsName((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i), AppController.Idiomas.Español);// nombreEstadisticas.GetStatisticsName(i, AppController.Idiomas.Español);
+            string[] nameIngles = EstadisticasDeporteDisplay.GetStatisticsName((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i), AppController.Idiomas.Ingles); //nombreEstadisticas.GetStatisticsName(i, AppController.Idiomas.Ingles);
+
+            TextScript txtScript = toggleGO.GetComponent<TextScript>();
+            txtScript.SetTipoEstadistica((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i));
+            txtScript.SetName(nameEspañol[0], nameEspañol[1], AppController.Idiomas.Español);
             toggleGO.GetComponent<TextScript>().SetName(nameIngles[0], nameIngles[1], AppController.Idiomas.Ingles);
             listaToggles.Add(toggleGO.GetComponent<TextScript>());
         }
@@ -55,7 +61,22 @@ public class PanelEstadisticas : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
-    public List<string> GetListaEstadisticasActivas()
+    public List<EstadisticaDeporte.Estadisticas> GetListaEstadisticasActivas()
+    {
+        List<EstadisticaDeporte.Estadisticas> lista = new List<EstadisticaDeporte.Estadisticas>();
+
+        for (int i = 0; i < listaToggles.Count; i++)
+        {
+            if (listaToggles[i].IsOn())
+            {
+                lista.Add(listaToggles[i].GetTipoEstadisticaFocus());
+            }
+        }
+
+        return lista;
+    }
+
+    public List<string> GetListaNombreEstadisticasActivas()
     {
         List<string> lista = new List<string>();
 

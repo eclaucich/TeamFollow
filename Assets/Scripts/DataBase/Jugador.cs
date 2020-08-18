@@ -89,16 +89,20 @@ public class Jugador {
     {
         return infoJugador.GetNombre();
     }
-
+    public string GetNumeroCamiseta()
+    {
+        return infoJugador.GetNumeroCamiseta();
+    }
     public Estadisticas GetEstadisticasPartido()                                    //Devuelve las estadísticas correspondietes a Partidos
     {
         return estadisticasGlobalesPartido;
     }
 
-    public void GuardarEntradaDato(string tipoEntradaDato, Estadisticas estadisticas, string _nombrePartido, DateTime _fecha, ResultadoEntradaDatos _res, Partido.TipoResultadoPartido _tipoResultado)
+    public void GuardarEntradaDato(string tipoEntradaDato, Estadisticas estadisticas, string _nombrePartido, DateTime _fecha, ResultadoEntradaDatos _res, List<Evento> _eventos, Partido.TipoResultadoPartido _tipoResultado)
     {
         Partido _partido = new Partido(_nombrePartido, estadisticas, _fecha);
         _partido.AgregarResultadoEntradaDatos(_res, _tipoResultado);
+        _partido.SetListaEventos(_eventos);
 
         if(tipoEntradaDato == "Partido")
         {
@@ -234,6 +238,11 @@ public class Jugador {
         estadisticasPractica.AgregarEstadisticas(estadisticas);
         //SaveSystem.GuardarEntradaDatoPractica(estadisticasPractica.AgregarEstadisticas(estadisticas), this, AppController.instance.GetEquipoActual());
     }*/
+
+    public string GetPosicionActual()
+    {
+        return infoJugador.GetPosicion();
+    }
 
     public SaveDataJugador CreateSaveData()
     {

@@ -25,13 +25,13 @@ public class PanelPlanilla : PanelAsistencia {
 
         botonFocus = botonFocus_;
 
-        detalles = AppController.instance.GetEquipoActual().GetPlanillaWithName(botonFocus.GetNombre()).GetDetalles();
+        detalles = AppController.instance.equipoActual.GetPlanillaWithName(botonFocus.GetNombre()).GetDetalles();
         cantidadHojas = Mathf.CeilToInt(detalles.Count / 13f);
 
         base.SetPanelPlanilla();
 
-        AppController.instance.overlayPanel.SetNombrePanel("PLANILLA DE ASISTENCIA", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("ASSISTANCE FORM", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("PLANILLA DE ASISTENCIA", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("ASSISTANCE FORM", AppController.Idiomas.Ingles);
 
         CrearPrefabsHoja(false);
 

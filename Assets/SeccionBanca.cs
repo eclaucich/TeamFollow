@@ -44,11 +44,11 @@ public class SeccionBanca : MonoBehaviour
         }
     }
 
-    public void GuardarEntradaDato(string _nombrePartido, string _tipoEntradaDatos, DateTime _fecha, ResultadoEntradaDatos _res, Partido.TipoResultadoPartido _tipoResultado)
+    public void GuardarEntradaDato(string _nombrePartido, string _tipoEntradaDatos, DateTime _fecha, ResultadoEntradaDatos _res, List<Evento> _eventos, Partido.TipoResultadoPartido _tipoResultado)
     {
         foreach (var jed in listaJugadorEntradaDato)
         {
-            jed.GuardarEntradaDato(_nombrePartido, _tipoEntradaDatos, _fecha, _res, _tipoResultado);
+            jed.GuardarEntradaDato(_nombrePartido, _tipoEntradaDatos, _fecha, _res, _eventos, _tipoResultado);
         }
     }
 

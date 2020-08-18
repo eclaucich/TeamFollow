@@ -10,8 +10,8 @@ public class PanelBiblioteca : MonoBehaviour
 
     public void MostrarPanelPrincipal()
     {
-        AppController.instance.overlayPanel.SetNombrePanel("BIBLIOTECA JUGADAS", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("STRATEGIES LIBRARY", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("BIBLIOTECA JUGADAS", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("STRATEGIES LIBRARY", AppController.Idiomas.Ingles);
 
         panel_principal.SetActive(true);
         panel_imagen.SetActive(false);
@@ -23,8 +23,8 @@ public class PanelBiblioteca : MonoBehaviour
 
     public void MostrarPanelImagen(BotonImagen botonFocus_)
     {
-        AppController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Ingles);
 
         panel_principal.SetActive(false);
         panel_imagen.SetActive(true);

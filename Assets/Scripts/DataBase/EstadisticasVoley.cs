@@ -1,23 +1,23 @@
 ﻿using System;
 public class EstadisticasVoley : EstadisticaDeporte
 {
-    public enum Estadisticas
+    public new enum Estadisticas
     {
-        Pase,
-        Recepcion,
-        Bloqueada,
-        Remate,
-        MalaRecepcion,
-        ToqueDeRed,
-        ToqueDeBarilla,
-        Llevada,
-        Invasion,
-        DobleGolpe,
-        Ace,
-        Saque,
-        Amarilla,
-        Roja,
-        ErrorDeSaque
+        Recepcion = 64,
+        Bloqueada = 65,
+        MalaRecepcion = 66,
+        ToqueDeRed = 67,
+        ToqueDeBarilla = 68,
+        Llevada = 69,
+        Invasion = 70,
+        DobleGolpe = 71,
+        Saque = 72,
+        ErrorDeSaque = 73,
+        Pase =1,
+        Remate=51,
+        Ace=29,
+        Amarilla=2,
+        Roja=3,
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)
@@ -226,5 +226,10 @@ public class EstadisticasVoley : EstadisticaDeporte
         string[] nombresEnum = Enum.GetNames(typeof(Estadisticas));
 
         return nombresEnum[i].ToUpper();
+    }
+
+    public override Array GetEstadisticas()
+    {
+        return Enum.GetValues(typeof(Estadisticas));
     }
 }

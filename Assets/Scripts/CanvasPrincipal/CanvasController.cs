@@ -1,49 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
-/// <summary>
-/// 
-/// Controla el "Menú de Selección" de las secciones principales
-/// Cuando se elige una sección, se activa y se desactivan todas las demás
-/// 
-/// </summary>
 
 public class CanvasController : MonoBehaviour {
 
     public static CanvasController instance = null;
 
-    [HideInInspector] public bool retrocesoPausado = false;                     //Permite activar o desactivar el retroceso de página. Algunos paneles lo desactivan para poder usar el retroceso de página internamente, y luego lo vuelven a activar
+    [HideInInspector] public bool retrocesoPausado = false;
 
+    //GUI
+    [SerializeField] public OverlayPanel overlayPanel = null;
     [SerializeField] public GameObject botonDespliegueMenu = null;
-    [SerializeField] private GameObject panel_miPerfil = null;                             //Panel de MI PERFIL
-    [SerializeField] private GameObject panel_misEquipos = null;                           //Panel de MIS EQUIPOS
-    [SerializeField] private GameObject panel_jugadas = null;                              //Panel de JUGADAS
-    [SerializeField] private GameObject panel_detalle_equipo = null;                       //Panel de los DETALLES de  un EQUIPO
-    [SerializeField] private GameObject panel_entrada_datos = null;                        //Panel de las ENTRADAS DE DATOS de un EQUIPO
-    [SerializeField] private PanelJugadores panel_jugadores = null;
-    [SerializeField] private PanelPlanillaAsistencia panel_planillas_asistencias = null;
-    [SerializeField] private GameObject panel_tablero = null;
-    [SerializeField] private PanelGraficoEstadistica panel_graficas = null;
-    [SerializeField] private GameObject panel_biblioteca = null;
+    [SerializeField] private MensajeDesplegable menuSeleccion = null;
 
-    [SerializeField] private GameObject panel_menuSeleccion = null;
-    private MensajeDesplegable menuSeleccion;
+    //PANELES PRINCIPALES
+    [SerializeField] private GameObject panelMiPerfil = null;
+    [SerializeField] private PanelMisEquipos panelMisEquipos = null;
+    [SerializeField] private PanelJugadas panelJugadas = null;
+    [SerializeField] private PanelDetalleEquipo panelDetalleEquipo = null;
+    [SerializeField] private PanelEntradaDatos panelEntradaDatos = null;
+    [SerializeField] private PanelJugadores panelJugadores = null;
+    [SerializeField] private PanelPlanillaAsistencia panelPlanillaAsistencia = null;
+    [SerializeField] private PanelGraficoEstadistica panelGraficas = null;
+    [SerializeField] private PanelBiblioteca panelBiblioteca = null;
 
+    //PANELES AUXILIARES
     [SerializeField] private ConfirmacionBorradoJugador confirmacionBorradoJugador = null;
     [SerializeField] private EleccionBorradoEstadisticas eleccionBorradoEstadisticas = null;
     [SerializeField] private ConfirmacionBorradoEquipo confirmacionBorradoEquipo = null;
     [SerializeField] private ConfirmacionBorradoAsistencia confirmacionBorradoAsistencia = null;
-    [SerializeField] private MensajeDesplegable panelHerramientasTablero = null;
-    [SerializeField] private MensajeDesplegable panelHerramientasJugadas = null;
     [SerializeField] private ConfirmacionBorradoPartido confirmacionBorradoPartidoJugador = null;
     [SerializeField] private ConfirmacionBorradoPartido confirmacionBorradoPartidoEquipo = null;
 
     public List<int> escenas;
-    private PanelMisEquipos panelMisEquipos;
-    private PanelDetalleEquipo panelDetalleEquipo;
-    private PanelEntradaDatos panelEntradaDatos;
-
     private List<GameObject> listaPaneles;
 
     public enum Paneles
@@ -74,27 +62,17 @@ public class CanvasController : MonoBehaviour {
     private void Awake()
     {
         if(instance == null)
-        {
             instance = this;
-        }
         else
-        {
             Destroy(instance);
-        }
 
-        menuSeleccion = panel_menuSeleccion.GetComponent<MensajeDesplegable>(); 
-                                                      
         escenas = new List<int>();
-        panelMisEquipos = panel_misEquipos.GetComponent<PanelMisEquipos>();
-        panelDetalleEquipo = panel_detalle_equipo.GetComponent<PanelDetalleEquipo>();
-        panelEntradaDatos = panel_entrada_datos.GetComponent<PanelEntradaDatos>();
-
+        
         listaPaneles = new List<GameObject>();
-        listaPaneles.Add(panel_miPerfil);
-        listaPaneles.Add(panel_misEquipos);
-        listaPaneles.Add(panel_jugadas);
-        listaPaneles.Add(panel_tablero);
-        listaPaneles.Add(panel_biblioteca);
+        listaPaneles.Add(panelMiPerfil);
+        listaPaneles.Add(panelMisEquipos.gameObject);
+        listaPaneles.Add(panelJugadas.gameObject);
+        listaPaneles.Add(panelBiblioteca.gameObject);
 
         AbrirMisEquipos();
     }
@@ -107,52 +85,52 @@ public class CanvasController : MonoBehaviour {
         }
     }
 
-    public void AbrirMiPerfil()                                                     //Activa el panel MI PERFIL y descativa los demás. Oculta el menú de selección
+    #region Abrir paneles principales
+    public void AbrirMiPerfil()
     {
         ActivarPanel(0);
 
         menuSeleccion.Cerrar();
     }
 
-    public void AbrirMisEquipos()                                                   //Activa el panel MIS EQUIPOS y descativa los demás. Oculta el menú de selección
+    public void AbrirMisEquipos()
     {
         ActivarPanel(1);  
 
-        panel_misEquipos.GetComponent<PanelMisEquipos>().MostrarPanelPrincipal();
+        panelMisEquipos.MostrarPanelPrincipal();
 
-        if (panel_menuSeleccion != null) menuSeleccion.Cerrar();
+        if (menuSeleccion != null) menuSeleccion.Cerrar();
 
         botonDespliegueMenu.SetActive(true);
     }
 
-    public void AbrirJugadas()                                                      //Activa el panel JUGADAS y descativa los demás. Oculta el menú de selección
+    public void AbrirJugadas()
     {
         ActivarPanel(2);
 
-        panel_jugadas.GetComponent<PanelJugadas>().MostrarPanelPrincipal();
+        panelJugadas.MostrarPanelPrincipal();
 
         menuSeleccion.Cerrar();   
     }
 
-    public void AbrirTablero()
+    public void AbrirBiblioteca()
     {
         ActivarPanel(3);
 
         menuSeleccion.Cerrar();
 
-        panel_tablero.GetComponent<PanelTablero>().MostrarPanelPrincipal();
+        panelBiblioteca.MostrarPanelPrincipal();
     }
-
-    public void AbrirBiblioteca()
+    private void ActivarPanel(int index)
     {
-        ActivarPanel(4);
+        foreach (var panel in listaPaneles) 
+            panel.SetActive(false);
 
-        menuSeleccion.Cerrar();
-
-        panel_biblioteca.GetComponent<PanelBiblioteca>().MostrarPanelPrincipal();
+        listaPaneles[index].SetActive(true);
     }
+    #endregion
 
-
+    #region Control de el retroceder pantalla
     public void MostrarPanelAnterior()
     {
         if (menuSeleccion.isDesplegado())
@@ -190,18 +168,8 @@ public class CanvasController : MonoBehaviour {
             confirmacionBorradoAsistencia.Cerrar();
             return;
         }
-        else if (panelHerramientasTablero.isDesplegado())
-        {
-            panelHerramientasTablero.Cerrar();
-            return;
-        }
-        else if (panelHerramientasJugadas.isDesplegado())
-        {
-            panelHerramientasJugadas.Cerrar();
-            return;
-        }
-        if (panel_graficas.gameObject.activeSelf)
-            panel_graficas.gameObject.SetActive(false);
+        if (panelGraficas.gameObject.activeSelf)
+            panelGraficas.gameObject.SetActive(false);
 
         if (!retrocesoPausado && escenas.Count != 0)
         {
@@ -224,25 +192,25 @@ public class CanvasController : MonoBehaviour {
                 case (int)Paneles.SeleccionEstadisticas: panelEntradaDatos.MostrarPanelSeleccionEstadisticas();
                     break;
 
-                case (int)Paneles.JugadoresPrincipal: panel_jugadores.MostrarPanelPrincipal(AppController.instance.equipoActual);
+                case (int)Paneles.JugadoresPrincipal: panelJugadores.MostrarPanelPrincipal(AppController.instance.equipoActual);
                     break;
 
-                case (int)Paneles.JugadoresInfo: panel_jugadores.MostrarPanelInfoJugador();
+                case (int)Paneles.JugadoresInfo: panelJugadores.MostrarPanelInfoJugador();
                     break;
 
-                /*case (int)Paneles.PlanillaAsistenciaPrincipal: panel_planillas_asistencias.MostrarPanelHistorialPlanillas();
-                    break;*/
+                case (int)Paneles.JugadoresDetalle: panelJugadores.MostrarPanelPartidos();
+                    break;
 
-                case (int)Paneles.HistorialPlanilla: panel_planillas_asistencias.MostrarPanelHistorialPlanillas();
+                case (int)Paneles.HistorialPlanilla: panelPlanillaAsistencia.MostrarPanelHistorialPlanillas();
                     break;
 
                 case (int)Paneles.MisEquipos: { botonDespliegueMenu.SetActive(true); AbrirMisEquipos(); }
                     break;
 
-                case (int)Paneles.JugadoresPartidos: panel_jugadores.MostrarPanelPartidos();
+                case (int)Paneles.JugadoresPartidos: panelJugadores.MostrarPanelPartidos();
                     break;
 
-                case (int)Paneles.Graficas: panel_graficas.ActivarPanel();
+                case (int)Paneles.Graficas: panelGraficas.ActivarPanel();
                     break;
 
                 case (int)Paneles.BibliotecaPrincipal: AbrirBiblioteca();
@@ -264,11 +232,5 @@ public class CanvasController : MonoBehaviour {
 
         escenas.Add(index);
     }
-
-    private void ActivarPanel(int index)
-    {
-        foreach (var panel in listaPaneles) panel.SetActive(false);
-
-        listaPaneles[index].SetActive(true);
-    }
+    #endregion
 }

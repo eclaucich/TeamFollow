@@ -8,6 +8,8 @@ public class EntradaDatosGenerico : EntradaDatos
 {
     [SerializeField] private SeleccionListaJugadores seleccionListaJugadores = null;
 
+    [SerializeField] private RelojEntradaDatos relojEntradaDatos = null;
+
     [SerializeField] private SeccionBanca seccionBanca = null;
     [SerializeField] private SeccionCancha seccionCancha = null;
     [SerializeField] private SeccionEstadisticas seccionEstadisticas = null;
@@ -27,7 +29,8 @@ public class EntradaDatosGenerico : EntradaDatos
     private bool insertarResultado;
 
     private List<Jugador> jugadoresSeleccionados;
-    private List<string> listaEstadisticas;
+    private List<EstadisticaDeporte.Estadisticas> listaEstadisticas;
+    private List<string> listaNombres;
     private List<string> listaIniciales;
 
     private bool isPartido;
@@ -35,6 +38,7 @@ public class EntradaDatosGenerico : EntradaDatos
     private void Start()
     {
         listaEstadisticas = PanelSeleccionEstadisticas.instance.GetListaEstadisticas();
+        listaNombres = PanelSeleccionEstadisticas.instance.GetListaNombreEstadisticas();
         listaIniciales = PanelSeleccionEstadisticas.instance.GetListaInicialesEstadisticas();
     }
 
@@ -55,6 +59,8 @@ public class EntradaDatosGenerico : EntradaDatos
                 panelConfirmacionGuardado.ToggleDesplegar();
             }
         }
+        if (panelConfirmacionGuardado.isDesplegado())
+            relojEntradaDatos.paused = true;
     }
 
     public override void Display(bool _isPartido)
@@ -62,12 +68,6 @@ public class EntradaDatosGenerico : EntradaDatos
         isPartido = _isPartido;
 
         seleccionListaJugadores.SetearListaJugadores();
-
-        AppController.instance.overlayPanel.SetNombrePanel("SELECCION JUGADORES", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("PLAYERS SELECTION", AppController.Idiomas.Ingles);
-
-        AppController.instance.overlayPanel.gameObject.SetActive(false);
-        CanvasController.instance.botonDespliegueMenu.SetActive(false);
 
         Deportes.DeporteEnum deporteActual = AppController.instance.equipoActual.GetDeporte();
         if (deporteActual == Deportes.DeporteEnum.Futbol || deporteActual == Deportes.DeporteEnum.Basket || deporteActual == Deportes.DeporteEnum.HockeyCesped || deporteActual == Deportes.DeporteEnum.HockeyPatines || deporteActual == Deportes.DeporteEnum.Rugby || deporteActual == Deportes.DeporteEnum.Handball)
@@ -83,6 +83,8 @@ public class EntradaDatosGenerico : EntradaDatos
             resultadoSets.ActivateEdition();
             resultadoSets.AgregarSet();
         }
+
+        relojEntradaDatos.Initiate();
     }
 
     public override void TerminarSeleccionJugadores(List<Jugador> _listaJugadores, int cantSeleccionados)
@@ -95,9 +97,12 @@ public class EntradaDatosGenerico : EntradaDatos
 
         Screen.orientation = ScreenOrientation.Landscape;
 
+        CanvasController.instance.overlayPanel.gameObject.SetActive(false);
+        CanvasController.instance.botonDespliegueMenu.SetActive(false);
+
         seccionBanca.SetSeccionBanca(jugadoresSeleccionados);
         seccionCancha.SetSeccionCancha();
-        seccionEstadisticas.SetSeccionEstadisticas(listaEstadisticas, listaIniciales);
+        seccionEstadisticas.SetSeccionEstadisticas(listaEstadisticas, listaNombres, listaIniciales);
         seccionEstadisticas.SetJugadorEntradaDatoFocus(seccionBanca.GetJugadorEntradaDatoInicial());
     }
 
@@ -159,6 +164,9 @@ public class EntradaDatosGenerico : EntradaDatos
         DateTime fecha = DateTime.Now;
 
         Partido _partido = new Partido(nombrePartido, estEquipo, fecha);
+        List<Evento> _eventos = seccionEstadisticas.GetListaEventos();
+        _partido.SetListaEventos(_eventos);
+
         if (deporteActual == Deportes.DeporteEnum.Futbol || deporteActual == Deportes.DeporteEnum.Basket || deporteActual == Deportes.DeporteEnum.HockeyCesped || deporteActual == Deportes.DeporteEnum.HockeyPatines || deporteActual == Deportes.DeporteEnum.Rugby || deporteActual == Deportes.DeporteEnum.Handball)
         {
             if (insertarResultado && !resultadoNormal.VerificarInputs())
@@ -174,7 +182,7 @@ public class EntradaDatosGenerico : EntradaDatos
             Debug.Log("PEN PROP: " + resultadoNormal.GetResultadoPenalesPropio());
             Debug.Log("PEN CONT: " + resultadoNormal.GetResultadoPenalesContrario());
             _partido.AgregarResultadoEntradaDatos(resultadoNormal, Partido.TipoResultadoPartido.Normal);
-            seccionBanca.GuardarEntradaDato(nombrePartido, tipoEntradaDatos, fecha, resultadoNormal, Partido.TipoResultadoPartido.Normal);
+            seccionBanca.GuardarEntradaDato(nombrePartido, tipoEntradaDatos, fecha, resultadoNormal, _eventos, Partido.TipoResultadoPartido.Normal);
         }
         else
         {
@@ -187,14 +195,13 @@ public class EntradaDatosGenerico : EntradaDatos
             }
             resultadoSets.SetResultado();
             _partido.AgregarResultadoEntradaDatos(resultadoSets, Partido.TipoResultadoPartido.Sets);
-            seccionBanca.GuardarEntradaDato(nombrePartido, tipoEntradaDatos, fecha, resultadoSets, Partido.TipoResultadoPartido.Sets);
+            seccionBanca.GuardarEntradaDato(nombrePartido, tipoEntradaDatos, fecha, resultadoSets, _eventos, Partido.TipoResultadoPartido.Sets);
         }
+
 
         //PARA LOS JUGADORES
         seccionBanca.SetFechaEntradaDato(fecha); //para cada jugadorEntradaDato, estadistica.setfecha(fecha)
         
-
-
         //PARA EL EQUIPO
         estEquipo.SetFecha(fecha);
         seccionBanca.AgregarEstadisticasEquipo(estEquipo);
@@ -205,7 +212,7 @@ public class EntradaDatosGenerico : EntradaDatos
         //CanvasController.instance.escenas.Add(1);
         CanvasController.instance.retrocesoPausado = false;
         CanvasController.instance.MostrarPanelAnterior();
-        AppController.instance.overlayPanel.gameObject.SetActive(true);
+        CanvasController.instance.overlayPanel.gameObject.SetActive(true);
         CanvasController.instance.botonDespliegueMenu.SetActive(true);
         Screen.orientation = ScreenOrientation.Portrait;
         Destroy(gameObject);
@@ -215,7 +222,7 @@ public class EntradaDatosGenerico : EntradaDatos
     {
         base.DescartarDatos();
         CanvasController.instance.botonDespliegueMenu.SetActive(true);
-        AppController.instance.overlayPanel.gameObject.SetActive(true);
+        CanvasController.instance.overlayPanel.gameObject.SetActive(true);
         Destroy(gameObject);
     }
 

@@ -8,8 +8,8 @@ public class PanelTablero : MonoBehaviour
 
     public void MostrarPanelPrincipal()
     {
-        AppController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Ingles);
 
         panel_crearJugada.SetActive(true);
 

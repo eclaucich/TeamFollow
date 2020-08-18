@@ -1,21 +1,21 @@
 ﻿using System;
 public class EstadisticasHockeyCesped : EstadisticaDeporte
 {
-    public enum Estadisticas
+    public new enum Estadisticas
     {
-        Pase,
-        Recuperacion,
-        PerdidaDeMarca,
-        CornerCorto,
-        CornerLargo,
-        Intercepcion,
-        Lateral,
-        Gol,
-        BochaPeligrosa,
-        TarjetaVerde,
-        TarjetaAmarilla,
-        TarjetaRoja,
-        Penal
+        CornerCorto = 45,
+        CornerLargo = 46,
+        BochaPeligrosa = 47,
+        TarjetaVerde = 48,
+        TarjetaAmarilla = 49,
+        TarjetaRoja = 50,
+        Pase =1,
+        Recuperacion=4,
+        PerdidaDeMarca=5,
+        Intercepcion=8,
+        Lateral=14,
+        Gol=0,
+        Penal=15
     }
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)
@@ -200,5 +200,10 @@ public class EstadisticasHockeyCesped : EstadisticaDeporte
         string[] nombresEnum = Enum.GetNames(typeof(Estadisticas));
 
         return nombresEnum[i].ToUpper();
+    }
+
+    public override Array GetEstadisticas()
+    {
+        return Enum.GetValues(typeof(Estadisticas));
     }
 }

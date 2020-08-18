@@ -1,26 +1,26 @@
 ﻿using System;
 public class EstadisticasHockeyPatines : EstadisticaDeporte
 {
-    public enum Estadisticas
+    public new enum Estadisticas
     {
-        Pase,
-        Bloqueo,
-        Remate,
-        Mareada,
-        ProposicionDeJugada,
-        FaltaPatin,
-        Roja,
-        Azul,
-        RecuperacionDeBocha,
-        PerdidaDeMarca,
-        Tiro,
-        Disputa,
-        BochaFueraDeCancha,
-        FaltaDePenal,
-        FaltaDeLibre,
-        Altura,
-        CincoSegundos,
-        Gol
+        Remate = 51,
+        Mareada = 52,
+        FaltaPatin = 53,
+        Azul = 54,
+        RecuperacionDeBocha = 55,
+        Disputa = 56,
+        BochaFueraDeCancha = 57,
+        FaltaDePenal = 58,
+        FaltaDeLibre = 59,
+        Altura = 60,
+        CincoSegundos = 61,
+        Pase =1,
+        Bloqueo=21,
+        ProposicionDeJugada=10,
+        Roja=3,
+        PerdidaDeMarca=5,
+        Tiro=11,
+        Gol=0
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)
@@ -265,5 +265,10 @@ public class EstadisticasHockeyPatines : EstadisticaDeporte
         string[] nombresEnum = Enum.GetNames(typeof(Estadisticas));
 
         return nombresEnum[i].ToUpper();
+    }
+
+    public override Array GetEstadisticas()
+    {
+        return Enum.GetValues(typeof(Estadisticas));
     }
 }

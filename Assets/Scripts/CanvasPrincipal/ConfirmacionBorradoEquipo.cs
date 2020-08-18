@@ -16,7 +16,7 @@ public class ConfirmacionBorradoEquipo : MensajeDesplegable
     ///Al apretar el "borrar" se guarda el equipo y el boton en cuestion
     public void Activar(string nombreEquipo, GameObject botonEquipo)
     {
-        equipoFocus = AppController.instance.equipos[AppController.instance.BuscarPorNombre(nombreEquipo)];
+        equipoFocus = AppController.instance.BuscarEquipoPorNombre(nombreEquipo);
         botonEquipoFocus = botonEquipo;
         //textoConfirmacion.text = "Borrar Equipo \"" + equipoFocus.GetNombre() + "\"?";
         text.SetText("Delete team \"" + equipoFocus.GetNombre() + "\"?".ToUpper(), AppController.Idiomas.Ingles);
@@ -29,7 +29,7 @@ public class ConfirmacionBorradoEquipo : MensajeDesplegable
     {
         ToggleDesplegar();
         panelPrincipal.BorrarBotonEquipo(botonEquipoFocus);
-        AppController.instance.BorrarEquipo(equipoFocus.GetNombre()); 
+        AppController.instance.BorrarEquipo(equipoFocus); 
         CanvasController.instance.MostrarPanelAnterior(); 
     }
 }

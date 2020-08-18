@@ -39,8 +39,8 @@ public class PanelHistorialPlanillas : Panel {
     {
         equipo = AppController.instance.equipoActual;
 
-        AppController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() +  ": ASISTENCIAS", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() + ": ASSISTS", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() +  ": ASISTENCIAS", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() + ": ASSISTS", AppController.Idiomas.Ingles);
 
         BorrarPrefabs();
         CrearPrefabs();

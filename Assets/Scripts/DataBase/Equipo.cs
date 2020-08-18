@@ -155,7 +155,7 @@ public class Equipo {
                 practicas.Remove(partido);
             }
 
-            SaveSystem.BorrarPartido(isPartido, partido, this);
+            SaveSystem.BorrarPartido(isPartido, partido, null, this);
         }
     }
 
@@ -425,6 +425,17 @@ public class Equipo {
                 return true;
         }
         return false;
+    }
+
+    public bool VerficarNumeroCamiseta(string _numCamiseta)
+    {
+        foreach (var jugador in jugadores)
+        {
+            if (jugador.GetNumeroCamiseta() == _numCamiseta)
+                return false;
+        }
+
+        return true;
     }
 
     public List<DetalleAsistencia> GetDetallesAsistencia(PlanillaAsistencia planilla)

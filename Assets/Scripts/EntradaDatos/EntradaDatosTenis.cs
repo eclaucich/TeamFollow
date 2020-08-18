@@ -59,7 +59,7 @@ public class EntradaDatosTenis : EntradaDatos
         
     private void Start()
     {
-        listaEstadisticas = PanelSeleccionEstadisticas.instance.GetListaEstadisticas();
+        listaEstadisticas = PanelSeleccionEstadisticas.instance.GetListaNombreEstadisticas();
         SetearSeccionListaEstadisticas();
         
         estadisticas = new Estadisticas(Deportes.DeporteEnum.Tenis);  
@@ -105,8 +105,8 @@ public class EntradaDatosTenis : EntradaDatos
         //Se desactivan todos los demas paneles
         seccionListaJugadores.SetActive(true);
 
-        AppController.instance.overlayPanel.SetNombrePanel("SELECCION JUGADORES", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("PLAYERS SELECTION", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("SELECCION JUGADORES", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("PLAYERS SELECTION", AppController.Idiomas.Ingles);
 
         //seccionOpcionesAdicionales.SetActive(false);
         seccionEntradaDatos.SetActive(false);
@@ -125,8 +125,8 @@ public class EntradaDatosTenis : EntradaDatos
     /// 
     public override void TerminarSeleccionJugadores(List<Jugador> listaJugadores, int cantSeleccionados)
     {
-        AppController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Ingles);
 
         seccionListaJugadores.SetActive(false);
         //seccionOpcionesAdicionales.SetActive(true);

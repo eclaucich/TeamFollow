@@ -40,12 +40,12 @@ public class PanelGraficoEstadistica : MonoBehaviour
         Debug.Log("GRAFICAS");
         gameObject.SetActive(true);
         CanvasController.instance.botonDespliegueMenu.SetActive(false);
-        AppController.instance.overlayPanel.gameObject.SetActive(false);
+        CanvasController.instance.overlayPanel.gameObject.SetActive(false);
     }
 
     public void DesactivarPanel()
     {
-        AppController.instance.overlayPanel.gameObject.SetActive(true);
+        CanvasController.instance.overlayPanel.gameObject.SetActive(true);
         CanvasController.instance.botonDespliegueMenu.SetActive(true);
         gameObject.SetActive(false);
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.Graficas);

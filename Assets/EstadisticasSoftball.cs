@@ -1,13 +1,13 @@
 ﻿using System;
 public class EstadisticasSoftball : EstadisticaDeporte
 {
-    public enum Estadisticas
+    public new enum Estadisticas
     {
-        Out,
-        Mala,
-        Buena,
-        Carrera,
-        HomeRun
+        Out = 39,
+        Mala = 40,
+        Buena = 41,
+        Carrera = 42,
+        HomeRun = 43,
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)
@@ -96,5 +96,10 @@ public class EstadisticasSoftball : EstadisticaDeporte
         string[] nombresEnum = Enum.GetNames(typeof(Estadisticas));
 
         return nombresEnum[i].ToUpper();
+    }
+
+    public override Array GetEstadisticas()
+    {
+        return Enum.GetValues(typeof(Estadisticas));
     }
 }

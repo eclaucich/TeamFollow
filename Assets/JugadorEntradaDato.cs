@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHandler
 {
     [SerializeField] private Text nombreJugadorText = null;
-    
+    [SerializeField] private Text numeroCamiseta = null;
+
     [SerializeField] private Transform movingTransform = null;
     [SerializeField] private Transform canchaTransform = null;
     [SerializeField] private Transform bancaTransform = null;
@@ -18,8 +19,8 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
     [SerializeField] private SeccionBanca seccionBanca = null;
     [SerializeField] private SeccionCancha seccionCancha= null;
 
-    [SerializeField] private RectTransform delimiterY = null;
-    [SerializeField] private RectTransform delimiterX = null;
+    [SerializeField] private RectTransform delimiterBanca = null;
+    [SerializeField] private RectTransform delimiterEstadisticas = null;
 
     private Jugador jugadorFocus;
 
@@ -47,6 +48,7 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         jugadorFocus = _jugador;
         Debug.Log("NOMBRE JUGADOR: " + jugadorFocus.GetNombre());
         nombreJugadorText.text = jugadorFocus.GetNombre();
+        numeroCamiseta.text = jugadorFocus.GetNumeroCamiseta();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -68,11 +70,11 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         Vector3 goPos = Camera.main.ScreenToWorldPoint(mPos);
         goPos.z = 0f;
         
-        if (goPos.x > delimiterX.position.x)
-            goPos.x = delimiterX.position.x;
+        if (goPos.x > delimiterEstadisticas.position.x)
+            goPos.x = delimiterEstadisticas.position.x;
         transform.position = goPos;
 
-        if (transform.position.y < delimiterY.position.y)
+        if (transform.position.x < delimiterBanca.position.x)
         {
             seccionBanca.SetActiveContorno(true);
             seccionCancha.SetActiveContorno(false);
@@ -89,7 +91,7 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         transform.localScale = new Vector3(1f,1f,1f);
         escalado = false;
 
-        if(transform.position.y < delimiterY.position.y)
+        if(transform.position.x < delimiterBanca.position.x)
         {
             Debug.Log("SOLTADO SOBRE BANCA");
             transform.SetParent(bancaTransform, false);
@@ -97,7 +99,7 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         else
         {
             Debug.Log("SOLTADO SOBRE CANCHA");
-            transform.SetParent(canchaTransform, false);
+            transform.SetParent(canchaTransform, true);
         }
 
         seccionBanca.SetActiveContorno(false);
@@ -127,14 +129,19 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         estadisticasJugador.SetFecha(_fecha);
     }
 
-    public void GuardarEntradaDato(string _nombrePartido, string _tipoEntradaDato, DateTime _fecha, ResultadoEntradaDatos _res, Partido.TipoResultadoPartido _tipoResultado)
+    public void GuardarEntradaDato(string _nombrePartido, string _tipoEntradaDato, DateTime _fecha, ResultadoEntradaDatos _res, List<Evento> _eventos, Partido.TipoResultadoPartido _tipoResultado)
     {
-        jugadorFocus.GuardarEntradaDato(_tipoEntradaDato, estadisticasJugador, _nombrePartido, _fecha, _res, _tipoResultado);
+        jugadorFocus.GuardarEntradaDato(_tipoEntradaDato, estadisticasJugador, _nombrePartido, _fecha, _res, _eventos, _tipoResultado);
     }
 
     public void AgregarEstadisticasEquipo(Estadisticas _estEquipo)
     {
         Debug.Log("CANT: " + estadisticasJugador.GetCantidadCategorias());
         _estEquipo.AgregarEstadisticas(estadisticasJugador);
+    }
+
+    public Jugador GetJugador()
+    {
+        return jugadorFocus;
     }
 }

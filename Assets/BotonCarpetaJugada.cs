@@ -48,7 +48,7 @@ public class BotonCarpetaJugada : MonoBehaviour
     {
         if (_nuevoNombre != nombreCarpetaText.text)
         {
-            if (AppController.instance.ExistsJugada(_nuevoNombre.ToUpper()))
+            if (AppController.instance.VerificarNombreCarpeta(_nuevoNombre.ToUpper()))
             {
                 Debug.Log("NOMBRE EXISTENTE: " + _nuevoNombre);
                 panelPrincipalBiblioteca.ActivarMensajeError();

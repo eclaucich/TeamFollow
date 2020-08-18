@@ -1,15 +1,17 @@
 ﻿using System;
 public class EstadisticasPadel : EstadisticaDeporte
 {
-    public enum Estadisticas
+    public new enum Estadisticas
     {
-        WinnerDrive,
-        WinnerReves,
-        ErrorNoForzadoDrive,
-        ErrorNoForzadoReves,
-        Ace,
-        DobleFalta,
-        Sacada
+        WinnerDrive = 25,
+        WinnerReves = 26,
+        ErrorNoForzadoDrive = 27,
+        ErrorNoForzadoReves = 28,
+        Ace = 29,
+        DobleFalta = 30,
+        WinnerDrop = 31,
+        ErrorNoForzadoDrop = 32,
+        Sacada = 44
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)
@@ -65,18 +67,6 @@ public class EstadisticasPadel : EstadisticaDeporte
                     res[1] = "---";
                 }
                 break;
-            case (int)Estadisticas.ErrorNoForzadoReves:
-                if (idioma == AppController.Idiomas.Español)
-                {
-                    res[0] = "Error no forzado reves";
-                    res[1] = "ERV";
-                }
-                else if (idioma == AppController.Idiomas.Ingles)
-                {
-                    res[0] = "Backhand unforced error";
-                    res[1] = "EBK";
-                }
-                break;
             case (int)Estadisticas.WinnerDrive:
                 if (idioma == AppController.Idiomas.Español)
                 {
@@ -122,5 +112,10 @@ public class EstadisticasPadel : EstadisticaDeporte
         string[] nombresEnum = Enum.GetNames(typeof(Estadisticas));
 
         return nombresEnum[i].ToUpper();
+    }
+
+    public override Array GetEstadisticas()
+    {
+        return Enum.GetValues(typeof(Estadisticas));
     }
 }

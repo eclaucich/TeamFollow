@@ -8,6 +8,7 @@ public class PanelPartidosEquipo : Panel
 
     [SerializeField] private GameObject panel_partidos = null;
     [SerializeField] private GameObject panel_detalle_partido = null;
+    [SerializeField] private GameObject panelGraficaResumen = null;
 
     private List<GameObject> listaPaneles;
 
@@ -47,6 +48,7 @@ public class PanelPartidosEquipo : Panel
         listaPaneles = new List<GameObject>();
         listaPaneles.Add(panel_partidos);
         listaPaneles.Add(panel_detalle_partido);
+        listaPaneles.Add(panelGraficaResumen);
 
         prefabHeight = partidoprefab.GetComponent<RectTransform>().rect.height;
     }
@@ -61,12 +63,12 @@ public class PanelPartidosEquipo : Panel
         ActivarPanel(0);
 
         Screen.orientation = ScreenOrientation.Portrait;
-        AppController.instance.overlayPanel.gameObject.SetActive(true);
+        CanvasController.instance.overlayPanel.gameObject.SetActive(true);
 
         equipoFocus = AppController.instance.equipoActual;
 
-        AppController.instance.overlayPanel.SetNombrePanel(equipoFocus.GetNombre() + ": ESTADISTICAS GLOBALES", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel(equipoFocus.GetNombre() + ": GLOBAL STATISTICS", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel(equipoFocus.GetNombre() + ": ESTADISTICAS GLOBALES", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel(equipoFocus.GetNombre() + ": GLOBAL STATISTICS", AppController.Idiomas.Ingles);
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.DetalleEquipoPrincipal);
 
@@ -201,11 +203,11 @@ public class PanelPartidosEquipo : Panel
     {
         string nombrePartido = _partido.GetNombre();
 
-        equipoFocus.BorrarPartido(isPartido, nombrePartido);
+        equipoFocus.BorrarPartido(isPartido, nombrePartido.ToUpper());
 
         foreach (var jugador in equipoFocus.GetJugadores()) 
         {
-            jugador.BorrarPartido(isPartido, nombrePartido);
+            jugador.BorrarPartido(isPartido, nombrePartido.ToUpper());
         }
 
         //listaPartidosPrefabs.Remove(botonPartido.transform.parent.gameObject);

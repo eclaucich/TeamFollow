@@ -13,12 +13,9 @@ public static class LoadSystem
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
-        //PATH PRINCIPAL
-        //string path = Application.persistentDataPath + "/SaveData";
-
         if (Directory.Exists(pathEquipos))
         {
-
+            #region Equipo
             //CARGAR EQUIPOS
             string[] equiposDirectories = Directory.GetDirectories(pathEquipos);
 
@@ -35,7 +32,135 @@ public static class LoadSystem
 
                 equipoStream.Close();
 
+                #region Jugadores
+                //CARGAR JUGADORES
+                string pathJugadores = pathEquipo + "/jugadores";
 
+                if (Directory.Exists(pathJugadores))
+                {
+                    string[] jugadoresDirectories = Directory.GetDirectories(pathJugadores);
+
+                    foreach (var jugadorDir in jugadoresDirectories)
+                    {
+                        FileStream streamJugador = new FileStream(jugadorDir + "/jugador.txt", FileMode.Open);
+                        SaveDataJugador dataJugador = (SaveDataJugador)formatter.Deserialize(streamJugador);
+
+                        Jugador jugador = new Jugador(dataJugador);
+
+                        streamJugador.Close();
+
+                        #region Estadisticas globales jugadores
+                        //CARGAR ESTADISTICAS GLOBALES
+                        if (File.Exists(jugadorDir + "/estGlobalPartido.txt"))
+                        {
+                            FileStream estPartidoStream = new FileStream(jugadorDir + "/estGlobalPartido.txt", FileMode.Open);
+                            SaveDataEstadisticas dataEstPartido = (SaveDataEstadisticas)formatter.Deserialize(estPartidoStream);
+                            jugador.CargarEstadisticasGlobalesPartido(new Estadisticas(dataEstPartido));
+                            estPartidoStream.Close();
+                        }
+                        if (File.Exists(jugadorDir + "/estGlobalPractica.txt"))
+                        {
+                            FileStream estPracticaStream = new FileStream(jugadorDir + "/estGlobalPractica.txt", FileMode.Open);
+                            SaveDataEstadisticas dataEstPractica = (SaveDataEstadisticas)formatter.Deserialize(estPracticaStream);
+                            jugador.CargarEstadisticasGlobalesPractica(new Estadisticas(dataEstPractica));
+                            estPracticaStream.Close();
+                        }
+                        #endregion
+
+                        #region Partidos jugadores
+                        //CARGAR PARTIDOS
+                        if (Directory.Exists(jugadorDir + "/partidos"))
+                        {
+                            string pathPartidos = jugadorDir + "/partidos";
+
+                            string[] partidosDirectories = Directory.GetDirectories(pathPartidos);
+
+                            foreach (var partidoDir in partidosDirectories)
+                            {
+                                //string pathPartido = pathPartidos + partidoDir;
+
+                                FileStream streamPartido = new FileStream(partidoDir + "/partido.txt", FileMode.Open);
+                                SaveDataPartido dataPartido = (SaveDataPartido)formatter.Deserialize(streamPartido);
+
+                                FileStream streamPosicion = new FileStream(partidoDir + "/posicion.txt", FileMode.Open);
+                                string dataPosicion = (string)formatter.Deserialize(streamPosicion);
+
+                                FileStream streamEstadisticas = new FileStream(partidoDir + "/estadisticas.txt", FileMode.Open);
+                                SaveDataEstadisticas dataEstadisticas = (SaveDataEstadisticas)formatter.Deserialize(streamEstadisticas);
+
+                                FileStream streamResultado = new FileStream(partidoDir + "/resultado.txt", FileMode.Open);
+
+                                Partido _partido = new Partido(dataPartido, dataEstadisticas, jugador);
+
+                                if (equipo.GetDeporte() == Deportes.DeporteEnum.Tenis || equipo.GetDeporte() == Deportes.DeporteEnum.Padel || equipo.GetDeporte() == Deportes.DeporteEnum.Voley)
+                                {
+                                    SaveDataResultadoSets resPartidoSets = (SaveDataResultadoSets)formatter.Deserialize(streamResultado);
+                                    ResultadoSets _res = new ResultadoSets(resPartidoSets);
+                                    _partido.AgregarResultadoEntradaDatos(_res, Partido.TipoResultadoPartido.Sets);
+                                }
+                                else
+                                {
+                                    SaveDataResultadoNormal resPartidoNormal = (SaveDataResultadoNormal)formatter.Deserialize(streamResultado);
+                                    ResultadoNormal _res = new ResultadoNormal(resPartidoNormal);
+                                    _partido.AgregarResultadoEntradaDatos(_res, Partido.TipoResultadoPartido.Normal);
+                                }
+
+                                jugador.CargarPartido(_partido);
+
+                                streamPartido.Close();
+                                streamEstadisticas.Close();
+                            }
+                        }
+                        #endregion
+
+                        #region Practicas jugadores
+                        //CARGAR PRACTICAS
+                        if (Directory.Exists(jugadorDir + "/practicas"))
+                        {
+                            string pathPracticas = jugadorDir + "/practicas";
+
+                            string[] practicasDirectories = Directory.GetDirectories(pathPracticas);
+
+                            foreach (var practicaDir in practicasDirectories)
+                            {
+                                //string pathPractica = pathPracticas + practicaDir;
+
+                                FileStream streamPractica = new FileStream(practicaDir + "/partido.txt", FileMode.Open);
+                                SaveDataPartido dataPractica = (SaveDataPartido)formatter.Deserialize(streamPractica);
+
+                                FileStream streamEstadisticas = new FileStream(practicaDir + "/estadisticas.txt", FileMode.Open);
+                                SaveDataEstadisticas dataEstadisticas = (SaveDataEstadisticas)formatter.Deserialize(streamEstadisticas);
+
+                                FileStream streamResultado = new FileStream(practicaDir + "/resultado.txt", FileMode.Open);
+
+                                Partido _partido = new Partido(dataPractica, dataEstadisticas, jugador);
+
+                                if (equipo.GetDeporte() == Deportes.DeporteEnum.Tenis || equipo.GetDeporte() == Deportes.DeporteEnum.Padel || equipo.GetDeporte() == Deportes.DeporteEnum.Voley)
+                                {
+                                    SaveDataResultadoSets resPartidoSets = (SaveDataResultadoSets)formatter.Deserialize(streamResultado);
+                                    ResultadoSets _res = new ResultadoSets(resPartidoSets);
+                                    _partido.AgregarResultadoEntradaDatos(_res, Partido.TipoResultadoPartido.Sets);
+                                }
+                                else
+                                {
+                                    SaveDataResultadoNormal resPartidoNormal = (SaveDataResultadoNormal)formatter.Deserialize(streamResultado);
+                                    ResultadoNormal _res = new ResultadoNormal(resPartidoNormal);
+                                    _partido.AgregarResultadoEntradaDatos(_res, Partido.TipoResultadoPartido.Normal);
+                                }
+
+                                jugador.CargarPractica(_partido);
+
+                                streamPractica.Close();
+                                streamEstadisticas.Close();
+                            }
+                        }
+                        #endregion
+                        equipo.CargarJugador(jugador);
+                    }
+                }
+                #endregion
+
+                #region Estadisticas globales equipo
                 //CARGAR ESTADISTICAS GLOBALES
                 if (File.Exists(pathEquipo + "/estGlobalPartido.txt"))
                 {
@@ -52,8 +177,9 @@ public static class LoadSystem
                     equipo.CargarEstadisticasGlobalesPractica(new Estadisticas(dataEstPractica));
                     estPracticaStream.Close();
                 }
+                #endregion
 
-
+                #region Partidos equipo
                 //CARGAR PARTIDOS
                 if (Directory.Exists(pathEquipo + "/partidos"))
                 {
@@ -73,7 +199,7 @@ public static class LoadSystem
 
                         FileStream streamResultado = new FileStream(partidoDir + "/resultado.txt", FileMode.Open);
 
-                        Partido _partido = new Partido(dataPartido, dataEstadisticas);
+                        Partido _partido = new Partido(dataPartido, dataEstadisticas, equipo);
 
                         if (equipo.GetDeporte() == Deportes.DeporteEnum.Tenis || equipo.GetDeporte() == Deportes.DeporteEnum.Padel || equipo.GetDeporte() == Deportes.DeporteEnum.Voley)
                         {
@@ -95,8 +221,9 @@ public static class LoadSystem
                         streamEstadisticas.Close();
                     }
                 }
+                #endregion
 
-
+                #region Practica equipo
                 //CARGAR PRACTICAS
                 if (Directory.Exists(pathEquipo + "/practicas"))
                 {
@@ -116,7 +243,7 @@ public static class LoadSystem
 
                         FileStream streamResultado = new FileStream(practicaDir + "/resultado.txt", FileMode.Open);
 
-                        Partido _partido = new Partido(dataPractica, dataEstadisticas);
+                        Partido _partido = new Partido(dataPractica, dataEstadisticas, equipo);
 
                         if (equipo.GetDeporte() == Deportes.DeporteEnum.Tenis || equipo.GetDeporte() == Deportes.DeporteEnum.Padel || equipo.GetDeporte() == Deportes.DeporteEnum.Voley)
                         {
@@ -137,130 +264,12 @@ public static class LoadSystem
                         streamEstadisticas.Close();
                     }
                 }
+                #endregion
+                #endregion
 
+                
 
-                //CARGAR JUGADORES
-                string pathJugadores = pathEquipo + "/jugadores";
-
-                if (Directory.Exists(pathJugadores))
-                {
-                    string[] jugadoresDirectories = Directory.GetDirectories(pathJugadores);
-
-                    foreach (var jugadorDir in jugadoresDirectories)
-                    {
-                        FileStream streamJugador = new FileStream(jugadorDir + "/jugador.txt", FileMode.Open);
-                        SaveDataJugador dataJugador = (SaveDataJugador)formatter.Deserialize(streamJugador);
-
-                        Jugador jugador = new Jugador(dataJugador);
-
-                        streamJugador.Close();
-
-
-                        //CARGAR ESTADISTICAS GLOBALES
-                        if (File.Exists(jugadorDir + "/estGlobalPartido.txt"))
-                        {
-                            FileStream estPartidoStream = new FileStream(jugadorDir + "/estGlobalPartido.txt", FileMode.Open);
-                            SaveDataEstadisticas dataEstPartido = (SaveDataEstadisticas)formatter.Deserialize(estPartidoStream);
-                            jugador.CargarEstadisticasGlobalesPartido(new Estadisticas(dataEstPartido));
-                            estPartidoStream.Close();
-                        }
-                        if (File.Exists(jugadorDir + "/estGlobalPractica.txt"))
-                        {
-                            FileStream estPracticaStream = new FileStream(jugadorDir + "/estGlobalPractica.txt", FileMode.Open);
-                            SaveDataEstadisticas dataEstPractica = (SaveDataEstadisticas)formatter.Deserialize(estPracticaStream);
-                            jugador.CargarEstadisticasGlobalesPractica(new Estadisticas(dataEstPractica));
-                            estPracticaStream.Close();
-                        }
-
-
-                        //CARGAR PARTIDOS
-                        if (Directory.Exists(jugadorDir + "/partidos"))
-                        {
-                            string pathPartidos = jugadorDir + "/partidos";
-
-                            string[] partidosDirectories = Directory.GetDirectories(pathPartidos);
-
-                            foreach (var partidoDir in partidosDirectories)
-                            {
-                                //string pathPartido = pathPartidos + partidoDir;
-
-                                FileStream streamPartido = new FileStream(partidoDir + "/partido.txt", FileMode.Open);
-                                SaveDataPartido dataPartido = (SaveDataPartido)formatter.Deserialize(streamPartido);
-
-                                FileStream streamEstadisticas = new FileStream(partidoDir + "/estadisticas.txt", FileMode.Open);
-                                SaveDataEstadisticas dataEstadisticas = (SaveDataEstadisticas)formatter.Deserialize(streamEstadisticas);
-
-                                FileStream streamResultado = new FileStream(partidoDir + "/resultado.txt", FileMode.Open);
-
-                                Partido _partido = new Partido(dataPartido, dataEstadisticas);
-
-                                if (equipo.GetDeporte() == Deportes.DeporteEnum.Tenis || equipo.GetDeporte() == Deportes.DeporteEnum.Padel || equipo.GetDeporte() == Deportes.DeporteEnum.Voley)
-                                {
-                                    SaveDataResultadoSets resPartidoSets = (SaveDataResultadoSets)formatter.Deserialize(streamResultado);
-                                    ResultadoSets _res = new ResultadoSets(resPartidoSets);
-                                    _partido.AgregarResultadoEntradaDatos(_res, Partido.TipoResultadoPartido.Sets);
-                                }
-                                else
-                                {
-                                    SaveDataResultadoNormal resPartidoNormal = (SaveDataResultadoNormal)formatter.Deserialize(streamResultado);
-                                    ResultadoNormal _res = new ResultadoNormal(resPartidoNormal);
-                                    _partido.AgregarResultadoEntradaDatos(_res, Partido.TipoResultadoPartido.Normal);
-                                }
-
-                                jugador.CargarPartido(_partido);
-
-                                streamPartido.Close();
-                                streamEstadisticas.Close();
-                            }
-                        }
-
-
-                        //CARGAR PRACTICAS
-                        if (Directory.Exists(jugadorDir + "/practicas"))
-                        {
-                            string pathPracticas = jugadorDir + "/practicas";
-
-                            string[] practicasDirectories = Directory.GetDirectories(pathPracticas);
-
-                            foreach (var practicaDir in practicasDirectories)
-                            {
-                                //string pathPractica = pathPracticas + practicaDir;
-
-                                FileStream streamPractica = new FileStream(practicaDir + "/partido.txt", FileMode.Open);
-                                SaveDataPartido dataPractica = (SaveDataPartido)formatter.Deserialize(streamPractica);
-
-                                FileStream streamEstadisticas = new FileStream(practicaDir + "/estadisticas.txt", FileMode.Open);
-                                SaveDataEstadisticas dataEstadisticas = (SaveDataEstadisticas)formatter.Deserialize(streamEstadisticas);
-
-                                FileStream streamResultado = new FileStream(practicaDir + "/resultado.txt", FileMode.Open);
-
-                                Partido _partido = new Partido(dataPractica, dataEstadisticas);
-
-                                if (equipo.GetDeporte() == Deportes.DeporteEnum.Tenis || equipo.GetDeporte() == Deportes.DeporteEnum.Padel || equipo.GetDeporte() == Deportes.DeporteEnum.Voley)
-                                {
-                                    SaveDataResultadoSets resPartidoSets = (SaveDataResultadoSets)formatter.Deserialize(streamResultado);
-                                    ResultadoSets _res = new ResultadoSets(resPartidoSets);
-                                    _partido.AgregarResultadoEntradaDatos(_res, Partido.TipoResultadoPartido.Sets);
-                                }
-                                else
-                                {
-                                    SaveDataResultadoNormal resPartidoNormal = (SaveDataResultadoNormal)formatter.Deserialize(streamResultado);
-                                    ResultadoNormal _res = new ResultadoNormal(resPartidoNormal);
-                                    _partido.AgregarResultadoEntradaDatos(_res, Partido.TipoResultadoPartido.Normal);
-                                }
-
-                                jugador.CargarPractica(_partido);
-
-                                streamPractica.Close();
-                                streamEstadisticas.Close();
-                            }
-                        }
-
-                        equipo.CargarJugador(jugador);
-                    }
-                }
-
-
+                #region Planillas
                 //CARGAR PLANILLAS
                 string pathPlanillas = pathEquipos + equipo.GetNombre() + "/planillas";
 
@@ -292,12 +301,14 @@ public static class LoadSystem
                         }
                     }
                 }
+                #endregion
 
                 //Agregar Equipo a la lista de Equipos
                 AppController.instance.AgregarEquipo(equipo);
             }
         }
 
+        #region Jugadas
         //Cargar imagenes
         if (Directory.Exists(pathImagenJugadas))
         {
@@ -352,6 +363,6 @@ public static class LoadSystem
                 AppController.instance.AgregarCarpetaJugada(new CarpetaJugada("SIN CARPETA"));
             }
         }
+        #endregion
     }
-
 }

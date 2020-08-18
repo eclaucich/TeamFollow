@@ -2,23 +2,23 @@
 
 public class EstadisticasBasket : EstadisticaDeporte
 {
-    public enum Estadisticas
+    public new enum Estadisticas
     {
-        Doble,
-        Triple,
-        Pase,
-        Libre,
-        Volcada,
-        Recuperacion,
-        Pared,
-        Bloqueo,
-        PerdidaDeMarca,
-        Falta,
-        Amarilla,
-        Roja,
-        DisputaGanada,
-        DisputaPerdida,
-        Tecnica
+        Doble = 16,
+        Triple = 17,
+        Libre = 18,
+        Volcada = 19,
+        Pared = 20,
+        Bloqueo = 21,
+        DisputaGanada = 22,
+        DisputaPerdida = 23,
+        Tecnica = 24,
+        Pase=1,
+        Recuperacion=4,
+        PerdidaDeMarca=5,
+        Falta=7,
+        Amarilla=2,
+        Roja=3,
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)
@@ -227,5 +227,10 @@ public class EstadisticasBasket : EstadisticaDeporte
         string[] nombresEnum = Enum.GetNames(typeof(Estadisticas));
 
         return nombresEnum[i].ToUpper();
+    }
+
+    public override Array GetEstadisticas()
+    {
+        return Enum.GetValues(typeof(Estadisticas));
     }
 }

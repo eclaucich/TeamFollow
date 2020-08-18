@@ -2,24 +2,24 @@
 
 public class EstadisticasFutbol : EstadisticaDeporte
 {
-    public enum Estadisticas
+    public new enum Estadisticas
     {
-        Gol,
-        Pase,
-        Amarilla,
-        Roja,
-        Recuperacion,
-        PerdidaDeMarca,
-        Offside,
-        Falta,
-        Intercepcion,
-        PerdidaDeBalon,
-        ProposicionDeJugada,
-        Tiro,
-        TiroLibre,
-        Corner,
-        Lateral,
-        Penal
+        Gol = 0,
+        Pase = 1,
+        Amarilla = 2,
+        Roja = 3,
+        Recuperacion = 4,
+        PerdidaDeMarca = 5,
+        Offside = 6,
+        Falta = 7,
+        Intercepcion = 8,
+        PerdidaDeBalon = 9,
+        ProposicionDeJugada = 10,
+        Tiro = 11,
+        TiroLibre = 12,
+        Corner = 13,
+        Lateral = 14,
+        Penal = 15,
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)
@@ -240,5 +240,10 @@ public class EstadisticasFutbol : EstadisticaDeporte
         string[] nombresEnum = Enum.GetNames(typeof(Estadisticas));
 
         return nombresEnum[i].ToUpper();
+    }
+
+    public override Array GetEstadisticas()
+    {
+        return Enum.GetValues(typeof(Estadisticas));
     }
 }

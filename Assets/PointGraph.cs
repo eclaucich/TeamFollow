@@ -26,7 +26,7 @@ public class PointGraph : MonoBehaviour
     {
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.Graficas);
         CanvasController.instance.botonDespliegueMenu.SetActive(true);
-        AppController.instance.overlayPanel.gameObject.SetActive(true);
+        CanvasController.instance.overlayPanel.gameObject.SetActive(true);
         panelPartidosEquipo.MostrarPanelDetallePartido(partidoPadre, true);
         panelGraficoEstadistica.gameObject.SetActive(false);
         panelJugadores.gameObject.SetActive(false);

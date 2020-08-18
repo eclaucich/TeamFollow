@@ -50,7 +50,7 @@ public class PanelNuevoEquipo : Panel {
     {
         string nombreNuevoEquipo = inputNombreNuevoEquipo.text.ToUpper();
 
-        if(AppController.instance.BuscarPorNombre(nombreNuevoEquipo) != -1)
+        if(AppController.instance.BuscarEquipoPorNombre(nombreNuevoEquipo) != null)
         {
             mensajeError.SetText("EQUIPO EXISTENTE!", AppController.Idiomas.Español);
             mensajeError.SetText("EXISTING TEAM!", AppController.Idiomas.Ingles);

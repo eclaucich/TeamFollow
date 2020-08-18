@@ -16,8 +16,8 @@ public class PanelPrincipalDetalleEquipo : Panel
     {
         Equipo equipoActual = AppController.instance.equipoActual;
 
-        AppController.instance.overlayPanel.SetNombrePanel("EQUIPO: " + equipoActual.GetNombre(), AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("TEAM: " + equipoActual.GetNombre(), AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("EQUIPO: " + equipoActual.GetNombre(), AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("TEAM: " + equipoActual.GetNombre(), AppController.Idiomas.Ingles);
 
         if (AppController.instance.equipoActual.GetDeporte() == Deportes.DeporteEnum.Tenis)
         {

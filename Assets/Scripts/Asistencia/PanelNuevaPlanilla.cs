@@ -26,7 +26,7 @@ public class PanelNuevaPlanilla : PanelAsistencia {
 
     public void SetPanelNuevaPlanilla()
     {
-        if (AppController.instance.GetEquipoActual() != equipo)
+        if (AppController.instance.equipoActual != equipo)
             equipo = AppController.instance.equipoActual;
 
         jugadores = equipo.GetJugadores();

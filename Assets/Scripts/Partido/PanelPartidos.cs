@@ -94,8 +94,8 @@ public class PanelPartidos : Panel
         Debug.Log("PARTIDOS");
         isPartido = true;
 
-        AppController.instance.overlayPanel.SetNombrePanel("PARTIDOS DE: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("MATCHES OF: " + jugadorFocus.GetNombre(), AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("PARTIDOS DE: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("MATCHES OF: " + jugadorFocus.GetNombre(), AppController.Idiomas.Ingles);
         //imagenPartido.color = colorSeleccionado;
         //imagenPractica.color = colorNoSeleccionado;
 
@@ -130,8 +130,8 @@ public class PanelPartidos : Panel
     {
         isPartido = false;
 
-        AppController.instance.overlayPanel.SetNombrePanel("PRACTICAS DE: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("PRACTICES OF: " + jugadorFocus.GetNombre(), AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("PRACTICAS DE: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("PRACTICES OF: " + jugadorFocus.GetNombre(), AppController.Idiomas.Ingles);
 
         //imagenPartido.color = colorNoSeleccionado;
         //imagenPractica.color = colorSeleccionado;
@@ -167,8 +167,8 @@ public class PanelPartidos : Panel
     {
         Estadisticas estadisticas = isPartido ? jugadorFocus.GetEstadisticasPartido() : jugadorFocus.GetEstadisticasPractica();
 
-        AppController.instance.overlayPanel.SetNombrePanel("ESATADISTICAS GLOBALES DE JUGADOR: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("GLOBAL STATISTICS OF: " + jugadorFocus.GetNombre(), AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("ESATADISTICAS GLOBALES DE JUGADOR: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("GLOBAL STATISTICS OF: " + jugadorFocus.GetNombre(), AppController.Idiomas.Ingles);
 
         GetComponentInParent<PanelJugadores>().MostrarPanelDetalleJugador(null, jugadorFocus.GetNombre(), estadisticas);
     }
@@ -177,7 +177,7 @@ public class PanelPartidos : Panel
 
     public void BorrarPartido(Partido _partido)
     {
-        string nombrePartido = _partido.GetNombre();
+        string nombrePartido = _partido.GetNombre().ToUpper();
 
         List<Partido> partidos = isPartido ? jugadorFocus.GetPartidos() : jugadorFocus.GetPracticas();
 

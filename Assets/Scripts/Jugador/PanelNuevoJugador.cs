@@ -173,6 +173,21 @@ public class PanelNuevoJugador : Panel
             return;
         }
 
+        foreach (var input in inputsInt)
+            ij.SetInfoInt(input);
+
+        int numCamiseta = -1;
+        if(int.TryParse(ij.GetNumeroCamiseta(), out numCamiseta))
+        {
+            if(numCamiseta < 0 || !equipoActual.VerficarNumeroCamiseta(ij.GetNumeroCamiseta()))
+            {
+                mensajeError.SetText("NUMERO DE CAMISETA EN USO", AppController.Idiomas.Español);
+                mensajeError.SetText("SHIR NUMBER IN USE", AppController.Idiomas.Ingles);
+                mensajeError.Activar();
+                return;
+            }
+        }
+
         foreach (var input in inputsString)
             ij.SetInfoString(input);
 

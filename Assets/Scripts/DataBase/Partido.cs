@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 public class Partido
@@ -6,6 +7,8 @@ public class Partido
     private string nombre;
     private Estadisticas estadisticas;
     private DateTime fecha;
+    private List<Evento> eventos;
+    private string posicion;
 
     public enum TipoResultadoPartido
     {
@@ -20,20 +23,45 @@ public class Partido
         nombre = _nombre;
         estadisticas = _estadisticas;
         fecha = _fecha;
+        posicion = "";
     }
 
-    public Partido(SaveDataPartido dataPartido, SaveDataEstadisticas dataEstadisticas)
+    public Partido(SaveDataPartido dataPartido, SaveDataEstadisticas dataEstadisticas, Equipo _equipo)
     {
         nombre = dataPartido.GetNombre();
         estadisticas = new Estadisticas(dataEstadisticas);
         fecha = dataPartido.GetFecha();
+        posicion = "";
+
+        eventos = new List<Evento>();
+        foreach (var evento in dataPartido.eventos)
+        {
+            eventos.Add(new Evento(evento, _equipo));
+        }
+    }
+
+    public Partido(SaveDataPartido dataPartido, SaveDataEstadisticas dataEstadisticas, Jugador _jugador)
+    {
+        nombre = dataPartido.GetNombre();
+        estadisticas = new Estadisticas(dataEstadisticas);
+        fecha = dataPartido.GetFecha();
+        posicion = _jugador.GetPosicionActual();
+
+        eventos = new List<Evento>();
+        foreach (var evento in dataPartido.eventos)
+        {
+            eventos.Add(new Evento(evento, _jugador));
+        }
     }
 
     public string GetNombre()
     {
         return nombre;
     }
-
+    public string GetPosicion()
+    {
+        return posicion;
+    }
     public Estadisticas GetEstadisticas()
     {
         return estadisticas;
@@ -62,5 +90,15 @@ public class Partido
     public TipoResultadoPartido GetTipoResultadoPartido()
     {
         return tipoResultado;
+    }
+
+    public List<Evento> GetEventos()
+    {
+        return eventos;
+    }
+
+    public void SetListaEventos(List<Evento> _eventos)
+    {
+        eventos = _eventos;
     }
 }

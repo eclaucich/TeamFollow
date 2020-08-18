@@ -7,12 +7,23 @@ public class TextScript : MonoBehaviour {
     [SerializeField] private TextLanguage inicialEstadistica = null;
 
     private Toggle tgl;
+    private EstadisticaDeporte.Estadisticas tipoEstadisticaFocus;
 
     private void Start()
     {
         tgl = GetComponent<Toggle>();
         tgl.isOn = false;
         ToggleColor();
+    }
+
+    public void SetTipoEstadistica(EstadisticaDeporte.Estadisticas _tipoEstadistica)
+    {
+        tipoEstadisticaFocus = _tipoEstadistica;
+    }
+
+    public EstadisticaDeporte.Estadisticas GetTipoEstadisticaFocus()
+    {
+        return tipoEstadisticaFocus;
     }
 
     public void SetName(string name_, string inicial_, AppController.Idiomas idioma = AppController.Idiomas.Español)

@@ -1,21 +1,21 @@
 ﻿using System;
 public class EstadisticasRugby : EstadisticaDeporte
 {
-    public enum Estadisticas
+    public new enum Estadisticas
     {
-        Takle,
-        KnockOn,
-        Drop,
-        Falta,
-        Lateral,
-        Offside,
-        PassForward,
-        Try,
-        Penal,
-        Conversion,
-        Amarilla,
-        Roja,
-        Intercepcion
+        Takle = 33,
+        KnockOn = 34,
+        Drop = 35,
+        PassForward = 36,
+        Try = 37,
+        Conversion = 38,
+        Falta =7,
+        Lateral=14,
+        Offside=6,
+        Penal=15,
+        Amarilla=2,
+        Roja=3,
+        Intercepcion=8
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)
@@ -200,5 +200,10 @@ public class EstadisticasRugby : EstadisticaDeporte
         string[] nombresEnum = Enum.GetNames(typeof(Estadisticas));
 
         return nombresEnum[i].ToUpper();
+    }
+
+    public override Array GetEstadisticas()
+    {
+        return Enum.GetValues(typeof(Estadisticas));
     }
 }

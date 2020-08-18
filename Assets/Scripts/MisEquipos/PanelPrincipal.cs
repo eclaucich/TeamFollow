@@ -46,8 +46,8 @@ public class PanelPrincipal : Panel {
         //CanvasController.instance.botonDespliegueMenu.SetActive(true);
         cantMinima = (int)Mathf.Ceil(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + seccionEquiposTransform.GetComponent<VerticalLayoutGroup>().spacing));
 
-        AppController.instance.overlayPanel.SetNombrePanel("MIS EQUIPOS", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("MY TEAMS", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("MIS EQUIPOS", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("MY TEAMS", AppController.Idiomas.Ingles);
 
         if (gameObject.activeSelf)
         {
@@ -55,7 +55,7 @@ public class PanelPrincipal : Panel {
             CrearPrefabs();
         }
 
-        AppController.instance.SetEquipoActual(null);
+        AppController.instance.equipoActual = null;
 
         ActivarYDesactivarAdviceText();
     }

@@ -10,6 +10,7 @@ public class PanelJugadores : MonoBehaviour {
     [SerializeField] private GameObject panel_partidos = null;         //2
     [SerializeField] private GameObject panel_nuevoJugador = null;     //3
     [SerializeField] private GameObject panel_infoJugador = null;      //4
+    [SerializeField] private GameObject panelGraficaResumen = null;
 
     private List<GameObject> listaPaneles;
 
@@ -24,6 +25,7 @@ public class PanelJugadores : MonoBehaviour {
         listaPaneles.Add(panel_partidos);
         listaPaneles.Add(panel_nuevoJugador);
         listaPaneles.Add(panel_infoJugador);
+        listaPaneles.Add(panelGraficaResumen);
     }
 
 
@@ -54,7 +56,7 @@ public class PanelJugadores : MonoBehaviour {
         if (!gameObject.activeSelf)
             gameObject.SetActive(true);
         CanvasController.instance.botonDespliegueMenu.SetActive(true);
-        AppController.instance.overlayPanel.gameObject.SetActive(true);
+        CanvasController.instance.overlayPanel.gameObject.SetActive(true);
 
         ActivarPanel(2);
 
@@ -80,15 +82,14 @@ public class PanelJugadores : MonoBehaviour {
         ActivarPanel(4);
 
         jugadorFocus = AppController.instance.jugadorActual;
-         
-        AppController.instance.overlayPanel.SetNombrePanel(jugadorFocus.GetNombre() + ": ESTADISTICAS", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel(jugadorFocus.GetNombre() + ": STATISTICS", AppController.Idiomas.Ingles);
+
+        CanvasController.instance.overlayPanel.SetNombrePanel(jugadorFocus.GetNombre() + ": ESTADISTICAS", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel(jugadorFocus.GetNombre() + ": STATISTICS", AppController.Idiomas.Ingles);
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.JugadoresPrincipal);
 
         panel_infoJugador.GetComponent<PanelInfoJugador>().SetearPanelInfoJugador(jugadorFocus);  
     }
-     
 
     public void SetEstadsiticasFocus(Estadisticas estadisticas)
     {

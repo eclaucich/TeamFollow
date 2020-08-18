@@ -8,33 +8,13 @@ public class AppController : MonoBehaviour {
     [SerializeField] public Font textFont = null;
     [SerializeField] public Font numberFont = null;
 
-    /*[SerializeField] public Texture2D texturaPanelNormal = null;
-    [SerializeField] public Texture2D texturaPanelFutbol = null;
-    [SerializeField] public Texture2D texturaPanelHockeyPatines = null;
-    [SerializeField] public Texture2D texturaPanelHockeyCesped = null;
-    [SerializeField] public Texture2D texturaPanelHandball = null;
-    [SerializeField] public Texture2D texturaPanelRugby= null;
-    [SerializeField] public Texture2D texturaPanelTenis = null;
-    [SerializeField] public Texture2D texturaPanelPadel = null;
-    [SerializeField] public Texture2D texturaPanelBasket = null;
-    [SerializeField] public Texture2D texturaPanelSoftball = null;
-    [SerializeField] public Texture2D texturaPanelVoley = null;*/
-
-    //[SerializeField] public GameObject panelConfirmacionBorradoEquipo = null;
-    //[SerializeField] public GameObject panelConfirmacionBorradoJugador = null;
-    [SerializeField] public OverlayPanel overlayPanel = null;
-
     [SerializeField] private Text resolucionText = null;
 
-    public static AppController instance = null;                                            //Instancia estatica del controlador
-    public List<Equipo> equipos;                                                            //Lista de equipos en la app
-    public Equipo equipoActual;                                                            //Equipo al cual se le esta dando foco en el momento
+    public static AppController instance = null;
+    public List<Equipo> equipos;
+    public Equipo equipoActual;
     public Jugador jugadorActual;
 
-    /*private List<Texture> listaTexturas;
-    private Texture textureActual;*/
-
-    public List<ImagenBiblioteca> imagenesGuardadas;
     public List<CarpetaJugada> carpetasJugadas;
 
     public int resWidth;
@@ -46,46 +26,19 @@ public class AppController : MonoBehaviour {
         Ingles = 1
     };
     public Idiomas idioma;
-
-    //SOLO DE DEBUG!!
-    public void ToogleLanguage()
-    {
-        if (idioma == Idiomas.Español)
-            idioma = Idiomas.Ingles;
-        else
-            idioma = Idiomas.Español;
-    }
     
     private void Awake()
     {
-        if(instance == null)                                                                //Control del singleton
-        {
+        if(instance == null)
             instance = this;
-        }
         else
-        {
             Destroy(instance);
-        }
 
-        equipos = new List<Equipo>();                                                       //Inicializar equipos
-        equipoActual = null;                                                                //No hay equipo enfocado al comenzar
+        equipos = new List<Equipo>();
+        equipoActual = null;
         jugadorActual = null;
-        imagenesGuardadas = new List<ImagenBiblioteca>();
 
         carpetasJugadas = new List<CarpetaJugada>();
-
-        /*listaTexturas = new List<Texture>();
-        listaTexturas.Add(texturaPanelBasket);
-        listaTexturas.Add(texturaPanelFutbol);
-        listaTexturas.Add(texturaPanelHandball);
-        listaTexturas.Add(texturaPanelHockeyCesped);
-        listaTexturas.Add(texturaPanelHockeyPatines);
-        listaTexturas.Add(texturaPanelPadel);
-        listaTexturas.Add(texturaPanelRugby);
-        listaTexturas.Add(texturaPanelSoftball);
-        listaTexturas.Add(texturaPanelTenis);
-        listaTexturas.Add(texturaPanelVoley);
-        listaTexturas.Add(texturaPanelNormal);*/
 
         resWidth = Screen.currentResolution.width;
         resHeight = Screen.currentResolution.height;
@@ -94,32 +47,40 @@ public class AppController : MonoBehaviour {
         LoadSystem.LoadData();
 
         DontDestroyOnLoad(this);
-
-        //Screen.SetResolution(720, 1280, true);
-
-
-        //textureActual = texturaPanelNormal;
-
-        idioma = Idiomas.Español;
     }
 
 
+    #region Control de equipos
     public void AgregarEquipo(Equipo equipo)
     {
         equipos.Add(equipo);
         SaveSystem.GuardarEquipo(equipo);
     }
-
-    public void AgregarImagen(ImagenBiblioteca imagen_)
+    public void BorrarEquipo(Equipo _equipo)
     {
-        imagenesGuardadas.Add(imagen_);
-    }
+        if (equipos.Contains(_equipo))
+        {
+            SaveSystem.BorrarEquipo(_equipo);
 
+            equipos.Remove(_equipo);
+        }
+    }
+    public Equipo BuscarEquipoPorNombre(string nombreEquipo)
+    {
+        foreach (var equipo in equipos)
+        {
+            if (equipo.GetNombre().ToUpper() == nombreEquipo.ToUpper())
+                return equipo;
+        }
+        return null;
+    }
+    #endregion
+
+    #region Control de carpetas de biblioteca
     public void AgregarCarpetaJugada(CarpetaJugada _carpeta)
     {
         carpetasJugadas.Add(_carpeta);
     }
-
     public bool VerificarNombreCarpeta(string _nombreCarpeta)
     {
         foreach (var carpeta in carpetasJugadas)
@@ -129,91 +90,6 @@ public class AppController : MonoBehaviour {
         }
         return true;
     }
-
-    public void BorrarEquipo(string nombreEquipo)                                           //Borrar equipo de la lista de equipos
-    {
-        int index = BuscarPorNombre(nombreEquipo);                                          //Se busca el equipo por su nombre (el nombre de cada equipo es unico)
-
-        if (index < 0) return;                                                              //Asegurar que se haya encontrado
-
-        SaveSystem.BorrarEquipo(equipos[index]);
-
-        equipos.RemoveAt(index);                                                            //Borrar equipo
-    }
-
-    public int BuscarPorNombre(string nombreEquipo)                                         //Devuelve el indice de un equipo en la lista
-    {
-        for (int i = 0; i < equipos.Count; i++)
-        {
-            if(equipos[i].GetNombre() == nombreEquipo)
-            {
-                return i;
-            }
-        }
-
-        return -1;                                                                          //Equipo no encontrado -> indice invalido
-    }
-
-    public ImagenBiblioteca BuscarJugada(string _nombre)
-    {
-        foreach (var jugada in imagenesGuardadas)
-        {
-            if (jugada.GetNombre() == _nombre)
-                return jugada;
-        }
-        return null;
-    }
-
-    public Equipo GetEquipoActual()                                                         //Devuelve el equipo enfocada actualmente
-    {
-        return equipoActual;
-    }
-
-    public void SetEquipoActual(Equipo equipo_)                                             //Setea el equipo enfocado
-    {
-        equipoActual = equipo_;
-    }
-
-    /*public void ChangeTexture(int i)
-    {
-        //Debug.Log("Entro1");
-        if(i < 0)
-        {
-            //Debug.Log("Entro2");
-            textureActual = texturaPanelNormal;
-        }
-    }*/
-
-    /*public void UpdateTexture()
-    {
-        //Debug.Log("UPDATED");
-        if (equipoActual != null)
-        {
-            textureActual = listaTexturas[(int)equipoActual.GetDeporte()];
-        }
-        else
-        {
-            textureActual = texturaPanelNormal;
-        }
-    }*/
-
-    /*public Texture GetTextureActual()
-    {
-        //UpdateTexture();
-        return textureActual;
-    }*/
-
-    public bool ExistsJugada(string nombre_)
-    {
-        foreach (var imagen in imagenesGuardadas)
-        {
-            if (imagen.GetNombre() == nombre_)
-                return true;
-        }
-
-        return false;
-    }
-
     public void BorrarCarpeta(CarpetaJugada _carpeta)
     {
         if (!carpetasJugadas.Contains(_carpeta))
@@ -222,4 +98,16 @@ public class AppController : MonoBehaviour {
         carpetasJugadas.Remove(_carpeta);
         SaveSystem.BorrarCarpeta(_carpeta);
     }
+    #endregion
+
+    #region Auxiliares
+    //SOLO DE DEBUG!!
+    public void ToogleLanguage()
+    {
+        if (idioma == Idiomas.Español)
+            idioma = Idiomas.Ingles;
+        else
+            idioma = Idiomas.Español;
+    }
+    #endregion
 }

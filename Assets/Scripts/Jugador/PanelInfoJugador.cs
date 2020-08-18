@@ -65,8 +65,8 @@ public class PanelInfoJugador : Panel
 
     public void SetearPanelInfoJugador(Jugador jugador)
     {
-        AppController.instance.overlayPanel.SetNombrePanel("JUGADOR: " + jugador.GetNombre(), AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("PLAYER: " + jugador.GetNombre(), AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("JUGADOR: " + jugador.GetNombre(), AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("PLAYER: " + jugador.GetNombre(), AppController.Idiomas.Ingles);
 
         textEditando.SetActive(false);
         botonGuardarCambios.SetActive(false);
@@ -224,19 +224,24 @@ public class PanelInfoJugador : Panel
             return;
         }
 
-        /*foreach (var input in inputsObligatorios)
+
+        foreach (var input in inputsInt)
+            ij.SetInfoInt(input);
+
+        int numCamiseta = -1;
+        if (int.TryParse(ij.GetNumeroCamiseta(), out numCamiseta))
         {
-            if (input.GetPlaceholder() == "")
+            if (numCamiseta < 0 || !AppController.instance.equipoActual.VerficarNumeroCamiseta(ij.GetNumeroCamiseta()))
             {
-                //mensajeCampoObligatorio.gameObject.SetActive(true);
+                mensajeError.SetText("NUMERO DE CAMISETA EN USO", AppController.Idiomas.Español);
+                mensajeError.SetText("SHIR NUMBER IN USE", AppController.Idiomas.Ingles);
+                mensajeError.Activar();
                 return;
             }
-            ij.SetInfoObligatoriaPlaceholder(input);
-        }*/
-
+        }
 
         foreach (var input in inputsString)
-            ij.SetInfoStringPlaceholder(input);
+            ij.SetInfoString(input);
 
         foreach (var input in inputsEspecial)
             ij.SetInfoEspecial(input);

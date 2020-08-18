@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PanelCrearJugadas : MonoBehaviour
 {
     [SerializeField] private Image imagenBotonFicha = null;
-    [SerializeField] private PanelEdicion panelEdicion = null;
+    [SerializeField] protected PanelEdicion panelEdicion = null;
 
     protected GameObject objectoActual;
     protected Herramienta herramientaActual;

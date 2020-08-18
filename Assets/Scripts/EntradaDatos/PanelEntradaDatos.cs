@@ -41,8 +41,8 @@ public class PanelEntradaDatos : MonoBehaviour {
         //panel_nuevaEntradaDatos.SetActive(false);
         panel_seleccionEstadisticas.SetActive(true);
 
-        AppController.instance.overlayPanel.SetNombrePanel("SELECCION ESTADISTICAS", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("STATISTICS SELECTION", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("SELECCION ESTADISTICAS", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("STATISTICS SELECTION", AppController.Idiomas.Ingles);
 
         panel_seleccionEstadisticas.GetComponent<PanelSeleccionEstadisticas>().SetearPanelEstadisticas();
 

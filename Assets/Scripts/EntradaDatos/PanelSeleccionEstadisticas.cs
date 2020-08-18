@@ -71,8 +71,8 @@ public class PanelSeleccionEstadisticas : Panel {
 
     private void Start()
     {
-        AppController.instance.overlayPanel.SetNombrePanel("SELECCION ESTADISTICAS", AppController.Idiomas.Español);
-        AppController.instance.overlayPanel.SetNombrePanel("STATISTICS SELECTION", AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("SELECCION ESTADISTICAS", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("STATISTICS SELECTION", AppController.Idiomas.Ingles);
     }
 
     private void FixedUpdate()
@@ -103,13 +103,26 @@ public class PanelSeleccionEstadisticas : Panel {
     /// 
     /// Se obtiene una lista con los nombres de las estadísticas del deporte adecuado
     /// 
-    public List<string> GetListaEstadisticas()
+    public List<EstadisticaDeporte.Estadisticas> GetListaEstadisticas()
     {
         for (int i = 0; i < listaPaneles.Count; i++)
         {
             if (listaPaneles[i].gameObject.activeSelf)
             {
                 return listaPaneles[i].GetListaEstadisticasActivas();
+            }
+        }
+
+        return null;
+    }
+
+    public List<string> GetListaNombreEstadisticas()
+    {
+        for (int i = 0; i < listaPaneles.Count; i++)
+        {
+            if (listaPaneles[i].gameObject.activeSelf)
+            {
+                return listaPaneles[i].GetListaNombreEstadisticasActivas();
             }
         }
 

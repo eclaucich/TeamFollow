@@ -28,6 +28,7 @@ public class InfoJugador
         infoString["CIUDAD"] = "";
         infoString["PROVINCIA"] = "";
         infoString["CATEGORIA"] = "";
+        infoString["POSICION"] = "";
 
         /*infoString["DNI"] = "0";
         infoString["ALTURA"] = "0";
@@ -36,6 +37,7 @@ public class InfoJugador
         infoString["NUMERO CONTACTO EMERGENCIA"] = "0";*/
 
         //ENTEROS
+        infoInt["NUMERO CAMISETA"] = "-1";
         infoInt["DNI"] = "0";
         infoInt["ALTURA"] = "0";
         infoInt["PESO"] = "0";
@@ -66,76 +68,77 @@ public class InfoJugador
         fechaNac = info_.fechaNac;
     }
 
+    #region Getters de la info de cada tipo
     public Dictionary<string, string> GetInfoObligatoria()
     {
         return infoObligatoria;
     }
-
     public Dictionary<string, string> GetInfoString()
     {
         return infoString;
     }
-
     public Dictionary<string , string> GetInfoInt()
     {
         return infoInt;
     }
-
     public Dictionary<string, string> GetInfoEspecial()
     {
         return infoEspecial;
     }
+    #endregion
 
+    #region Getters de categoría específica
     public DateTime GetFechaNac()
     {
         return fechaNac;
     }
-
     public string GetNombre()
     {
         return infoObligatoria["NOMBRE"];
     } 
+    public string GetNumeroCamiseta()
+    {
+        return infoInt["NUMERO CAMISETA"];
+    }
+    public string GetPosicion()
+    {
+        return infoString["POSICION"];
+    }
+    #endregion
 
+    #region Setters
     public void SetEspecial(string categoria, string valor)
     {
         infoEspecial[categoria] = valor;
     }
-
     public void SetInfoObligatoria(InputPrefab input)
     {
         infoObligatoria[input.GetNombreCategoria()] = input.GetValorCategoria();
     }
-
     public void SetInfoString(InputPrefab input)
     {
         infoString[input.GetNombreCategoria()] = input.GetValorCategoria();
     }
-
     public void SetInfoObligatoriaPlaceholder(InputPrefab input)
     {
         infoObligatoria[input.GetNombreCategoria()] = input.GetPlaceholder();
     }
-
     public void SetInfoStringPlaceholder(InputPrefab input)
     {
         infoString[input.GetNombreCategoria()] = input.GetPlaceholder();
     }
-
     public void SetInfoInt(InputPrefab input)
     {
-        //infoInt[input.GetNombreCategoria()] = input.GetValorCategoria();
+        infoInt[input.GetNombreCategoria()] = input.GetValorCategoria();
     }
-
     public void SetInfoEspecial(InputPrefab input)
     {
         infoEspecial[input.GetNombreCategoria()] = input.GetValorCategoria();
     }
-
     public void SetFechaNac(DateTime dt)
     {
         fechaNac = dt;
     }
-
     public void SetFechaNac(string fecha)
     {
         string s_day = ""; string s_month = ""; string s_year = "";
@@ -163,7 +166,9 @@ public class InfoJugador
 
         fechaNac = new DateTime(year, month, day);
     }
+    #endregion
 
+    #region Getters en idioma
     public string GetKeyInLaguage(string _key, AppController.Idiomas idioma)
     {
         switch (_key)
@@ -195,6 +200,14 @@ public class InfoJugador
             case "CATEGORIA":
                 if (idioma == AppController.Idiomas.Ingles)
                     return "CATEGORY";
+                break;
+            case "POSICION":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "POSITION";
+                break;
+            case "NUMERO CAMISETA":
+                if (idioma == AppController.Idiomas.Ingles)
+                    return "SHIRT NUMBER";
                 break;
             case "DNI":
                 if (idioma == AppController.Idiomas.Ingles)
@@ -276,4 +289,5 @@ public class InfoJugador
             return _value;
         }
     }
+    #endregion
 }

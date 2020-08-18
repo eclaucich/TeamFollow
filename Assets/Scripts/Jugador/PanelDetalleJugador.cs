@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 /// <summary>
 /// 
@@ -9,6 +10,8 @@ using System.Collections.Generic;
 /// </summary>
 
 public class PanelDetalleJugador : Panel{
+
+    [SerializeField] private GraficaResumen graficaResumen = null;
 
     [SerializeField] private GameObject estadisticaPrefab = null;
     [SerializeField] private GameObject botonEstadisticaPrefab = null;
@@ -31,6 +34,7 @@ public class PanelDetalleJugador : Panel{
     [SerializeField] private ResultadoNormal resultadoNormal = null;
     [SerializeField] private ResultadoSets resultadoSets = null;
     [SerializeField] private TextLanguage resultadoText = null;
+    [SerializeField] private Text posicionText = null;
 
     private Partido partidoFocus;
 
@@ -87,13 +91,13 @@ public class PanelDetalleJugador : Panel{
 
             if (isPartido)
             {
-                AppController.instance.overlayPanel.SetNombrePanel("PARTIDO: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
-                AppController.instance.overlayPanel.SetNombrePanel("MATCH: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
+                CanvasController.instance.overlayPanel.SetNombrePanel("PARTIDO: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
+                CanvasController.instance.overlayPanel.SetNombrePanel("MATCH: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
             }
             else
             {
-                AppController.instance.overlayPanel.SetNombrePanel("PRACTICA: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
-                AppController.instance.overlayPanel.SetNombrePanel("PRACTICE: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
+                CanvasController.instance.overlayPanel.SetNombrePanel("PRACTICA: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
+                CanvasController.instance.overlayPanel.SetNombrePanel("PRACTICE: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
             }
         }
 
@@ -106,11 +110,13 @@ public class PanelDetalleJugador : Panel{
         else botonBorrar.SetActive(true); 
 
         if (listaPrefabsTextos == null) listaPrefabsTextos = new List<GameObject>();
-        jugador = AppController.instance.GetEquipoActual().BuscarPorNombre(nombreJugador);
+        jugador = AppController.instance.equipoActual.BuscarPorNombre(nombreJugador);
 
         estadisticas = _estadisticas;
 
         parentTransform = panelEstadisticas.GetPanelEstadisticaTransform();
+
+        posicionText.text = partidoFocus.GetPosicion();
 
         BorrarPrefabs();
         CrearPrefabs();
@@ -120,15 +126,15 @@ public class PanelDetalleJugador : Panel{
     {
         if (isPartido)
         {
-            AppController.instance.overlayPanel.SetNombrePanel("PARTIDO: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
-            AppController.instance.overlayPanel.SetNombrePanel("MATCH: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
+            CanvasController.instance.overlayPanel.SetNombrePanel("PARTIDO: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
+            CanvasController.instance.overlayPanel.SetNombrePanel("MATCH: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
 
             estadisticas = jugador.GetEstadisticasPartido();
         }
         else
         {
-            AppController.instance.overlayPanel.SetNombrePanel("PRACTICA: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
-            AppController.instance.overlayPanel.SetNombrePanel("PRACTICE: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
+            CanvasController.instance.overlayPanel.SetNombrePanel("PRACTICA: " + partidoFocus.GetNombre(), AppController.Idiomas.Español);
+            CanvasController.instance.overlayPanel.SetNombrePanel("PRACTICE: " + partidoFocus.GetNombre(), AppController.Idiomas.Ingles);
 
             estadisticas = jugador.GetEstadisticasPractica();
         }
@@ -139,6 +145,12 @@ public class PanelDetalleJugador : Panel{
         CrearPrefabs();
     }
 
+
+    public void VerGraficaResumen()
+    {
+        graficaResumen.SetGraficaResumen(partidoFocus);
+        CanvasController.instance.botonDespliegueMenu.SetActive(false);
+    }
 
     public void BorrarPrefabs()
     {
@@ -152,6 +164,7 @@ public class PanelDetalleJugador : Panel{
     virtual public void CrearPrefabs()
     {
         EstadisticaDeporte estDeporte = estadisticas.GetEstadisticaDeporte();
+        Array listaTipoEstadisticas = estDeporte.GetEstadisticas();
 
         for (int i = 0; i < estDeporte.GetSize(); i++) //este cantidad categorias en realidad devuelve la cantidad que haya en el enum de estadisticas
         {
@@ -161,11 +174,12 @@ public class PanelDetalleJugador : Panel{
                 botonEstadisticaGO.SetActive(true);
                 BotonEstadistica botonEstadistica = botonEstadisticaGO.GetComponent<BotonEstadistica>();
 
-                string statsName = estDeporte.GetStatisticsName(i, AppController.Idiomas.Español)[0];
+                string statsNameEspañol = EstadisticasDeporteDisplay.GetStatisticsName((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i), AppController.Idiomas.Español)[0]; //estDeporte.GetStatisticsName(i, AppController.Idiomas.Español)[0];
+                string statsNameIngles = EstadisticasDeporteDisplay.GetStatisticsName((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i), AppController.Idiomas.Ingles)[0];
 
-                botonEstadistica.SetTextInLanguage(statsName, AppController.Idiomas.Español);
-                botonEstadistica.SetTextInLanguage(estDeporte.GetStatisticsName(i, AppController.Idiomas.Ingles)[0], AppController.Idiomas.Ingles);
-                botonEstadistica.SetValorEstadistica(estadisticas.Find(statsName.Replace(" ", string.Empty))[1].ToString());
+                botonEstadistica.SetTextInLanguage(statsNameEspañol, AppController.Idiomas.Español);
+                botonEstadistica.SetTextInLanguage(statsNameIngles, AppController.Idiomas.Ingles);
+                botonEstadistica.SetValorEstadistica(estadisticas.Find(statsNameEspañol.Replace(" ", string.Empty))[1].ToString());
                 listaPrefabsTextos.Add(botonEstadisticaGO);
             }
         }

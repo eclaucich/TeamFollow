@@ -2,9 +2,6 @@
 
 public class PanelOpcionesHerramienta : MensajeDesplegable
 {
-
-    [SerializeField] private PanelEdicion panelEdicion = null;
-
     public override void Start()
     {
         base.Start();
@@ -21,7 +18,7 @@ public class PanelOpcionesHerramienta : MensajeDesplegable
         closeZone.SetActive(false);
         gameObject.SetActive(false);
 
-        panelEdicion.SetPanelOpcionesActual(null);
+        PanelCrearJugada.instance.SetPanelOpcionesActual(null);
     }
 
     public override void ToggleDesplegar()
@@ -29,8 +26,8 @@ public class PanelOpcionesHerramienta : MensajeDesplegable
         gameObject.SetActive(!gameObject.activeSelf);
         if (gameObject.activeSelf)
         {
-            panelEdicion.CerrarPanelOpcionesActual();
-            panelEdicion.SetPanelOpcionesActual(this);
+            PanelCrearJugada.instance.CerrarPanelOpcionesActual();
+            PanelCrearJugada.instance.SetPanelOpcionesActual(this);
         }
         base.ToggleDesplegar();
     }

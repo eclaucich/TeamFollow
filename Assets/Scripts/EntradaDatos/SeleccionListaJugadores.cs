@@ -33,6 +33,8 @@ public class SeleccionListaJugadores : MonoBehaviour
     private void Start()
     {
         prefabHeight = botonJugador.GetComponent<RectTransform>().rect.height;
+        mensajeErrorSeleccionJugadores.SetText("Seleccionar al menos un jugador".ToUpper(), AppController.Idiomas.Español);
+        mensajeErrorSeleccionJugadores.SetText("Select at least one player".ToUpper(), AppController.Idiomas.Ingles);
     }
 
     private void FixedUpdate()
@@ -47,8 +49,6 @@ public class SeleccionListaJugadores : MonoBehaviour
     {
         if (actualJugadoresSeleccionados <= 0)
         {
-            mensajeErrorSeleccionJugadores.SetText("Seleccionar al menos un jugador".ToUpper(), AppController.Idiomas.Español);
-            mensajeErrorSeleccionJugadores.SetText("Select at least one player".ToUpper(), AppController.Idiomas.Ingles);
             mensajeErrorSeleccionJugadores.Activar();
             return;
         }
@@ -59,7 +59,10 @@ public class SeleccionListaJugadores : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        listaJugadores = AppController.instance.GetEquipoActual().GetJugadores();
+        CanvasController.instance.overlayPanel.SetNombrePanel("SELECCION JUGADORES", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("PLAYERS SELECTION", AppController.Idiomas.Ingles);
+
+        listaJugadores = AppController.instance.equipoActual.GetJugadores();
         jugadoresSeleccionados = new List<Jugador>();
 
         foreach (var jugador in listaJugadores)
@@ -116,7 +119,12 @@ public class SeleccionListaJugadores : MonoBehaviour
     /// Se llama desde el boton "continuar" en el panel de seleccion de jugadores
     /// 
     public void TerminarSeleccion()
-    { 
+    {
+        if (actualJugadoresSeleccionados <= 0)
+        {
+            mensajeErrorSeleccionJugadores.Activar();
+            return;
+        }
         GetComponentInParent<EntradaDatos>().TerminarSeleccionJugadores(jugadoresSeleccionados, actualJugadoresSeleccionados);
     }
 

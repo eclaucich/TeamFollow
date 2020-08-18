@@ -153,54 +153,6 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         }
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Herramienta herramientaActual = panelCrearJugada.GetHerramientaActual();
-        if (herramientaActual == null) return;
-
-        if (herramientaActual.GetNombre() != "Flecha")
-        {
-            panelCrearJugada.UsarHerramientaActual();
-        }
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        Herramienta herramientaActual = panelCrearJugada.GetHerramientaActual();
-        if (herramientaActual == null) return;
-
-        if (herramientaActual.GetNombre() == "Flecha" && Input.GetMouseButton(0))
-        {
-            panelCrearJugada.UsarHerramientaActual();
-        }
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        Herramienta herramientaActual = panelCrearJugada.GetHerramientaActual();
-        if (herramientaActual == null) return;
-
-        if (herramientaActual.GetNombre() == "Flecha")
-        {
-            panelCrearJugada.GetHerramientaActual().DejarDeUsar();
-        }
-    }
-
-    public void LimpiarPanel()
-    {
-        List<GameObject> childs = new List<GameObject>();
-
-        foreach (Transform child in transform)
-        {
-            childs.Add(child.gameObject);
-        }
-
-        foreach (var child in childs)
-        {
-            Destroy(child);
-        }
-    }
-
     private void LateUpdate()
     {
         if (snapshotCamera.gameObject.activeInHierarchy)
@@ -235,6 +187,42 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         }
     }
 
+    #region Funciones del mouse
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Herramienta herramientaActual = panelCrearJugada.GetHerramientaActual();
+        if (herramientaActual == null) return;
+
+        if (herramientaActual.GetNombre() != "Flecha")
+        {
+            panelCrearJugada.UsarHerramientaActual();
+        }
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        Herramienta herramientaActual = panelCrearJugada.GetHerramientaActual();
+        if (herramientaActual == null) return;
+
+        if (herramientaActual.GetNombre() == "Flecha" && Input.GetMouseButton(0))
+        {
+            panelCrearJugada.UsarHerramientaActual();
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        Herramienta herramientaActual = panelCrearJugada.GetHerramientaActual();
+        if (herramientaActual == null) return;
+
+        if (herramientaActual.GetNombre() == "Flecha")
+        {
+            panelCrearJugada.GetHerramientaActual().DejarDeUsar();
+        }
+    }
+    #endregion
+
+    #region Seccion Guardar Jugada
     public void AbrirSeccionGuardarJugada()
     {
         CanvasController.instance.retrocesoPausado = true;
@@ -316,7 +304,16 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         snapshotCamera.gameObject.SetActive(true);
         snapshotCamera.targetTexture = new RenderTexture(width, height, 24);
     }
+    #endregion
 
+    #region Control de la imagen de fondo
+    public void LimpiarPanel()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
 
     public void NextBackgroundImage()
     {
@@ -343,7 +340,9 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         currentTextureIndex = 0;
         NextBackgroundImage();
     }
+    #endregion
 
+    #region Control de paneles de herramientas y opciones
     public void CerrarPanelOpcionesActual()
     {
         if (panelOpcionesActual != null)
@@ -377,4 +376,5 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     {
         swipeEnabled = aux;
     }
+    #endregion
 }
