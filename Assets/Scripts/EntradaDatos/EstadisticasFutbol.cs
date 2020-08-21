@@ -20,6 +20,8 @@ public class EstadisticasFutbol : EstadisticaDeporte
         Corner = 13,
         Lateral = 14,
         Penal = 15,
+        MeterJugador = -1,
+        SacarJugador = -2
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)

@@ -29,11 +29,14 @@ public class SeccionEstadisticas : MonoBehaviour
 
         for (int i=0; i<_nombres.Count; i++)
         {
-            GameObject go = Instantiate(prefabEstadistica, parentPrefabs, false);
-            go.SetActive(true);
-            EstadisticaEntradaDato eed = go.GetComponent<EstadisticaEntradaDato>();
-            eed.Initiate(_estadisticas[i], _nombres[i], _iniciales[i]);
-            listaEstadisticaEntradaDatos.Add(eed);
+            if ((int)_estadisticas[i] > 0)
+            {
+                GameObject go = Instantiate(prefabEstadistica, parentPrefabs, false);
+                go.SetActive(true);
+                EstadisticaEntradaDato eed = go.GetComponent<EstadisticaEntradaDato>();
+                eed.Initiate(_estadisticas[i], _nombres[i], _iniciales[i]);
+                listaEstadisticaEntradaDatos.Add(eed);
+            }
         }
     }
 
@@ -56,7 +59,7 @@ public class SeccionEstadisticas : MonoBehaviour
     {
         jugadorEntradaDatoFocus.AgregarEstadistica(_categoria, cant);
 
-        if(cant>0)
+        if(cant>=0)
             eventos.Add(new Evento(_tipoEstadistica, jugadorEntradaDatoFocus.GetJugador(), relojEntradaDatos.GetCurrentPeriod(), relojEntradaDatos.GetCurrentTime()));
         else
         {
@@ -71,6 +74,14 @@ public class SeccionEstadisticas : MonoBehaviour
                 eventos.Remove(_evento);
             }
         }
+    }
+
+    public void AgregarEventoCambioJugador(Jugador _jugador, bool _meterJugador)
+    {
+        if (_meterJugador)
+            eventos.Add(new Evento(EstadisticaDeporte.Estadisticas.MeterJugador, _jugador, relojEntradaDatos.GetCurrentPeriod(), relojEntradaDatos.GetCurrentTime()));
+        else
+            eventos.Add(new Evento(EstadisticaDeporte.Estadisticas.SacarJugador, _jugador, relojEntradaDatos.GetCurrentPeriod(), relojEntradaDatos.GetCurrentTime()));
     }
 
     public List<Evento> GetListaEventos()

@@ -28,17 +28,20 @@ public class PanelEstadisticas : MonoBehaviour {
 
         for (int i = 0; i < listaTipoEstadisticas.Length; i++)
         {
-            //SE DEBERÍA OBTENER DE nombreEstadisticas, EL TIPO DEL ENUM Y TRABAJR CON ESO EN VEZ DE CON EL NOMBRE
-            GameObject toggleGO = Instantiate(togglePrefab, parentTransform, false);
+            if ((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i) > 0)
+            {
+                //SE DEBERÍA OBTENER DE nombreEstadisticas, EL TIPO DEL ENUM Y TRABAJR CON ESO EN VEZ DE CON EL NOMBRE
+                GameObject toggleGO = Instantiate(togglePrefab, parentTransform, false);
 
-            string[] nameEspañol = EstadisticasDeporteDisplay.GetStatisticsName((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i), AppController.Idiomas.Español);// nombreEstadisticas.GetStatisticsName(i, AppController.Idiomas.Español);
-            string[] nameIngles = EstadisticasDeporteDisplay.GetStatisticsName((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i), AppController.Idiomas.Ingles); //nombreEstadisticas.GetStatisticsName(i, AppController.Idiomas.Ingles);
+                string[] nameEspañol = EstadisticasDeporteDisplay.GetStatisticsName((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i), AppController.Idiomas.Español);// nombreEstadisticas.GetStatisticsName(i, AppController.Idiomas.Español);
+                string[] nameIngles = EstadisticasDeporteDisplay.GetStatisticsName((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i), AppController.Idiomas.Ingles); //nombreEstadisticas.GetStatisticsName(i, AppController.Idiomas.Ingles);
 
-            TextScript txtScript = toggleGO.GetComponent<TextScript>();
-            txtScript.SetTipoEstadistica((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i));
-            txtScript.SetName(nameEspañol[0], nameEspañol[1], AppController.Idiomas.Español);
-            toggleGO.GetComponent<TextScript>().SetName(nameIngles[0], nameIngles[1], AppController.Idiomas.Ingles);
-            listaToggles.Add(toggleGO.GetComponent<TextScript>());
+                TextScript txtScript = toggleGO.GetComponent<TextScript>();
+                txtScript.SetTipoEstadistica((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i));
+                txtScript.SetName(nameEspañol[0], nameEspañol[1], AppController.Idiomas.Español);
+                toggleGO.GetComponent<TextScript>().SetName(nameIngles[0], nameIngles[1], AppController.Idiomas.Ingles);
+                listaToggles.Add(toggleGO.GetComponent<TextScript>());
+            }
         }
         /*
         for (int i = 0; i < listaEstadisticas.Count; i++)

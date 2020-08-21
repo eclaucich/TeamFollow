@@ -31,6 +31,8 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
     float sectionDelimiterX;
 
     private Estadisticas estadisticasJugador;
+    private Transform lastParent;
+    private bool firstIn;
 
     private void Start()
     {
@@ -39,9 +41,21 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         sectionDelimiterY = bancaTransform.GetComponent<RectTransform>().rect.height - (transform.GetComponent<RectTransform>().rect.height/2f);
         sectionDelimiterX = canchaTransform.GetComponent<RectTransform>().rect.width - 1.5f*estadisticasTransform.rect.width;
 
+        lastParent = bancaTransform;
+        firstIn = true;
+
         Debug.Log("DELIMITER: " + sectionDelimiterX);
     }
 
+    public void InitiateJugador(List<string> _categorias)
+    {
+        foreach (var cat in _categorias)
+        {
+            Debug.Log("CAT:" + cat);
+            AgregarEstadistica(cat, 1);
+            AgregarEstadistica(cat, -1);
+        }
+    }
 
     public void SetJugadorFocus(Jugador _jugador)
     {
@@ -55,6 +69,8 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
     {
         ///JugadorFocus seleccionado (cambiar nombre del jugador seleccionado y los valors de los botones de estadisticas)
         seccionEstadisticas.SetJugadorEntradaDatoFocus(this);
+        lastParent = transform.parent;
+        Debug.Log("LP: " + lastParent.name);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -94,12 +110,18 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         if(transform.position.x < delimiterBanca.position.x)
         {
             Debug.Log("SOLTADO SOBRE BANCA");
+            if (lastParent == canchaTransform)
+                seccionEstadisticas.AgregarEventoCambioJugador(jugadorFocus, false);
             transform.SetParent(bancaTransform, false);
+            lastParent = bancaTransform;
         }
         else
         {
             Debug.Log("SOLTADO SOBRE CANCHA");
+            if (lastParent == bancaTransform)
+                seccionEstadisticas.AgregarEventoCambioJugador(jugadorFocus, true);
             transform.SetParent(canchaTransform, true);
+            lastParent = canchaTransform;
         }
 
         seccionBanca.SetActiveContorno(false);
@@ -129,8 +151,13 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         estadisticasJugador.SetFecha(_fecha);
     }
 
-    public void GuardarEntradaDato(string _nombrePartido, string _tipoEntradaDato, DateTime _fecha, ResultadoEntradaDatos _res, List<Evento> _eventos, Partido.TipoResultadoPartido _tipoResultado)
+    public void GuardarEntradaDato(List<string> _categorias, string _nombrePartido, string _tipoEntradaDato, DateTime _fecha, ResultadoEntradaDatos _res, List<Evento> _eventos, Partido.TipoResultadoPartido _tipoResultado)
     {
+        foreach (var cat in _categorias)
+        {
+            if (estadisticasJugador.Find(cat)[0] == 0)
+                estadisticasJugador.AgregarEstadisticas(cat, 0);
+        }
         jugadorFocus.GuardarEntradaDato(_tipoEntradaDato, estadisticasJugador, _nombrePartido, _fecha, _res, _eventos, _tipoResultado);
     }
 

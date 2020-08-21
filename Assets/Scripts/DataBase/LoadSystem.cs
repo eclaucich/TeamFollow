@@ -90,7 +90,7 @@ public static class LoadSystem
 
                                 FileStream streamResultado = new FileStream(partidoDir + "/resultado.txt", FileMode.Open);
 
-                                Partido _partido = new Partido(dataPartido, dataEstadisticas, jugador);
+                                Partido _partido = new Partido(dataPartido, dataEstadisticas, jugador, dataPosicion);
 
                                 if (equipo.GetDeporte() == Deportes.DeporteEnum.Tenis || equipo.GetDeporte() == Deportes.DeporteEnum.Padel || equipo.GetDeporte() == Deportes.DeporteEnum.Voley)
                                 {
@@ -128,12 +128,16 @@ public static class LoadSystem
                                 FileStream streamPractica = new FileStream(practicaDir + "/partido.txt", FileMode.Open);
                                 SaveDataPartido dataPractica = (SaveDataPartido)formatter.Deserialize(streamPractica);
 
+                                FileStream streamPosicion = new FileStream(practicaDir + "/posicion.txt", FileMode.Open);
+                                string dataPosicion = (string)formatter.Deserialize(streamPosicion);
+                                Debug.Log("POS LOAD: " + jugador.GetPosicionActual());
+
                                 FileStream streamEstadisticas = new FileStream(practicaDir + "/estadisticas.txt", FileMode.Open);
                                 SaveDataEstadisticas dataEstadisticas = (SaveDataEstadisticas)formatter.Deserialize(streamEstadisticas);
 
                                 FileStream streamResultado = new FileStream(practicaDir + "/resultado.txt", FileMode.Open);
 
-                                Partido _partido = new Partido(dataPractica, dataEstadisticas, jugador);
+                                Partido _partido = new Partido(dataPractica, dataEstadisticas, jugador, dataPosicion);
 
                                 if (equipo.GetDeporte() == Deportes.DeporteEnum.Tenis || equipo.GetDeporte() == Deportes.DeporteEnum.Padel || equipo.GetDeporte() == Deportes.DeporteEnum.Voley)
                                 {

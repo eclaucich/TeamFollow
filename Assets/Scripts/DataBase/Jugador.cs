@@ -55,9 +55,9 @@ public class Jugador {
 
     public void Editar(InfoJugador infoJugador_)
     {
-        SaveSystem.EditarJugador(this, AppController.instance.equipoActual);
+        SaveSystem.EditarJugador(this, AppController.instance.equipoActual, infoJugador_.GetNombre());
         infoJugador.NuevaInfo(infoJugador_);
-        SaveSystem.GuardarJugador(this, AppController.instance.equipoActual);
+        SaveSystem.EditarInfoJugador(this, AppController.instance.equipoActual);
     }
 
     public InfoJugador GetInfoJugador()
@@ -103,6 +103,7 @@ public class Jugador {
         Partido _partido = new Partido(_nombrePartido, estadisticas, _fecha);
         _partido.AgregarResultadoEntradaDatos(_res, _tipoResultado);
         _partido.SetListaEventos(_eventos);
+        _partido.SetPosicion(GetPosicionActual());
 
         if(tipoEntradaDato == "Partido")
         {

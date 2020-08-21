@@ -8,6 +8,8 @@ public class EstadisticasSoftball : EstadisticaDeporte
         Buena = 41,
         Carrera = 42,
         HomeRun = 43,
+        MeterJugador = -1,
+        SacarJugador = -2
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)

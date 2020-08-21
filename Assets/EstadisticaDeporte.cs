@@ -97,7 +97,10 @@ public abstract class EstadisticaDeporte : MonoBehaviour
         Invasion=70,
         DobleGolpe=71,
         Saque=72,
-        ErrorDeSaque=73
+        ErrorDeSaque=73,
+
+        MeterJugador=-1,
+        SacarJugador=-2
 
     };
 

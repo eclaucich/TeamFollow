@@ -31,6 +31,7 @@ public class PanelDetalleJugador : Panel{
     [SerializeField] private EstadisticasJugador panelEstadisticas = null;
     [SerializeField] private GameObject botonBorrar = null;
 
+    [SerializeField] private GameObject seccionResultado = null;
     [SerializeField] private ResultadoNormal resultadoNormal = null;
     [SerializeField] private ResultadoSets resultadoSets = null;
     [SerializeField] private TextLanguage resultadoText = null;
@@ -104,10 +105,13 @@ public class PanelDetalleJugador : Panel{
         if (_partido == null)
         {
             botonBorrar.SetActive(false);
-            resultadoSets.gameObject.SetActive(false);
-            resultadoNormal.gameObject.SetActive(false);
+            seccionResultado.SetActive(false);
         }
-        else botonBorrar.SetActive(true); 
+        else
+        {
+            botonBorrar.SetActive(true);
+            seccionResultado.SetActive(true);
+        }
 
         if (listaPrefabsTextos == null) listaPrefabsTextos = new List<GameObject>();
         jugador = AppController.instance.equipoActual.BuscarPorNombre(nombreJugador);
@@ -116,7 +120,10 @@ public class PanelDetalleJugador : Panel{
 
         parentTransform = panelEstadisticas.GetPanelEstadisticaTransform();
 
-        posicionText.text = partidoFocus.GetPosicion();
+        if (partidoFocus == null)
+            posicionText.text = string.Empty;
+        else
+            posicionText.text = partidoFocus.GetPosicion();
 
         BorrarPrefabs();
         CrearPrefabs();
@@ -148,7 +155,7 @@ public class PanelDetalleJugador : Panel{
 
     public void VerGraficaResumen()
     {
-        graficaResumen.SetGraficaResumen(partidoFocus);
+        graficaResumen.SetGraficaResumen(partidoFocus, jugador);
         CanvasController.instance.botonDespliegueMenu.SetActive(false);
     }
 

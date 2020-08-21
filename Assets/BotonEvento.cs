@@ -5,10 +5,11 @@ using UnityEngine.UI;
 public class BotonEvento : MonoBehaviour
 {
     [SerializeField] private Image imagen = null;
-    [SerializeField] private Text nombreJugadorText = null;
-    [SerializeField] private Text periodText = null;
-    [SerializeField] private Text tiempoText = null;
-    [SerializeField] private Text tipoEventoText = null;
+    
+    private string nombreJugadorText;
+    private string periodText;
+    private string tiempoText;
+    private string tipoEventoText;
 
     [SerializeField] private InfoEvento infoEvento = null;
 
@@ -18,15 +19,15 @@ public class BotonEvento : MonoBehaviour
     {
         eventoFocus = _evento;
         imagen.sprite = eventoFocus.GetSprite();
-        nombreJugadorText.text = eventoFocus.GetAutor().GetNombre();
-        periodText.text = _evento.GetPeriod().ToString() + "°";
+        nombreJugadorText = eventoFocus.GetAutor().GetNombre();
+        periodText = _evento.GetPeriod().ToString() + "°";
         SetTimeText(eventoFocus.GetTiempo());
-        tipoEventoText.text = eventoFocus.GetNombreTipo();
+        tipoEventoText = eventoFocus.GetNombreTipo();
     }
 
     public void SetInfoEvento()
     {
-        infoEvento.SetInfoEvento(nombreJugadorText.text, tiempoText.text, tipoEventoText.text);
+        infoEvento.SetInfoEvento(nombreJugadorText, tiempoText, tipoEventoText);
     }
 
     private void SetTimeText(float _time)
@@ -35,11 +36,11 @@ public class BotonEvento : MonoBehaviour
         int min = (int)Mathf.Floor(_time / 60f);
 
         if (min < 10)
-            tiempoText.text = "0";
-        tiempoText.text += min + " : ";
+            tiempoText = "0";
+        tiempoText += min + " : ";
 
         if (sec < 10)
-            tiempoText.text += "0";
-        tiempoText.text += sec;
+            tiempoText += "0";
+        tiempoText += sec;
     }
 }

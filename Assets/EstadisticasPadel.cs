@@ -11,7 +11,9 @@ public class EstadisticasPadel : EstadisticaDeporte
         DobleFalta = 30,
         WinnerDrop = 31,
         ErrorNoForzadoDrop = 32,
-        Sacada = 44
+        Sacada = 44,
+        MeterJugador = -1,
+        SacarJugador = -2
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)

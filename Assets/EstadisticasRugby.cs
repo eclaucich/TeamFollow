@@ -15,7 +15,9 @@ public class EstadisticasRugby : EstadisticaDeporte
         Penal=15,
         Amarilla=2,
         Roja=3,
-        Intercepcion=8
+        Intercepcion=8,
+        MeterJugador = -1,
+        SacarJugador = -2
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)

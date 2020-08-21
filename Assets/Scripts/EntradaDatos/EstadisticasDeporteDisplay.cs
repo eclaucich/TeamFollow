@@ -878,6 +878,30 @@ public class EstadisticasDeporteDisplay : MonoBehaviour
                     res[1] = "SRV";
                 }
                 break;
+            case EstadisticaDeporte.Estadisticas.MeterJugador:
+                if(idioma == AppController.Idiomas.Español)
+                {
+                    res[0] = "JUGADOR ENTRA";
+                    res[1] = "JEN";
+                }
+                else if(idioma == AppController.Idiomas.Ingles)
+                {
+                    res[0] = "PLAYER IN";
+                    res[1] = "PIN";
+                }
+                break;
+            case EstadisticaDeporte.Estadisticas.SacarJugador:
+                if (idioma == AppController.Idiomas.Español)
+                {
+                    res[0] = "JUGADOR SALE";
+                    res[1] = "JSL";
+                }
+                else if (idioma == AppController.Idiomas.Ingles)
+                {
+                    res[0] = "PLAYER OUT";
+                    res[1] = "POT";
+                }
+                break;
             default:
                 res[0] = "ERROR";
                 res[1] = "ERROR";

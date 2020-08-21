@@ -76,13 +76,29 @@ public static class SaveSystem {
 
         streamJugador.Close();
     }
-    public static void EditarJugador(Jugador jugador, Equipo equipo)
+    public static void EditarJugador(Jugador jugador, Equipo equipo, string nombreNuevo)
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
-        string pathJugador = pathEquipos + equipo.GetNombre() + "/jugadores" + "/" + jugador.GetNombre();
+        string pathJugadorViejo = pathEquipos + equipo.GetNombre() + "/jugadores" + "/" + jugador.GetNombre();
+        string pathJugadorNuevo = pathEquipos + equipo.GetNombre() + "/jugadores/" + nombreNuevo;
+        if(pathJugadorViejo != pathJugadorNuevo)
+            Directory.Move(pathJugadorViejo, pathJugadorNuevo);
+    }
+    public static void EditarInfoJugador(Jugador _jugador, Equipo _equipo)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
 
-        Directory.Delete(pathJugador, true);
+        string pathJugador = pathEquipos + _equipo.GetNombre() + "/jugadores/" + _jugador.GetNombre();
+
+        if (Directory.Exists(pathJugador + "jugador.txt"))
+            Directory.Delete(pathJugador + "jugador.txt");
+
+        FileStream streamJugador = new FileStream(pathJugador + "/jugador.txt", FileMode.Create);
+        SaveDataJugador dataJugador = _jugador.CreateSaveData();
+
+        formatter.Serialize(streamJugador, dataJugador);
+        streamJugador.Close();
     }
     public static void BorrarJugador(string nombreJugador, Equipo equipo)
     {
@@ -174,6 +190,7 @@ public static class SaveSystem {
         FileStream streamPartido = new FileStream(pathPartido + "/partido.txt", FileMode.Create);
 
         FileStream streamPosicion = new FileStream(pathPartido + "/posicion.txt", FileMode.Create);
+        Debug.Log("POS SAVED: " + jugador.GetPosicionActual());
 
         Partido.TipoResultadoPartido tiporesultado = partido.GetTipoResultadoPartido();
 

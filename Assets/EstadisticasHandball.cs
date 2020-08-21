@@ -7,7 +7,9 @@ public class EstadisticasHandball : EstadisticaDeporte
         Tiro=11,
         Camina=62,
         PerdidaDePosesion=63,
-        Gol=0
+        Gol=0,
+        MeterJugador = -1,
+        SacarJugador = -2
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)

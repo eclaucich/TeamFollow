@@ -11,6 +11,8 @@ public class EstadisticasTenis : EstadisticaDeporte
         DobleFalta = 30,
         WinnerDrop = 31,
         ErrorNoForzadoDrop = 32,
+        MeterJugador = -1,
+        SacarJugador = -2
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)
@@ -102,7 +104,6 @@ public class EstadisticasTenis : EstadisticaDeporte
                     res[1] = "DPW";
                 }
                 break;
-
             default:
                 res[0] = "ERROR";
                 res[1] = "ERROR";

@@ -23,7 +23,7 @@ public class Partido
         nombre = _nombre;
         estadisticas = _estadisticas;
         fecha = _fecha;
-        posicion = "";
+        posicion = string.Empty;
     }
 
     public Partido(SaveDataPartido dataPartido, SaveDataEstadisticas dataEstadisticas, Equipo _equipo)
@@ -31,7 +31,7 @@ public class Partido
         nombre = dataPartido.GetNombre();
         estadisticas = new Estadisticas(dataEstadisticas);
         fecha = dataPartido.GetFecha();
-        posicion = "";
+        posicion = string.Empty;
 
         eventos = new List<Evento>();
         foreach (var evento in dataPartido.eventos)
@@ -40,13 +40,13 @@ public class Partido
         }
     }
 
-    public Partido(SaveDataPartido dataPartido, SaveDataEstadisticas dataEstadisticas, Jugador _jugador)
+    public Partido(SaveDataPartido dataPartido, SaveDataEstadisticas dataEstadisticas, Jugador _jugador, string _posicion)
     {
         nombre = dataPartido.GetNombre();
         estadisticas = new Estadisticas(dataEstadisticas);
         fecha = dataPartido.GetFecha();
-        posicion = _jugador.GetPosicionActual();
-
+        posicion = _posicion;
+        
         eventos = new List<Evento>();
         foreach (var evento in dataPartido.eventos)
         {
@@ -57,6 +57,10 @@ public class Partido
     public string GetNombre()
     {
         return nombre;
+    }
+    public void SetPosicion(string _posicion)
+    {
+        posicion = _posicion;
     }
     public string GetPosicion()
     {

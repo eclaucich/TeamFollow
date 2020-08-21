@@ -19,6 +19,8 @@ public class EstadisticasBasket : EstadisticaDeporte
         Falta=7,
         Amarilla=2,
         Roja=3,
+        MeterJugador = -1,
+        SacarJugador = -2
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)

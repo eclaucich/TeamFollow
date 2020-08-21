@@ -15,7 +15,9 @@ public class EstadisticasHockeyCesped : EstadisticaDeporte
         Intercepcion=8,
         Lateral=14,
         Gol=0,
-        Penal=15
+        Penal=15,
+        MeterJugador = -1,
+        SacarJugador = -2
     }
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)

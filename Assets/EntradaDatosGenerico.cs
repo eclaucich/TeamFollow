@@ -182,7 +182,7 @@ public class EntradaDatosGenerico : EntradaDatos
             Debug.Log("PEN PROP: " + resultadoNormal.GetResultadoPenalesPropio());
             Debug.Log("PEN CONT: " + resultadoNormal.GetResultadoPenalesContrario());
             _partido.AgregarResultadoEntradaDatos(resultadoNormal, Partido.TipoResultadoPartido.Normal);
-            seccionBanca.GuardarEntradaDato(nombrePartido, tipoEntradaDatos, fecha, resultadoNormal, _eventos, Partido.TipoResultadoPartido.Normal);
+            seccionBanca.GuardarEntradaDato(listaNombres, nombrePartido, tipoEntradaDatos, fecha, resultadoNormal, _eventos, Partido.TipoResultadoPartido.Normal);
         }
         else
         {
@@ -195,7 +195,7 @@ public class EntradaDatosGenerico : EntradaDatos
             }
             resultadoSets.SetResultado();
             _partido.AgregarResultadoEntradaDatos(resultadoSets, Partido.TipoResultadoPartido.Sets);
-            seccionBanca.GuardarEntradaDato(nombrePartido, tipoEntradaDatos, fecha, resultadoSets, _eventos, Partido.TipoResultadoPartido.Sets);
+            seccionBanca.GuardarEntradaDato(listaNombres, nombrePartido, tipoEntradaDatos, fecha, resultadoSets, _eventos, Partido.TipoResultadoPartido.Sets);
         }
 
 

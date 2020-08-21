@@ -28,6 +28,7 @@ public class PanelInfoJugador : Panel
     private InputPrefabFecha inputFecha;
 
     private string nombreActual;
+    private string numCamisetaActual;
 
     private PanelJugadores panelJugadores;
 
@@ -122,9 +123,6 @@ public class PanelInfoJugador : Panel
             IPgo.HabilitarInput(false);
             IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             inputsString.Add(IPgo);
-
-            //go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
-            //listaPrefabs.Add(go);
         }
 
         foreach (var info in infoJugador.GetInfoInt())
@@ -139,8 +137,8 @@ public class PanelInfoJugador : Panel
             IPgo.SetKeyboardType(TouchScreenKeyboardType.NumberPad);
             inputsInt.Add(IPgo);
 
-            //go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
-            //listaPrefabs.Add(go);
+            if (IPgo.GetNombreCategoria() == "NUMERO CAMISETA")
+                numCamisetaActual = info.Value.ToString();
         }
 
         foreach (var info in infoJugador.GetInfoEspecial())
@@ -228,10 +226,17 @@ public class PanelInfoJugador : Panel
         foreach (var input in inputsInt)
             ij.SetInfoInt(input);
 
+        int numCamisetaActualInt = -1;
+        int.TryParse(numCamisetaActual, out numCamisetaActualInt);
+
+        Debug.Log("NUM ACTUAL: " + numCamisetaActualInt);
+
         int numCamiseta = -1;
         if (int.TryParse(ij.GetNumeroCamiseta(), out numCamiseta))
         {
-            if (numCamiseta < 0 || !AppController.instance.equipoActual.VerficarNumeroCamiseta(ij.GetNumeroCamiseta()))
+            Debug.Log("NUEVO NUM: " + numCamiseta);
+
+            if (numCamiseta != numCamisetaActualInt && (numCamiseta < 0 || !AppController.instance.equipoActual.VerficarNumeroCamiseta(ij.GetNumeroCamiseta())))
             {
                 mensajeError.SetText("NUMERO DE CAMISETA EN USO", AppController.Idiomas.Español);
                 mensajeError.SetText("SHIR NUMBER IN USE", AppController.Idiomas.Ingles);

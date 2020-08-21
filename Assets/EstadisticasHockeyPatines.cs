@@ -20,7 +20,9 @@ public class EstadisticasHockeyPatines : EstadisticaDeporte
         Roja=3,
         PerdidaDeMarca=5,
         Tiro=11,
-        Gol=0
+        Gol=0,
+        MeterJugador = -1,
+        SacarJugador = -2
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)

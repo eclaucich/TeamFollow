@@ -18,6 +18,8 @@ public class EstadisticasVoley : EstadisticaDeporte
         Ace=29,
         Amarilla=2,
         Roja=3,
+        MeterJugador = -1,
+        SacarJugador = -2
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)

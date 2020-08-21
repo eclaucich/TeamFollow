@@ -16,6 +16,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     [SerializeField] private GameObject estadisticaPrefab = null;
     [SerializeField] private ConfirmacionBorradoPartido confirmacionBorradoPartido = null;
 
+    [SerializeField] private GameObject seccionResultado = null;
     [SerializeField] private ResultadoNormal resultadoNormal = null;
     [SerializeField] private ResultadoSets resultadoSets = null;
     [SerializeField] private TextLanguage resultadoText = null;
@@ -63,7 +64,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
         //nombreEquipoText.text = equipo.GetNombre();
 
         estadisticas = _estadisticas;
-        
+
         //Debug.Log("ESTADISTICAS: " + _estadisticas.GetDictionary() == null);
 
         /*diccEstadisticas = new Dictionary<string, int>();
@@ -71,7 +72,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
         Debug.Log("DICC ESTADISTICAS: " + diccEstadisticas == null);
         */
-
+        seccionResultado.SetActive(false);
         parentTransform = estadisticasGlobales.SetPanelEstadisticas();
 
         BorrarPrefabs();
@@ -130,6 +131,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
         CanvasController.instance.overlayPanel.SetNombrePanel("PARTIDO: " + _partido.GetNombre(), AppController.Idiomas.Español);
         CanvasController.instance.overlayPanel.SetNombrePanel("MATCH: " + _partido.GetNombre(), AppController.Idiomas.Ingles);
 
+        seccionResultado.SetActive(true);
         botonBorrar.SetActive(true);
 
         Screen.orientation = ScreenOrientation.Portrait;
