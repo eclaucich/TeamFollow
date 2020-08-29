@@ -46,6 +46,9 @@ public class ImagenBiblioteca
 
     public void SetCarpetaActual(CarpetaJugada _carpeta)
     {
+        SaveSystem.EditarCarpetaJugada(this, carpetaActual, _carpeta);
+        carpetaActual.BorrarJugada(this);
+        _carpeta.AgregarJugada(this);
         carpetaActual = _carpeta;
     }
     public CarpetaJugada GetCarpetaActual()

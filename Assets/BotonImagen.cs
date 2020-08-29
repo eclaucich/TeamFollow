@@ -20,6 +20,7 @@ public class BotonImagen : MonoBehaviour
     private void Start()
     {
         inputfield.onEndEdit.AddListener(VerificarEdicionNombreJugada);
+        GetComponent<BotonNormal>().SetColorActivado();
     }
 
     private void VerificarEdicionNombreJugada(string _nuevoNombre)
@@ -43,6 +44,11 @@ public class BotonImagen : MonoBehaviour
                 nombreImagenText.text = _nuevoNombre.ToUpper();
             }
         }
+    }
+
+    public bool VerificarNombreJugadasCarpeta(CarpetaJugada _carpeta)
+    {
+        return _carpeta.BuscarJugada(_jugadaFocus.GetNombre()) == null;
     }
 
     public void BorrarJugadaFocus()
@@ -87,6 +93,11 @@ public class BotonImagen : MonoBehaviour
         //botonVerImagen.image.sprite = sprite;
     }
 
+    public void SetNewName(string _newName)
+    {
+        nombreImagenText.text = _newName;
+    }
+
     public Sprite GetSprite()
     {
         if(sprite == null)
@@ -101,5 +112,25 @@ public class BotonImagen : MonoBehaviour
     public string GetNombre()
     {
         return nombreImagenText.text;
+    }
+
+    public void SetCarpeta(CarpetaJugada _carpeta)
+    {
+        _jugadaFocus.SetCarpetaActual(_carpeta);
+    }
+
+    public CarpetaJugada GetCarpeta()
+    {
+        return _jugadaFocus.GetCarpetaActual();
+    }
+
+    public void ActivarSeleccion()
+    {
+        GetComponent<BotonNormal>().SetColorSeleccionado();
+    }
+
+    public void DesactivarSeleccion()
+    {
+        GetComponent<BotonNormal>().SetColorActivado();
     }
 }

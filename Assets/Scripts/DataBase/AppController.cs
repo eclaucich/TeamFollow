@@ -98,6 +98,16 @@ public class AppController : MonoBehaviour {
         carpetasJugadas.Remove(_carpeta);
         SaveSystem.BorrarCarpeta(_carpeta);
     }
+    public CarpetaJugada BuscarCarpetaPorNombre(string _nombre)
+    {
+        foreach (var carpeta in carpetasJugadas)
+        {
+            if (carpeta.GetNombre().ToUpper() == _nombre.ToUpper())
+                return carpeta;
+        }
+
+        return null;
+    }
     #endregion
 
     #region Auxiliares

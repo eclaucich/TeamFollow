@@ -17,9 +17,16 @@ public class OpcionesEspeciales : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Cerrar();
+    }
     public void SetMenu(List<string> opcionesEspañol, List<string> opcionesIngles, string nombreCategoria_, InputPrefabEspecial input)
     {
         Debug.Log("OPCIONES: " + opcionesEspañol.Count);
+        CanvasController.instance.retrocesoPausado = true;
+
         for (int i = 0; i < opcionesEspañol.Count; i++)
         {
             GameObject go = Instantiate(opcionPrefab, parentTransformOpciones, false);
@@ -43,6 +50,7 @@ public class OpcionesEspeciales : MonoBehaviour
 
     public void Cerrar()
     {
+        CanvasController.instance.retrocesoPausado = false;
         Destroy(gameObject);
     }
 }

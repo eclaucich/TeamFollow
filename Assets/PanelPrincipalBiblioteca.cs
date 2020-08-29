@@ -13,13 +13,27 @@ public class PanelPrincipalBiblioteca : Panel
 
     [SerializeField] private MensajeError mensajeErrorNuevoNombre = null;
     [SerializeField] private MensajeError mensajeCambioNombreExitoso = null;
+    [SerializeField] private MensajeError mensajeErrorCambioCarpeta = null;
 
     [SerializeField] private InputField inputNombreCarpeta = null;
     [SerializeField] private MensajeError mensajeErrorNuevaCarpeta = null;
     [SerializeField] private GameObject jugadasPrefab = null;
 
+    [SerializeField] private PanelBiblioteca panelBiblioteca = null;
+
+    [SerializeField] private ConfirmacionBorradoJugada confirmacionBorradoJugada = null;
+
+    [SerializeField] private GameObject botones = null;
+    [SerializeField] private InputField inputNuevoNombre = null;
+
+    [SerializeField] private GameObject carpetaPrefab = null;
+    [SerializeField] private Transform transformCarpetas = null;
+    [SerializeField] private GameObject seccionSeleccionarNuevaCarpeta = null;
+
     private float prefabHeight;
     private int cantMinima;
+
+    private BotonImagen _botonImagenFocus;
 
     private void Start()
     {
@@ -33,6 +47,37 @@ public class PanelPrincipalBiblioteca : Panel
 
         mensajeErrorNuevaCarpeta.SetText("CARPETA EXISTENTE", AppController.Idiomas.Español);
         mensajeErrorNuevaCarpeta.SetText("EXISTING FOLDER", AppController.Idiomas.Ingles);
+
+        mensajeErrorCambioCarpeta.SetText("YA EXISTE UNA JUGADA CON ESTE NOMBRE", AppController.Idiomas.Español);
+        mensajeErrorCambioCarpeta.SetText("THERE'S ALREADY A STRATEGY WITH THIS NAME", AppController.Idiomas.Ingles);
+
+        inputNuevoNombre.onEndEdit.AddListener(VerificarEdicionNombreJugada);
+
+        _botonImagenFocus = null;
+        botones.SetActive(false);
+        seccionSeleccionarNuevaCarpeta.SetActive(false);
+    }
+
+    private void VerificarEdicionNombreJugada(string _nuevoNombre)
+    {
+        if (_nuevoNombre != _botonImagenFocus.GetNombre())
+        {
+            CarpetaJugada _carpeta = _botonImagenFocus.GetCarpeta();
+
+            if (_carpeta.ExistsJugada(_nuevoNombre.ToUpper()))
+            {
+                Debug.Log("NOMBRE EXISTENTE: " + _nuevoNombre);
+                ActivarMensajeError();
+                return;
+            }
+            else
+            {
+                Debug.Log("NOMBRE CAMBIADO");
+                ActivarMensajeCambioNombreExitoso();
+                SaveSystem.EditarJugada(_botonImagenFocus.GetNombre(), _nuevoNombre.ToUpper(), _botonImagenFocus.GetCarpeta());
+                _botonImagenFocus.SetNewName(_nuevoNombre.ToUpper());
+            }
+        }
     }
 
     public void FixedUpdate()
@@ -42,6 +87,12 @@ public class PanelPrincipalBiblioteca : Panel
             adviceText.SetActive(true);
         else
             adviceText.SetActive(false);
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (seccionSeleccionarNuevaCarpeta.activeSelf)
+                CerrarSeleccionNuevaCarpeta();
+        }
     }
 
     private int ChildsActive()
@@ -70,6 +121,8 @@ public class PanelPrincipalBiblioteca : Panel
 
         if (reset)
         {
+            BorrarPrefabsCarpetas();
+            CrearPrefabsCarpetas();
             ResetPrefabs();
 
             if (parentTransform.childCount <= 1)
@@ -150,7 +203,92 @@ public class PanelPrincipalBiblioteca : Panel
         goCarpeta.GetComponent<BotonCarpetaJugada>().ToggleSeccionJugadas();
         goCarpeta.GetComponent<BotonCarpetaJugada>().ToggleSeccionJugadas();
 
-        SaveSystem.GuardarCarpetaBiblioteca(_carpeta);
+       
+        SaveSystem.GuardarCarpetaBiblioteca(_carpeta); 
+
+        BorrarPrefabsCarpetas();
+        CrearPrefabsCarpetas();
+    }
+
+    public void SetBotonImagenFocus(BotonImagen _botonFocus)
+    {
+        if (_botonImagenFocus != null)
+        {
+            _botonImagenFocus.DesactivarSeleccion();
+            if (_botonImagenFocus == _botonFocus)
+            {
+                _botonImagenFocus = null;
+                botones.SetActive(false);
+                return;
+            }
+        }
+
+        _botonImagenFocus = _botonFocus;
+        _botonImagenFocus.ActivarSeleccion();
+
+        botones.SetActive(true);
+    }
+
+    public void BorrarImagenFocus()
+    {
+        confirmacionBorradoJugada.Activar(_botonImagenFocus);
+    }
+
+    public void VerImageFocus()
+    {
+        panelBiblioteca.MostrarPanelImagen(_botonImagenFocus);
+    }
+
+    public void MoverImageFocus()
+    {
+        seccionSeleccionarNuevaCarpeta.SetActive(true);
+        CanvasController.instance.retrocesoPausado = true;
+    }
+
+    public void CerrarSeleccionNuevaCarpeta()
+    {
+        seccionSeleccionarNuevaCarpeta.SetActive(false);
+        CanvasController.instance.retrocesoPausado = false;
+    }
+
+    public void SetImageNuevaCarpeta(Text _nombreCarpetaText)
+    {
+        CarpetaJugada _nuevaCarpeta = AppController.instance.BuscarCarpetaPorNombre(_nombreCarpetaText.text.ToUpper());
+        if (_nuevaCarpeta == _botonImagenFocus.GetCarpeta())
+        {
+            seccionSeleccionarNuevaCarpeta.SetActive(false);
+            return;
+        }
+        if (!_botonImagenFocus.VerificarNombreJugadasCarpeta(_nuevaCarpeta))
+        {
+            Debug.Log("NOMBRE EXISTENTE");
+            mensajeErrorCambioCarpeta.Activar();
+            return;
+        }
+        _botonImagenFocus.SetCarpeta(_nuevaCarpeta);
+        seccionSeleccionarNuevaCarpeta.SetActive(false);
+        CanvasController.instance.retrocesoPausado = false;
+        _botonImagenFocus = null;
+        botones.SetActive(false);
+        ResetPrefabs();
+    }
+
+    private void CrearPrefabsCarpetas()
+    {
+        foreach (var carpeta in AppController.instance.carpetasJugadas)
+        {
+            GameObject go = Instantiate(carpetaPrefab, transformCarpetas, false);
+            go.SetActive(true);
+            go.GetComponentInChildren<Text>().text = carpeta.GetNombre().ToUpper();
+        }
+    }
+
+    private void BorrarPrefabsCarpetas()
+    {
+        for (int i = 1; i < transformCarpetas.childCount; i++)
+        {
+            Destroy(transformCarpetas.GetChild(i).gameObject);
+        }
     }
 
 

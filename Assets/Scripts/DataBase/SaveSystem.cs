@@ -306,6 +306,16 @@ public static class SaveSystem {
         string filePathNuevo = pathNuevo + "/" + nombreNuevo + ".png";
         File.Move(filePathViejo, filePathNuevo);
     }
+    public static void EditarCarpetaJugada(ImagenBiblioteca _jugada, CarpetaJugada _carpetaVieja, CarpetaJugada _carpetaNueva)
+    {
+        if (_carpetaVieja == _carpetaNueva)
+            return;
+
+        string pathViejo = pathImagenJugadas + _carpetaVieja.GetNombre() + "/" + _jugada.GetNombre();
+        string pathNuevo = pathImagenJugadas + _carpetaNueva.GetNombre() + "/" + _jugada.GetNombre();
+
+        Directory.Move(pathViejo, pathNuevo);
+    }
     public static void BorrarJugada(ImagenBiblioteca _jugada, CarpetaJugada _carpeta)
     {
         string path = pathImagenJugadas + _carpeta.GetNombre() + "/" + _jugada.GetNombre();
