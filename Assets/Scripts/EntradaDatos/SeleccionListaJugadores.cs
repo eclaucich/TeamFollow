@@ -70,11 +70,10 @@ public class SeleccionListaJugadores : MonoBehaviour
             GameObject go = Instantiate(botonJugador, transformParent, false);
             go.GetComponentInChildren<Text>().text = jugador.GetNombre();
             go.SetActive(true);
-            go.GetComponent<BotonNormal>().SetColorActivado();
         }
 
         if(prefabHeight == 0) prefabHeight = botonJugador.GetComponent<RectTransform>().rect.height;
-        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + transformParent.GetComponent<VerticalLayoutGroup>().spacing));
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + transformParent.GetComponent<VerticalLayoutGroup>().spacing + transformParent.GetComponent<VerticalLayoutGroup>().padding.top));
     }
 
     /// 

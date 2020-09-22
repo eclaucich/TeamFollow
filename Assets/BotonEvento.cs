@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class BotonEvento : MonoBehaviour
 {
-    [SerializeField] private Image imagen = null;
-    
     private string nombreJugadorText;
     private string periodText;
     private string tiempoText;
@@ -18,7 +16,6 @@ public class BotonEvento : MonoBehaviour
     public void SetEventoFocus(Evento _evento)
     {
         eventoFocus = _evento;
-        imagen.sprite = eventoFocus.GetSprite();
         nombreJugadorText = eventoFocus.GetAutor().GetNombre();
         periodText = _evento.GetPeriod().ToString() + "°";
         SetTimeText(eventoFocus.GetTiempo());
@@ -27,7 +24,7 @@ public class BotonEvento : MonoBehaviour
 
     public void SetInfoEvento()
     {
-        infoEvento.SetInfoEvento(nombreJugadorText, tiempoText, tipoEventoText);
+        infoEvento.SetInfoEvento(nombreJugadorText, periodText, tiempoText, tipoEventoText);
     }
 
     private void SetTimeText(float _time)

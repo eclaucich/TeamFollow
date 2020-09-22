@@ -165,7 +165,7 @@ public class PanelNuevoJugador : Panel
         }
 
         //Reviasr si existe el nombre (hacer una función de comporbación de nombres general en appcontroller
-        if (equipoActual.BuscarPorNombre(ij.GetNombre()) != null || ij.GetNombre() == "" || ij.GetNombre() == " ")
+        if (equipoActual.BuscarPorNombre(ij.GetNombre()) != null || !AppController.instance.VerificarNombre(ij.GetNombre()))
         {
             mensajeError.SetText("Nombre inválido/existente!".ToUpper(), AppController.Idiomas.Español);
             mensajeError.SetText("Invalid/Existing name!".ToUpper(), AppController.Idiomas.Ingles);

@@ -10,12 +10,22 @@ public class RelojEntradaDatos : MonoBehaviour
     private float time;
     [HideInInspector] public bool paused = true;
 
+    private Animator animator;
+    private bool open;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+        open = true;
+    }
+
     private void Update()
     {
         if (!paused)
             time += Time.deltaTime;
         SetTimeText();
     }
+
     public void Initiate()
     {
         currentPeriod = 1;
@@ -59,5 +69,11 @@ public class RelojEntradaDatos : MonoBehaviour
     public float GetCurrentTime()
     {
         return time;
+    }
+
+    public void ToggleVerReloj()
+    {
+        open = !open;
+        animator.SetBool("open", open);
     }
 }

@@ -3,19 +3,19 @@ public class EstadisticasHockeyCesped : EstadisticaDeporte
 {
     public new enum Estadisticas
     {
-        CornerCorto = 45,
-        CornerLargo = 46,
-        BochaPeligrosa = 47,
-        TarjetaVerde = 48,
-        TarjetaAmarilla = 49,
-        TarjetaRoja = 50,
-        Pase =1,
-        Recuperacion=4,
-        PerdidaDeMarca=5,
-        Intercepcion=8,
-        Lateral=14,
-        Gol=0,
-        Penal=15,
+        CornerCorto = 205,
+        CornerLargo = 206,
+        BochaPeligrosa = 305,
+        TarjetaVerde = 403,
+        TarjetaAmarilla = 404,
+        TarjetaRoja = 405,
+        Pase =0,
+        Recuperacion=100,
+        PerdidaDeMarca=101,
+        Intercepcion=202,
+        Lateral=304,
+        Gol=300,
+        Penal=402,
         MeterJugador = -1,
         SacarJugador = -2
     }

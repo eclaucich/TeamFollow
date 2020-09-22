@@ -41,6 +41,11 @@ public class Evento
         Debug.Log(tipoEstadistica + ": " + EstadisticasDeporteDisplay.GetStatisticsName(tipoEstadistica, AppController.instance.idioma)[0].ToUpper());
         return EstadisticasDeporteDisplay.GetStatisticsName(tipoEstadistica, AppController.instance.idioma)[0].ToUpper();
     }
+    public string GetInicialTipo()
+    {
+        return EstadisticasDeporteDisplay.GetStatisticsName(tipoEstadistica, AppController.instance.idioma)[1].ToUpper();
+    }
+
     public Jugador GetAutor()
     {
         return autor;

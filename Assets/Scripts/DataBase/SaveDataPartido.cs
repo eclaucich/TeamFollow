@@ -7,11 +7,13 @@ public class SaveDataPartido
     public string nombre;
     public DateTime fecha;
     public List<SaveDataEvento> eventos;
+    public bool isPartido;
 
     public SaveDataPartido(Partido partido)
     {
         nombre = partido.GetNombre();
         fecha = partido.GetFecha();
+        isPartido = partido.IsPartido();
 
         eventos = new List<SaveDataEvento>();
         foreach (var evento in partido.GetEventos())
@@ -28,5 +30,10 @@ public class SaveDataPartido
     public DateTime GetFecha()
     {
         return fecha;
+    }
+
+    public bool IsPartido()
+    {
+        return isPartido;
     }
 }

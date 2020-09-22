@@ -57,7 +57,7 @@ public class PanelJugadoresPrincipal : Panel {
 
     private void VerificarEdicionNombreEquipo(string _nombreNuevo)
     {
-        if(_nombreNuevo != equipo.GetNombre())
+        if(!inputfield.wasCanceled && _nombreNuevo != equipo.GetNombre())
         {
             if (AppController.instance.BuscarEquipoPorNombre(_nombreNuevo) != null)
             {

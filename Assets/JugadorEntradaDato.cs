@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHandler
 {
+    [SerializeField] private Image icono = null;
     [SerializeField] private Text nombreJugadorText = null;
     [SerializeField] private Text numeroCamiseta = null;
 
@@ -21,6 +22,9 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
 
     [SerializeField] private RectTransform delimiterBanca = null;
     [SerializeField] private RectTransform delimiterEstadisticas = null;
+
+    [SerializeField] private Color colorNoSeleccionado;
+    [SerializeField] private Color colorSeleccionado;
 
     private Jugador jugadorFocus;
 
@@ -44,7 +48,7 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         lastParent = bancaTransform;
         firstIn = true;
 
-        Debug.Log("DELIMITER: " + sectionDelimiterX);
+        icono.color = colorNoSeleccionado;
     }
 
     public void InitiateJugador(List<string> _categorias)
@@ -70,7 +74,7 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         ///JugadorFocus seleccionado (cambiar nombre del jugador seleccionado y los valors de los botones de estadisticas)
         seccionEstadisticas.SetJugadorEntradaDatoFocus(this);
         lastParent = transform.parent;
-        Debug.Log("LP: " + lastParent.name);
+        icono.color = colorSeleccionado;
     }
 
     public void OnDrag(PointerEventData eventData)

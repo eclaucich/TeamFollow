@@ -49,10 +49,11 @@ public abstract class Grafica : MonoBehaviour
         if (vertical) flechasScroll.Actualizar(scrollRect, cantMinima, cantidadDatos);
     }
 
-    public virtual void Graficar<T>(Dictionary<T, int> datos)
+    public virtual void Graficar<T>(Dictionary<T, int> datos, bool setSize=true)
     {
         ResetGraph();
-        SetSizeVariables();
+        if(setSize) 
+            SetSizeVariables();
 
         if (debug)
         {

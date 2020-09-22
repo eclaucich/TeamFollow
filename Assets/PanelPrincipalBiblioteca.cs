@@ -60,7 +60,7 @@ public class PanelPrincipalBiblioteca : Panel
 
     private void VerificarEdicionNombreJugada(string _nuevoNombre)
     {
-        if (_nuevoNombre != _botonImagenFocus.GetNombre())
+        if (!inputNuevoNombre.wasCanceled && _nuevoNombre != _botonImagenFocus.GetNombre())
         {
             CarpetaJugada _carpeta = _botonImagenFocus.GetCarpeta();
 
@@ -188,10 +188,10 @@ public class PanelPrincipalBiblioteca : Panel
 
         AppController.instance.AgregarCarpetaJugada(_nuevaCarpeta);
 
-        NuevaCarpeta(_nuevaCarpeta);
+        NuevaCarpeta(_nuevaCarpeta, true);
     }
 
-    public void NuevaCarpeta(CarpetaJugada _carpeta)
+    public void NuevaCarpeta(CarpetaJugada _carpeta, bool saveNew = false)
     {
         GameObject goCarpeta = Instantiate(botonCarpetaPrefab, parentTransform, false);
         goCarpeta.SetActive(true);
@@ -204,7 +204,8 @@ public class PanelPrincipalBiblioteca : Panel
         goCarpeta.GetComponent<BotonCarpetaJugada>().ToggleSeccionJugadas();
 
        
-        SaveSystem.GuardarCarpetaBiblioteca(_carpeta); 
+        if(saveNew) 
+            SaveSystem.GuardarCarpetaBiblioteca(_carpeta); 
 
         BorrarPrefabsCarpetas();
         CrearPrefabsCarpetas();

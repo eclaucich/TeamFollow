@@ -169,6 +169,8 @@ public class PanelSeleccionEstadisticas : Panel {
     {
         int cantEstSeleccionadas = GetListaEstadisticas().Count;
 
+        Debug.Log("EST 0 : " + GetListaEstadisticas()[0]);
+
         if (AppController.instance.equipoActual.GetJugadores().Count == 0)
         {
             mensajeError.SetText("Este equipo no tiene jugadores".ToUpper(), AppController.Idiomas.Español);

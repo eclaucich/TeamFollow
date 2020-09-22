@@ -24,7 +24,7 @@ public class EntradaDatosGenerico : EntradaDatos
     [SerializeField] private ResultadoNormal resultadoNormal = null;
     [SerializeField] private ResultadoSets resultadoSets = null;
 
-    [SerializeField] private GameObject toggleResultado = null;
+    [SerializeField] private Toggle toggleResultado = null;
     [SerializeField] private GameObject overlayInputsResultado = null;
     private bool insertarResultado;
 
@@ -85,6 +85,7 @@ public class EntradaDatosGenerico : EntradaDatos
         }
 
         relojEntradaDatos.Initiate();
+        GuardarComoPartido();
     }
 
     public override void TerminarSeleccionJugadores(List<Jugador> _listaJugadores, int cantSeleccionados)
@@ -100,6 +101,8 @@ public class EntradaDatosGenerico : EntradaDatos
         CanvasController.instance.overlayPanel.gameObject.SetActive(false);
         CanvasController.instance.botonDespliegueMenu.SetActive(false);
 
+        Debug.Log("CANT EST SEL: " + listaEstadisticas.Count);
+
         seccionBanca.SetSeccionBanca(jugadoresSeleccionados);
         seccionCancha.SetSeccionCancha();
         seccionEstadisticas.SetSeccionEstadisticas(listaEstadisticas, listaNombres, listaIniciales);
@@ -111,18 +114,19 @@ public class EntradaDatosGenerico : EntradaDatos
     {
         isPartido = true;
         imagenSeleccion.sprite = botonGuardarPartidoSprite;
-        toggleResultado.SetActive(false);
+        toggleResultado.gameObject.SetActive(false);
         insertarResultado = true;
-        overlayInputsResultado.SetActive(!insertarResultado);
+        overlayInputsResultado.SetActive(false);
     }
 
     public void GuardarComoPractica()
     {
         isPartido = false;
         imagenSeleccion.sprite = botonGuardarPracticaSprite;
-        toggleResultado.SetActive(true);
+        toggleResultado.gameObject.SetActive(true);
+        toggleResultado.isOn = true;
         insertarResultado = true;
-        overlayInputsResultado.SetActive(!insertarResultado);
+        overlayInputsResultado.SetActive(false);
     }
 
     public void ToggleInsertarResultado()
@@ -142,18 +146,18 @@ public class EntradaDatosGenerico : EntradaDatos
         string nombrePartido = nombrePartidoText.text.ToUpper();
         Equipo equipo = AppController.instance.equipoActual;
 
-        if (nombrePartido == "")
+        if (nombrePartido == "" || !AppController.instance.VerificarNombre(nombrePartido))
         {
-            mensajeErrorGuardado.SetText("Nombre inválido!".ToUpper(), AppController.Idiomas.Español);
-            mensajeErrorGuardado.SetText("Invalid name!".ToUpper(), AppController.Idiomas.Ingles);
+            mensajeErrorGuardado.SetText("Nombre inválido".ToUpper(), AppController.Idiomas.Español);
+            mensajeErrorGuardado.SetText("Invalid name".ToUpper(), AppController.Idiomas.Ingles);
             mensajeErrorGuardado.Activar();
             Debug.Log("Nombre inválido");
             return;
         }
         else if (equipo.ContienePartido(tipoEntradaDatos, nombrePartido))
         {
-            mensajeErrorGuardado.SetText("Nombre existente!".ToUpper(), AppController.Idiomas.Español);
-            mensajeErrorGuardado.SetText("Existing name!".ToUpper(), AppController.Idiomas.Ingles);
+            mensajeErrorGuardado.SetText("Nombre existente".ToUpper(), AppController.Idiomas.Español);
+            mensajeErrorGuardado.SetText("Existing name".ToUpper(), AppController.Idiomas.Ingles);
             mensajeErrorGuardado.Activar();
             Debug.Log("Nombre existente");
             return;
@@ -163,7 +167,7 @@ public class EntradaDatosGenerico : EntradaDatos
         Estadisticas estEquipo = new Estadisticas(deporteActual);
         DateTime fecha = DateTime.Now;
 
-        Partido _partido = new Partido(nombrePartido, estEquipo, fecha);
+        Partido _partido = new Partido(nombrePartido, estEquipo, fecha, isPartido);
         List<Evento> _eventos = seccionEstadisticas.GetListaEventos();
         _partido.SetListaEventos(_eventos);
 
@@ -171,12 +175,13 @@ public class EntradaDatosGenerico : EntradaDatos
         {
             if (insertarResultado && !resultadoNormal.VerificarInputs())
             {
-                mensajeErrorGuardado.SetText("Completar campos de resultado!".ToUpper(), AppController.Idiomas.Español);
-                mensajeErrorGuardado.SetText("Complete results fields!".ToUpper(), AppController.Idiomas.Ingles);
+                mensajeErrorGuardado.SetText("Completar campos de resultado".ToUpper(), AppController.Idiomas.Español);
+                mensajeErrorGuardado.SetText("Complete results fields".ToUpper(), AppController.Idiomas.Ingles);
                 mensajeErrorGuardado.Activar();
                 return;
             }
             resultadoNormal.SetResultado();
+            Debug.Log("RES: " + resultadoNormal.GetResultado());
             Debug.Log("PROP: " + resultadoNormal.GetResultadoPropio());
             Debug.Log("CONT: " + resultadoNormal.GetResultadoContrario());
             Debug.Log("PEN PROP: " + resultadoNormal.GetResultadoPenalesPropio());
@@ -188,8 +193,8 @@ public class EntradaDatosGenerico : EntradaDatos
         {
             if (insertarResultado && !resultadoSets.VerificarInputs())
             {
-                mensajeErrorGuardado.SetText("Completar campos de resultado!".ToUpper(), AppController.Idiomas.Español);
-                mensajeErrorGuardado.SetText("Complete results fields!".ToUpper(), AppController.Idiomas.Ingles);
+                mensajeErrorGuardado.SetText("Completar campos de resultado".ToUpper(), AppController.Idiomas.Español);
+                mensajeErrorGuardado.SetText("Complete results fields".ToUpper(), AppController.Idiomas.Ingles);
                 mensajeErrorGuardado.Activar();
                 return;
             }

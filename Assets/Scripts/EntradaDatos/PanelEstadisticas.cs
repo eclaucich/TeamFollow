@@ -16,6 +16,7 @@ public class PanelEstadisticas : MonoBehaviour {
     private List<TextScript> listaToggles;
 
     [SerializeField] private ScrollRect scrollRect = null;
+    [SerializeField] private VerticalLayoutGroup verticalLayoutGroup = null;
 
     private float prefabHeight;
 
@@ -28,7 +29,7 @@ public class PanelEstadisticas : MonoBehaviour {
 
         for (int i = 0; i < listaTipoEstadisticas.Length; i++)
         {
-            if ((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i) > 0)
+            if ((EstadisticaDeporte.Estadisticas)listaTipoEstadisticas.GetValue(i) >= 0)
             {
                 //SE DEBERÍA OBTENER DE nombreEstadisticas, EL TIPO DEL ENUM Y TRABAJR CON ESO EN VEZ DE CON EL NOMBRE
                 GameObject toggleGO = Instantiate(togglePrefab, parentTransform, false);
@@ -118,7 +119,7 @@ public class PanelEstadisticas : MonoBehaviour {
     {
         if (scrollRect == null) Debug.Log("SCROLL RECT NULL");
         if(prefabHeight == 0) prefabHeight = togglePrefab.GetComponent<RectTransform>().rect.height;
-        return (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + 50 +60)); //20 es el spacing
+        return (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + verticalLayoutGroup.spacing + verticalLayoutGroup.padding.top));
     }
 
     public int GetChildCount()

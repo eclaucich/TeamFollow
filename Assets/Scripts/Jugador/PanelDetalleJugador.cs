@@ -13,6 +13,7 @@ public class PanelDetalleJugador : Panel{
 
     [SerializeField] private GraficaResumen graficaResumen = null;
 
+    [SerializeField] private GameObject botonVerResumen = null;
     [SerializeField] private GameObject estadisticaPrefab = null;
     [SerializeField] private GameObject botonEstadisticaPrefab = null;
     [SerializeField] private Transform transformParent = null;
@@ -104,11 +105,13 @@ public class PanelDetalleJugador : Panel{
 
         if (_partido == null)
         {
+            botonVerResumen.SetActive(false);
             botonBorrar.SetActive(false);
             seccionResultado.SetActive(false);
         }
         else
         {
+            botonVerResumen.SetActive(true);
             botonBorrar.SetActive(true);
             seccionResultado.SetActive(true);
         }
@@ -156,7 +159,6 @@ public class PanelDetalleJugador : Panel{
     public void VerGraficaResumen()
     {
         graficaResumen.SetGraficaResumen(partidoFocus, jugador);
-        CanvasController.instance.botonDespliegueMenu.SetActive(false);
     }
 
     public void BorrarPrefabs()

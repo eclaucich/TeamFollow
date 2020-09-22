@@ -3,11 +3,11 @@ public class EstadisticasHandball : EstadisticaDeporte
 {
     public new enum Estadisticas
     {
-        Pase=1,
-        Tiro=11,
-        Camina=62,
-        PerdidaDePosesion=63,
-        Gol=0,
+        Pase=0,
+        Tiro=301,
+        Camina=217,
+        PerdidaDePosesion=218,
+        Gol=300,
         MeterJugador = -1,
         SacarJugador = -2
     };

@@ -55,6 +55,8 @@ public class InputPrefabEspecial : InputPrefab
 
     public override void HabilitarInput(bool _aux)
     {
-        GetComponent<Button>().enabled = _aux;
+        Button buttonGO = GetComponent<Button>();
+        if(buttonGO!=null)
+            buttonGO.enabled = _aux;
     }
 }

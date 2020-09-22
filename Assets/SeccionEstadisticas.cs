@@ -27,9 +27,9 @@ public class SeccionEstadisticas : MonoBehaviour
     {
         nombreJugadorText.text = "";
 
-        for (int i=0; i<_nombres.Count; i++)
+        for (int i=0; i<_estadisticas.Count; i++)
         {
-            if ((int)_estadisticas[i] > 0)
+            if (_estadisticas[i] >= 0)
             {
                 GameObject go = Instantiate(prefabEstadistica, parentPrefabs, false);
                 go.SetActive(true);

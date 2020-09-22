@@ -124,7 +124,7 @@ public class Estadisticas {
         return value;
     }
 
-    public int[] Find(string _key) //Busca si la estadistica "_key" esta en el diccionario. Devuelve en [0] si la encontró (1) o no (0), y en [1] el valor de esa estadistica
+    public int[] Find(string _cat) //Busca si la estadistica "_key" esta en el diccionario. Devuelve en [0] si la encontró (1) o no (0), y en [1] el valor de esa estadistica
     {
         int[] result = new int[2];
         bool aux = false;
@@ -132,7 +132,9 @@ public class Estadisticas {
         foreach (var est in listaEstadisticas)
         {
             string _keyAux = est.Key.Replace(" ", string.Empty);
-            if (_keyAux == _key)
+            string _catAux = _cat.Replace(" ", string.Empty);
+
+            if (_keyAux.ToUpper() == _catAux.ToUpper())
             {
                 result[0] = 1;
                 result[1] = est.Value;

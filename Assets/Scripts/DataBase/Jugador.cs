@@ -100,12 +100,14 @@ public class Jugador {
 
     public void GuardarEntradaDato(string tipoEntradaDato, Estadisticas estadisticas, string _nombrePartido, DateTime _fecha, ResultadoEntradaDatos _res, List<Evento> _eventos, Partido.TipoResultadoPartido _tipoResultado)
     {
-        Partido _partido = new Partido(_nombrePartido, estadisticas, _fecha);
+        bool _isPartido = tipoEntradaDato == "Partido";
+
+        Partido _partido = new Partido(_nombrePartido, estadisticas, _fecha, _isPartido);
         _partido.AgregarResultadoEntradaDatos(_res, _tipoResultado);
         _partido.SetListaEventos(_eventos);
         _partido.SetPosicion(GetPosicionActual());
 
-        if(tipoEntradaDato == "Partido")
+        if(_isPartido)
         {
             estadisticasGlobalesPartido.AgregarEstadisticas(estadisticas);
             partidos.Add(_partido);

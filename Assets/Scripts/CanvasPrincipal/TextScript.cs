@@ -41,7 +41,7 @@ public class TextScript : MonoBehaviour {
         if (tgl.isOn)
             tgl.image.color = AppController.instance.colorTheme.botonSeleccionado;
         else
-            tgl.image.color = AppController.instance.colorTheme.botonActivado;
+            tgl.image.color = new Color(1f,1f,1f,0f); //transparente
     }
 
     public bool IsOn()

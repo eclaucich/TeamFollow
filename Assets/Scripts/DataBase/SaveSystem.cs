@@ -5,8 +5,8 @@ using System;
 
 public static class SaveSystem {
 
-    public static string pathEquipos = Application.persistentDataPath + "/SaveData5/Equipos/";
-    public static string pathImagenJugadas = Application.persistentDataPath + "/SaveData5/ImagenJugadas/";
+    public static string pathEquipos = Application.persistentDataPath + "/TFSaveData/Equipos/";
+    public static string pathImagenJugadas = Application.persistentDataPath + "/TFSaveData/ImagenJugadas/";
 
     #region Equipos
     public static void GuardarEquipo(Equipo equipo)
@@ -269,8 +269,12 @@ public static class SaveSystem {
             Directory.CreateDirectory(imagenPath);
             if (_carpeta == null)
             {
-                _carpeta = new CarpetaJugada("-");
-                AppController.instance.AgregarCarpetaJugada(_carpeta);
+                _carpeta = AppController.instance.BuscarCarpetaPorNombre("SIN CARPETA");
+                if (_carpeta==null)
+                {
+                    _carpeta = new CarpetaJugada("SIN CARPETA");
+                    AppController.instance.AgregarCarpetaJugada(_carpeta);
+                }
             }
         }
 

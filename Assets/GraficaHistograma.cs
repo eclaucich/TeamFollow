@@ -22,7 +22,7 @@ public class GraficaHistograma : Grafica
         columnPrefabs = new List<GameObject>();
     }
 
-    public override void Graficar<T>(Dictionary<T, int> datos)
+    public override void Graficar<T>(Dictionary<T, int> datos, bool setSize=true)
     {
         base.Graficar(datos);
 

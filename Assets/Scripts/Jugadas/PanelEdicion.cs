@@ -242,7 +242,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             }
             else
                 botonGO.Deseleccionar();
-            if (carpeta.GetNombre() == "SIN CARPETA")
+            if (carpeta.GetNombre() == "-")
             {
                 go.transform.SetAsFirstSibling();
                 SetCarpetaSeleccionada(botonGO);
@@ -288,7 +288,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             mensajeErrorGuardar.Activar();
             return;
         }
-        else if(nombreJugada == "" || nombreJugada == " " || nombreJugada == "  ")
+        else if(!AppController.instance.VerificarNombre(nombreJugada))
         {
             mensajeErrorGuardar.SetText("Nombre invalido!".ToUpper(), AppController.Idiomas.Español);
             mensajeErrorGuardar.SetText("Invalid name!".ToUpper(), AppController.Idiomas.Ingles);

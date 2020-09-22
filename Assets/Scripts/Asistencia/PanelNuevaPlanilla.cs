@@ -82,6 +82,14 @@ public class PanelNuevaPlanilla : PanelAsistencia {
             return;
         }
 
+        if(!AppController.instance.VerificarNombre(alias))
+        {
+            mensajeError.SetText("NOMBRE INVÁLIDO!", AppController.Idiomas.Español);
+            mensajeError.SetText("INVALID NAME!", AppController.Idiomas.Ingles);
+            mensajeError.Activar();
+            return;
+        }
+
         equipo.NuevaPlanilla(nombrePlanilla, alias, detalles);
 
         GetComponentInParent<PanelPlanillaAsistencia>().MostrarPanelHistorialPlanillas();

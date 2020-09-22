@@ -14,7 +14,7 @@ public class MensajeError : MonoBehaviour
     private float currentTime = 0f;
     private bool active = false;
 
-    private void Start()
+    private void Awake()
     {
         if (animate)
         {
@@ -38,11 +38,11 @@ public class MensajeError : MonoBehaviour
     {
         active = true;
         if (animate)
-        {
             animator.SetBool("open", active);
-        }
+        else 
+            gameObject.SetActive(true);
 
-        else gameObject.SetActive(true);
+        CanvasController.instance.retrocesoPausado = true;
     }
 
     public void Desactivar()
@@ -50,10 +50,11 @@ public class MensajeError : MonoBehaviour
         currentTime = 0f;
         active = false;
         if (animate)
-        {
             animator.SetBool("open", active);
-        }
-        else gameObject.SetActive(false);
+        else
+            gameObject.SetActive(false);
+
+        CanvasController.instance.retrocesoPausado = false;
     }
 
     public void SetText(string text_, AppController.Idiomas idioma)

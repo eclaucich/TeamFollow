@@ -9,6 +9,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
     //[SerializeField] private Text nombreEquipoText = null;
     [SerializeField] private GameObject botonEstadisticaPrefab = null;
+    [SerializeField] private GameObject botonVerResultado = null;
     [SerializeField] private Transform transformParent = null;
 
     [SerializeField] private GraficaResumen graficaResumen = null;
@@ -43,6 +44,7 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
     public void SetPanelEstadisticasGlobalesEquipo(/*BotonPartido _botonPartido, */Estadisticas _estadisticas)
     {
+        botonVerResultado.SetActive(false);
         resultadoNormal.gameObject.SetActive(false);
         resultadoSets.gameObject.SetActive(false);
 
@@ -81,6 +83,8 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
     public void SetPanelEstadisticasGlobalesEquipo(Partido _partido, bool fromGrafica=false)
     {
+        botonVerResultado.SetActive(true);
+
         partidoFocus = _partido;
         ResultadoEntradaDatos.Resultado _tipoResultado;
 
@@ -186,7 +190,6 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
     {
         graficaResumen.SetGraficaResumen(partidoFocus);
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.EstadisticasGlobalesEquipo);
-        CanvasController.instance.botonDespliegueMenu.SetActive(false);
     }
 
     public void BorrarPrefabs()

@@ -361,9 +361,9 @@ public static class LoadSystem
                 AppController.instance.AgregarCarpetaJugada(_carpeta);
             }
 
-            if(!Directory.Exists(pathImagenJugadas + "SIN CARPETA"))
+            if(!Directory.Exists(pathImagenJugadas + "-"))
             {
-                Directory.CreateDirectory(pathImagenJugadas + "SIN CARPETA");
+                Directory.CreateDirectory(pathImagenJugadas + "-");
                 AppController.instance.AgregarCarpetaJugada(new CarpetaJugada("SIN CARPETA"));
             }
         }

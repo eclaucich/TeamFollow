@@ -11,6 +11,8 @@ public class PanelGraficoEstadistica : MonoBehaviour
 
     [SerializeField] private TextLanguage ejeXText = null;
     [SerializeField] private Text ejeYText = null;
+    [SerializeField] private TextLanguage ejeXVerticalText = null;
+    [SerializeField] private Text ejeYVerticalText = null;
     [SerializeField] private TextLanguage titleText = null;
 
     [SerializeField] private GameObject graficasHorizontales = null;
@@ -18,6 +20,7 @@ public class PanelGraficoEstadistica : MonoBehaviour
 
     [SerializeField] private GraficaEstadistica graficaFuncionHorizontal = null;
     [SerializeField] private GraficaHistograma graficaHistogramaHorizontal = null;
+    [SerializeField] private GraficaBigote graficaBigote = null;
     [SerializeField] private GraficaEstadistica graficaFuncionVertical = null;
     [SerializeField] private GraficaHistograma graficaHistogramaVertical = null;
 
@@ -32,7 +35,8 @@ public class PanelGraficoEstadistica : MonoBehaviour
         FuncionHorizontal = 0,
         HistogramaHorizontal = 1,
         FuncionVertical = 2,
-        HistogramaVertical = 3
+        HistogramaVertical = 3,
+        Bigote = 4
     };
 
     public void ActivarPanel()
@@ -58,10 +62,15 @@ public class PanelGraficoEstadistica : MonoBehaviour
         ///COSAS DEL GUI
         ActivarPanel();
 
-        ejeXText.SetText("Partido", AppController.Idiomas.Español);
-        ejeXText.SetText("Match", AppController.Idiomas.Ingles);
+        ejeXText.SetText("PARTIDO", AppController.Idiomas.Español);
+        ejeXText.SetText("MATCH", AppController.Idiomas.Ingles);
+
+        ejeXVerticalText.SetText("PARTIDO", AppController.Idiomas.Español);
+        ejeXVerticalText.SetText("MATCH", AppController.Idiomas.Ingles);
 
         ejeYText.text = nombreEstadistica;
+        ejeYVerticalText.text = nombreEstadistica;
+
 
         if (isPartido)
         {
@@ -100,10 +109,13 @@ public class PanelGraficoEstadistica : MonoBehaviour
 
         ///GRAFICAR TODAS LAS GRAFICAS
         graficaFuncionHorizontal.Graficar(datosGraficaPartidos);
-        if (datosJugador) 
+        if (datosJugador)
             graficaHistogramaHorizontal.Graficar(datosGraficaPartidos);
         else
+        {
             graficaHistogramaHorizontal.Graficar(datosGraficaJugadores);
+            graficaBigote.Graficar(datosGraficaJugadores);
+        }
 
         graficaFuncionVertical.Graficar(datosGraficaPartidos);
         if (datosJugador)
@@ -174,10 +186,14 @@ public class PanelGraficoEstadistica : MonoBehaviour
         {
             graficaFuncionVertical.gameObject.SetActive(!graficaFuncionVertical.gameObject.activeSelf);
             graficaHistogramaVertical.gameObject.SetActive(!graficaHistogramaVertical.gameObject.activeSelf);
+
             if (graficaFuncionVertical.gameObject.activeSelf)
             {
                 graficaFuncionVertical.BorrarPrefabs();
                 graficaFuncionVertical.CrearPrefabs(datosGraficaPartidos, false);
+
+                ejeXVerticalText.SetText("PARTIDOS", AppController.Idiomas.Español);
+                ejeXVerticalText.SetText("MATCHES", AppController.Idiomas.Ingles); 
 
                 titleText.SetText("PARTIDOS", AppController.Idiomas.Español);
                 titleText.SetText("MATCHES", AppController.Idiomas.Ingles);
@@ -185,9 +201,13 @@ public class PanelGraficoEstadistica : MonoBehaviour
             else
             {
                 graficaHistogramaVertical.BorrarPrefabs();
+
                 if (_datosJugador)
                 {
                     graficaHistogramaVertical.CrearPrefabs(datosGraficaPartidos, false);
+
+                    ejeXVerticalText.SetText("PARTIDOS", AppController.Idiomas.Español);
+                    ejeXVerticalText.SetText("MATCHES", AppController.Idiomas.Ingles);
 
                     titleText.SetText("PARTIDOS", AppController.Idiomas.Español);
                     titleText.SetText("MATCHES", AppController.Idiomas.Ingles);
@@ -195,6 +215,9 @@ public class PanelGraficoEstadistica : MonoBehaviour
                 else
                 {
                     graficaHistogramaVertical.CrearPrefabs(datosGraficaJugadores, true);
+
+                    ejeXVerticalText.SetText("JUGADORES", AppController.Idiomas.Español);
+                    ejeXVerticalText.SetText("PLAYERS", AppController.Idiomas.Ingles);
 
                     titleText.SetText("JUGADORES", AppController.Idiomas.Español);
                     titleText.SetText("PLAYERS", AppController.Idiomas.Ingles);
@@ -225,13 +248,20 @@ public class PanelGraficoEstadistica : MonoBehaviour
     private Dictionary<Jugador, int> ObtenerDatosGraficaJugadores(string nombreEstadistica, List<Jugador> jugadores, bool isPartido)
     {
         Dictionary<Jugador, int> datos = new Dictionary<Jugador, int>();
+        Debug.Log("NOMBRE: " + nombreEstadistica);
         Debug.Log("Cantidad jugadores: " + jugadores.Count);
         foreach (var jugador in jugadores)
         {
             Estadisticas estGlobales = isPartido ? jugador.GetEstadisticasPartido() : jugador.GetEstadisticasPractica();
+            Debug.Log("cant cat: " + estGlobales.GetCantidadCategorias());
+            foreach (var cat in estGlobales.GetDictionary())
+            {
+                Debug.Log("cat: " + cat.Key);
+            }
             int[] r = estGlobales.Find(nombreEstadistica);
             if (r[0] == 1)
             {
+                Debug.Log("ENCONTRADA");
                 //string key = partido.GetFecha().ToString();
                 datos[jugador] = r[1];
             }

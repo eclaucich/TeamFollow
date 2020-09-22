@@ -3,19 +3,19 @@ public class EstadisticasRugby : EstadisticaDeporte
 {
     public new enum Estadisticas
     {
-        Takle = 33,
-        KnockOn = 34,
-        Drop = 35,
-        PassForward = 36,
-        Try = 37,
-        Conversion = 38,
-        Falta =7,
-        Lateral=14,
-        Offside=6,
-        Penal=15,
-        Amarilla=2,
-        Roja=3,
-        Intercepcion=8,
+        Takle = 3,
+        KnockOn = 104,
+        Drop = 105,
+        PassForward = 310,
+        Try = 412,
+        Conversion = 413,
+        Falta=201,
+        Lateral=304,
+        Offside=200,
+        Penal=402,
+        Amarilla=400,
+        Roja=401,
+        Intercepcion=202,
         MeterJugador = -1,
         SacarJugador = -2
     };

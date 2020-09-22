@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7357818891469925638}
   - component: {fileID: 7357818891469925632}
   - component: {fileID: 7357818891469925639}
-  - component: {fileID: -9070651845680847718}
+  - component: {fileID: 751406824040672103}
   m_Layer: 5
   m_Name: BordeSuperiorFondo
   m_TagString: Untagged
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-9070651845680847718
+--- !u!114 &751406824040672103
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -83,6 +83,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7357818891469925637}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c0e44020ee8db64a8bd8abf8ebb0d3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 12df25e1a92a48f4d99cacc46cb0d46d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

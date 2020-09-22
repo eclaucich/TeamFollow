@@ -27,6 +27,9 @@ public class ResultadoNormal : ResultadoEntradaDatos
         inputPropio.keyboardType = TouchScreenKeyboardType.NumberPad;
         inputContrario.keyboardType = TouchScreenKeyboardType.NumberPad;
 
+        inputPenalesPropio.keyboardType = TouchScreenKeyboardType.NumberPad;
+        inputPenalesContrario.keyboardType = TouchScreenKeyboardType.NumberPad;
+
         isPenales = false;
         isEditable = true;
     }
@@ -52,7 +55,8 @@ public class ResultadoNormal : ResultadoEntradaDatos
 
     public override void SetResultado(bool fromInputs=true)
     {
-        if(fromInputs) GetValuesFromInputs();
+        if(fromInputs) 
+            GetValuesFromInputs();
 
         if (valorPropio > valorContrario)
             resultado = Resultado.Victoria;
@@ -96,6 +100,8 @@ public class ResultadoNormal : ResultadoEntradaDatos
         valorPenalesContrario = _res.GetResultadoPenalesContrario();
 
         isPenales = _res.IsPenales();
+
+        SetResultado(false);
 
         SetInputsText();
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class AppController : MonoBehaviour {
@@ -48,7 +49,6 @@ public class AppController : MonoBehaviour {
 
         DontDestroyOnLoad(this);
     }
-
 
     #region Control de equipos
     public void AgregarEquipo(Equipo equipo)
@@ -118,6 +118,51 @@ public class AppController : MonoBehaviour {
             idioma = Idiomas.Ingles;
         else
             idioma = Idiomas.Español;
+    }
+
+    public bool VerificarNombre(string _nombre)
+    {
+        if( _nombre.Contains("?") ||
+            _nombre.Contains("!") ||
+            _nombre.Contains("°") ||
+            _nombre.Contains("\"") ||
+            _nombre.Contains("#") ||
+            _nombre.Contains("$") ||
+            _nombre.Contains("%") ||
+            _nombre.Contains("/") ||
+            _nombre.Contains("(") ||
+            _nombre.Contains(")") ||
+            _nombre.Contains("=") ||
+            _nombre.Contains("'") ||
+            _nombre.Contains("¿") ||
+            _nombre.Contains("¡") ||
+            _nombre.Contains("´") ||
+            _nombre.Contains("¨") ||
+            _nombre.Contains("{") ||
+            _nombre.Contains("[") ||
+            _nombre.Contains("^") ||
+            _nombre.Contains("}") ||
+            _nombre.Contains("]") ||
+            _nombre.Contains("`") ||
+            _nombre.Contains("+") ||
+            _nombre.Contains("*") ||
+            _nombre.Contains("~") ||
+            _nombre.Contains(".") ||
+            _nombre.Contains(":") ||
+            _nombre.Contains(",") ||
+            _nombre.Contains(";") ||
+            _nombre.Contains("¬") ||
+            _nombre.Contains("\\") ||
+            _nombre.Contains("<") ||
+            _nombre.Contains(">"))
+        {
+            return false;
+        }
+
+        if (_nombre.StartsWith(" "))
+            return false;
+
+        return true;
     }
     #endregion
 }

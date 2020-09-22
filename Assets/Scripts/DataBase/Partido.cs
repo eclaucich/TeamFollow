@@ -9,6 +9,7 @@ public class Partido
     private DateTime fecha;
     private List<Evento> eventos;
     private string posicion;
+    private bool isPartido;
 
     public enum TipoResultadoPartido
     {
@@ -18,12 +19,13 @@ public class Partido
     private TipoResultadoPartido tipoResultado;
     private ResultadoEntradaDatos resultadoPartido;
 
-    public Partido(string _nombre, Estadisticas _estadisticas, DateTime _fecha)
+    public Partido(string _nombre, Estadisticas _estadisticas, DateTime _fecha, bool _isPartido)
     {
         nombre = _nombre;
         estadisticas = _estadisticas;
         fecha = _fecha;
         posicion = string.Empty;
+        isPartido = _isPartido;
     }
 
     public Partido(SaveDataPartido dataPartido, SaveDataEstadisticas dataEstadisticas, Equipo _equipo)
@@ -32,6 +34,7 @@ public class Partido
         estadisticas = new Estadisticas(dataEstadisticas);
         fecha = dataPartido.GetFecha();
         posicion = string.Empty;
+        isPartido = dataPartido.isPartido;
 
         eventos = new List<Evento>();
         foreach (var evento in dataPartido.eventos)
@@ -46,7 +49,8 @@ public class Partido
         estadisticas = new Estadisticas(dataEstadisticas);
         fecha = dataPartido.GetFecha();
         posicion = _posicion;
-        
+        isPartido = dataPartido.isPartido;
+
         eventos = new List<Evento>();
         foreach (var evento in dataPartido.eventos)
         {
@@ -75,6 +79,12 @@ public class Partido
     {
         return fecha;
     }
+
+    public bool IsPartido()
+    {
+        return isPartido;
+    }
+
     public void BorrarEstadistica(Estadisticas estadisticas_)
     {
         estadisticas.BorrarEstadisticas(estadisticas_);

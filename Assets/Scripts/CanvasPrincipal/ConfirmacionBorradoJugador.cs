@@ -13,7 +13,7 @@ public class ConfirmacionBorradoJugador : MensajeDesplegable
         jugadorFocus = AppController.instance.equipoActual.BuscarPorNombre(nombreJugador);
         //textoConfirmacion.text = "Borrar Jugador \"" + jugadorFocus.GetNombre() + "\"?";
         text.SetText("Borrar jugador \"" + jugadorFocus.GetNombre() + "\"?".ToUpper(), AppController.Idiomas.Español);
-        text.SetText("Borrar player \"" + jugadorFocus.GetNombre() + "\"?".ToUpper(), AppController.Idiomas.Ingles);
+        text.SetText("Delete player \"" + jugadorFocus.GetNombre() + "\"?".ToUpper(), AppController.Idiomas.Ingles);
         botonJugadorFocus = botonJugador;
         ToggleDesplegar();
     }

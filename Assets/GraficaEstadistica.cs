@@ -34,10 +34,10 @@ public class GraficaEstadistica : Grafica
         graphPoints = new List<GameObject>();
     }
 
-    public override void Graficar<T>(Dictionary<T, int> datos)
+    public override void Graficar<T>(Dictionary<T, int> datos, bool setSize=true)
     {
         base.Graficar(datos);
-               
+
         if (debug)
         {
             lr.positionCount = 0;

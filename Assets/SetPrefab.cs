@@ -25,6 +25,9 @@ public class SetPrefab : MonoBehaviour
         inputPropio.keyboardType = TouchScreenKeyboardType.NumberPad;
         inputContrario.keyboardType = TouchScreenKeyboardType.NumberPad;
 
+        inputTBPropio.keyboardType = TouchScreenKeyboardType.NumberPad;
+        inputTBContrario.keyboardType = TouchScreenKeyboardType.NumberPad;
+
         isTieBreak = false;
     }
 

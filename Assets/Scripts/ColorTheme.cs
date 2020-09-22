@@ -14,5 +14,6 @@ public class ColorTheme : MonoBehaviour
     [SerializeField] public Color detalle2;
     [SerializeField] public Color detalle3;
     [SerializeField] public Color detalle4;
-
+    [SerializeField] public Color detalle5;
+    [SerializeField] public Color fondoOverlay;
 }

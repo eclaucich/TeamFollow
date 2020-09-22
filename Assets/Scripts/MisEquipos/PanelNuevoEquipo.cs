@@ -1,48 +1,30 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-
-/// <summary>
-/// 
-/// Tiene un campo para poner el nombre de el nuevo equipo (por ahora solo eso es necesario)
-/// Tiene un botón para guardar el equipo configurado.
-///  
-/// </summary>
 
 public class PanelNuevoEquipo : Panel {
 
-    [SerializeField] private Text inputNombreNuevoEquipo = null;                                   //Nombre del nuevo equipo ingresado por el usuario
+    [SerializeField] private Text inputNombreNuevoEquipo = null;
 
-    [SerializeField] private Text inputNombreDeporte = null;
     [SerializeField] private MensajeError mensajeError = null;
     [SerializeField] private InputField inputNombreEquipo = null;
     [SerializeField] private Text nombreDeporteElegido = null;
 
-    [SerializeField] private GameObject botonElegirDeportePrefab = null;
-    [SerializeField] private Transform botonesParentTransform = null;
-    private List<GameObject> listaPrefabs = null;
     private Deportes.DeporteEnum deporteActual;
 
-    private GameObject botonDeporteActual = null;
-    private Color notSelectedColor;
-    private Color selectedColor;
-
-    private PanelMisEquipos panelMisEquipos;                                                //Componente padre para poder acceder a las funciones
+    private PanelMisEquipos panelMisEquipos;
 
     private void Start()
     {
         panelMisEquipos = GetComponentInParent<PanelMisEquipos>();
-        notSelectedColor = AppController.instance.colorTheme.botonActivado;
-        selectedColor = new Color(notSelectedColor.r, notSelectedColor.g, notSelectedColor.b, 160f / 255f);
-        listaPrefabs = new List<GameObject>();
         deporteActual = Deportes.DeporteEnum.Basket;
         nombreDeporteElegido.text = Deportes.instance.GetDisplayName(deporteActual, AppController.instance.idioma);
     }
+
     public void SetPanel()
     {
-        //mensajeError.Desactivar();
+        CanvasController.instance.overlayPanel.SetNombrePanel("NUEVO EQUIPO", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("NEW TEAM", AppController.Idiomas.Ingles);
+        mensajeError.Desactivar();
     }
 
 
@@ -64,7 +46,7 @@ public class PanelNuevoEquipo : Panel {
             mensajeError.Activar();
             return;
         }
-        if(nombreNuevoEquipo == " " || nombreNuevoEquipo == "  " || nombreNuevoEquipo == "   ")
+        if(!AppController.instance.VerificarNombre(nombreNuevoEquipo))
         {
             mensajeError.SetText("NOMBRE INVALIDO!", AppController.Idiomas.Español);
             mensajeError.SetText("INVALID NAME!", AppController.Idiomas.Español);
@@ -83,9 +65,6 @@ public class PanelNuevoEquipo : Panel {
     {
         deporteActual = _deporte;
         nombreDeporteElegido.text = Deportes.instance.GetDisplayName(_deporte, AppController.instance.idioma);
-        /*if(botonDeporteActual!=null) botonDeporteActual.GetComponent<Image>().color = notSelectedColor;
-        botonDeporteActual = botonDeporte;
-        botonDeporteActual.GetComponent<Image>().color = selectedColor;*/
     }
 
     public Deportes.DeporteEnum GetDeporteActual()
