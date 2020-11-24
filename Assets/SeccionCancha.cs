@@ -16,7 +16,7 @@ public class SeccionCancha : MonoBehaviour
 
         deporte = AppController.instance.equipoActual.GetDeporte();
 
-        imagenCancha.sprite =  Deportes.instance.GetImagenCancha(deporte, Deportes.TipoCanchasEnum.CanchaEntera);
+        imagenCancha.sprite = Deportes.instance.GetImagenCancha(deporte, Deportes.TipoCanchasEnum.CanchaEntera);
     }
 
     public void SetActiveContorno(bool _aux)

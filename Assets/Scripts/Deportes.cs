@@ -31,7 +31,7 @@ public class Deportes : MonoBehaviour
         Tenis,
         Voley,
 
-        NULL,
+        Ninguno,
     }
 
     public enum TipoCanchasEnum
@@ -124,6 +124,13 @@ public class Deportes : MonoBehaviour
                 else if (_idioma == AppController.Idiomas.Ingles)
                     nombreDeporte = "Volley";
                 break;
+            case DeporteEnum.Ninguno:
+                if (_idioma == AppController.Idiomas.Español)
+                    nombreDeporte = "Ninguno";
+                else if (_idioma == AppController.Idiomas.Ingles)
+                    nombreDeporte = "None";
+                break;
+
             default:
                 nombreDeporte = "ERROR NOMBRE DEPORTE";
                 break;
@@ -229,6 +236,5 @@ public class Deportes : MonoBehaviour
             default:
                 return null;
         }
-
     }
 }

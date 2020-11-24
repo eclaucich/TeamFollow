@@ -73,14 +73,17 @@ public class PanelPrincipal : Panel {
     {
         foreach (Equipo equipo in AppController.instance.equipos)
         {
-            //Crear el prefab correspondiente al deporte
-            //GameObject botonEquipoGO = Instantiate(listaPrefabsDeportes[(int)equipo.GetDeporte()].gameObject, parentTransform, false);
-
             GameObject botonEquipoGO = Instantiate(prefabBotonEquipo.gameObject, seccionEquiposTransform, false);
             botonEquipoGO.SetActive(true);
 
             botonEquipoGO.GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = equipo.GetNombre();
             botonEquipoGO.GetComponent<BotonEquipo>().SetSpriteBotonEquipo(equipo);
+
+            if(AppController.instance.equipoFavorito != null)
+            {
+                if (AppController.instance.equipoFavorito == equipo.GetNombre())
+                    botonEquipoGO.GetComponent<BotonEquipo>().SetComoFavorito();
+            }
 
             listaPrefabsBoton.Add(botonEquipoGO);
         }
@@ -89,14 +92,10 @@ public class PanelPrincipal : Panel {
         flechasScroll.Actualizar(scrollRect, cantMinima, listaPrefabsBoton.Count);
     }
 
-
-
     public void CrearNuevoEquipo()                                                             //Función que se llama al apretar el botón NUEVO EQUIPO. Se muestra el panel para crear un nuevo equipo.
     {
         panelMisEquipos.MostrarPanelNuevoEquipo();
     }
-
-
 
     public void ActivarYDesactivarAdviceText()
     {
@@ -116,5 +115,15 @@ public class PanelPrincipal : Panel {
         listaPrefabsBoton.Remove(botonEquipo);
 
         //Debug.Log("BORRADO");
+    }
+
+    public void ResetFavouriteTeams()
+    {
+        foreach (var go in listaPrefabsBoton)
+        {
+            BotonEquipo _botonEquipo = go.GetComponent<BotonEquipo>();
+            if (_botonEquipo.GetEquipoFocus().GetNombre() != AppController.instance.equipoFavorito)
+                _botonEquipo.DesactivarFavorito();
+        }
     }
 }

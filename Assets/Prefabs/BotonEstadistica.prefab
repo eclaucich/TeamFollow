@@ -316,7 +316,6 @@ GameObject:
   - component: {fileID: 1683411290990166034}
   - component: {fileID: 487797662074538233}
   - component: {fileID: 7763872883300349724}
-  - component: {fileID: 326358325125634691}
   - component: {fileID: 5154702983127423835}
   m_Layer: 5
   m_Name: BotonEstadistica
@@ -382,18 +381,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &326358325125634691
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8498911452567186459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aafe95227d50f744acacc74faf601d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5154702983127423835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,3 +399,4 @@ MonoBehaviour:
   nombreEstadisticaText: {fileID: 9176890818902683005}
   valorEstadisticaText: {fileID: 1530750293143160352}
   desdeEquipo: 1
+  fondoBoton: {fileID: 7763872883300349724}

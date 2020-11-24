@@ -15,7 +15,8 @@ using System.Collections.Generic;
 public class BotonEquipo : MonoBehaviour {
 
     private GameObject panelMisEquiposGO;                                                       //Panel Principal MIS EQUIPOS
-    private PanelMisEquipos panelMisEquipos;                                                    //Componente del panel
+    private PanelMisEquipos panelMisEquipos;
+    [SerializeField] private PanelPrincipal panelPrincipal = null;
     [SerializeField] private Text nombreEquipoText = null;                                             //Texto que muestra el nombre del equipo
     
     [SerializeField] private RawImage spriteDeporte = null;
@@ -36,8 +37,12 @@ public class BotonEquipo : MonoBehaviour {
 
     [SerializeField] private TextLanguage cantidadJugadoresText = null;
 
+    [SerializeField] private Image imagenFavorito = null;
+    [SerializeField] private Sprite estrellaVacia = null;
+    [SerializeField] private Sprite estrellaLlena = null;
 
     private List<Sprite> listaSprites;
+    private Equipo equipoFocus;
 
     private void Awake()
     {
@@ -67,6 +72,8 @@ public class BotonEquipo : MonoBehaviour {
 
     public void SetSpriteBotonEquipo(Equipo equipo)
     {
+        equipoFocus = equipo;
+
         int cantJugadores = equipo.GetJugadores().Count;
         if (cantJugadores == 0)
         {
@@ -124,4 +131,42 @@ public class BotonEquipo : MonoBehaviour {
         spriteDeporte.transform.localScale.Set(2f, 2f, 1f);
     }
 
+    public void SetComoFavorito()
+    {
+        AppController.instance.SetTeamAsFavourite(equipoFocus.GetNombre());
+        panelPrincipal.ResetFavouriteTeams();
+        imagenFavorito.sprite = estrellaLlena;
+        transform.SetAsFirstSibling();
+    }
+
+    public void RemoverFavorito()
+    {
+        AppController.instance.SetTeamAsFavourite(null);
+        imagenFavorito.sprite = estrellaVacia;
+    }
+
+    public void GuardarComoFavorito()
+    {
+        string _nombreEquipoFavoritoActual = AppController.instance.equipoFavorito;
+        if(_nombreEquipoFavoritoActual !=null && _nombreEquipoFavoritoActual == equipoFocus.GetNombre())
+        {
+            RemoverFavorito();
+            SaveSystem.SaveFavouriteTeam(null);
+        }
+        else
+        {
+            SetComoFavorito();
+            SaveSystem.SaveFavouriteTeam(equipoFocus.GetNombre());
+        }
+    }
+
+    public Equipo GetEquipoFocus()
+    {
+        return equipoFocus;
+    }
+
+    public void DesactivarFavorito()
+    {
+        imagenFavorito.sprite = estrellaVacia;
+    }
 }

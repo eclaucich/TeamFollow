@@ -14,6 +14,8 @@ public class BotonEstadistica : MonoBehaviour
 
     [SerializeField] private bool desdeEquipo = true; //En los botones que estan en la parte de las estadisticas del equipo estrue, en los de la parte de los jugadores es false
 
+    [SerializeField] private Image fondoBoton = null;
+
     public void SetNombreEstadistica(string _nombre)
     {
         //nombreEstadisticaText.text = _nombre;
@@ -43,5 +45,10 @@ public class BotonEstadistica : MonoBehaviour
 
             panelDetalleEquipo.MostrarPanelGraficoEstadistica(nombreEstadisticaText.GetTextActual(), isPartido, true);
         }
+    }
+
+    public void SetColor(Color _color)
+    {
+        fondoBoton.color = _color;
     }
 }

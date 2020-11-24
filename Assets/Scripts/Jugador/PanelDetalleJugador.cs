@@ -40,6 +40,16 @@ public class PanelDetalleJugador : Panel{
 
     private Partido partidoFocus;
 
+    private List<Color> coloresBotones;
+
+    private void Awake()
+    {
+        coloresBotones = new List<Color>();
+        coloresBotones.Clear();
+        coloresBotones.Add(AppController.instance.colorTheme.detalle5);
+        coloresBotones.Add(AppController.instance.colorTheme.detalle3);
+    }
+
     public void SetDetallesJugador(Partido _partido, string nombreJugador, Estadisticas _estadisticas)
     {
         partidoFocus = _partido;
@@ -175,6 +185,8 @@ public class PanelDetalleJugador : Panel{
         EstadisticaDeporte estDeporte = estadisticas.GetEstadisticaDeporte();
         Array listaTipoEstadisticas = estDeporte.GetEstadisticas();
 
+        int idxColor = 0;
+
         for (int i = 0; i < estDeporte.GetSize(); i++) //este cantidad categorias en realidad devuelve la cantidad que haya en el enum de estadisticas
         {
             if (estadisticas.Find(estDeporte.GetValueAtIndex(i))[0] == 1)
@@ -189,7 +201,9 @@ public class PanelDetalleJugador : Panel{
                 botonEstadistica.SetTextInLanguage(statsNameEspañol, AppController.Idiomas.Español);
                 botonEstadistica.SetTextInLanguage(statsNameIngles, AppController.Idiomas.Ingles);
                 botonEstadistica.SetValorEstadistica(estadisticas.Find(statsNameEspañol.Replace(" ", string.Empty))[1].ToString());
+                botonEstadistica.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
                 listaPrefabsTextos.Add(botonEstadisticaGO);
+                idxColor++;
             }
         }
         /*

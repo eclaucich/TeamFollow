@@ -37,23 +37,24 @@ public class HerramientaDeporte : Herramienta
 
     public void SeleccionarDeporte(int indexDeporte_)
     {
-        //nombreHerramienta.text = nombreDeporte_.text;
         SetHerramientaActual();
 
-        /*switch(indexDeporte_)
-        {
-            case 0: imagenBoton.GetComponent<Image>().sprite = basket; break;
-            case 1: imagenBoton.GetComponent<Image>().sprite = futbol; break;
-            case 2: imagenBoton.GetComponent<Image>().sprite = handball; break;
-            case 3: imagenBoton.GetComponent<Image>().sprite = hockeyCesped; break;
-            case 4: imagenBoton.GetComponent<Image>().sprite = hockeyPatines; break;
-            case 5: imagenBoton.GetComponent<Image>().sprite = padel; break;
-            case 6: imagenBoton.GetComponent<Image>().sprite = rugby; break;
-            case 7: imagenBoton.GetComponent<Image>().sprite = softball; break;
-            case 8: imagenBoton.GetComponent<Image>().sprite = tenis; break;
-            case 9: imagenBoton.GetComponent<Image>().sprite = voley; break;
-        }*/
+        Deportes.DeporteEnum _deporteActual = Deportes.DeporteEnum.Ninguno;
 
-        panelEdicion.ChangeSport(indexDeporte_);
+        switch (indexDeporte_)
+        {
+            case 0: _deporteActual = Deportes.DeporteEnum.Basket; break;
+            case 1: _deporteActual = Deportes.DeporteEnum.Futbol; break;
+            case 2: _deporteActual = Deportes.DeporteEnum.Handball; break;
+            case 3: _deporteActual = Deportes.DeporteEnum.HockeyCesped; break;
+            case 4: _deporteActual = Deportes.DeporteEnum.HockeyPatines; break;
+            case 5: _deporteActual = Deportes.DeporteEnum.Padel; break;
+            case 6: _deporteActual = Deportes.DeporteEnum.Rugby; break;
+            case 7: _deporteActual = Deportes.DeporteEnum.Softball; break;
+            case 8: _deporteActual = Deportes.DeporteEnum.Tenis; break;
+            case 9: _deporteActual = Deportes.DeporteEnum.Voley; break;
+        }
+
+        panelEdicion.ChangeSport(_deporteActual);
     }
 }

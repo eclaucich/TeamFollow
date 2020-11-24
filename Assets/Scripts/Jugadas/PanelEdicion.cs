@@ -19,17 +19,6 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     private int deporteIndex = 0;
 
-    [SerializeField] private List<Texture> texturesFutbol = null;
-    [SerializeField] private List<Texture> texturesBasket = null;
-    [SerializeField] private List<Texture> texturesHockeyCesped = null;
-    [SerializeField] private List<Texture> texturesHockeyPatines = null;
-    [SerializeField] private List<Texture> texturesHandball = null;
-    [SerializeField] private List<Texture> texturesPadel = null;
-    [SerializeField] private List<Texture> texturesSoftball = null;
-    [SerializeField] private List<Texture> texturesVoley = null;
-    [SerializeField] private List<Texture> texturesTenis = null;
-    [SerializeField] private List<Texture> texturesRugby = null;
-
     [SerializeField] private GameObject seccionGuardarJugada = null;
     [SerializeField] private Text nombreJugadaText = null;
 
@@ -66,8 +55,8 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         panelCrearJugada = GetComponentInParent<PanelCrearJugadas>();
         snapshotCamera.gameObject.SetActive(false);
 
-        currentTextures = texturesFutbol;
-        GetComponent<RawImage>().texture = texturesFutbol[currentTextureIndex];
+        currentTextures = new List<Texture>();
+        currentTextures.Add(Deportes.instance.GetImagenCancha(Deportes.DeporteEnum.Futbol, Deportes.TipoCanchasEnum.CanchaEntera).texture);
 
         panelHerramientas.gameObject.SetActive(false);
     }
@@ -102,59 +91,57 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     private void Update()
     {
-        /*if (!panelHerramientas.GetComponent<MensajeDesplegable>().isDesplegado())
+        //Mido el swipe solo si esta habilitado
+        if (swipeEnabled)
         {
-            if (panelCrearJugada.GetHerramientaActual() != null && 
-                panelCrearJugada.GetHerramientaActual().GetNombre() != "Seleccionar" &&
-                panelCrearJugada.GetHerramientaActual().GetNombre() != "Flecha")
-            {*/
+            //Mientras mantenga apretado
+            if (Input.GetMouseButtonDown(0))
+            {
+                vectInitialPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                vectFinalPos = Camera.main.ScreenToWorldPoint(vectFinalPos);
+            }
+            //Cuando suelta, medir la distancia del swipe
+            if (Input.GetMouseButtonUp(0))
+            {
+                vectFinalPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                vectFinalPos = Camera.main.ScreenToWorldPoint(vectFinalPos);
+                vectSwipe = vectFinalPos - vectInitialPos;
 
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            vectInitialPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            vectFinalPos = Camera.main.ScreenToWorldPoint(vectFinalPos);
+                swipeDiff = vectFinalPos.y - vectInitialPos.y;
+            }
         }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            vectFinalPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            vectFinalPos = Camera.main.ScreenToWorldPoint(vectFinalPos);
-            vectSwipe = vectFinalPos - vectInitialPos;
-
-            swipeDiff = vectFinalPos.y - vectInitialPos.y;
-
-            /*if (swipeDiff >= 0.3f)
-                panelHerramientas.ToogleActive(); //panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();
-            else if (swipeDiff < -0.3f && panelHerramientas.GetComponent<MensajeDesplegable>().isDesplegado())
-                panelHerramientas.ToogleActive(); //panelHerramientas.GetComponent<MensajeDesplegable>().ToggleDesplegar();*/
-        }
-        //}
-        //}
-
-        if (panelHerramientas.isActive())
-        {
-            if (swipeEnabled && swipeDiff < -swipeMax)
-                if (panelCrearJugada.GetHerramientaActual() == null || panelCrearJugada.GetHerramientaActual().GetNombre() != "Flecha")
-                    panelHerramientas.ToogleActive();
-        }
-        else
-        {
-            if (swipeEnabled && swipeDiff > swipeMax)
-                if (panelCrearJugada.GetHerramientaActual() == null || panelCrearJugada.GetHerramientaActual().GetNombre() != "Flecha")
-                    panelHerramientas.ToogleActive();
-            CerrarPanelOpcionesActual();
-        }
-
+        //Si esta abierto el cartel para guardar la jugada no tener en cuenta el swipe
         if (seccionGuardarJugada.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
                 CerrarSeccionGuardarJugada();
         }
+        else
+        {
+            //Si el panel de herramientas esta abierto
+            if (panelHerramientas.isActive())
+            {
+                //Me fijo si el swipe fue hacia abajo, y lo cierro
+                if (swipeEnabled && swipeDiff < -swipeMax)
+                    if (panelCrearJugada.GetHerramientaActual() == null || panelCrearJugada.GetHerramientaActual().GetNombre() != "Flecha")
+                        panelHerramientas.ToogleActive();
+            }
+            else //Si el panel de herramientas esta cerrado
+            {
+                //MNe fijo si el swipe fue hacia arriba, para abrirlo
+                if (swipeEnabled && swipeDiff > swipeMax)
+                {
+                    if (panelCrearJugada.GetHerramientaActual() == null || panelCrearJugada.GetHerramientaActual().GetNombre() != "Flecha")
+                        panelHerramientas.ToogleActive();
+                    CerrarPanelOpcionesActual();
+                }
+            }
+        }
     }
 
     private void LateUpdate()
-    {
+    { 
         if (snapshotCamera.gameObject.activeInHierarchy)
         { 
             CanvasController.instance.GetComponent<Canvas>().worldCamera = snapshotCamera;
@@ -165,7 +152,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             byte[] bytes = snapshot.EncodeToPNG();
 
             CarpetaJugada _carpeta;
-            if (carpetaSeleccionada == null)
+            /*if (carpetaSeleccionada == null)
             {
                 Debug.Log("SELECCIONADA NULL");
                 _carpeta = null;
@@ -173,7 +160,8 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             else
             {
                 _carpeta = carpetaSeleccionada.GetCarpeta();
-            }
+            }*/
+            _carpeta = carpetaSeleccionada.GetCarpeta();
             SaveSystem.GuardarJugadaImagen(bytes, nombreJugada, categoriaActual, _carpeta);
 
             snapshotCamera.gameObject.SetActive(false);
@@ -227,7 +215,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     {
         CanvasController.instance.retrocesoPausado = true;
         seccionGuardarJugada.SetActive(true);
-        bool aux = true; //poner en false para que la primera carpeta este seleccionada al empezar
+        bool aux = false; //poner en false para que la primera carpeta este seleccionada al empezar
         foreach (var carpeta in AppController.instance.carpetasJugadas)
         {
             Debug.Log("CARP: " + carpeta.GetNombre());
@@ -253,7 +241,6 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     public void SetCarpetaSeleccionada(BotonSeleccionarCarpeta _botonCarpeta)
     {
-        Debug.Log("CARPETA SELECCIONADA: " + _botonCarpeta.GetCarpeta().GetNombre());
         if (carpetaSeleccionada != null)
         {
             carpetaSeleccionada.Deseleccionar();
@@ -307,6 +294,18 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     #endregion
 
     #region Control de la imagen de fondo
+    public void SetPanelEdicion()
+    {
+        if(AppController.instance.deporteFavorito != Deportes.DeporteEnum.Ninguno)
+        {
+            ChangeSport(AppController.instance.deporteFavorito);
+        }
+        else
+        {
+            ChangeSport(Deportes.DeporteEnum.Futbol);
+        }
+    }
+
     public void LimpiarPanel()
     {
         foreach (Transform child in transform)
@@ -322,21 +321,11 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         GetComponent<RawImage>().texture = currentTextures[currentTextureIndex];
     }
 
-    public void ChangeSport(int i)
+    public void ChangeSport(Deportes.DeporteEnum _nuevoDeporte)
     {
-        switch(i)
-        {
-            case 0: currentTextures = texturesBasket; break;
-            case 1: currentTextures = texturesFutbol; break;
-            case 2: currentTextures = texturesHandball; break;
-            case 3: currentTextures = texturesHockeyCesped; break;
-            case 4: currentTextures = texturesHockeyPatines; break;
-            case 5: currentTextures = texturesPadel; break;
-            case 6: currentTextures = texturesRugby; break;
-            case 7: currentTextures = texturesSoftball; break;
-            case 8: currentTextures = texturesTenis; break;
-            case 9: currentTextures = texturesVoley; break;
-        }
+        currentTextures.Clear();
+        currentTextures.Add(Deportes.instance.GetImagenCancha(_nuevoDeporte, Deportes.TipoCanchasEnum.CanchaEntera).texture);
+
         currentTextureIndex = 0;
         NextBackgroundImage();
     }
@@ -375,6 +364,11 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     public void SetSwipe(bool aux)
     {
         swipeEnabled = aux;
+    }
+
+    public PanelHerramientas GetPanelHerramientas()
+    {
+        return panelHerramientas;
     }
     #endregion
 }

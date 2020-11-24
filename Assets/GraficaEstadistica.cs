@@ -23,6 +23,8 @@ public class GraficaEstadistica : Grafica
     [SerializeField] private LineRenderer medianLine = null;
     [SerializeField] private Text medianText = null;
 
+    [SerializeField] private TextLanguage warningText = null;
+
     private LineRenderer lr;
 
     private List<GameObject> graphPoints;
@@ -34,6 +36,12 @@ public class GraficaEstadistica : Grafica
         graphPoints = new List<GameObject>();
     }
 
+    private void Start()
+    {
+        warningText.SetText("No hay suficientes datos para generar la gráfica".ToUpper(), AppController.Idiomas.Español);
+        warningText.SetText("There is not enough data to generate the graphic".ToUpper(), AppController.Idiomas.Ingles);
+    }
+    
     public override void Graficar<T>(Dictionary<T, int> datos, bool setSize=true)
     {
         base.Graficar(datos);
@@ -122,6 +130,12 @@ public class GraficaEstadistica : Grafica
                 coordX += deltaT;
                 index++;
             }
+
+            Debug.Log("CANT PUNTOS: " + graphPoints.Count);
+            if (graphPoints.Count <= 1)
+                warningText.gameObject.SetActive(true);
+            else
+                warningText.gameObject.SetActive(false);
         }
     }
 

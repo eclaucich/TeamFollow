@@ -104,13 +104,30 @@ public class PanelJugadoresPrincipal : Panel {
         GameObject botonJugadorGO = Instantiate(botonJugadorPrefab, parentTransform, false);
         botonJugadorGO.SetActive(true);
         //botonJugadorGO.GetComponentInChildren<Text>().text = nuevoJugador.GetNombre();  ESTO ESTA MAL HACERLO ACA, LA LINEA DE ABAJO ES MAS CORRECTA
-        botonJugadorGO.GetComponent<BotonJugador>().SetNombreJugador(nuevoJugador.GetNombre());
+        botonJugadorGO.GetComponent<BotonJugador>().SetJugadorFocus(nuevoJugador);
+
+        Jugador _jugadorFavorito = AppController.instance.equipoActual.GetJugadorFavorito();
+
+        if (_jugadorFavorito != null)
+        {
+            if (_jugadorFavorito == nuevoJugador)
+                botonJugadorGO.GetComponent<BotonJugador>().SetComoFavorito();
+        }
 
         listaBotonJugador.Add(botonJugadorGO);
 
         cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing));
     }
 
+    public void ResetFavouritePlayers()
+    {
+        foreach (var go in listaBotonJugador)
+        {
+            BotonJugador _botonEquipo = go.GetComponent<BotonJugador>();
+            if (_botonEquipo.GetJugadorFocus() != AppController.instance.equipoActual.GetJugadorFavorito())
+                _botonEquipo.DesactivarFavorito();
+        }
+    }
 
     private void BorrarDetalles()
     {

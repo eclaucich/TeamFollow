@@ -23,7 +23,8 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
     [SerializeField] private RectTransform delimiterBanca = null;
     [SerializeField] private RectTransform delimiterEstadisticas = null;
 
-    [SerializeField] private Color colorNoSeleccionado;
+    [SerializeField] private Color colorBanca;
+    [SerializeField] private Color colorCancha;
     [SerializeField] private Color colorSeleccionado;
 
     private Jugador jugadorFocus;
@@ -48,7 +49,7 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         lastParent = bancaTransform;
         firstIn = true;
 
-        icono.color = colorNoSeleccionado;
+        icono.color = colorBanca;
     }
 
     public void InitiateJugador(List<string> _categorias)
@@ -71,10 +72,19 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        ///JugadorFocus seleccionado (cambiar nombre del jugador seleccionado y los valors de los botones de estadisticas)
         seccionEstadisticas.SetJugadorEntradaDatoFocus(this);
         lastParent = transform.parent;
         icono.color = colorSeleccionado;
+    }
+
+    public void RemoverSeleccionado()
+    {
+        if (lastParent == bancaTransform)
+            icono.color = colorBanca;
+        else if (lastParent == canchaTransform)
+            icono.color = colorCancha;
+        else
+            Debug.Log("PADRE DISTINTO");
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -118,6 +128,7 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
                 seccionEstadisticas.AgregarEventoCambioJugador(jugadorFocus, false);
             transform.SetParent(bancaTransform, false);
             lastParent = bancaTransform;
+            icono.color = colorBanca;
         }
         else
         {
@@ -126,6 +137,7 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
                 seccionEstadisticas.AgregarEventoCambioJugador(jugadorFocus, true);
             transform.SetParent(canchaTransform, true);
             lastParent = canchaTransform;
+            icono.color = colorCancha;
         }
 
         seccionBanca.SetActiveContorno(false);

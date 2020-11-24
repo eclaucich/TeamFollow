@@ -164,6 +164,17 @@ public static class LoadSystem
                 }
                 #endregion
 
+                #region Jugador Favorito
+                string favPlayerPath = pathEquipo + "/favouritePlayer.txt";
+                if (File.Exists(favPlayerPath))
+                {
+                    FileStream streamFavPlayer = new FileStream(favPlayerPath, FileMode.Open);
+                    string jugadorFavorito = (string)formatter.Deserialize(streamFavPlayer);
+
+                    equipo.SetJugadorFavorito(jugadorFavorito);
+                }
+                #endregion
+
                 #region Estadisticas globales equipo
                 //CARGAR ESTADISTICAS GLOBALES
                 if (File.Exists(pathEquipo + "/estGlobalPartido.txt"))
@@ -319,8 +330,6 @@ public static class LoadSystem
             //Por cada imagen guardada creo un objeto imagen
             string[] pathsCarpeta = Directory.GetDirectories(pathImagenJugadas);
 
-            Debug.Log("CANT: " + pathsCarpeta.Length);
-
             for (int i = 0; i < pathsCarpeta.Length; i++)
             {
                 string _nombreCarpeta = Path.GetFileName(pathsCarpeta[i]);
@@ -366,6 +375,26 @@ public static class LoadSystem
                 Directory.CreateDirectory(pathImagenJugadas + "-");
                 AppController.instance.AgregarCarpetaJugada(new CarpetaJugada("SIN CARPETA"));
             }
+        }
+        #endregion
+
+        #region Settings
+        string settingsPath = Application.persistentDataPath + "/TFSaveData3/settings.txt";
+        if (File.Exists(settingsPath))
+        {
+            FileStream streamSettings = new FileStream(settingsPath, FileMode.Open);
+            SaveDataSettings dataSettings = (SaveDataSettings)formatter.Deserialize(streamSettings);
+
+            AppController.instance.SetSettings(dataSettings);
+        }
+
+        string equipoFavPath = Application.persistentDataPath + "/TFSaveData3/favouriteTeam.txt";
+        if (File.Exists(equipoFavPath))
+        {
+            FileStream streamFavTeam = new FileStream(equipoFavPath, FileMode.Open);
+            string equipoFavorito = (string)formatter.Deserialize(streamFavTeam);
+
+            AppController.instance.SetTeamAsFavourite(equipoFavorito);
         }
         #endregion
     }

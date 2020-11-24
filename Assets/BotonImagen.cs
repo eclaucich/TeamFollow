@@ -14,13 +14,15 @@ public class BotonImagen : MonoBehaviour
     [SerializeField] private PanelPrincipalBiblioteca panelPrincipalBiblioteca = null;
 
     private Sprite sprite = null;
+    private Image imagen = null;
 
     private ImagenBiblioteca _jugadaFocus;
 
     private void Start()
     {
+        imagen = GetComponent<Image>();
         inputfield.onEndEdit.AddListener(VerificarEdicionNombreJugada);
-        GetComponent<BotonNormal>().SetColorActivado();
+        imagen.color = new Color(1f, 1f, 1f, 0f); //transparente
     }
 
     private void VerificarEdicionNombreJugada(string _nuevoNombre)
@@ -126,11 +128,11 @@ public class BotonImagen : MonoBehaviour
 
     public void ActivarSeleccion()
     {
-        GetComponent<BotonNormal>().SetColorSeleccionado();
+        imagen.color = AppController.instance.colorTheme.botonSeleccionado;
     }
 
     public void DesactivarSeleccion()
     {
-        GetComponent<BotonNormal>().SetColorActivado();
+        imagen.color = new Color(1f, 1f, 1f, 0f); //transparente
     }
 }

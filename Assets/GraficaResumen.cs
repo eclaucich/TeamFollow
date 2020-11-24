@@ -45,7 +45,7 @@ public class GraficaResumen : MonoBehaviour
 
         Screen.orientation = ScreenOrientation.Landscape;
 
-        scrollRectHorizontal.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width - parentIniciales.GetComponent<RectTransform>().rect.width, scrollRectHorizontal.GetComponent<RectTransform>().sizeDelta.y);
+        scrollRectHorizontal.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.height - parentIniciales.GetComponent<RectTransform>().rect.width - 50f, scrollRectHorizontal.GetComponent<RectTransform>().sizeDelta.y);
         prefabHeight = filaPrefab.GetComponent<RectTransform>().rect.height;
 
         if (_partido.IsPartido())
@@ -153,7 +153,7 @@ public class GraficaResumen : MonoBehaviour
             _fila.ResetPrefabs();
         }
 
-        cantMinima = (int)(scrollRectVertical.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransformEventos.GetComponent<VerticalLayoutGroup>().spacing));
+        cantMinima = (int)(scrollRectVertical.GetComponent<RectTransform>().rect.width / (prefabHeight + parentTransformEventos.GetComponent<VerticalLayoutGroup>().spacing))-2;
     }
 
 

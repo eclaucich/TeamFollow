@@ -36,9 +36,12 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
     [SerializeField] private GameObject botonBorrar;
 
-    private void Start()
+    private List<Color> coloresBotones;
+
+    private void Awake()
     {
         diccEstadisticas = new Dictionary<string, int>();
+        coloresBotones = new List<Color>();
     }
 
 
@@ -50,6 +53,10 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
         equipo = AppController.instance.equipoActual;
         if (equipo == null) Debug.Log("EQUIPO NULO");
+
+        coloresBotones.Clear();
+        coloresBotones.Add(AppController.instance.colorTheme.detalle5);
+        coloresBotones.Add(AppController.instance.colorTheme.detalle3);
 
         CanvasController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() + ": ESTADISTICAS GLOBALES", AppController.Idiomas.Español);
         CanvasController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() + ": GLOBAL STATISTICS", AppController.Idiomas.Ingles);
@@ -87,6 +94,10 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
         partidoFocus = _partido;
         ResultadoEntradaDatos.Resultado _tipoResultado;
+
+        coloresBotones.Clear();
+        coloresBotones.Add(AppController.instance.colorTheme.detalle5);
+        coloresBotones.Add(AppController.instance.colorTheme.detalle3);
 
         if (partidoFocus.GetTipoResultadoPartido() == Partido.TipoResultadoPartido.Normal)
         {
@@ -158,6 +169,8 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
 
         Array listaTipoEstadisticas = estDeporte.GetEstadisticas();
 
+        int idxColor = 0;
+
         for (int i = 0; i < estDeporte.GetSize(); i++) //este cantidad categorias en realidad devuelve la cantidad que haya en el enum de estadisticas
         {
             if (estadisticas.Find(estDeporte.GetValueAtIndex(i))[0]==1)
@@ -172,7 +185,9 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
                 botonEstadistica.SetTextInLanguage(statsNameEspañol, AppController.Idiomas.Español);
                 botonEstadistica.SetTextInLanguage(statsNameIngles, AppController.Idiomas.Ingles);
                 botonEstadistica.SetValorEstadistica(estadisticas.Find(statsNameEspañol.Replace(" ", string.Empty))[1].ToString());
+                botonEstadistica.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
                 listaPrefabsTextos.Add(botonEstadisticaGO);
+                idxColor++;
             }
         }
         /*for (int i = 0; i < estadisticas.GetCantidadCategorias(); i++)

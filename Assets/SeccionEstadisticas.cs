@@ -42,6 +42,8 @@ public class SeccionEstadisticas : MonoBehaviour
 
     public void SetJugadorEntradaDatoFocus(JugadorEntradaDato _jugadorEntradaDato)
     {
+        if(jugadorEntradaDatoFocus!=null)
+            jugadorEntradaDatoFocus.RemoverSeleccionado();
         jugadorEntradaDatoFocus = _jugadorEntradaDato;
         nombreJugadorText.text = _jugadorEntradaDato.GetNombreJugador();
         SetPrefabsEstadisticaEntradaDato();

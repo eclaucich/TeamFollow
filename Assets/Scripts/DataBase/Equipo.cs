@@ -27,11 +27,13 @@ public class Equipo {
     private List<Partido> partidos;
     private List<Partido> practicas;
 
+    private Jugador jugadorFavorito = null;
+
     public Equipo(string nombre_, Deportes.DeporteEnum deporte_)                                           //Constructor por nombre
     {
         nombre = nombre_;
-        //deporteNombre = deporte_;
         deporte = deporte_;
+        jugadorFavorito = null;
 
         jugadores = new List<Jugador>();
         estadisticasGlobalesPartido = new Estadisticas(deporte);
@@ -46,8 +48,6 @@ public class Equipo {
     public Equipo(SaveDataEquipo saveData)//{, SaveDataEstadisticas saveDataEstPartido, SaveDataEstadisticas saveDataEstPractica)
     {
         nombre = saveData.GetNombre();
-        //deporteNombre = saveData.GetDeporte();
-        //deporte = GetDeporte(deporteNombre);
         deporte = saveData.GetDeporte();
 
         /*estadisticasGlobalesPartido = new Estadisticas(saveDataEstPartido);
@@ -62,6 +62,19 @@ public class Equipo {
 
         partidos = new List<Partido>();
         practicas = new List<Partido>();
+    }
+
+    public void SetJugadorFavorito(string _nombreJugador)
+    {
+        if (_nombreJugador == "")
+            jugadorFavorito = null;
+        else
+            jugadorFavorito = BuscarPorNombre(_nombreJugador);
+    }
+
+    public Jugador GetJugadorFavorito()
+    {
+        return jugadorFavorito;
     }
 
     public void SetNombre(string _nombre)
@@ -497,6 +510,6 @@ public class Equipo {
                 return Deportes.DeporteEnum.Basket;
         }
 
-        return Deportes.DeporteEnum.NULL;
+        return Deportes.DeporteEnum.Ninguno;
     }
 }

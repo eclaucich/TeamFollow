@@ -2,75 +2,36 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PanelNuevaPlanilla : PanelAsistencia {
+public class PanelNuevaPlanilla : PanelAsistencia 
+{
 
- 
     [SerializeField] private Text aliasPlanilla = null;
     [SerializeField] private Button botonGuardar = null;
     [SerializeField] private MensajeError mensajeError = null;
-  
-    private List<GameObject> listaPrefabsDetalles;
+
+    [SerializeField] private InputField inputAlias = null;
 
     private Equipo equipo;
-    private List<Jugador> jugadores;
-
-    //private Transform parentTransform;
-
-    private void Awake()
-    {
-        jugadores = new List<Jugador>();
-        listaPrefabsDetalles = new List<GameObject>();
-        //listaDetallesAsistencias = new List<DetalleAsistencia>();
-        //parentTransform = GameObject.Find("SeccionAsistencias").transform;        
-    }
+    private List<DetalleAsistencia> listaDetalles;
 
     public void SetPanelNuevaPlanilla()
     {
-        if (AppController.instance.equipoActual != equipo)
-            equipo = AppController.instance.equipoActual;
+        equipo = AppController.instance.equipoActual;
 
-        jugadores = equipo.GetJugadores();
+        listaDetalles = CrearPrefabsDetalles(equipo.GetJugadores());
 
-        cantidadHojas = Mathf.CeilToInt(jugadores.Count / 13f);
+        base.SetPanelAsistencia();
 
-        base.SetPanelPlanilla();
-
-        CrearPrefabsHoja(jugadores);
-
-        /*BorrarPrefabs();
-        CrearPrefabs();   */
+        inputAlias.text = "";
     }
-
-    /*public void CrearPrefabs()
-    {
-        for (int i = 0; i < jugadores.Count; i++)
-        {
-            GameObject detalleAsistenciaGO = Instantiate(detalleAsistenciaPrefab, parentTransform, false);
-            detalleAsistenciaGO.SetActive(true);
-            listaPrefabsDetalles.Add(detalleAsistenciaGO);
-
-            listaDetallesAsistencias.Add(listaPrefabsDetalles[i].GetComponent<DetalleAsistencia>());
-            listaDetallesAsistencias[i].SetNombreJugador(jugadores[i].GetNombre());
-        }
-    }*/
-
-    /*public void BorrarPrefabs()
-    {
-        if (listaPrefabsDetalles == null) return;
-
-        for (int i = 0; i < listaPrefabsDetalles.Count; i++)
-        {
-            Destroy(listaPrefabsDetalles[i]);
-        }
-        listaPrefabsDetalles.Clear();
-        listaDetallesAsistencias.Clear();
-    }*/
 
     public void GuardarPlanilla()
     {
+        if (listaDetalles.Count == 0)
+            Debug.Log("NO DETALLES");
+
         System.DateTime timeNow = System.DateTime.Now;
 
-        //string nombrePlanilla = dayInput.text + "-" + monthInput.text + "-" + yearInput.text + " - " + hourInput.text + "-" + minuteInput.text;
         string nombrePlanilla = timeNow.ToString("yyyy-MM-dd-HH-mm-ss");
         string alias = aliasPlanilla.text.ToUpper();
 
@@ -90,7 +51,7 @@ public class PanelNuevaPlanilla : PanelAsistencia {
             return;
         }
 
-        equipo.NuevaPlanilla(nombrePlanilla, alias, detalles);
+        equipo.NuevaPlanilla(nombrePlanilla, alias, listaDetalles);
 
         GetComponentInParent<PanelPlanillaAsistencia>().MostrarPanelHistorialPlanillas();
     }

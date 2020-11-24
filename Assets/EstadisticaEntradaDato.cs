@@ -10,6 +10,9 @@ public class EstadisticaEntradaDato : MonoBehaviour
     [SerializeField] private Text valorEstadisticaText = null;
     [SerializeField] private GameObject goNombreEstadistica = null;
 
+    [SerializeField] private Transform originalTransform = null;
+    [SerializeField] private Transform temporaryTransform = null;
+
     [SerializeField] private SeccionEstadisticas seccionEstadisticas = null;
 
     private EstadisticaDeporte.Estadisticas tipoEstadistica;
@@ -35,6 +38,8 @@ public class EstadisticaEntradaDato : MonoBehaviour
 
     public void EliminarEstadisticasJugador()
     {
+        if (valorEstadistica == 0)
+            return;
         valorEstadistica--;
         valorEstadisticaText.text = valorEstadistica.ToString();
         seccionEstadisticas.AgregarEstadisticasJugadorFocus(tipoEstadistica, nombreEstadisticaText.text, -1);
@@ -49,10 +54,12 @@ public class EstadisticaEntradaDato : MonoBehaviour
     public void OnPress()
     {
         goNombreEstadistica.SetActive(true);
+        goNombreEstadistica.transform.parent = temporaryTransform;
     }
 
     public void OnRelease()
     {
         goNombreEstadistica.SetActive(false);
+        goNombreEstadistica.transform.parent = originalTransform;
     }
 }

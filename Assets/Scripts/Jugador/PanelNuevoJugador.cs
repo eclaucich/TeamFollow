@@ -30,6 +30,8 @@ public class PanelNuevoJugador : Panel
     private int cantMinima;
     private float prefabHeight;
 
+    private List<Color> coloresBotones;
+
     private void Start()
     {
         infoJugador = new InfoJugador();
@@ -40,9 +42,17 @@ public class PanelNuevoJugador : Panel
         inputsEspecial = new List<InputPrefab>();
         inputsObligatorios = new List<InputPrefab>();
 
+        coloresBotones = new List<Color>();
+
         InfoJugador infoJugadorAux = new InfoJugador();
 
         prefabHeight = prefabInputInfo.GetComponent<RectTransform>().rect.height;
+
+        coloresBotones.Clear();
+        coloresBotones.Add(AppController.instance.colorTheme.detalle5);
+        coloresBotones.Add(AppController.instance.colorTheme.detalle3);
+
+        int idxColor = 0;
 
         foreach (var info in infoJugador.GetInfoObligatoria())
         {
@@ -55,6 +65,9 @@ public class PanelNuevoJugador : Panel
             IPgo.SetCampoObligatorio(true);
             IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             inputsObligatorios.Add(IPgo);
+
+            IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+            idxColor++;
         }
 
         GameObject GO = Instantiate(prefabInputFecha, parentTransform);
@@ -65,6 +78,9 @@ public class PanelNuevoJugador : Panel
         inputFecha.SetText("Fecha Nacimiento".ToUpper(), AppController.Idiomas.Español);
         inputFecha.SetText("Date of birth".ToUpper(), AppController.Idiomas.Ingles);
         inputFecha.ResetValor();
+
+        inputFecha.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+        idxColor++;
 
         foreach (var info in infoJugadorAux.GetInfoString())
         {
@@ -77,8 +93,8 @@ public class PanelNuevoJugador : Panel
             IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             inputsString.Add(IPgo);
 
-            //go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
-            //listaPrefabs.Add(go);
+            IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+            idxColor++;
         }
 
         foreach (var info in infoJugadorAux.GetInfoInt())
@@ -93,8 +109,8 @@ public class PanelNuevoJugador : Panel
             IPgo.SetKeyboardType(TouchScreenKeyboardType.NumberPad);
             inputsInt.Add(IPgo);
 
-            //go.transform.GetChild(0).GetComponent<Text>().text = info.Key.ToString();
-            //listaPrefabs.Add(go);
+            IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+            idxColor++;
         }
 
         foreach (var info in infoJugadorAux.GetInfoEspecial())
@@ -106,6 +122,9 @@ public class PanelNuevoJugador : Panel
             IPgo.SetText(info.Key, AppController.Idiomas.Español);
             IPgo.SetText(infoJugador.GetKeyInLaguage(info.Key, AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             inputsEspecial.Add(IPgo);
+
+            IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+            idxColor++;
         }
 
     }
@@ -128,14 +147,13 @@ public class PanelNuevoJugador : Panel
             inputFecha.ResetValor();
 
         if(prefabHeight == 0) prefabHeight = prefabInputInfo.GetComponent<RectTransform>().rect.height;
-        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing));
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing + parentTransform.GetComponent<VerticalLayoutGroup>().padding.top));
     }
 
     private void FixedUpdate()
     {
         if (prefabHeight == 0) prefabHeight = prefabInputInfo.GetComponent<RectTransform>().rect.height;
-        
-        flechasScroll.Actualizar(scrollRect, cantMinima, inputsString.Count + inputsEspecial.Count + inputsObligatorios.Count + 1);
+        flechasScroll.Actualizar(scrollRect, cantMinima, inputsString.Count + inputsEspecial.Count + inputsObligatorios.Count + inputsInt.Count + 1);
     }
 
     public void GuardarNuevoJugador()

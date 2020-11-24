@@ -37,6 +37,8 @@ public class PanelInfoJugador : Panel
 
     private bool editando = false;
 
+    private List<Color> coloresBotones;
+
     void Awake()
     {
         //listaPrefabs = new List<InputPrefab>();
@@ -44,6 +46,7 @@ public class PanelInfoJugador : Panel
         inputsInt = new List<InputPrefab>();
         inputsEspecial = new List<InputPrefab>();
         inputsObligatorios = new List<InputPrefab>();
+        coloresBotones = new List<Color>();
     }
 
     private void Start()
@@ -55,7 +58,8 @@ public class PanelInfoJugador : Panel
 
     private void FixedUpdate()
     {
-        flechasScroll.Actualizar(scrollRect, cantMinima, inputsString.Count+inputsEspecial.Count+inputsObligatorios.Count+1);//el +1 es el de inputfecha
+        int cantPrefabs = inputsString.Count + inputsEspecial.Count + inputsObligatorios.Count + inputsInt.Count + 1;
+        flechasScroll.Actualizar(scrollRect, cantMinima, cantPrefabs);//el +1 es el de inputfecha
     }
 
     public void MostrarPanelPartidos()
@@ -75,16 +79,23 @@ public class PanelInfoJugador : Panel
         infoJugador = jugador.GetInfoJugador();
         jugadorFocus = jugador;
 
+        coloresBotones.Clear();
+        coloresBotones.Add(AppController.instance.colorTheme.detalle5);
+        coloresBotones.Add(AppController.instance.colorTheme.detalle3);
+
         BorrarPrefabs();
         CrearPrefabs();
 
         if (prefabHeight == 0) prefabHeight = prefabInputInfo.GetComponent<RectTransform>().rect.height;
-        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing));
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing + parentTransform.GetComponent<VerticalLayoutGroup>().padding.top));
+        Debug.Log("CANT MINIMA: " + cantMinima);
     }
 
     private void CrearPrefabs()
     {
         //if(listaPrefabs == null) return;
+
+        int idxColor = 0;
 
         foreach (var info in infoJugador.GetInfoObligatoria())
         {  
@@ -98,6 +109,9 @@ public class PanelInfoJugador : Panel
             inputsObligatorios.Add(IPgo);
             IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             nombreActual = info.Value.ToString();
+
+            IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+            idxColor++;
         }
 
         InputPrefabFecha IPGO = Instantiate(prefabInputFecha, parentTransform).GetComponent<InputPrefabFecha>();
@@ -109,6 +123,9 @@ public class PanelInfoJugador : Panel
         IPGO.HabilitarInput(false);
         //listaPrefabs.Add(IPGO);
         inputFecha = IPGO;
+
+        IPGO.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+        idxColor++;
         //GO.transform.GetChild(0).GetComponent<Text>().text = "Fecha Nacimiento";
         //listaPrefabs.Add(GO);
 
@@ -123,6 +140,9 @@ public class PanelInfoJugador : Panel
             IPgo.HabilitarInput(false);
             IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             inputsString.Add(IPgo);
+
+            IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+            idxColor++;
         }
 
         foreach (var info in infoJugador.GetInfoInt())
@@ -139,6 +159,9 @@ public class PanelInfoJugador : Panel
 
             if (IPgo.GetNombreCategoria() == "NUMERO CAMISETA")
                 numCamisetaActual = info.Value.ToString();
+
+            IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+            idxColor++;
         }
 
         foreach (var info in infoJugador.GetInfoEspecial())
@@ -152,6 +175,9 @@ public class PanelInfoJugador : Panel
             IPgo.SetValor(infoJugador.GetSpecialValueInLanguage(info.Value.ToString(), AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             IPgo.HabilitarInput(false);
             inputsEspecial.Add(IPgo);
+
+            IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+            idxColor++;
         }
 
     }

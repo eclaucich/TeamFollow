@@ -5,8 +5,8 @@ using System;
 
 public static class SaveSystem {
 
-    public static string pathEquipos = Application.persistentDataPath + "/TFSaveData/Equipos/";
-    public static string pathImagenJugadas = Application.persistentDataPath + "/TFSaveData/ImagenJugadas/";
+    public static string pathEquipos = Application.persistentDataPath + "/TFSaveData3/Equipos/";
+    public static string pathImagenJugadas = Application.persistentDataPath + "/TFSaveData3/ImagenJugadas/";
 
     #region Equipos
     public static void GuardarEquipo(Equipo equipo)
@@ -254,11 +254,8 @@ public static class SaveSystem {
         BinaryFormatter formatter = new BinaryFormatter();
 
         string carpetaPath;
-        if (_carpeta == null)
-        {
-            Debug.LogError("CARPETA NULL " + _carpeta == null);
+        if (_carpeta == null || _carpeta.GetNombre() == "SIN CARPETA" || _carpeta.GetNombre() == "WITHOUT FOLDER")
             carpetaPath = pathImagenJugadas + "-" + "/";
-        }
         else
             carpetaPath = pathImagenJugadas + _carpeta.GetNombre() + "/";
 
@@ -315,14 +312,24 @@ public static class SaveSystem {
         if (_carpetaVieja == _carpetaNueva)
             return;
 
-        string pathViejo = pathImagenJugadas + _carpetaVieja.GetNombre() + "/" + _jugada.GetNombre();
-        string pathNuevo = pathImagenJugadas + _carpetaNueva.GetNombre() + "/" + _jugada.GetNombre();
+        string _nombreViejo = _carpetaVieja.GetNombre();
+        string _nombreNuevo = _carpetaNueva.GetNombre();
+
+        if (_nombreViejo == "SIN CARPETA" || _nombreViejo == "WITHOUT FOLDER")
+            _nombreViejo = "-";
+        if (_nombreNuevo == "SIN CARPETA" || _nombreNuevo == "WITHOUT FOLDER")
+            _nombreNuevo = "-";
+
+        string pathViejo = pathImagenJugadas + _nombreViejo + "/" + _jugada.GetNombre();
+        string pathNuevo = pathImagenJugadas + _nombreNuevo + "/" + _jugada.GetNombre();
 
         Directory.Move(pathViejo, pathNuevo);
     }
     public static void BorrarJugada(ImagenBiblioteca _jugada, CarpetaJugada _carpeta)
     {
         string path = pathImagenJugadas + _carpeta.GetNombre() + "/" + _jugada.GetNombre();
+        if (_carpeta.GetNombre() == "SIN CARPETA" || _carpeta.GetNombre() == "WITHOUT FOLDER")
+            path = pathImagenJugadas + "-/" + _jugada.GetNombre();
 
         if (Directory.Exists(path))
             Directory.Delete(path, true);
@@ -459,6 +466,54 @@ public static class SaveSystem {
             stringTime += datePartido.Second.ToString();
 
         return stringTime;
+    }
+    public static void SaveSettings(AppController.Idiomas _idioma, AppController.Temas _tema, Deportes.DeporteEnum _deporteFavorito)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        string pathConfiguracion = Application.persistentDataPath + "/TFSaveData3/";
+
+        Debug.Log("IDIOMA SA: " + _idioma);
+        Debug.Log("TEMA SA: " + _tema);
+        Debug.Log("DEP FAV SA: " + _deporteFavorito);
+
+        FileStream streamSettings = new FileStream(pathConfiguracion + "settings.txt", FileMode.Create);
+        SaveDataSettings dataSettings = new SaveDataSettings(_idioma, _tema, _deporteFavorito);
+
+        formatter.Serialize(streamSettings, dataSettings);
+        streamSettings.Close();
+    }
+    public static void SaveFavouriteTeam(string _equipoFavorito)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        string pathConfiguracion = Application.persistentDataPath + "/TFSaveData3/";
+        
+        FileStream streamSettings = new FileStream(pathConfiguracion + "favouriteTeam.txt", FileMode.Create);
+
+        if (_equipoFavorito == null)
+            _equipoFavorito = "";
+
+        formatter.Serialize(streamSettings, _equipoFavorito);
+        streamSettings.Close();
+    }
+
+    public static void SaveFavouritePlayer(Equipo _equipo, Jugador _jugador)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+
+        string path = Application.persistentDataPath + "/TFSaveData3/Equipos/" + _equipo.GetNombre() + "/";
+
+        FileStream streamFile = new FileStream(path + "favouritePlayer.txt", FileMode.Create);
+
+        string _nombreJugador;
+        if (_jugador == null)
+            _nombreJugador = "";
+        else
+            _nombreJugador = _jugador.GetNombre();
+
+        formatter.Serialize(streamFile, _nombreJugador);
+        streamFile.Close();
     }
     #endregion
 }

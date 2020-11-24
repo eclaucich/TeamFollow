@@ -28,7 +28,8 @@ public class PanelPrincipalBiblioteca : Panel
 
     [SerializeField] private GameObject carpetaPrefab = null;
     [SerializeField] private Transform transformCarpetas = null;
-    [SerializeField] private GameObject seccionSeleccionarNuevaCarpeta = null;
+    [SerializeField] private MensajeDesplegable seccionSeleccionarNuevaCarpeta = null;
+    [SerializeField] private MensajeDesplegable seccionCrearNuevaCarpeta = null;
 
     private float prefabHeight;
     private int cantMinima;
@@ -55,7 +56,6 @@ public class PanelPrincipalBiblioteca : Panel
 
         _botonImagenFocus = null;
         botones.SetActive(false);
-        seccionSeleccionarNuevaCarpeta.SetActive(false);
     }
 
     private void VerificarEdicionNombreJugada(string _nuevoNombre)
@@ -87,11 +87,16 @@ public class PanelPrincipalBiblioteca : Panel
             adviceText.SetActive(true);
         else
             adviceText.SetActive(false);
+    }
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (seccionSeleccionarNuevaCarpeta.activeSelf)
+            if (seccionSeleccionarNuevaCarpeta.isDesplegado())
                 CerrarSeleccionNuevaCarpeta();
+            else if (seccionCrearNuevaCarpeta.isDesplegado())
+                CerrarSeccionCrearNuevaCarpeta();
         }
     }
 
@@ -157,7 +162,7 @@ public class PanelPrincipalBiblioteca : Panel
         }
 
 
-        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing));
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing + parentTransform.GetComponent<VerticalLayoutGroup>().padding.top));
         /*foreach (var imagen in AppController.instance.imagenesGuardadas)
         {
             GameObject botonImagenGO = Instantiate(botonImagenPrefab.gameObject, parentTransform, false);
@@ -195,16 +200,20 @@ public class PanelPrincipalBiblioteca : Panel
     {
         GameObject goCarpeta = Instantiate(botonCarpetaPrefab, parentTransform, false);
         goCarpeta.SetActive(true);
+        BotonCarpetaJugada _botonCarpeta = goCarpeta.GetComponent<BotonCarpetaJugada>();
         //GameObject goJugadas = Instantiate(jugadasPrefab, parentTransform, false);
         //goJugadas.SetActive(true);
-        goCarpeta.GetComponent<BotonCarpetaJugada>().CrearPrefabs(_carpeta, parentTransform);
+        _botonCarpeta.CrearPrefabs(_carpeta, parentTransform);
 
         //esto arregla el bug al abrir las carpetas la primera vez
-        goCarpeta.GetComponent<BotonCarpetaJugada>().ToggleSeccionJugadas();
-        goCarpeta.GetComponent<BotonCarpetaJugada>().ToggleSeccionJugadas();
+        _botonCarpeta.ToggleSeccionJugadas();
+        _botonCarpeta.ToggleSeccionJugadas();
 
-       
-        if(saveNew) 
+        Debug.Log("CARP: " + _carpeta.GetNombre());
+        if (_carpeta.GetNombre() == "SIN CARPETA")
+            _botonCarpeta.SetCarpetaEspecial();
+
+        if (saveNew) 
             SaveSystem.GuardarCarpetaBiblioteca(_carpeta); 
 
         BorrarPrefabsCarpetas();
@@ -240,15 +249,27 @@ public class PanelPrincipalBiblioteca : Panel
         panelBiblioteca.MostrarPanelImagen(_botonImagenFocus);
     }
 
+    public void AbrirSeccionCrearNuevaCarpeta()
+    {
+        seccionCrearNuevaCarpeta.ToggleDesplegar();
+        CanvasController.instance.retrocesoPausado = true;
+    }
+
+    public void CerrarSeccionCrearNuevaCarpeta()
+    {
+        seccionCrearNuevaCarpeta.ToggleDesplegar();
+        CanvasController.instance.retrocesoPausado = false;
+    }
+
     public void MoverImageFocus()
     {
-        seccionSeleccionarNuevaCarpeta.SetActive(true);
+        seccionSeleccionarNuevaCarpeta.ToggleDesplegar();
         CanvasController.instance.retrocesoPausado = true;
     }
 
     public void CerrarSeleccionNuevaCarpeta()
     {
-        seccionSeleccionarNuevaCarpeta.SetActive(false);
+        seccionSeleccionarNuevaCarpeta.ToggleDesplegar();
         CanvasController.instance.retrocesoPausado = false;
     }
 
@@ -257,7 +278,7 @@ public class PanelPrincipalBiblioteca : Panel
         CarpetaJugada _nuevaCarpeta = AppController.instance.BuscarCarpetaPorNombre(_nombreCarpetaText.text.ToUpper());
         if (_nuevaCarpeta == _botonImagenFocus.GetCarpeta())
         {
-            seccionSeleccionarNuevaCarpeta.SetActive(false);
+            seccionSeleccionarNuevaCarpeta.Cerrar();
             return;
         }
         if (!_botonImagenFocus.VerificarNombreJugadasCarpeta(_nuevaCarpeta))
@@ -267,7 +288,7 @@ public class PanelPrincipalBiblioteca : Panel
             return;
         }
         _botonImagenFocus.SetCarpeta(_nuevaCarpeta);
-        seccionSeleccionarNuevaCarpeta.SetActive(false);
+        seccionSeleccionarNuevaCarpeta.Cerrar();
         CanvasController.instance.retrocesoPausado = false;
         _botonImagenFocus = null;
         botones.SetActive(false);
@@ -280,7 +301,10 @@ public class PanelPrincipalBiblioteca : Panel
         {
             GameObject go = Instantiate(carpetaPrefab, transformCarpetas, false);
             go.SetActive(true);
-            go.GetComponentInChildren<Text>().text = carpeta.GetNombre().ToUpper();
+            string _nombreCarpeta = carpeta.GetNombre().ToUpper();
+            if (_nombreCarpeta == "SIN CARPETA" && AppController.instance.idioma == AppController.Idiomas.Ingles)
+                _nombreCarpeta = "WITHOUT FOLDER";
+            go.GetComponentInChildren<Text>().text = _nombreCarpeta;
         }
     }
 

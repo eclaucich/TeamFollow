@@ -13,24 +13,30 @@ using UnityEngine.UI;
 
 public class BotonJugador : MonoBehaviour {
 
+    [SerializeField] private PanelJugadoresPrincipal panelJugadoresPrincipal = null;
     [SerializeField] private Text nombreJugadorText = null;                                                
     private string nombreJugador;
 
     private PanelJugadores panelJugadores;                                                          
 
     private ConfirmacionBorradoJugador panelConfirmacionBorrado;
-    private PanelJugadoresPrincipal panelJugadoresPrincipal;
+
+    [SerializeField] private Image imagenFavorito = null;
+    [SerializeField] private Sprite estrellaVacia = null;
+    [SerializeField] private Sprite estrellaLlena = null;
+
+    private Jugador jugadorFocus;
 
     public void Start()
     {
         panelJugadores = GameObject.Find("PanelJugadores").GetComponent<PanelJugadores>();          
-        panelJugadoresPrincipal = GameObject.Find("PanelJugadoresPrincipal").GetComponent<PanelJugadoresPrincipal>();
         panelConfirmacionBorrado = panelJugadoresPrincipal.GetPanelConfirmacionBorrado();
     }
 
-    public void SetNombreJugador(string nombre)
+    public void SetJugadorFocus(Jugador _jugador)
     {
-        nombreJugador = nombre;
+        jugadorFocus = _jugador;
+        nombreJugador = _jugador.GetNombre();
         nombreJugadorText.text = nombreJugador;
     }
 
@@ -57,5 +63,44 @@ public class BotonJugador : MonoBehaviour {
     public string GetNombre()
     {
         return nombreJugador;
+    }
+
+    public void SetComoFavorito()
+    {
+        AppController.instance.equipoActual.SetJugadorFavorito(jugadorFocus.GetNombre());
+        panelJugadoresPrincipal.ResetFavouritePlayers();
+        imagenFavorito.sprite = estrellaLlena;
+        transform.SetAsFirstSibling();
+    }
+
+    public void RemoverFavorito()
+    {
+        AppController.instance.equipoActual.SetJugadorFavorito(null);
+        imagenFavorito.sprite = estrellaVacia;
+    }
+
+    public void GuardarComoFavorito()
+    {
+        Jugador _jugadorFavoritoActual= AppController.instance.equipoActual.GetJugadorFavorito();
+        if (_jugadorFavoritoActual != null && _jugadorFavoritoActual == jugadorFocus)
+        {
+            RemoverFavorito();
+            SaveSystem.SaveFavouritePlayer(AppController.instance.equipoActual, null);
+        }
+        else
+        {
+            SetComoFavorito();
+            SaveSystem.SaveFavouritePlayer(AppController.instance.equipoActual, jugadorFocus);
+        }
+    }
+
+    public void DesactivarFavorito()
+    {
+        imagenFavorito.sprite = estrellaVacia;
+    }
+
+    public Jugador GetJugadorFocus()
+    {
+        return jugadorFocus;
     }
 }

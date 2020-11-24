@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class AppController : MonoBehaviour {
 
-    [SerializeField] public ColorTheme colorTheme = null;
+    public ColorTheme colorTheme;
+    [SerializeField] public List<ColorTheme> colorThemes = null;
     [SerializeField] public Font textFont = null;
     [SerializeField] public Font numberFont = null;
+    [SerializeField] public PantallaCarga pantallaCarga = null;
 
-    [SerializeField] private Text resolucionText = null;
+    [SerializeField] private Text debugText = null;
 
     public static AppController instance = null;
     public List<Equipo> equipos;
@@ -17,6 +19,9 @@ public class AppController : MonoBehaviour {
     public Jugador jugadorActual;
 
     public List<CarpetaJugada> carpetasJugadas;
+
+    public Deportes.DeporteEnum deporteFavorito = Deportes.DeporteEnum.Ninguno;
+    public string equipoFavorito = null;
 
     public int resWidth;
     public int resHeight;
@@ -27,7 +32,13 @@ public class AppController : MonoBehaviour {
         Ingles = 1
     };
     public Idiomas idioma;
-    
+    public enum Temas
+    {
+        Oscuro,
+        Claro
+    };
+    public Temas tema;
+
     private void Awake()
     {
         if(instance == null)
@@ -39,11 +50,12 @@ public class AppController : MonoBehaviour {
         equipoActual = null;
         jugadorActual = null;
 
+        resWidth = Screen.width;
+        resHeight = Screen.height;
+
         carpetasJugadas = new List<CarpetaJugada>();
 
-        resWidth = Screen.currentResolution.width;
-        resHeight = Screen.currentResolution.height;
-        resolucionText.text = "W:" + resWidth + ", H:" + resHeight;
+        debugText.text = Application.persistentDataPath;
 
         LoadSystem.LoadData();
 
@@ -88,7 +100,7 @@ public class AppController : MonoBehaviour {
             if (carpeta.GetNombre() == _nombreCarpeta || _nombreCarpeta == "SIN CARPETA" || _nombreCarpeta == " ")
                 return false;
         }
-        return true;
+        return VerificarNombre(_nombreCarpeta);
     }
     public void BorrarCarpeta(CarpetaJugada _carpeta)
     {
@@ -111,15 +123,6 @@ public class AppController : MonoBehaviour {
     #endregion
 
     #region Auxiliares
-    //SOLO DE DEBUG!!
-    public void ToogleLanguage()
-    {
-        if (idioma == Idiomas.Español)
-            idioma = Idiomas.Ingles;
-        else
-            idioma = Idiomas.Español;
-    }
-
     public bool VerificarNombre(string _nombre)
     {
         if( _nombre.Contains("?") ||
@@ -163,6 +166,83 @@ public class AppController : MonoBehaviour {
             return false;
 
         return true;
+    }
+
+    public void SetSettings(SaveDataSettings _settings)
+    {
+        idioma = _settings.idioma;
+        tema = _settings.tema;
+        deporteFavorito = _settings.deporteFavorito;
+
+        SetTemaActual(tema);
+        Debug.Log("IDIOMA: " + idioma);
+        Debug.Log("TEMA: " + tema);
+        Debug.Log("DEP FAV: " + deporteFavorito);
+        Debug.Log("EQU FAV: " + equipoFavorito);
+    }
+
+    public void SetTemaActual(Temas _tema)
+    {
+        switch (_tema)
+        {
+            case Temas.Claro:
+                colorTheme = colorThemes[0];
+                break;
+            case Temas.Oscuro:
+                colorTheme = colorThemes[1];
+                break;
+        }
+    }
+    #endregion
+
+    public void SetTeamAsFavourite(string _equipo)
+    {
+        if (_equipo == equipoFavorito)
+            return;
+
+        if (_equipo == "")
+            equipoFavorito = null;
+
+        equipoFavorito = _equipo;
+    }
+
+
+    #region Displays
+    public string GetDisplayNameIdioma(Idiomas _idiomaIn, Idiomas _idiomaOut)
+    {
+        switch (_idiomaIn)
+        {
+            case Idiomas.Español:
+                if (_idiomaOut == Idiomas.Español)
+                    return "Español";
+                else
+                    return "Spanish";
+            case Idiomas.Ingles:
+                if (_idiomaOut == Idiomas.Español)
+                    return "Inglés";
+                else
+                    return "English";
+            default:
+                return "ERROR";
+        }
+    }
+    public string GetDisplayNameTema(Temas _tema, Idiomas _idioma)
+    {
+        switch (_tema)
+        {
+            case Temas.Claro:
+                if (_idioma == Idiomas.Español)
+                    return "Claro";
+                else
+                    return "Light";
+            case Temas.Oscuro:
+                if (_idioma == Idiomas.Español)
+                    return "Oscuro";
+                else
+                    return "Dark";
+            default:
+                return "ERROR";
+        }
     }
     #endregion
 }

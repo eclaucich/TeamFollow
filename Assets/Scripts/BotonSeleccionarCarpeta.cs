@@ -7,6 +7,12 @@ public class BotonSeleccionarCarpeta : MonoBehaviour
 {
     [SerializeField] private Text nombreCarpeta = null;
     private CarpetaJugada carpeta;
+    private Image imagen;
+
+    private void Start()
+    {
+        imagen = GetComponent<Image>();
+    }
 
     public void SetCarpeta(CarpetaJugada _carpeta)
     {
@@ -16,13 +22,16 @@ public class BotonSeleccionarCarpeta : MonoBehaviour
 
     public void Deseleccionar()
     {
-        GetComponent<BotonNormal>().SetColorActivado();
+        if (imagen == null)
+            return;
+        imagen.color = AppController.instance.colorTheme.detalle2;
     }
 
     public void Seleccionar()
     {
-        Debug.Log("SELECCIONADO");
-        GetComponent<BotonNormal>().SetColorSeleccionado();
+        if(imagen == null)
+            return;
+        imagen.color = AppController.instance.colorTheme.botonSeleccionado;
     }
 
     public CarpetaJugada GetCarpeta()

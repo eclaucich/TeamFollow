@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class CarpetaJugada
 {
@@ -36,7 +37,7 @@ public class CarpetaJugada
     {
         if (!listaJugadas.Contains(_jugada))
             return;
-
+            
         SaveSystem.BorrarJugada(_jugada, this);
         listaJugadas.Remove(_jugada);
     }

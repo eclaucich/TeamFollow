@@ -22,6 +22,7 @@ public class CanvasController : MonoBehaviour {
     [SerializeField] private PanelPlanillaAsistencia panelPlanillaAsistencia = null;
     [SerializeField] private PanelGraficoEstadistica panelGraficas = null;
     [SerializeField] private PanelBiblioteca panelBiblioteca = null;
+    [SerializeField] private PanelConfiguracion panelConfiguracion = null;
 
     //PANELES AUXILIARES
     [SerializeField] private ConfirmacionBorradoJugador confirmacionBorradoJugador = null;
@@ -73,6 +74,7 @@ public class CanvasController : MonoBehaviour {
         listaPaneles.Add(panelMisEquipos.gameObject);
         listaPaneles.Add(panelJugadas.gameObject);
         listaPaneles.Add(panelBiblioteca.gameObject);
+        listaPaneles.Add(panelConfiguracion.gameObject);
 
         AbrirMisEquipos();
     }
@@ -81,6 +83,7 @@ public class CanvasController : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Debug.Log("CONTROLLER: " + retrocesoPausado);
             MostrarPanelAnterior();
         }
     }
@@ -121,6 +124,16 @@ public class CanvasController : MonoBehaviour {
 
         panelBiblioteca.MostrarPanelPrincipal();
     }
+
+    public void AbrirConfiguracion()
+    {
+        ActivarPanel(4);
+
+        menuSeleccion.Cerrar();
+
+        panelConfiguracion.SetPanelConfiguracion();
+    }
+
     private void ActivarPanel(int index)
     {
         foreach (var panel in listaPaneles) 

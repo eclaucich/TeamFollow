@@ -8,14 +8,16 @@ public class ObjetoEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler
 {
     [SerializeField] private bool mover = true;
     [SerializeField] private bool borrar = true;
-
+   
     private bool moviendo = false;
     private PanelEdicion panelEdicion;
-    private bool panelHerramientasCerrado = false;
+    private bool panelHerramientasWasOpened = false;
+    private PanelHerramientas panelHerramientas;
 
     private void Start()
     {
         panelEdicion = GameObject.Find("PanelEdicion").GetComponent<PanelEdicion>();
+        panelHerramientas = panelEdicion.GetPanelHerramientas();
     }
 
     public void OnPointerClick(PointerEventData eventData) 
@@ -37,13 +39,14 @@ public class ObjetoEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler
     {
         if (mover)
         {
+            Debug.Log("MOVIENDO FICHA");
             if (GetComponentInParent<PanelCrearJugadas>().GetHerramientaActual().GetNombre() == "Seleccionar")
             {
-                if(!panelHerramientasCerrado)
+                Debug.Log("HERRAMIENTA SELECCION");
+                if(panelHerramientas.isActive())
                 {
-                    panelEdicion.SetSwipe(false);
-                    panelEdicion.CerrarPanelHerramientas();
-                    panelHerramientasCerrado = true;
+                    Debug.Log("PANEL ABIERTO -> LO CIERRO");
+                    panelHerramientas.ToogleActive();
                     moviendo = true;
                 }
                 Vector3 mPos = Input.mousePosition;
@@ -58,11 +61,9 @@ public class ObjetoEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler
     {
         if (moviendo)
         {
-           // Debug.Log("SOLTADO");
+            Debug.Log("FICHA SOLTADA");
             moviendo = false;
-            panelEdicion.SetSwipe(true);
-            panelHerramientasCerrado = false;
-            panelEdicion.AbrirPanelHerramientas();
+            panelHerramientas.ToogleActive();
         }
     }
 }

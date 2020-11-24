@@ -94,8 +94,8 @@ public class PanelPartidos : Panel
         Debug.Log("PARTIDOS");
         isPartido = true;
 
-        CanvasController.instance.overlayPanel.SetNombrePanel("PARTIDOS DE: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);
-        CanvasController.instance.overlayPanel.SetNombrePanel("MATCHES OF: " + jugadorFocus.GetNombre(), AppController.Idiomas.Ingles);
+        CanvasController.instance.overlayPanel.SetNombrePanel("PARTIDOS DE: " + AppController.instance.jugadorActual.GetNombre(), AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("MATCHES OF: " + AppController.instance.jugadorActual.GetNombre(), AppController.Idiomas.Ingles);
         //imagenPartido.color = colorSeleccionado;
         //imagenPractica.color = colorNoSeleccionado;
 

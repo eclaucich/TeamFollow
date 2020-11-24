@@ -57,11 +57,12 @@ public class DetalleAsistencia : MonoBehaviour {
 
     public void SetDetalle(DetalleAsistencia detalle_, bool activar)
     {
-        nombreJugadorText.text = detalle_.GetNombre();
+        SetNombreJugador(detalle_.GetNombre());
         asistencia = detalle_.GetAsistencia();
 
         SetBotonAsistencia();
         botonCambiarAsistencia.enabled = activar;
+        Debug.Log("ACTIVADO?: " + activar);
     }
 
     private void SetBotonAsistencia()
@@ -71,20 +72,20 @@ public class DetalleAsistencia : MonoBehaviour {
         if (asistencia == 0)
         {
             imagen.color = colorPresente;
-            textBotonAsistencia.SetText("PRESENTE", AppController.Idiomas.Español);
-            textBotonAsistencia.SetText("PRESENT", AppController.Idiomas.Ingles);
+            textBotonAsistencia.SetText("P", AppController.Idiomas.Español);
+            textBotonAsistencia.SetText("P", AppController.Idiomas.Ingles);
         }
         else if (asistencia == 1)
         {
             imagen.color = colorTarde;
-            textBotonAsistencia.SetText("TARDE", AppController.Idiomas.Español);
-            textBotonAsistencia.SetText("LATE", AppController.Idiomas.Ingles);
+            textBotonAsistencia.SetText("T", AppController.Idiomas.Español);
+            textBotonAsistencia.SetText("L", AppController.Idiomas.Ingles);
         }
         else
         {
             imagen.color = colorAusente;
-            textBotonAsistencia.SetText("AUSENTE", AppController.Idiomas.Español);
-            textBotonAsistencia.SetText("ABSENT", AppController.Idiomas.Ingles);
+            textBotonAsistencia.SetText("A", AppController.Idiomas.Español);
+            textBotonAsistencia.SetText("A", AppController.Idiomas.Ingles);
         }
     }
 

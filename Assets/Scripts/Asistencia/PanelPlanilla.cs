@@ -4,19 +4,21 @@ using UnityEngine.UI;
 
 public class PanelPlanilla : PanelAsistencia {
 
-    [SerializeField] private Text nombrePlanillaText = null;
     [SerializeField] private PanelHistorialPlanillas panelHistorialPlanillas = null;
     [SerializeField] private ConfirmacionBorradoAsistencia confirmacionBorradoAsistencia = null;
 
     [SerializeField] private GameObject botonBorrar = null;
     [SerializeField] private GameObject botonEditar = null;
     [SerializeField] private GameObject botonGuardar = null;
-
     [SerializeField] private InputField inputNuevoAlias = null;
+
+    [SerializeField] private TextLanguage fechaText = null;
+    [SerializeField] private TextLanguage aliasText = null;
+
     [SerializeField] private MensajeError mensajeError = null;
 
     private BotonHistorialAsistencia botonFocus;
-
+    private List<DetalleAsistencia> detalles;
     private List<DetalleAsistencia> newDetalles;
 
     public void SetPanelPlanilla(BotonHistorialAsistencia botonFocus_)
@@ -26,25 +28,28 @@ public class PanelPlanilla : PanelAsistencia {
         botonFocus = botonFocus_;
 
         detalles = AppController.instance.equipoActual.GetPlanillaWithName(botonFocus.GetNombre()).GetDetalles();
-        cantidadHojas = Mathf.CeilToInt(detalles.Count / 13f);
-
-        base.SetPanelPlanilla();
 
         CanvasController.instance.overlayPanel.SetNombrePanel("PLANILLA DE ASISTENCIA", AppController.Idiomas.Español);
         CanvasController.instance.overlayPanel.SetNombrePanel("ASSISTANCE FORM", AppController.Idiomas.Ingles);
 
-        CrearPrefabsHoja(false);
+        CrearPrefabs(detalles, false);
 
-        nombrePlanillaText.gameObject.SetActive(true);
-        if (botonFocus_.GetAlias() != "")
-        {
-            nombrePlanillaText.text = botonFocus_.GetAlias();
-        }
-        else
-        {
-            nombrePlanillaText.text = botonFocus_.GetFecha();
-        }
+        //Si no tiene alias lo desactivo
+        aliasText.gameObject.SetActive(true);
+        if (botonFocus_.GetAlias() == "")
+            aliasText.gameObject.SetActive(false);
 
+        base.SetPanelAsistencia();
+
+        fechaText.SetText("FECHA:\n" + botonFocus_.GetFecha(), AppController.Idiomas.Español);
+        fechaText.SetText("DATE:\n" + botonFocus_.GetFecha(), AppController.Idiomas.Ingles);
+
+        aliasText.SetText("NOMBRE:\n" + botonFocus_.GetAlias(), AppController.Idiomas.Español);
+        aliasText.SetText("NAME:\n" + botonFocus_.GetAlias(), AppController.Idiomas.Ingles);
+
+        inputNuevoAlias.text = "";
+
+        //Estado incial de los botones
         botonBorrar.SetActive(true);
         botonEditar.SetActive(true);
         botonGuardar.SetActive(false);
@@ -58,15 +63,14 @@ public class PanelPlanilla : PanelAsistencia {
 
     public void EditarPlanilla()
     {
-        nombrePlanillaText.gameObject.SetActive(false);
         botonEditar.SetActive(false);
         botonBorrar.SetActive(false);
+        aliasText.gameObject.SetActive(false);
         botonGuardar.SetActive(true);
         inputNuevoAlias.gameObject.SetActive(true);
+        inputNuevoAlias.text = botonFocus.GetAlias();
 
-        base.BorrarPrefabs();
-        newDetalles.Clear();
-        newDetalles = CrearPrefabsHoja(AppController.instance.equipoActual.GetJugadores(), detalles);
+        newDetalles = CrearPrefabsDetalles(detalles, true);
     }
 
     public void GuardarPlanillaEditada()

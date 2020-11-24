@@ -44,8 +44,12 @@ public class EntradaDatosGenerico : EntradaDatos
 
     private void Update()
     {
+        if (!AppController.instance.pantallaCarga.gameObject.activeSelf)
+            CanvasController.instance.retrocesoPausado = true;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Debug.Log("PAUSED UPD?: " + CanvasController.instance.retrocesoPausado);
+
             if (seleccionListaJugadores.gameObject.activeSelf)
             {
                 CanvasController.instance.retrocesoPausado = false;
@@ -92,11 +96,14 @@ public class EntradaDatosGenerico : EntradaDatos
     {
         //controlar que cantSeleccionados sea al menos 1. En caso contrario mostar mensaje de error y no continuar
 
+        AppController.instance.pantallaCarga.Activar();
+        Debug.Log("PANTALLA DE CARGA");
+
         seleccionListaJugadores.gameObject.SetActive(false);
 
         jugadoresSeleccionados = _listaJugadores;
 
-        Screen.orientation = ScreenOrientation.Landscape;
+        //Screen.orientation = ScreenOrientation.Landscape;
 
         CanvasController.instance.overlayPanel.gameObject.SetActive(false);
         CanvasController.instance.botonDespliegueMenu.SetActive(false);
@@ -106,6 +113,9 @@ public class EntradaDatosGenerico : EntradaDatos
         seccionBanca.SetSeccionBanca(jugadoresSeleccionados);
         seccionCancha.SetSeccionCancha();
         seccionEstadisticas.SetSeccionEstadisticas(listaEstadisticas, listaNombres, listaIniciales);
+
+        //AppController.instance.pantallaCarga.Desactivar();
+
         seccionEstadisticas.SetJugadorEntradaDatoFocus(seccionBanca.GetJugadorEntradaDatoInicial());
     }
 

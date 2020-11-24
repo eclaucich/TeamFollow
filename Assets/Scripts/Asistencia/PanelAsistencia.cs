@@ -5,144 +5,144 @@ using UnityEngine.UI;
 
 public class PanelAsistencia : Panel
 {
-    protected int hojaActual;
-    protected int cantidadHojas;
-    [SerializeField] private GameObject hojaAsistenciaPrefab = null;
-    [SerializeField] private Transform parentTransformHojas = null;
-    [SerializeField] private Text numeroHojaText = null;
+    [SerializeField] private GameObject detalleAsistenciaPrefab = null;
+    [SerializeField] private Transform detallesParentTransform = null;
+    [SerializeField] private FlechasScroll flechasScroll = null;
 
-    [SerializeField] protected GameObject flechaSiguiente = null;
-    [SerializeField] protected GameObject flechaAnterior = null;
+    [SerializeField] private TextLanguage nombreEquipoText = null;
+    [SerializeField] private TextLanguage placeholderNuevoAlias = null;
 
-    protected List<GameObject> listaPrefabsHojas;
-    protected List<DetalleAsistencia> detalles;
+    [SerializeField] private TextLanguage leyendaInicialPresente = null;
+    [SerializeField] private TextLanguage leyendaPresente = null;
 
+    [SerializeField] private TextLanguage leyendaInicialTarde = null;
+    [SerializeField] private TextLanguage leyendaTarde = null;
 
-    virtual public void SetPanelPlanilla()
+    [SerializeField] private TextLanguage leyendaInicialAusente = null;
+    [SerializeField] private TextLanguage leyendaAusente = null;
+
+    [SerializeField] private ScrollRect scrollRectDetalles = null;
+    private List<GameObject> listaPrefabs;
+
+    private int cantMinima;
+    private float prefabHeight;
+
+    private void Awake()
+    {
+        //detalles = new List<DetalleAsistencia>();
+        listaPrefabs = new List<GameObject>();
+        prefabHeight = detalleAsistenciaPrefab.GetComponent<RectTransform>().rect.height;
+    }
+
+    public void SetPanelAsistencia()
+    {
+        //Setear la info de la asistencia
+        nombreEquipoText.SetText("EQUIPO:\n" + AppController.instance.equipoActual.GetNombre(), AppController.Idiomas.Español);
+        nombreEquipoText.SetText("TEAM:\n" + AppController.instance.equipoActual.GetNombre(), AppController.Idiomas.Ingles);
+
+        placeholderNuevoAlias.SetText("NUEVO NOMBRE ...", AppController.Idiomas.Español);
+        placeholderNuevoAlias.SetText("NEW NAME ...", AppController.Idiomas.Ingles);
+
+        leyendaInicialPresente.SetText("P", AppController.Idiomas.Español);
+        leyendaInicialPresente.SetText("P", AppController.Idiomas.Ingles);
+        leyendaPresente.SetText("PRESENTE", AppController.Idiomas.Español);
+        leyendaPresente.SetText("PRESENT", AppController.Idiomas.Ingles);
+
+        leyendaInicialTarde.SetText("T", AppController.Idiomas.Español);
+        leyendaInicialTarde.SetText("L", AppController.Idiomas.Ingles);
+        leyendaTarde.SetText("TARDE", AppController.Idiomas.Español);
+        leyendaTarde.SetText("LATE", AppController.Idiomas.Ingles);
+
+        leyendaInicialAusente.SetText("A", AppController.Idiomas.Español);
+        leyendaInicialAusente.SetText("A", AppController.Idiomas.Ingles);
+        leyendaAusente.SetText("AUSENTE", AppController.Idiomas.Español);
+        leyendaAusente.SetText("ABSCENT", AppController.Idiomas.Ingles);
+    }
+
+    private void FixedUpdate()
+    {
+        flechasScroll.Actualizar(scrollRectDetalles, cantMinima, listaPrefabs.Count);
+    }
+
+    public void CrearPrefabs(List<DetalleAsistencia> _detalles, bool activarBoton)
     {
         BorrarPrefabs();
 
-        hojaActual = 1;
-
-        /*numeroHojaText.text = hojaActual + "/" + cantidadHojas;
-
-        flechaAnterior.SetActive(false);
-        if (cantidadHojas == 1)
-            flechaSiguiente.SetActive(false);
-        else
-            flechaSiguiente.SetActive(true);*/
-
-        flechaAnterior.SetActive(false);
-        flechaSiguiente.SetActive(false);
-        numeroHojaText.gameObject.SetActive(false);
-    }
-
-    public void CrearPrefabsHoja(bool activarBoton)
-    {
-        listaPrefabsHojas = new List<GameObject>();
-        for (int i = 0; i < cantidadHojas; i++)
+        foreach (var _detalle in _detalles)
         {
-            GameObject hojaAsistenciaGO = Instantiate(hojaAsistenciaPrefab, parentTransformHojas, false);
-            hojaAsistenciaGO.SetActive(true);
-            hojaAsistenciaGO.transform.SetAsFirstSibling();
+            GameObject detalleGO = Instantiate(detalleAsistenciaPrefab, detallesParentTransform, false);
+            detalleGO.SetActive(true);
 
-            hojaAsistenciaGO.GetComponent<HojaAsistencia>().SetHojaAsistencia(detalles, i, activarBoton);
+            detalleGO.GetComponent<DetalleAsistencia>().SetDetalle(_detalle, activarBoton);
 
-            listaPrefabsHojas.Add(hojaAsistenciaGO);
-        }
-    }
-
-    public void CrearPrefabsHoja(List<Jugador> jugadores)
-    {
-        listaPrefabsHojas = new List<GameObject>();
-        detalles = new List<DetalleAsistencia>();
-
-        for (int i = 0; i < cantidadHojas; i++)
-        {
-            GameObject hojaAsistenciaGO = Instantiate(hojaAsistenciaPrefab, parentTransformHojas, false);
-            hojaAsistenciaGO.SetActive(true);
-            hojaAsistenciaGO.transform.SetAsFirstSibling();
-
-            detalles.AddRange(hojaAsistenciaGO.GetComponent<HojaAsistencia>().SetHojaAsistencia(jugadores, i));
-
-            listaPrefabsHojas.Add(hojaAsistenciaGO);
-        }
-    }
-
-    public List<DetalleAsistencia> CrearPrefabsHoja(List<Jugador> jugadores, List<DetalleAsistencia> detalles)
-    {
-        listaPrefabsHojas = new List<GameObject>();
-        List<DetalleAsistencia> newDetalles = new List<DetalleAsistencia>();
-
-        /*foreach (var det in detalles)
-        {
-            newDetalles.Add(new DetalleAsistencia(det));
-        }*/
-
-        for (int i = 0; i < cantidadHojas; i++)
-        {
-            GameObject hojaAsistenciaGO = Instantiate(hojaAsistenciaPrefab, parentTransformHojas, false);
-            hojaAsistenciaGO.SetActive(true);
-            hojaAsistenciaGO.transform.SetAsFirstSibling();
-
-            newDetalles.AddRange(hojaAsistenciaGO.GetComponent<HojaAsistencia>().SetHojaAsistenciaAux(detalles, i, true));
-
-            listaPrefabsHojas.Add(hojaAsistenciaGO);
+            listaPrefabs.Add(detalleGO);
         }
 
-        return newDetalles;
+        cantMinima = (int)(scrollRectDetalles.GetComponent<RectTransform>().rect.height / (prefabHeight + detallesParentTransform.GetComponent<VerticalLayoutGroup>().spacing + detallesParentTransform.GetComponent<VerticalLayoutGroup>().padding.top));
+    }
+
+    public List<DetalleAsistencia> CrearPrefabsDetalles(List<Jugador> jugadores)
+    {
+        if (listaPrefabs == null)
+            listaPrefabs = new List<GameObject>();
+
+        BorrarPrefabs();
+
+        List<DetalleAsistencia> _listaDetalles = new List<DetalleAsistencia>();
+
+        foreach (var _jugador in jugadores)
+        {
+            GameObject detalleGO = Instantiate(detalleAsistenciaPrefab, detallesParentTransform, false);
+            detalleGO.SetActive(true);
+
+            DetalleAsistencia _detalle = detalleGO.GetComponent<DetalleAsistencia>();
+
+            _detalle.SetNombreJugador(_jugador.GetNombre());
+            _detalle.SetAsistenciaInicial(0);
+
+            _listaDetalles.Add(_detalle);
+
+            listaPrefabs.Add(detalleGO);
+        }
+
+        cantMinima = (int)(scrollRectDetalles.GetComponent<RectTransform>().rect.height / (prefabHeight + detallesParentTransform.GetComponent<VerticalLayoutGroup>().spacing + detallesParentTransform.GetComponent<VerticalLayoutGroup>().padding.top));
+
+        return _listaDetalles;
+    }
+
+    public List<DetalleAsistencia> CrearPrefabsDetalles(List<DetalleAsistencia> _detalles, bool _activarBoton)
+    {
+        List<DetalleAsistencia> _listaDetalles = new List<DetalleAsistencia>();
+
+        BorrarPrefabs();
+
+        foreach (var _detalle in _detalles)
+        {
+            GameObject detalleGO = Instantiate(detalleAsistenciaPrefab, detallesParentTransform, false);
+            detalleGO.SetActive(true);
+
+            DetalleAsistencia _det = detalleGO.GetComponent<DetalleAsistencia>();
+
+            _det.SetDetalle(_detalle, _activarBoton);
+            _listaDetalles.Add(_det);
+
+            listaPrefabs.Add(detalleGO);
+        }
+
+        Debug.Log("PREF: " + listaPrefabs.Count);
+
+        cantMinima = (int)(scrollRectDetalles.GetComponent<RectTransform>().rect.height / (prefabHeight + detallesParentTransform.GetComponent<VerticalLayoutGroup>().spacing + detallesParentTransform.GetComponent<VerticalLayoutGroup>().padding.top));
+
+        return _listaDetalles;
     }
 
     public void BorrarPrefabs()
     {
-        if (listaPrefabsHojas == null) return;
-        for (int i = 0; i < listaPrefabsHojas.Count; i++)
-            Destroy(listaPrefabsHojas[i]);
-
-        listaPrefabsHojas.Clear();
-    }
-
-    public void HojaSiguiente()
-    {
-        /*if (hojaActual+1 >= cantidadHojas)
-        {
-            hojaActual = cantidadHojas;
-            flechaSiguiente.SetActive(false);
+        if (listaPrefabs == null)
             return;
-        }*/
 
-        listaPrefabsHojas[hojaActual - 1].GetComponent<HojaAsistencia>().AnimacionSiguiente(true);
-        hojaActual++;
-        listaPrefabsHojas[hojaActual - 1].GetComponent<HojaAsistencia>().AnimacionSiguiente(false);
-
-        numeroHojaText.text = hojaActual + "/" + cantidadHojas;
-
-        flechaAnterior.SetActive(true);
-        if (hojaActual >= cantidadHojas)
-            flechaSiguiente.SetActive(false);
-        else
-            flechaSiguiente.SetActive(true);
-    }
-
-    public void HojaAnterior()
-    {
-        /*if (hojaActual <= 1)
-        {
-            flechaAnterior.SetActive(false);
-            hojaActual = 1;
-            return;
-        }*/
-
-        listaPrefabsHojas[hojaActual - 1].GetComponent<HojaAsistencia>().AnimacionAnterior(true);
-        hojaActual--;
-        listaPrefabsHojas[hojaActual - 1].GetComponent<HojaAsistencia>().AnimacionAnterior(false);
-
-        numeroHojaText.text = hojaActual + "/" + cantidadHojas;
-
-        flechaSiguiente.SetActive(true);
-        if (hojaActual <= 1)
-            flechaAnterior.SetActive(false);
-        else
-            flechaAnterior.SetActive(true);
+        foreach (var _go in listaPrefabs)
+            Destroy(_go);
+        listaPrefabs.Clear();
     }
 }

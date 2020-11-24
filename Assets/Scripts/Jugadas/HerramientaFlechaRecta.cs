@@ -40,6 +40,8 @@ public class HerramientaFlechaRecta : Herramienta
             flechaActual = null;
         }*/
 
+        panelEdicion.SetSwipe(false);
+
         if(flechaActual == null)
         {
             //GameObject go = Instantiate(flechaRectaPrefab);
@@ -70,6 +72,7 @@ public class HerramientaFlechaRecta : Herramienta
 
     public override void DejarDeUsar()
     {
+        panelEdicion.SetSwipe(true);
         flechaActual.GetComponent<FlechaRecta>().CrearPunta(lineMode);
         flechaActual = null;
         Debug.Log("DEJAR DE USAR");

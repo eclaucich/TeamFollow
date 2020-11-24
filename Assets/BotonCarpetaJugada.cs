@@ -8,6 +8,7 @@ public class BotonCarpetaJugada : MonoBehaviour
     [SerializeField] private Text nombreCarpetaText = null;
     [SerializeField] private GameObject botonJugadaPrefab = null;
     [SerializeField] private InputField inputfield = null;
+    [SerializeField] private GameObject botonBorrar = null;
     [SerializeField] private PanelPrincipalBiblioteca panelPrincipalBiblioteca = null;
     [SerializeField] private GameObject seccionJugadasPrefab = null;
 
@@ -48,7 +49,7 @@ public class BotonCarpetaJugada : MonoBehaviour
     {
         if (_nuevoNombre != nombreCarpetaText.text)
         {
-            if (AppController.instance.VerificarNombreCarpeta(_nuevoNombre.ToUpper()))
+            if (!AppController.instance.VerificarNombreCarpeta(_nuevoNombre.ToUpper()))
             {
                 Debug.Log("NOMBRE EXISTENTE: " + _nuevoNombre);
                 panelPrincipalBiblioteca.ActivarMensajeError();
@@ -79,5 +80,14 @@ public class BotonCarpetaJugada : MonoBehaviour
     public CarpetaJugada GetCarpeta()
     {
         return carpeta;
+    }
+
+    public void SetCarpetaEspecial()
+    {
+        inputfield.gameObject.SetActive(false);
+        botonBorrar.SetActive(false);
+        TextLanguage _txtLanguage = nombreCarpetaText.gameObject.AddComponent<TextLanguage>();
+        _txtLanguage.SetText("SIN CARPETA", AppController.Idiomas.Español);
+        _txtLanguage.SetText("WITHOUT FOLDER", AppController.Idiomas.Ingles);
     }
 }

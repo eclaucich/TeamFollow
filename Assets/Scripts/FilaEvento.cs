@@ -56,7 +56,7 @@ public class FilaEvento : MonoBehaviour
             listaPrefabs = new List<GameObject>();
 
         int offset = 0;
-        float deltaX = 30;
+        float deltaX = 100;
 
         Evento lastEvento = null;
 
