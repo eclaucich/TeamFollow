@@ -131,7 +131,10 @@ public class PanelNuevoJugador : Panel
 
     public void SetPanel()
     {
-        if(inputsObligatorios != null)
+        CanvasController.instance.overlayPanel.SetNombrePanel("NUEVO JUGADOR", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("NEW PLAYER", AppController.Idiomas.Ingles);
+
+        if (inputsObligatorios != null)
             foreach (var input in inputsObligatorios)
                 input.ResetValor();
         if (inputsString != null)

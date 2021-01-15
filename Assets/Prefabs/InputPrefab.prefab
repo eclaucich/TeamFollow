@@ -33,7 +33,7 @@ RectTransform:
   - {fileID: 6030551905077689521}
   - {fileID: 9054861240873547892}
   m_Father: {fileID: 7417675196310206193}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -172,7 +172,7 @@ RectTransform:
   - {fileID: 4718813758194183136}
   - {fileID: 1758204180778319597}
   m_Father: {fileID: 7417675196310206193}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.49800003, y: 1}
@@ -497,7 +497,7 @@ GameObject:
   - component: {fileID: 8622801388396795255}
   - component: {fileID: 8630285491078198382}
   m_Layer: 5
-  m_Name: Image
+  m_Name: LineaSeparadora
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -519,8 +519,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2, y: 0}
+  m_AnchoredPosition: {x: 2.5, y: -0.000034332275}
+  m_SizeDelta: {x: 5, y: -15.59}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &8622801388396795255
 CanvasRenderer:
@@ -586,8 +586,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7499374471173524363}
   - {fileID: 3503971078183752480}
+  - {fileID: 7499374471173524363}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -613,6 +613,7 @@ MonoBehaviour:
   inputField: {fileID: 5386894888984331904}
   textCampoObligatorio: {fileID: 1940804977519156110}
   text: {fileID: 1272175455}
+  lineaSeparadora: {fileID: 8630285491078198382}
   imageNombre: {fileID: 1879367030907041921}
   imageValor: {fileID: 4101863809033552072}
 --- !u!1 &8906126291637510876

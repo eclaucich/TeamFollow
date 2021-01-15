@@ -9,6 +9,7 @@ public class InputPrefab : MonoBehaviour
     [SerializeField] private Text textCampoObligatorio = null;
     [SerializeField] private TextLanguage text = null;
 
+    [SerializeField] protected Image lineaSeparadora = null;
     [SerializeField] private Image imageNombre = null;
     [SerializeField] private Image imageValor = null;
 
@@ -64,6 +65,7 @@ public class InputPrefab : MonoBehaviour
 
     public virtual void HabilitarInput(bool _aux)
     {
+        lineaSeparadora.gameObject.SetActive(_aux);
         inputField.enabled = _aux;
     }
 

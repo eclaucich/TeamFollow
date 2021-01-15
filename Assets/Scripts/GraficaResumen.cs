@@ -20,11 +20,14 @@ public class GraficaResumen : MonoBehaviour
     [SerializeField] private GameObject filaPrefab = null;
     [SerializeField] private Transform parentTransformFilas= null;
 
+    [SerializeField] private Dropdown dropdownPeriodos = null;
+
     private Jugador jugadorFocus;
     private Partido partidoFocus;
     private List<Evento> eventos;
-
+    private Dictionary<int, List<Evento>> eventosPorPeriodo;
     private List<GameObject> listaPrefabs;
+    private BotonEvento eventoFocus = null;
 
     private int cantMinima;
     private float prefabHeight;
@@ -43,9 +46,14 @@ public class GraficaResumen : MonoBehaviour
     {
         gameObject.SetActive(true);
 
+        CanvasController.instance.botonDespliegueMenu.SetActive(false);
+
+        scrollRectHorizontal.GetComponent<RectTransform>().sizeDelta = new Vector2(scrollRectVertical.GetComponent<RectTransform>().rect.height, scrollRectHorizontal.GetComponent<RectTransform>().sizeDelta.y);
+
         Screen.orientation = ScreenOrientation.Landscape;
 
-        scrollRectHorizontal.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.height - parentIniciales.GetComponent<RectTransform>().rect.width - 50f, scrollRectHorizontal.GetComponent<RectTransform>().sizeDelta.y);
+        //scrollRectHorizontal.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.height - parentIniciales.GetComponent<RectTransform>().rect.width - 50f, scrollRectHorizontal.GetComponent<RectTransform>().sizeDelta.y);
+
         prefabHeight = filaPrefab.GetComponent<RectTransform>().rect.height;
 
         if (_partido.IsPartido())
@@ -64,10 +72,20 @@ public class GraficaResumen : MonoBehaviour
 
         eventos = partidoFocus.GetEventos();
 
+        dropdownPeriodos.ClearOptions();
+        List<Dropdown.OptionData> _options = new List<Dropdown.OptionData>();
+        for (int i = 0; i < partidoFocus.GetCantidadPeriodos(); i++)
+        {
+            _options.Add(new Dropdown.OptionData((i+1).ToString()));
+        }
+        dropdownPeriodos.AddOptions(_options);
+
         if (eventos.Count == 0)
             adviceText.SetActive(true);
         else
             adviceText.SetActive(false);
+
+        SetEventosPorPeriodo();
 
         ResetPrefabs();
     }
@@ -106,6 +124,17 @@ public class GraficaResumen : MonoBehaviour
         //cantMinima = (int)(scrollRectEventos.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransformEventos.GetComponent<VerticalLayoutGroup>().spacing));
     }
 
+    private void SetEventosPorPeriodo()
+    {
+        eventosPorPeriodo = new Dictionary<int, List<Evento>>();
+
+        foreach (var _evento in eventos)
+        {
+            if(!eventosPorPeriodo.ContainsKey(_evento.GetPeriod()))
+                eventosPorPeriodo[_evento.GetPeriod()] = new List<Evento>();
+            eventosPorPeriodo[_evento.GetPeriod()].Add(_evento);
+        }
+    }
 
     private void CrearPrefabs2()
     {
@@ -114,7 +143,9 @@ public class GraficaResumen : MonoBehaviour
 
         List<FilaEvento> _listaFilas = new List<FilaEvento>();
 
-        foreach (var _evento in eventos)
+        int periodoActual = dropdownPeriodos.value+1;
+
+        foreach (var _evento in eventosPorPeriodo[periodoActual])
         {
             if (!_tiposEventos.Contains(_evento.GetTipoEstadistica()))
             {
@@ -156,6 +187,10 @@ public class GraficaResumen : MonoBehaviour
         cantMinima = (int)(scrollRectVertical.GetComponent<RectTransform>().rect.width / (prefabHeight + parentTransformEventos.GetComponent<VerticalLayoutGroup>().spacing))-2;
     }
 
+    public void CambiarPeriodoActual()
+    {
+        ResetPrefabs();
+    }
 
     private void NuevoEventoPrefab(Evento _evento)
     {
@@ -164,5 +199,14 @@ public class GraficaResumen : MonoBehaviour
         BotonEvento goEvento = go.GetComponent<BotonEvento>();
         goEvento.SetEventoFocus(_evento);
         listaPrefabs.Add(go);
+    }
+
+    public void SetEventoFocus(BotonEvento _botonEvento)
+    {
+        if(eventoFocus!=null)
+        {
+            eventoFocus.SetColorBase();
+        }
+        eventoFocus = _botonEvento;
     }
 }

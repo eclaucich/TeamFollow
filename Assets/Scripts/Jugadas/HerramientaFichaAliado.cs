@@ -50,6 +50,8 @@ public class HerramientaFichaAliado : Herramienta {
         imagen.color = new Color(colorActual.r, colorActual.g, colorActual.b, 255f);
 
         herramientaSeleccion.SetHerramientaActual();
+
+        Debug.Log("DICHA USADA");
     }
 
 
@@ -63,6 +65,8 @@ public class HerramientaFichaAliado : Herramienta {
         imagen.color = new Color(colorActual.r, colorActual.g, colorActual.b, 255f);
 
         SetHerramientaActual();
+
+        Debug.Log("FICHA SELECCIONADA");
     }
 
     public void SeleccionarFichaCuadrada()

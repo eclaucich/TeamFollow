@@ -73,6 +73,11 @@ public class BotonJugador : MonoBehaviour {
         transform.SetAsFirstSibling();
     }
 
+    private void SetComoFavoritoFeedBack(){
+        SetComoFavorito();
+        panelJugadoresPrincipal.MensajeFavorito();
+    }
+
     public void RemoverFavorito()
     {
         AppController.instance.equipoActual.SetJugadorFavorito(null);
@@ -89,7 +94,7 @@ public class BotonJugador : MonoBehaviour {
         }
         else
         {
-            SetComoFavorito();
+            SetComoFavoritoFeedBack();
             SaveSystem.SaveFavouritePlayer(AppController.instance.equipoActual, jugadorFocus);
         }
     }

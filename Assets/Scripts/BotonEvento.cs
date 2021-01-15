@@ -9,9 +9,18 @@ public class BotonEvento : MonoBehaviour
     private string tiempoText;
     private string tipoEventoText;
 
+    [SerializeField] private GraficaResumen graficaResumen = null;
     [SerializeField] private InfoEvento infoEvento = null;
+    [SerializeField] private Image icono = null;
+    [SerializeField] private Color colorBase;
+    [SerializeField] private Color colorSeleccionado;
 
     private Evento eventoFocus;
+
+    private void Start() 
+    {
+        icono.color = colorBase;
+    }
 
     public void SetEventoFocus(Evento _evento)
     {
@@ -25,6 +34,8 @@ public class BotonEvento : MonoBehaviour
     public void SetInfoEvento()
     {
         infoEvento.SetInfoEvento(nombreJugadorText, periodText, tiempoText, tipoEventoText);
+        icono.color = colorSeleccionado;
+        graficaResumen.SetEventoFocus(this);
     }
 
     private void SetTimeText(float _time)
@@ -39,5 +50,10 @@ public class BotonEvento : MonoBehaviour
         if (sec < 10)
             tiempoText += "0";
         tiempoText += sec;
+    }
+
+    public void SetColorBase()
+    {
+        icono.color = colorBase;
     }
 }

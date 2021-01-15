@@ -76,7 +76,7 @@ public class HerramientaFlechaRecta : Herramienta
         flechaActual.GetComponent<FlechaRecta>().CrearPunta(lineMode);
         flechaActual = null;
         Debug.Log("DEJAR DE USAR");
-        panelEdicion.AbrirPanelHerramientas();
+        panelEdicion.TogglePanelHerramientas();
         panelHerramientasCerrado = false;
         herramientaSeleccion.SetHerramientaActual();
     }

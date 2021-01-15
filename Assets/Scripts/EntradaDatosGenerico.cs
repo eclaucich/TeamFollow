@@ -74,18 +74,44 @@ public class EntradaDatosGenerico : EntradaDatos
         seleccionListaJugadores.SetearListaJugadores();
 
         Deportes.DeporteEnum deporteActual = AppController.instance.equipoActual.GetDeporte();
-        if (deporteActual == Deportes.DeporteEnum.Futbol || deporteActual == Deportes.DeporteEnum.Basket || deporteActual == Deportes.DeporteEnum.HockeyCesped || deporteActual == Deportes.DeporteEnum.HockeyPatines || deporteActual == Deportes.DeporteEnum.Rugby || deporteActual == Deportes.DeporteEnum.Handball)
+
+        switch (deporteActual)
         {
-            resultadoNormal.gameObject.SetActive(true);
-            resultadoSets.gameObject.SetActive(false);
-            resultadoNormal.ActivateEdition();
-        }
-        else
-        {
-            resultadoNormal.gameObject.SetActive(false);
-            resultadoSets.gameObject.SetActive(true);
-            resultadoSets.ActivateEdition();
-            resultadoSets.AgregarSet();
+            //NORMAL CON PENALES
+            case Deportes.DeporteEnum.Futbol:
+            case Deportes.DeporteEnum.HockeyCesped:
+            case Deportes.DeporteEnum.HockeyPatines:
+            case Deportes.DeporteEnum.Handball:
+                resultadoNormal.gameObject.SetActive(true);
+                resultadoSets.gameObject.SetActive(false);
+                resultadoNormal.ActivateEdition();
+                Debug.Log("NORMAL CON PENALES");
+                break;
+
+            //NORMAL SIN PENALES
+            case Deportes.DeporteEnum.Basket:
+            case Deportes.DeporteEnum.Rugby:
+            case Deportes.DeporteEnum.Softball:
+                resultadoNormal.gameObject.SetActive(true);
+                resultadoSets.gameObject.SetActive(false);
+                resultadoNormal.ActivateEdition(false); //sin penales
+                Debug.Log("NORMAL SIN PENALES");
+                break;
+
+            //SETS CON TIEBREAK
+            case Deportes.DeporteEnum.Padel:
+            case Deportes.DeporteEnum.Tenis:
+            case Deportes.DeporteEnum.Voley:
+                resultadoNormal.gameObject.SetActive(false);
+                resultadoSets.gameObject.SetActive(true);
+                resultadoSets.ActivateEdition();
+                resultadoSets.AgregarSet();
+                Debug.Log("SETS CON TIEBREAK");
+                break;
+
+            default:
+                Debug.LogError("ERROR CON EL DEPORTE ACTUAL");
+                break;
         }
 
         relojEntradaDatos.Initiate();
@@ -176,12 +202,13 @@ public class EntradaDatosGenerico : EntradaDatos
         Deportes.DeporteEnum deporteActual = equipo.GetDeporte();
         Estadisticas estEquipo = new Estadisticas(deporteActual);
         DateTime fecha = DateTime.Now;
+        int cantPeriodos = relojEntradaDatos.GetCurrentPeriod();
 
-        Partido _partido = new Partido(nombrePartido, estEquipo, fecha, isPartido);
+        Partido _partido = new Partido(nombrePartido, estEquipo, fecha, isPartido, cantPeriodos);
         List<Evento> _eventos = seccionEstadisticas.GetListaEventos();
         _partido.SetListaEventos(_eventos);
 
-        if (deporteActual == Deportes.DeporteEnum.Futbol || deporteActual == Deportes.DeporteEnum.Basket || deporteActual == Deportes.DeporteEnum.HockeyCesped || deporteActual == Deportes.DeporteEnum.HockeyPatines || deporteActual == Deportes.DeporteEnum.Rugby || deporteActual == Deportes.DeporteEnum.Handball)
+        if (deporteActual == Deportes.DeporteEnum.Softball || deporteActual == Deportes.DeporteEnum.Futbol || deporteActual == Deportes.DeporteEnum.Basket || deporteActual == Deportes.DeporteEnum.HockeyCesped || deporteActual == Deportes.DeporteEnum.HockeyPatines || deporteActual == Deportes.DeporteEnum.Rugby || deporteActual == Deportes.DeporteEnum.Handball)
         {
             if (insertarResultado && !resultadoNormal.VerificarInputs())
             {
@@ -197,7 +224,7 @@ public class EntradaDatosGenerico : EntradaDatos
             Debug.Log("PEN PROP: " + resultadoNormal.GetResultadoPenalesPropio());
             Debug.Log("PEN CONT: " + resultadoNormal.GetResultadoPenalesContrario());
             _partido.AgregarResultadoEntradaDatos(resultadoNormal, Partido.TipoResultadoPartido.Normal);
-            seccionBanca.GuardarEntradaDato(listaNombres, nombrePartido, tipoEntradaDatos, fecha, resultadoNormal, _eventos, Partido.TipoResultadoPartido.Normal);
+            seccionBanca.GuardarEntradaDato(listaNombres, nombrePartido, tipoEntradaDatos, fecha, resultadoNormal, _eventos, Partido.TipoResultadoPartido.Normal, cantPeriodos);
         }
         else
         {
@@ -210,7 +237,7 @@ public class EntradaDatosGenerico : EntradaDatos
             }
             resultadoSets.SetResultado();
             _partido.AgregarResultadoEntradaDatos(resultadoSets, Partido.TipoResultadoPartido.Sets);
-            seccionBanca.GuardarEntradaDato(listaNombres, nombrePartido, tipoEntradaDatos, fecha, resultadoSets, _eventos, Partido.TipoResultadoPartido.Sets);
+            seccionBanca.GuardarEntradaDato(listaNombres, nombrePartido, tipoEntradaDatos, fecha, resultadoSets, _eventos, Partido.TipoResultadoPartido.Sets, cantPeriodos);
         }
 
 

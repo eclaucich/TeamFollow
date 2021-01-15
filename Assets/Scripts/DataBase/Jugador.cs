@@ -98,11 +98,11 @@ public class Jugador {
         return estadisticasGlobalesPartido;
     }
 
-    public void GuardarEntradaDato(string tipoEntradaDato, Estadisticas estadisticas, string _nombrePartido, DateTime _fecha, ResultadoEntradaDatos _res, List<Evento> _eventos, Partido.TipoResultadoPartido _tipoResultado)
+    public void GuardarEntradaDato(string tipoEntradaDato, Estadisticas estadisticas, string _nombrePartido, DateTime _fecha, ResultadoEntradaDatos _res, List<Evento> _eventos, Partido.TipoResultadoPartido _tipoResultado, int _cantPeriodos)
     {
         bool _isPartido = tipoEntradaDato == "Partido";
 
-        Partido _partido = new Partido(_nombrePartido, estadisticas, _fecha, _isPartido);
+        Partido _partido = new Partido(_nombrePartido, estadisticas, _fecha, _isPartido, _cantPeriodos);
         _partido.AgregarResultadoEntradaDatos(_res, _tipoResultado);
         _partido.SetListaEventos(_eventos);
         _partido.SetPosicion(GetPosicionActual());

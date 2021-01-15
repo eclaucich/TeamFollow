@@ -10,6 +10,10 @@ public class SeccionBanca : MonoBehaviour
     [SerializeField] private Transform parentPrefabs = null;
     [SerializeField] private Image contorno = null;
 
+    [SerializeField] private Toggle toggleNombres = null;
+    [SerializeField] private Toggle toggleNumeros = null;
+    [SerializeField] private Toggle togglePosiciones = null;
+
     private List<JugadorEntradaDato> listaJugadorEntradaDato;
 
     private void Start()
@@ -44,11 +48,11 @@ public class SeccionBanca : MonoBehaviour
         }
     }
 
-    public void GuardarEntradaDato(List<string> _categorias, string _nombrePartido, string _tipoEntradaDatos, DateTime _fecha, ResultadoEntradaDatos _res, List<Evento> _eventos, Partido.TipoResultadoPartido _tipoResultado)
+    public void GuardarEntradaDato(List<string> _categorias, string _nombrePartido, string _tipoEntradaDatos, DateTime _fecha, ResultadoEntradaDatos _res, List<Evento> _eventos, Partido.TipoResultadoPartido _tipoResultado, int _cantPeriodos)
     {
         foreach (var jed in listaJugadorEntradaDato)
         {
-            jed.GuardarEntradaDato(_categorias, _nombrePartido, _tipoEntradaDatos, _fecha, _res, _eventos, _tipoResultado);
+            jed.GuardarEntradaDato(_categorias, _nombrePartido, _tipoEntradaDatos, _fecha, _res, _eventos, _tipoResultado, _cantPeriodos);
         }
     }
 
@@ -63,5 +67,29 @@ public class SeccionBanca : MonoBehaviour
     public void SetActiveContorno(bool _aux)
     {
         contorno.gameObject.SetActive(_aux);
+    }
+
+    public void ToggleNombresJugadores()
+    {
+        foreach (var jed in listaJugadorEntradaDato)
+        {
+            jed.ToggleNombre(toggleNombres.isOn);
+        }
+    }
+
+    public void ToggleNumerosJugadores()
+    {
+        foreach (var jed in listaJugadorEntradaDato)
+        {
+            jed.ToggleNumero(toggleNumeros.isOn);
+        }
+    }
+
+    public void TogglePosicionesJugadores()
+    {
+        foreach (var jed in listaJugadorEntradaDato)
+        {
+            jed.TogglePosicion(togglePosiciones.isOn);
+        }
     }
 }

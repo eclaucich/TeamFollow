@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+    DISCREPADO
+*/
+
+
 public class EntradaDatosTenis : EntradaDatos
 {
     [SerializeField] private MensajeError mensajeErrorGuardado = null;
@@ -363,7 +368,7 @@ public class EntradaDatosTenis : EntradaDatos
             return;
         }
 
-        Partido partido = new Partido(nombrePartidoText.text, estadisticas, fecha, isPartido);
+        //Partido partido = new Partido(nombrePartidoText.text, estadisticas, fecha, isPartido);
 
         //jugadorFocus.GuardarEntradaDato(tipoEntradaDato, estadisticas, partido);
 

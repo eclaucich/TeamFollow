@@ -22,6 +22,8 @@ public class PanelPrincipal : Panel {
     [SerializeField] private ScrollRect scrollRect = null;
     [SerializeField] private FlechasScroll flechasScroll = null;
 
+    [SerializeField] private MensajeError mensajeCambioFavorito = null;
+
     private List<GameObject> listaPrefabsBoton;
 
     private float prefabHeight;
@@ -34,6 +36,11 @@ public class PanelPrincipal : Panel {
 
         ActivarYDesactivarAdviceText();
         prefabHeight = prefabBotonEquipo.GetComponent<RectTransform>().rect.height;
+    }
+
+    private void Start() {
+        mensajeCambioFavorito.SetText("NUEVO EQUIPO FAVORITO ELEGIDO", AppController.Idiomas.Español);
+        mensajeCambioFavorito.SetText("NEW FAVOURITE TEAM SETTED", AppController.Idiomas.Ingles);
     }
 
     private void FixedUpdate()
@@ -125,5 +132,9 @@ public class PanelPrincipal : Panel {
             if (_botonEquipo.GetEquipoFocus().GetNombre() != AppController.instance.equipoFavorito)
                 _botonEquipo.DesactivarFavorito();
         }
+    }
+
+    public void MensajeFavorito(){
+        mensajeCambioFavorito.Activar();
     }
 }

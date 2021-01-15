@@ -20,11 +20,11 @@ public class AppController : MonoBehaviour {
 
     public List<CarpetaJugada> carpetasJugadas;
 
-    public Deportes.DeporteEnum deporteFavorito = Deportes.DeporteEnum.Ninguno;
-    public string equipoFavorito = null;
+    [HideInInspector] public Deportes.DeporteEnum deporteFavorito = Deportes.DeporteEnum.Ninguno;
+    [HideInInspector] public string equipoFavorito = null;
 
-    public int resWidth;
-    public int resHeight;
+    [HideInInspector] public int resWidth;
+    [HideInInspector] public int resHeight;
 
     public enum Idiomas
     {
@@ -56,6 +56,8 @@ public class AppController : MonoBehaviour {
         carpetasJugadas = new List<CarpetaJugada>();
 
         debugText.text = Application.persistentDataPath;
+
+        pantallaCarga.gameObject.SetActive(true);
 
         LoadSystem.LoadData();
 

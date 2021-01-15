@@ -81,7 +81,7 @@ public class FilaEvento : MonoBehaviour
             listaPrefabs.Add(eventoGO);
         }
 
-        rectTransform.sizeDelta = new Vector2(listaPrefabs[listaPrefabs.Count - 1].transform.localPosition.x + 8f, rectTransform.sizeDelta.y);
+        rectTransform.sizeDelta = new Vector2(listaPrefabs[listaPrefabs.Count - 1].transform.localPosition.x + 50f, rectTransform.sizeDelta.y);
     }
 
     public EstadisticaDeporte.Estadisticas GetTipoEstadistica()

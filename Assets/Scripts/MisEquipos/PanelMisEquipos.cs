@@ -55,7 +55,8 @@ public class PanelMisEquipos : MonoBehaviour {
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.MisEquiposPrincipal);
 
-        panel_nuevoEquipo.GetComponent<PanelNuevoEquipo>().SetPanel();
+        //panel_nuevoEquipo.GetComponent<PanelNuevoEquipo>().SetPanel();
+        panel_nuevoEquipo.GetComponent<PanelNuevoEquipov2>().SetPanel();
     }
 
     public void MostrarPanelDetalleEquipo(string nombreEquipo_, GameObject botonEquipo_)                                                         //Muestra el panel de DETALLE EQUIPO. Desactiva los demás.

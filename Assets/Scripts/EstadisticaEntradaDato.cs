@@ -54,12 +54,12 @@ public class EstadisticaEntradaDato : MonoBehaviour
     public void OnPress()
     {
         goNombreEstadistica.SetActive(true);
-        goNombreEstadistica.transform.parent = temporaryTransform;
+        goNombreEstadistica.transform.SetParent(temporaryTransform, true);
     }
 
     public void OnRelease()
     {
         goNombreEstadistica.SetActive(false);
-        goNombreEstadistica.transform.parent = originalTransform;
+        goNombreEstadistica.transform.SetParent(originalTransform, true);
     }
 }

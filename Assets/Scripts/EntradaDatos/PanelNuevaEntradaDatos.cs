@@ -271,7 +271,7 @@ public class PanelNuevaEntradaDatos : EntradaDatos
 
         //equipo.SetEstadisticas(estEquipo, tipoEntradaDatos);
         //equipo.AgregarPartido(new Partido(nombrePartidoText.text, estEquipo), tipoEntradaDatos);
-        equipo.GuardarEntradaDato(tipoEntradaDatos, estEquipo, new Partido(nombrePatido, estEquipo, fecha, isPartido));
+        //equipo.GuardarEntradaDato(tipoEntradaDatos, estEquipo, new Partido(nombrePatido, estEquipo, fecha, isPartido));
 
         Debug.Log("Entrada guardado como: " + tipoEntradaDatos);
 

@@ -108,11 +108,13 @@ public class ResultadoNormal : ResultadoEntradaDatos
 
 
     #region Activar y Desactivar edicion
-    public void DisableEdition()
+    public void DisableEdition(bool hasPenales=true)
     {
-        Debug.Log("DESACTIVADO");
         inputPropio.readOnly = true;
         inputContrario.readOnly = true;
+
+        isPenales = hasPenales;
+
         if (isPenales)
         {
             inputPenalesPropio.gameObject.SetActive(true);
@@ -130,11 +132,13 @@ public class ResultadoNormal : ResultadoEntradaDatos
         isEditable = false;
     }
 
-    public void ActivateEdition()
+    public void ActivateEdition(bool hasPenales=true)
     {
-        Debug.Log("ACTIVADO");
         inputPropio.readOnly = false;
         inputContrario.readOnly = false;
+
+        isPenales = hasPenales;
+
         if (isPenales)
         {
             inputPenalesPropio.gameObject.SetActive(true);
@@ -147,7 +151,7 @@ public class ResultadoNormal : ResultadoEntradaDatos
             inputPenalesPropio.gameObject.SetActive(false);
             inputPenalesContrario.gameObject.SetActive(false);
         }
-        toggleInputPenales.SetActive(true);
+        toggleInputPenales.SetActive(hasPenales);
 
         isEditable = true;
     }

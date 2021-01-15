@@ -24,6 +24,7 @@ public class PanelJugadoresPrincipal : Panel {
     [SerializeField] private InputField inputfield;
     [SerializeField] private MensajeError mensajeErrorNuevoNombre = null;
     [SerializeField] private MensajeError mensajeCambioNombreExitoso = null;
+    [SerializeField] private MensajeError mensajeCambioFavorito = null;
 
     private float prefabHeight;
     private int cantMinima;
@@ -46,6 +47,9 @@ public class PanelJugadoresPrincipal : Panel {
 
         mensajeCambioNombreExitoso.SetText("NOMBRE CAMBIADO EXITOSAMENTE", AppController.Idiomas.Español);
         mensajeCambioNombreExitoso.SetText("NAME SUCCESSFULLY CHANGED", AppController.Idiomas.Ingles);
+
+        mensajeCambioFavorito.SetText("NUEVO JUGADOR FAVORITO ELEGIDO", AppController.Idiomas.Español);
+        mensajeCambioFavorito.SetText("NEW FAVOURITE PLAYER SETTED", AppController.Idiomas.Ingles);
 
         inputfield.onEndEdit.AddListener(VerificarEdicionNombreEquipo);
     }
@@ -116,7 +120,7 @@ public class PanelJugadoresPrincipal : Panel {
 
         listaBotonJugador.Add(botonJugadorGO);
 
-        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing));
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing + parentTransform.GetComponent<VerticalLayoutGroup>().padding.top));
     }
 
     public void ResetFavouritePlayers()
@@ -127,6 +131,10 @@ public class PanelJugadoresPrincipal : Panel {
             if (_botonEquipo.GetJugadorFocus() != AppController.instance.equipoActual.GetJugadorFavorito())
                 _botonEquipo.DesactivarFavorito();
         }
+    }
+
+    public void MensajeFavorito(){
+        mensajeCambioFavorito.Activar();
     }
 
     private void BorrarDetalles()

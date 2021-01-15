@@ -7,6 +7,7 @@ public class Deportes : MonoBehaviour
 {
     public static Deportes instance = null;
 
+    [SerializeField] private List<Sprite> iconosDeportes = null;
     [SerializeField] private List<Sprite> canchasBasket = null;
     [SerializeField] private List<Sprite> canchasFutbol = null;
     [SerializeField] private List<Sprite> canchasHandball = null;
@@ -236,5 +237,10 @@ public class Deportes : MonoBehaviour
             default:
                 return null;
         }
+    }
+
+    public Sprite GetIconoDeporte(DeporteEnum _deporte)
+    {
+        return iconosDeportes[(int)_deporte];
     }
 }

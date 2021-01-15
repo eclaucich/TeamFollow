@@ -10,6 +10,7 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
     [SerializeField] private Image icono = null;
     [SerializeField] private Text nombreJugadorText = null;
     [SerializeField] private Text numeroCamiseta = null;
+    [SerializeField] private Text posicionText = null;
 
     [SerializeField] private Transform movingTransform = null;
     [SerializeField] private Transform canchaTransform = null;
@@ -68,6 +69,7 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         Debug.Log("NOMBRE JUGADOR: " + jugadorFocus.GetNombre());
         nombreJugadorText.text = jugadorFocus.GetNombre();
         numeroCamiseta.text = jugadorFocus.GetNumeroCamiseta();
+        posicionText.text = jugadorFocus.GetPosicionActual();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -167,14 +169,14 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
         estadisticasJugador.SetFecha(_fecha);
     }
 
-    public void GuardarEntradaDato(List<string> _categorias, string _nombrePartido, string _tipoEntradaDato, DateTime _fecha, ResultadoEntradaDatos _res, List<Evento> _eventos, Partido.TipoResultadoPartido _tipoResultado)
+    public void GuardarEntradaDato(List<string> _categorias, string _nombrePartido, string _tipoEntradaDato, DateTime _fecha, ResultadoEntradaDatos _res, List<Evento> _eventos, Partido.TipoResultadoPartido _tipoResultado, int _cantPeriodos)
     {
         foreach (var cat in _categorias)
         {
             if (estadisticasJugador.Find(cat)[0] == 0)
                 estadisticasJugador.AgregarEstadisticas(cat, 0);
         }
-        jugadorFocus.GuardarEntradaDato(_tipoEntradaDato, estadisticasJugador, _nombrePartido, _fecha, _res, _eventos, _tipoResultado);
+        jugadorFocus.GuardarEntradaDato(_tipoEntradaDato, estadisticasJugador, _nombrePartido, _fecha, _res, _eventos, _tipoResultado, _cantPeriodos);
     }
 
     public void AgregarEstadisticasEquipo(Estadisticas _estEquipo)
@@ -186,5 +188,20 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
     public Jugador GetJugador()
     {
         return jugadorFocus;
+    }
+
+    public void ToggleNombre(bool _aux)
+    {
+        nombreJugadorText.gameObject.SetActive(_aux);
+    }
+
+    public void ToggleNumero(bool _aux)
+    {
+        numeroCamiseta.gameObject.SetActive(_aux);
+    }
+
+    public void TogglePosicion(bool _aux)
+    {
+        posicionText.gameObject.SetActive(_aux);
     }
 }

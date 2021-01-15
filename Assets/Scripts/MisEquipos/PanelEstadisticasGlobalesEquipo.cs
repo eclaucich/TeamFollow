@@ -98,8 +98,69 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
         coloresBotones.Clear();
         coloresBotones.Add(AppController.instance.colorTheme.detalle5);
         coloresBotones.Add(AppController.instance.colorTheme.detalle3);
+        
+        Deportes.DeporteEnum deporteActual = AppController.instance.equipoActual.GetDeporte();
 
-        if (partidoFocus.GetTipoResultadoPartido() == Partido.TipoResultadoPartido.Normal)
+        switch (deporteActual)
+        {
+            //NORMAL CON PENALES
+            case Deportes.DeporteEnum.Futbol:
+            case Deportes.DeporteEnum.HockeyCesped:
+            case Deportes.DeporteEnum.HockeyPatines:
+            case Deportes.DeporteEnum.Handball:
+                resultadoSets.gameObject.SetActive(false);
+                resultadoNormal.gameObject.SetActive(true);
+
+                ResultadoNormal _res = (ResultadoNormal)partidoFocus.GetResultadoEntradaDato();
+                Debug.Log(_res == null);
+                resultadoNormal.CopyDataFrom(_res);
+                resultadoNormal.DisableEdition();
+                _tipoResultado = resultadoNormal.GetResultado();
+                Debug.Log("NORMAL CON PENALES");
+                break;
+
+            //NORMAL SIN PENALES
+            case Deportes.DeporteEnum.Basket:
+            case Deportes.DeporteEnum.Rugby:
+            case Deportes.DeporteEnum.Softball:
+                resultadoSets.gameObject.SetActive(false);
+                resultadoNormal.gameObject.SetActive(true);
+
+                ResultadoNormal _resNorm = (ResultadoNormal)partidoFocus.GetResultadoEntradaDato();
+                
+                resultadoNormal.CopyDataFrom(_resNorm);
+                resultadoNormal.DisableEdition(false);
+                _tipoResultado = resultadoNormal.GetResultado();
+                Debug.Log("NORMAL SIN PENALES");
+                break;
+
+            //SETS CON TIEBREAK
+            case Deportes.DeporteEnum.Padel:
+            case Deportes.DeporteEnum.Tenis:
+            case Deportes.DeporteEnum.Voley:
+                resultadoSets.gameObject.SetActive(true);
+                resultadoNormal.gameObject.SetActive(false);
+
+                ResultadoSets _resSets = (ResultadoSets)partidoFocus.GetResultadoEntradaDato();
+                List<SetPrefab> _lista = _resSets.GetListaSets();
+
+                resultadoSets.BorrarPrefabs();
+                foreach (var set in _lista)
+                {
+                    resultadoSets.AgregarSet(set);
+                }
+                resultadoSets.DisableEdition();
+                _tipoResultado = resultadoSets.GetResultado();
+                Debug.Log("SETS CON TIEBREAK");
+                break;
+
+            default:
+                Debug.LogError("ERROR CON EL DEPORTE ACTUAL");
+                _tipoResultado = ResultadoEntradaDatos.Resultado.Derrota;
+                break;
+        }
+        
+        /*if (partidoFocus.GetTipoResultadoPartido() == Partido.TipoResultadoPartido.Normal)
         {
             resultadoSets.gameObject.SetActive(false);
             resultadoNormal.gameObject.SetActive(true);
@@ -125,7 +186,9 @@ public class PanelEstadisticasGlobalesEquipo : Panel {
             }
             resultadoSets.DisableEdition();
             _tipoResultado = resultadoSets.GetResultado();
-        }
+        }*/
+
+
         if (_tipoResultado == ResultadoEntradaDatos.Resultado.Victoria)
         {
             resultadoText.SetText("Victoria", AppController.Idiomas.Español);

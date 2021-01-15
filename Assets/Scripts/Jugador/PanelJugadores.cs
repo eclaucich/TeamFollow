@@ -61,7 +61,10 @@ public class PanelJugadores : MonoBehaviour {
         ActivarPanel(2);
 
         if (_jugador != null)
+        {
             jugadorFocus = _jugador;
+            AppController.instance.jugadorActual = jugadorFocus;
+        }
 
         panel_partidos.GetComponent<PanelPartidos>().SetearPanelPartidos(jugadorFocus);
     }

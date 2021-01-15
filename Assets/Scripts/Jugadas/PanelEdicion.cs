@@ -44,7 +44,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     private Vector2 vectFinalPos;
     private Vector2 vectSwipe;
     private float swipeDiff;
-    private bool swipeEnabled = true;
+    private bool swipeEnabled = false;
 
     private string nombreJugada = string.Empty;
     private string categoriaActual = string.Empty;
@@ -58,7 +58,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         currentTextures = new List<Texture>();
         currentTextures.Add(Deportes.instance.GetImagenCancha(Deportes.DeporteEnum.Futbol, Deportes.TipoCanchasEnum.CanchaEntera).texture);
 
-        panelHerramientas.gameObject.SetActive(false);
+        //panelHerramientas.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -117,7 +117,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             if (Input.GetKeyDown(KeyCode.Escape))
                 CerrarSeccionGuardarJugada();
         }
-        else
+        /*else
         {
             //Si el panel de herramientas esta abierto
             if (panelHerramientas.isActive())
@@ -137,7 +137,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
                     CerrarPanelOpcionesActual();
                 }
             }
-        }
+        }*/
     }
 
     private void LateUpdate()
@@ -167,7 +167,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             snapshotCamera.gameObject.SetActive(false);
             CanvasController.instance.GetComponent<Canvas>().worldCamera = Camera.main;
 
-            panelHerramientas.gameObject.SetActive(true);
+            //panelHerramientas.gameObject.SetActive(true);
             textoJugadaGuardada.SetText("Jugada guardada existosamente".ToUpper(), AppController.Idiomas.Español);
             textoJugadaGuardada.SetText("Strategy successfully saved".ToUpper(), AppController.Idiomas.Ingles);
             textoJugadaGuardada.Activar();
@@ -175,7 +175,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         }
     }
 
-    #region Funciones del mouse
+#region Funciones del mouse
     public void OnPointerClick(PointerEventData eventData)
     {
         Herramienta herramientaActual = panelCrearJugada.GetHerramientaActual();
@@ -185,6 +185,8 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
         {
             panelCrearJugada.UsarHerramientaActual();
         }
+
+        Debug.Log("CLICK");
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -208,7 +210,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             panelCrearJugada.GetHerramientaActual().DejarDeUsar();
         }
     }
-    #endregion
+#endregion
 
     #region Seccion Guardar Jugada
     public void AbrirSeccionGuardarJugada()
@@ -285,7 +287,7 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
         CerrarSeccionGuardarJugada();
         swipeEnabled = false;
-        panelHerramientas.gameObject.SetActive(false);
+        //panelHerramientas.gameObject.SetActive(false);
         CerrarPanelOpcionesActual();
 
         snapshotCamera.gameObject.SetActive(true);
@@ -359,6 +361,11 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             panelHerramientas.ToogleActive();
             Debug.Log("ABRIR PANEL");
         }
+    }
+
+    public void TogglePanelHerramientas()
+    {
+        panelHerramientas.ToogleActive();
     }
 
     public void SetSwipe(bool aux)

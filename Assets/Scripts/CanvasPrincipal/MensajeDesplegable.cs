@@ -11,7 +11,8 @@ public class MensajeDesplegable : MonoBehaviour
     virtual public void Start()
     {
         animator = GetComponent<Animator>();
-        closeZone.SetActive(false);
+        if(closeZone!=null)
+            closeZone.SetActive(false);
     }
 
     virtual public void Cerrar()
@@ -20,7 +21,9 @@ public class MensajeDesplegable : MonoBehaviour
         desplegado = false;
 
         animator.SetBool("open", false);
-        closeZone.SetActive(false);
+        if(closeZone!=null)
+            closeZone.SetActive(false);
+        Debug.Log("CERRAR");
     }
 
     virtual public void ToggleDesplegar()
@@ -31,7 +34,10 @@ public class MensajeDesplegable : MonoBehaviour
 
         animator.SetBool("open", !isOpen);
 
-        closeZone.SetActive(!isOpen);
+        if(closeZone!=null)
+            closeZone.SetActive(!isOpen);
+
+        Debug.Log("TOGGLE");
     }
 
     public bool isDesplegado()

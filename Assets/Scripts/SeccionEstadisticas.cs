@@ -12,6 +12,14 @@ public class SeccionEstadisticas : MonoBehaviour
     [SerializeField] private GameObject prefabEstadistica = null;
     [SerializeField] private Transform parentPrefabs = null;
 
+    /// Cosas de las flechas scroll
+    [SerializeField] private FlechasScroll flechasScroll = null;
+    [SerializeField] private ScrollRect scrollRect = null;
+    [SerializeField] private Transform parentTransform = null;
+    private float prefabHeight;
+    private int cantMinima;
+    //////////
+
     private JugadorEntradaDato jugadorEntradaDatoFocus;
 
     private List<EstadisticaEntradaDato> listaEstadisticaEntradaDatos;
@@ -21,6 +29,12 @@ public class SeccionEstadisticas : MonoBehaviour
     {
         listaEstadisticaEntradaDatos = new List<EstadisticaEntradaDato>();
         eventos = new List<Evento>();
+        prefabHeight = prefabEstadistica.GetComponent<RectTransform>().rect.height;
+    }
+
+    private void FixedUpdate()
+    {
+        flechasScroll.Actualizar(scrollRect, cantMinima+1, listaEstadisticaEntradaDatos.Count);
     }
 
     public void SetSeccionEstadisticas(List<EstadisticaDeporte.Estadisticas> _estadisticas, List<string> _nombres, List<string> _iniciales)
@@ -38,6 +52,8 @@ public class SeccionEstadisticas : MonoBehaviour
                 listaEstadisticaEntradaDatos.Add(eed);
             }
         }
+
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing + parentTransform.GetComponent<VerticalLayoutGroup>().padding.top));
     }
 
     public void SetJugadorEntradaDatoFocus(JugadorEntradaDato _jugadorEntradaDato)

@@ -51,7 +51,7 @@ public class TextScript : MonoBehaviour {
 
     public string GetNombre()
     {
-        return nombreEstadistica.GetTextInLanguage(AppController.Idiomas.Español);
+        return nombreEstadistica.GetTextActual();
     }
 
     public string GetInicial()

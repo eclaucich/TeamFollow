@@ -55,6 +55,7 @@ public class InputPrefabEspecial : InputPrefab
 
     public override void HabilitarInput(bool _aux)
     {
+        lineaSeparadora.gameObject.SetActive(_aux);
         Button buttonGO = GetComponent<Button>();
         if(buttonGO!=null)
             buttonGO.enabled = _aux;

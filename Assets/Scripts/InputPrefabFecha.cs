@@ -18,6 +18,7 @@ public class InputPrefabFecha : InputPrefab
 
     public void MostrarOpciones()
     {
+        CanvasController.instance.retrocesoPausado = true;
         GameObject parent = GameObject.Find("PanelNuevoJugador");
         if (parent == null) parent = GameObject.Find("PanelInfoJugador");
         GameObject go = Instantiate(menuOpcionesPrefab.gameObject, parent.transform, false);
@@ -39,11 +40,12 @@ public class InputPrefabFecha : InputPrefab
 
     public bool IsDateValid()
     {
-        return year != 0;
+        return (year != 0 || valorCategoria.text=="");
     }
 
     public override void HabilitarInput(bool _aux)
     {
+        lineaSeparadora.gameObject.SetActive(_aux);
         GetComponent<Button>().enabled = _aux;
     }
 

@@ -7,6 +7,7 @@ public class MensajeError : MonoBehaviour
 {
     [SerializeField] private TextLanguage mensajeText = null;
     [SerializeField] private float aliveTime = 2f;
+    [SerializeField] private Vector3 initialHidePosition;
 
     public bool animate = true;
 
@@ -55,6 +56,11 @@ public class MensajeError : MonoBehaviour
             gameObject.SetActive(false);
 
         CanvasController.instance.retrocesoPausado = false;
+    }
+
+    public void ResetPosition()
+    {
+        transform.localPosition = initialHidePosition;
     }
 
     public void SetText(string text_, AppController.Idiomas idioma)

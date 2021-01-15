@@ -10,7 +10,10 @@ public class FlechasScroll : MonoBehaviour
     {
         if (childCount <= top)
         {
+            scrollRect.normalizedPosition = new Vector2(1f,1f);
+
             scrollRect.enabled = false;
+     
             Abajo(false);
             Arriba(false);
         }

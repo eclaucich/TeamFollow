@@ -8,10 +8,11 @@ public class ObjetoEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler
 {
     [SerializeField] private bool mover = true;
     [SerializeField] private bool borrar = true;
-   
+    private bool escalado = false;
     private bool moviendo = false;
-    private PanelEdicion panelEdicion;
     private bool panelHerramientasWasOpened = false;
+
+    private PanelEdicion panelEdicion;
     private PanelHerramientas panelHerramientas;
 
     private void Start()
@@ -53,6 +54,11 @@ public class ObjetoEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler
                 mPos.z = 2f;
                 Vector3 goPos = Camera.main.ScreenToWorldPoint(mPos);
                 transform.position = goPos;
+                if(!escalado)
+                {
+                    transform.localScale *= 1.3f;
+                    escalado = true;
+                }
                 GetComponentInParent<PanelCrearJugadas>().SetObjetoActual(this.gameObject);
             }
         }
@@ -63,6 +69,8 @@ public class ObjetoEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler
         {
             Debug.Log("FICHA SOLTADA");
             moviendo = false;
+            transform.localScale = new Vector3(1f,1f,1f);
+            escalado = false;
             panelHerramientas.ToogleActive();
         }
     }

@@ -6,6 +6,10 @@ public class RelojEntradaDatos : MonoBehaviour
     [SerializeField] private Text timeText = null;
     [SerializeField] private Text currentPeriodText = null;
 
+    [SerializeField] private Image imagenPlay = null;
+    [SerializeField] private Sprite playSprite = null;
+    [SerializeField] private Sprite pauseSprite = null;
+
     private int currentPeriod = 1;
     private float time;
     [HideInInspector] public bool paused = true;
@@ -17,6 +21,7 @@ public class RelojEntradaDatos : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         open = true;
+        imagenPlay.sprite = playSprite;
     }
 
     private void Update()
@@ -37,6 +42,10 @@ public class RelojEntradaDatos : MonoBehaviour
     public void TogglePause()
     {
         paused = !paused;
+        if(paused)
+            imagenPlay.sprite = playSprite;
+        else
+            imagenPlay.sprite = pauseSprite;
     }
 
     public void NextPeriod()

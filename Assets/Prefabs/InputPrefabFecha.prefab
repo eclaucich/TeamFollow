@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4615584077375640365}
   - component: {fileID: 9188439097994622687}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: LineaSeparadora
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2, y: 0}
+  m_AnchoredPosition: {x: 2.5, y: -0.000034332275}
+  m_SizeDelta: {x: 5, y: -15.59}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &4615584077375640365
 CanvasRenderer:
@@ -196,7 +196,7 @@ RectTransform:
   - {fileID: 4217511830196289156}
   - {fileID: 3763662638265301560}
   m_Father: {fileID: 5696120189435119173}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.49800003, y: 1}
@@ -358,8 +358,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4751137289866050367}
   - {fileID: 8652603659552110661}
+  - {fileID: 4751137289866050367}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -439,6 +439,7 @@ MonoBehaviour:
   inputField: {fileID: 0}
   textCampoObligatorio: {fileID: 1332287623836828181}
   text: {fileID: 806013963}
+  lineaSeparadora: {fileID: 9188439097994622687}
   imageNombre: {fileID: 3740403537372694581}
   imageValor: {fileID: 1784735656819385050}
   menuOpcionesPrefab: {fileID: 5672140984239376877, guid: f1349d3de9eae9649b8e9364db9f6046,
@@ -579,7 +580,7 @@ RectTransform:
   m_Children:
   - {fileID: 5492614632652504591}
   m_Father: {fileID: 5696120189435119173}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 1, y: 1}

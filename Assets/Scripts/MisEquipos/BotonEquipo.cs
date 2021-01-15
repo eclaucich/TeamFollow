@@ -139,6 +139,11 @@ public class BotonEquipo : MonoBehaviour {
         transform.SetAsFirstSibling();
     }
 
+    public void SetComoFavoritoFeedBack(){
+        SetComoFavorito();
+        panelPrincipal.MensajeFavorito();
+    }
+
     public void RemoverFavorito()
     {
         AppController.instance.SetTeamAsFavourite(null);
@@ -155,7 +160,7 @@ public class BotonEquipo : MonoBehaviour {
         }
         else
         {
-            SetComoFavorito();
+            SetComoFavoritoFeedBack();
             SaveSystem.SaveFavouriteTeam(equipoFocus.GetNombre());
         }
     }

@@ -14,6 +14,14 @@ public class OpcionesFecha : MonoBehaviour
     private int minYear = 1920;
     private int maxYear = 2020;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CancelarFecha();
+        }
+    }
+
     public void SetInputFecha(InputPrefabFecha _input, int day, int month, int year)
     {
         inputFecha = _input;
@@ -71,11 +79,13 @@ public class OpcionesFecha : MonoBehaviour
     public void AceptarFecha()
     {
         inputFecha.AceptarInputFecha((dropdownYear.value) + minYear, (dropdownMonth.value) + 1, (dropdownDay.value) + 1);
+        CanvasController.instance.retrocesoPausado = false;
         Destroy(this.gameObject);
     }
 
     public void CancelarFecha()
     {
+        CanvasController.instance.retrocesoPausado = false;
         Destroy(this.gameObject);
     }
 
