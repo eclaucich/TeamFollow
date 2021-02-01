@@ -22,6 +22,7 @@ public class RelojEntradaDatos : MonoBehaviour
         animator = GetComponent<Animator>();
         open = true;
         imagenPlay.sprite = playSprite;
+        time = 0f;
     }
 
     private void Update()
@@ -41,6 +42,8 @@ public class RelojEntradaDatos : MonoBehaviour
 
     public void TogglePause()
     {
+        AndroidManager.HapticFeedback();
+
         paused = !paused;
         if(paused)
             imagenPlay.sprite = playSprite;
@@ -50,10 +53,13 @@ public class RelojEntradaDatos : MonoBehaviour
 
     public void NextPeriod()
     {
+        AndroidManager.HapticFeedback();
+        
         currentPeriod++;
         currentPeriodText.text = currentPeriod + "°";
         time = 0f;
         paused = true;
+        imagenPlay.sprite = playSprite;
     }
 
     private void SetTimeText()
@@ -62,8 +68,9 @@ public class RelojEntradaDatos : MonoBehaviour
         int min = (int)Mathf.Floor(time/60f);
 
         if (min < 10)
-            timeText.text = "0";
-        timeText.text += min + " : ";
+            timeText.text = "0" + min + " : ";
+        else
+            timeText.text = min + " : ";
 
         if (sec < 10)
             timeText.text += "0";

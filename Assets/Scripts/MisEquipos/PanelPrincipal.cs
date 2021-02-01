@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using GoogleMobileAds.Api;
 
 /// <summary>
 /// 
@@ -28,6 +29,8 @@ public class PanelPrincipal : Panel {
 
     private float prefabHeight;
     private int cantMinima;
+    
+    private BannerView bannerView;
 
     private void Awake()
     {
@@ -41,11 +44,24 @@ public class PanelPrincipal : Panel {
     private void Start() {
         mensajeCambioFavorito.SetText("NUEVO EQUIPO FAVORITO ELEGIDO", AppController.Idiomas.Español);
         mensajeCambioFavorito.SetText("NEW FAVOURITE TEAM SETTED", AppController.Idiomas.Ingles);
+
+        RequestBanner();
     }
 
     private void FixedUpdate()
     {
         flechasScroll.Actualizar(scrollRect, cantMinima, listaPrefabsBoton.Count);
+    }
+
+    private void RequestBanner()
+    {
+        #if UNITY_ANDROID
+            string adUnitID = "ca-app-pub-7433825952396855~6197688598";
+        #else
+            string adUnitID = "unexpected_patform";
+        #endif
+
+        bannerView = new BannerView(adUnitID, AdSize.Banner, AdPosition.Bottom);
     }
 
     public void SetearPanelPrincipal()

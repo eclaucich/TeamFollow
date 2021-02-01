@@ -134,6 +134,9 @@ public class PanelPrincipalBiblioteca : Panel
                 adviceText.SetActive(true);
             else
                 adviceText.SetActive(false);
+
+            _botonImagenFocus = null;
+            botones.SetActive(false);
         }
     }
 
@@ -241,6 +244,7 @@ public class PanelPrincipalBiblioteca : Panel
 
     public void BorrarImagenFocus()
     {
+        AndroidManager.HapticFeedback();
         confirmacionBorradoJugada.Activar(_botonImagenFocus);
     }
 

@@ -358,7 +358,7 @@ public class EstadisticasDeporteDisplay : MonoBehaviour
                 }
                 else if (idioma == AppController.Idiomas.Ingles)
                 {
-                    res[0] = "Drive nforced error";
+                    res[0] = "Drive forced error";
                     res[1] = "DVE";
                 }
                 break;
@@ -408,6 +408,42 @@ public class EstadisticasDeporteDisplay : MonoBehaviour
                 {
                     res[0] = "Drop winner";
                     res[1] = "DPW";
+                }
+                break;
+            case EstadisticaDeporte.Estadisticas.ErrorNoForzadoReves:
+                if (idioma == AppController.Idiomas.Español)
+                {
+                    res[0] = "Error no forzado reves";
+                    res[1] = "ENR";
+                }
+                else if (idioma == AppController.Idiomas.Ingles)
+                {
+                    res[0] = "Backhand forced error";
+                    res[1] = "BFE";
+                }
+                break;
+            case EstadisticaDeporte.Estadisticas.PrimerSaque:
+                if (idioma == AppController.Idiomas.Español)
+                {
+                    res[0] = "Primer saque";
+                    res[1] = "PSQ";
+                }
+                else if (idioma == AppController.Idiomas.Ingles)
+                {
+                    res[0] = "First serve";
+                    res[1] = "FSR";
+                }
+                break;
+            case EstadisticaDeporte.Estadisticas.SegundoSaque:
+                if (idioma == AppController.Idiomas.Español)
+                {
+                    res[0] = "Segundo saque";
+                    res[1] = "SSQ";
+                }
+                else if (idioma == AppController.Idiomas.Ingles)
+                {
+                    res[0] = "Second serve";
+                    res[1] = "SSR";
                 }
                 break;
             case EstadisticaDeporte.Estadisticas.KnockOn:

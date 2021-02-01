@@ -9,8 +9,11 @@ public class StartUpController : MonoBehaviour
 
     [SerializeField] private List<VideoClip> videos = null;
 
+    [SerializeField] private GameObject overlay = null;
+
     private void Start()
     {
+        overlay.SetActive(true);
         videoPlayer.loopPointReached += EndReached;
         videoPlayer.prepareCompleted += VideoPrepared;
         videoPlayer.Prepare();
@@ -34,11 +37,13 @@ public class StartUpController : MonoBehaviour
     void VideoPrepared(VideoPlayer vp)
     {
         Debug.Log("VIDEO PREPARADO");
+        PlayVideo();
     }
 
     void EndReached(VideoPlayer vp)
     {
         videoPlayer.Prepare();
+        overlay.SetActive(false);
         gameObject.SetActive(false);
     }
 }

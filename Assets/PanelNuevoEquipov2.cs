@@ -55,22 +55,22 @@ public class PanelNuevoEquipov2 : Panel
 
         if(AppController.instance.BuscarEquipoPorNombre(nombreNuevoEquipo) != null)
         {
-            mensajeError.SetText("EQUIPO EXISTENTE!", AppController.Idiomas.Español);
-            mensajeError.SetText("EXISTING TEAM!", AppController.Idiomas.Ingles);
+            mensajeError.SetText("EQUIPO EXISTENTE", AppController.Idiomas.Español);
+            mensajeError.SetText("EXISTING TEAM", AppController.Idiomas.Ingles);
             mensajeError.Activar();
             return;
         }
         if (nombreNuevoEquipo == "")
         { 
-            mensajeError.SetText("NAME NEEDED!", AppController.Idiomas.Ingles);
-            mensajeError.SetText("NOMBRE NECESARIO!", AppController.Idiomas.Español);
+            mensajeError.SetText("TEAM'S NAME NEEDED", AppController.Idiomas.Ingles);
+            mensajeError.SetText("NOMBRE DE EQUIPO NECESARIO", AppController.Idiomas.Español);
             mensajeError.Activar();
             return;
         }
         if(!AppController.instance.VerificarNombre(nombreNuevoEquipo))
         {
-            mensajeError.SetText("NOMBRE INVALIDO!", AppController.Idiomas.Español);
-            mensajeError.SetText("INVALID NAME!", AppController.Idiomas.Español);
+            mensajeError.SetText("NOMBRE INVALIDO", AppController.Idiomas.Español);
+            mensajeError.SetText("INVALID NAME", AppController.Idiomas.Español);
             mensajeError.Activar();
             return;
         }

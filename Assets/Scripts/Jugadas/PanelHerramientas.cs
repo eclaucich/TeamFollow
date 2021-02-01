@@ -36,6 +36,8 @@ public class PanelHerramientas : MonoBehaviour
 
     public void ToggleBlock()
     {
+        AndroidManager.HapticFeedback();
+        
         blocked = !blocked;
         if (blocked)
         {

@@ -290,8 +290,17 @@ public static class SaveSystem {
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
+        string nombreCarpeta = _carpeta.GetNombre();
+
         string pathViejo = pathImagenJugadas + _carpeta.GetNombre() + "/" + nombreViejo;
         string pathNuevo = pathImagenJugadas + _carpeta.GetNombre() + "/" + nombreNuevo;
+
+        if (_carpeta == null || nombreCarpeta.ToUpper() == "SIN CARPETA" || nombreCarpeta.ToUpper() == "WITHOUT FOLDER")
+        {
+            pathViejo = pathImagenJugadas + "-" + "/" + nombreViejo;
+            pathNuevo = pathImagenJugadas + "-" + "/" + nombreNuevo;
+        }
+        
         Directory.Move(pathViejo, pathNuevo);
 
         ImagenBiblioteca jugada = _carpeta.BuscarJugada(nombreViejo);

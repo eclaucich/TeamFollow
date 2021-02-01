@@ -11,6 +11,8 @@ public class EstadisticasTenis : EstadisticaDeporte
         DobleFalta = 30,
         WinnerDrop = 31,
         ErrorNoForzadoDrop = 32,
+        PrimerSaque=109,
+        SegundoSaque=110,
         MeterJugador = -1,
         SacarJugador = -2
     };

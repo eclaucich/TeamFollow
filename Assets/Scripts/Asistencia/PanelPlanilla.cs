@@ -58,6 +58,7 @@ public class PanelPlanilla : PanelAsistencia {
 
     public void BorrarAsistencia()
     {
+        AndroidManager.HapticFeedback();
         confirmacionBorradoAsistencia.Activar(botonFocus);
     }
 

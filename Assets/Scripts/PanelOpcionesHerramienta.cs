@@ -23,6 +23,8 @@ public class PanelOpcionesHerramienta : MensajeDesplegable
 
     public override void ToggleDesplegar()
     {
+        AndroidManager.HapticFeedback();
+        
         gameObject.SetActive(!gameObject.activeSelf);
         if (gameObject.activeSelf)
         {

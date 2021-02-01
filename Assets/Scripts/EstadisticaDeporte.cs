@@ -43,6 +43,8 @@ public abstract class EstadisticaDeporte : MonoBehaviour
         DobleFalta=30,
         WinnerDrop=31,
         ErrorNoForzadoDrop=32,
+        PrimerSaque=109,
+        SegundoSaque=110,
 
         //RUGBY
         Takle=3,

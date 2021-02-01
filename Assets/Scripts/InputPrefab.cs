@@ -47,7 +47,7 @@ public class InputPrefab : MonoBehaviour
         textCampoObligatorio.gameObject.SetActive(aux_);
     }
 
-    public void ResetValor()
+    public virtual void ResetValor()
     {
         valorCategoria.text = "";
         if(inputField!=null) inputField.text = "";

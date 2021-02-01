@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using GoogleMobileAds.Api;
 
 public class AppController : MonoBehaviour {
 
@@ -60,6 +60,8 @@ public class AppController : MonoBehaviour {
         pantallaCarga.gameObject.SetActive(true);
 
         LoadSystem.LoadData();
+
+        MobileAds.Initialize(initStatus => {});
 
         DontDestroyOnLoad(this);
     }

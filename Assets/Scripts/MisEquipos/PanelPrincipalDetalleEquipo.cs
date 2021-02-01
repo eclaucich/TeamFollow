@@ -31,6 +31,7 @@ public class PanelPrincipalDetalleEquipo : Panel
 
     public void AbrirPanelConfirmacionBorrado()
     {
+        AndroidManager.HapticFeedback();
         panelConfirmacionBorrado.Activar(AppController.instance.equipoActual.GetNombre(), botonEquipoFocus);
     }
 }

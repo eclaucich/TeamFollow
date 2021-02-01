@@ -24,6 +24,8 @@ public abstract class Herramienta : MonoBehaviour, IPointerClickHandler
         PanelHerramientas panelHerramientas;
         panelHerramientas = GetComponentInParent<PanelHerramientas>();
 
+        AndroidManager.HapticFeedback();
+
         if (!longClick)
         {
             panelHerramientas.GetPanelCrearJugadas().ChangeHerramientaActualFondo(false);
@@ -38,6 +40,7 @@ public abstract class Herramienta : MonoBehaviour, IPointerClickHandler
 
     public void LongClickedFunction()
     {
+        AndroidManager.HapticFeedback();
         longClick = true;
         panelOpciones.ToggleDesplegar();
     }

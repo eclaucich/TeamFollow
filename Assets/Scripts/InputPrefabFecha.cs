@@ -16,6 +16,12 @@ public class InputPrefabFecha : InputPrefab
         if (valorCategoria.text.Length < 1) valorCategoria.text = "-";
     }
 
+    public override void ResetValor()
+    {
+        day = month = year = 0;
+        valorCategoria.text = "-";
+    }
+
     public void MostrarOpciones()
     {
         CanvasController.instance.retrocesoPausado = true;

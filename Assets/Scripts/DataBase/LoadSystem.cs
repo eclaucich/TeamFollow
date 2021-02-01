@@ -376,6 +376,11 @@ public static class LoadSystem
                 AppController.instance.AgregarCarpetaJugada(new CarpetaJugada("SIN CARPETA"));
             }
         }
+        else
+        {
+            Directory.CreateDirectory(pathImagenJugadas + "-");
+            AppController.instance.AgregarCarpetaJugada(new CarpetaJugada("SIN CARPETA"));
+        }
         #endregion
 
         #region Settings

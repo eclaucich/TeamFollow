@@ -34,14 +34,6 @@ public class PanelNuevoJugador : Panel
 
     private void Start()
     {
-        infoJugador = new InfoJugador();
-
-        //listaPrefabs = new List<GameObject>();
-        inputsString = new List<InputPrefab>();
-        inputsInt = new List<InputPrefab>();
-        inputsEspecial = new List<InputPrefab>();
-        inputsObligatorios = new List<InputPrefab>();
-
         coloresBotones = new List<Color>();
 
         InfoJugador infoJugadorAux = new InfoJugador();
@@ -50,7 +42,20 @@ public class PanelNuevoJugador : Panel
 
         coloresBotones.Clear();
         coloresBotones.Add(AppController.instance.colorTheme.detalle5);
-        coloresBotones.Add(AppController.instance.colorTheme.detalle3);
+        coloresBotones.Add(AppController.instance.colorTheme.detalle3);      
+
+        SetInputs();
+    }
+
+
+    private void SetInputs()
+    {
+        infoJugador = new InfoJugador();
+
+        inputsString = new List<InputPrefab>();
+        inputsInt = new List<InputPrefab>();
+        inputsEspecial = new List<InputPrefab>();
+        inputsObligatorios = new List<InputPrefab>();
 
         int idxColor = 0;
 
@@ -82,7 +87,7 @@ public class PanelNuevoJugador : Panel
         inputFecha.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
         idxColor++;
 
-        foreach (var info in infoJugadorAux.GetInfoString())
+        foreach (var info in infoJugador.GetInfoString())
         {
             GameObject go = Instantiate(prefabInputInfo, parentTransform);
             go.SetActive(true);
@@ -97,7 +102,7 @@ public class PanelNuevoJugador : Panel
             idxColor++;
         }
 
-        foreach (var info in infoJugadorAux.GetInfoInt())
+        foreach (var info in infoJugador.GetInfoInt())
         {
             Debug.Log("INFO INT");
             GameObject go = Instantiate(prefabInputInfo, parentTransform);
@@ -113,7 +118,7 @@ public class PanelNuevoJugador : Panel
             idxColor++;
         }
 
-        foreach (var info in infoJugadorAux.GetInfoEspecial())
+        foreach (var info in infoJugador.GetInfoEspecial())
         {
             GameObject go = Instantiate(prefabInputInfoEspecial, parentTransform);
             go.SetActive(true);
@@ -126,7 +131,6 @@ public class PanelNuevoJugador : Panel
             IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
             idxColor++;
         }
-
     }
 
     public void SetPanel()

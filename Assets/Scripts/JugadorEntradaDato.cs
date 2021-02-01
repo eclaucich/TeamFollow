@@ -74,6 +74,7 @@ public class JugadorEntradaDato : MonoBehaviour, IPointerClickHandler, IDragHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        AndroidManager.HapticFeedback();
         seccionEstadisticas.SetJugadorEntradaDatoFocus(this);
         lastParent = transform.parent;
         icono.color = colorSeleccionado;

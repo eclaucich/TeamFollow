@@ -57,6 +57,7 @@ public class BotonJugador : MonoBehaviour {
 
     public void AbrirPanelConfirmacionBorrado()
     {
+        AndroidManager.HapticFeedback();
         panelConfirmacionBorrado.Activar(nombreJugador, gameObject);
     }
 

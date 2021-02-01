@@ -144,6 +144,8 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     { 
         if (snapshotCamera.gameObject.activeInHierarchy)
         { 
+            panelHerramientas.gameObject.SetActive(false);
+
             CanvasController.instance.GetComponent<Canvas>().worldCamera = snapshotCamera;
             Texture2D snapshot = new Texture2D(width-0, height, TextureFormat.RGB24, false);
             snapshotCamera.Render();
@@ -152,26 +154,17 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
             byte[] bytes = snapshot.EncodeToPNG();
 
             CarpetaJugada _carpeta;
-            /*if (carpetaSeleccionada == null)
-            {
-                Debug.Log("SELECCIONADA NULL");
-                _carpeta = null;
-            }
-            else
-            {
-                _carpeta = carpetaSeleccionada.GetCarpeta();
-            }*/
             _carpeta = carpetaSeleccionada.GetCarpeta();
             SaveSystem.GuardarJugadaImagen(bytes, nombreJugada, categoriaActual, _carpeta);
 
             snapshotCamera.gameObject.SetActive(false);
             CanvasController.instance.GetComponent<Canvas>().worldCamera = Camera.main;
 
-            //panelHerramientas.gameObject.SetActive(true);
             textoJugadaGuardada.SetText("Jugada guardada existosamente".ToUpper(), AppController.Idiomas.Español);
             textoJugadaGuardada.SetText("Strategy successfully saved".ToUpper(), AppController.Idiomas.Ingles);
             textoJugadaGuardada.Activar();
             swipeEnabled = true;
+            panelHerramientas.gameObject.SetActive(true);
         }
     }
 
@@ -215,6 +208,8 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     #region Seccion Guardar Jugada
     public void AbrirSeccionGuardarJugada()
     {
+        AndroidManager.HapticFeedback();
+
         CanvasController.instance.retrocesoPausado = true;
         seccionGuardarJugada.SetActive(true);
         bool aux = false; //poner en false para que la primera carpeta este seleccionada al empezar
@@ -310,6 +305,8 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     public void LimpiarPanel()
     {
+        AndroidManager.HapticFeedback();
+
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
@@ -318,6 +315,8 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     public void NextBackgroundImage()
     {
+        AndroidManager.HapticFeedback();
+        
         currentTextureIndex = currentTextureIndex == currentTextures.Count - 1 ? 0 : currentTextureIndex + 1;
 
         GetComponent<RawImage>().texture = currentTextures[currentTextureIndex];

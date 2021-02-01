@@ -9,6 +9,7 @@ public class ConfirmacionBorradoCarpeta : MensajeDesplegable
 
     public void Activar(BotonCarpetaJugada _botonCarpeta)
     {
+        AndroidManager.HapticFeedback();
         _carpetaFocus = _botonCarpeta.GetCarpeta();
 
         text.SetText("Borrar carpeta \"" + _carpetaFocus.GetNombre() + "\"? Todas las jugadas en esta carpeta serán eliminadas".ToUpper(), AppController.Idiomas.Español);
