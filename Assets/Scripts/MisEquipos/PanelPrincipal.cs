@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using GoogleMobileAds.Api;
+using GoogleMobileAds.Placement;
 
 /// <summary>
 /// 
@@ -25,6 +26,8 @@ public class PanelPrincipal : Panel {
 
     [SerializeField] private MensajeError mensajeCambioFavorito = null;
 
+    [SerializeField] private RectTransform barraInferiorRect = null;
+
     private List<GameObject> listaPrefabsBoton;
 
     private float prefabHeight;
@@ -44,8 +47,6 @@ public class PanelPrincipal : Panel {
     private void Start() {
         mensajeCambioFavorito.SetText("NUEVO EQUIPO FAVORITO ELEGIDO", AppController.Idiomas.Español);
         mensajeCambioFavorito.SetText("NEW FAVOURITE TEAM SETTED", AppController.Idiomas.Ingles);
-
-        RequestBanner();
     }
 
     private void FixedUpdate()
@@ -53,19 +54,14 @@ public class PanelPrincipal : Panel {
         flechasScroll.Actualizar(scrollRect, cantMinima, listaPrefabsBoton.Count);
     }
 
-    private void RequestBanner()
-    {
-        #if UNITY_ANDROID
-            string adUnitID = "ca-app-pub-7433825952396855~6197688598";
-        #else
-            string adUnitID = "unexpected_patform";
-        #endif
-
-        bannerView = new BannerView(adUnitID, AdSize.Banner, AdPosition.Bottom);
-    }
-
     public void SetearPanelPrincipal()
     {
+        if(AppController.instance.appStarted)
+        {
+            Debug.Log("APP STARTED");
+            SetPublicity();
+        }
+
         //CanvasController.instance.botonDespliegueMenu.SetActive(true);
         cantMinima = (int)Mathf.Ceil(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + seccionEquiposTransform.GetComponent<VerticalLayoutGroup>().spacing));
 

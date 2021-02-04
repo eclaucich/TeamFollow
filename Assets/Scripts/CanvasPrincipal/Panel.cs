@@ -1,18 +1,26 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using GoogleMobileAds.Api;
+using GoogleMobileAds.Placement;
 
 public class Panel : MonoBehaviour
 {
     protected string nombrePanel = "";
 
-    /*public virtual void Start()
+    public bool hasPublicity = true;
+
+    protected void SetPublicity()
     {
-        UpdateTexture();
+        BannerAdGameObject bannerAd = MobileAds.Instance.GetAd<BannerAdGameObject>("BannerPrueba");
+        if(hasPublicity)
+        {
+            bannerAd.LoadAd();
+            Debug.Log("PUBLICIDAD ACTIVADA");
+        }
+        else
+        {
+            bannerAd.DestroyAd();
+            Debug.Log("PUBLICIDAD DESACTIVADA");
+        }
     }
 
-    public void UpdateTexture()
-    {
-        AppController.instance.UpdateTexture();
-        GetComponent<RawImage>().texture = AppController.instance.GetTextureActual();
-    }*/
 }

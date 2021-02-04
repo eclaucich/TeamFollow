@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using GoogleMobileAds.Api;
+using GoogleMobileAds.Placement;
 
 public class StartUpController : MonoBehaviour
 {
@@ -11,9 +12,12 @@ public class StartUpController : MonoBehaviour
 
     [SerializeField] private GameObject overlay = null;
 
+    [SerializeField] private BannerAdGameObject bannerGO;
+
     private void Start()
     {
         overlay.SetActive(true);
+        bannerGO.gameObject.SetActive(false);
         videoPlayer.loopPointReached += EndReached;
         videoPlayer.prepareCompleted += VideoPrepared;
         videoPlayer.Prepare();
@@ -36,12 +40,13 @@ public class StartUpController : MonoBehaviour
 
     void VideoPrepared(VideoPlayer vp)
     {
-        Debug.Log("VIDEO PREPARADO");
         PlayVideo();
     }
 
     void EndReached(VideoPlayer vp)
     {
+        AppController.instance.appStarted = true;
+        bannerGO.gameObject.SetActive(true);
         videoPlayer.Prepare();
         overlay.SetActive(false);
         gameObject.SetActive(false);

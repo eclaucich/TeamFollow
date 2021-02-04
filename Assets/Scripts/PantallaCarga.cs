@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PantallaCarga : MonoBehaviour
+public class PantallaCarga : Panel
 {
 
     private float time = 0f;
@@ -31,6 +29,7 @@ public class PantallaCarga : MonoBehaviour
     public void Activar()
     {
         gameObject.SetActive(true);
+        SetPublicity();
         isLoading = true;
         CanvasController.instance.retrocesoPausado = true;
         animator.SetBool("open", true);

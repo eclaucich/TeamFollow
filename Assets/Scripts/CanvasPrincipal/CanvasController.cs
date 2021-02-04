@@ -11,6 +11,7 @@ public class CanvasController : MonoBehaviour {
     [SerializeField] public OverlayPanel overlayPanel = null;
     [SerializeField] public GameObject botonDespliegueMenu = null;
     [SerializeField] private MensajeDesplegable menuSeleccion = null;
+    [SerializeField] public RectTransform bannerAdRect = null;
 
     //PANELES PRINCIPALES
     [SerializeField] private GameObject panelMiPerfil = null;

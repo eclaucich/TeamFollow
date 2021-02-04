@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using GoogleMobileAds.Api;
+using GoogleMobileAds.Placement;
 
 public class AppController : MonoBehaviour {
 
@@ -25,6 +26,7 @@ public class AppController : MonoBehaviour {
 
     [HideInInspector] public int resWidth;
     [HideInInspector] public int resHeight;
+    [HideInInspector] public bool appStarted = false;
 
     public enum Idiomas
     {
@@ -179,10 +181,10 @@ public class AppController : MonoBehaviour {
         deporteFavorito = _settings.deporteFavorito;
 
         SetTemaActual(tema);
-        Debug.Log("IDIOMA: " + idioma);
-        Debug.Log("TEMA: " + tema);
-        Debug.Log("DEP FAV: " + deporteFavorito);
-        Debug.Log("EQU FAV: " + equipoFavorito);
+        //Debug.Log("IDIOMA: " + idioma);
+        //Debug.Log("TEMA: " + tema);
+        //Debug.Log("DEP FAV: " + deporteFavorito);
+        //Debug.Log("EQU FAV: " + equipoFavorito);
     }
 
     public void SetTemaActual(Temas _tema)

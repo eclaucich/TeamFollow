@@ -1,8 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PanelJugadas : MonoBehaviour {
+public class PanelJugadas : Panel {
 
     [SerializeField] private GameObject panel_principal = null;
     [SerializeField] private GameObject panel_crearJugada = null;
@@ -10,6 +9,8 @@ public class PanelJugadas : MonoBehaviour {
 
     public void MostrarPanelPrincipal()
     {
+        SetPublicity();
+        
         CanvasController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Español);
         CanvasController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Ingles);
 
