@@ -34,7 +34,7 @@ public class SeccionEstadisticas : MonoBehaviour
 
     private void FixedUpdate()
     {
-        flechasScroll.Actualizar(scrollRect, cantMinima+1, listaEstadisticaEntradaDatos.Count);
+        flechasScroll.Actualizar(scrollRect, cantMinima, listaEstadisticaEntradaDatos.Count);
     }
 
     public void SetSeccionEstadisticas(List<EstadisticaDeporte.Estadisticas> _estadisticas, List<string> _nombres, List<string> _iniciales)
@@ -53,7 +53,7 @@ public class SeccionEstadisticas : MonoBehaviour
             }
         }
 
-        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing + parentTransform.GetComponent<VerticalLayoutGroup>().padding.top));
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.width / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing + parentTransform.GetComponent<VerticalLayoutGroup>().padding.top));
     }
 
     public void SetJugadorEntradaDatoFocus(JugadorEntradaDato _jugadorEntradaDato)

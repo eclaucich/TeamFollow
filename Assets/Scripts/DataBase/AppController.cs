@@ -163,7 +163,9 @@ public class AppController : MonoBehaviour {
             _nombre.Contains("¬") ||
             _nombre.Contains("\\") ||
             _nombre.Contains("<") ||
-            _nombre.Contains(">"))
+            _nombre.Contains(">") ||
+            _nombre == string.Empty ||
+            _nombre == "")
         {
             return false;
         }
@@ -250,5 +252,32 @@ public class AppController : MonoBehaviour {
                 return "ERROR";
         }
     }
+
+    public Idiomas GetLanguageEnumFromString(string languageString)
+    {
+        if(languageString.ToUpper() == "ESPAÑOL" || languageString.ToUpper() == "SPANISH")
+            return Idiomas.Español;
+        else if(languageString.ToUpper() == "INGLÉS" || languageString.ToUpper() == "ENGLISH")
+            return Idiomas.Ingles;
+        else
+        {
+            Debug.LogError("ALGO SALIO MAL");
+            return Idiomas.Español;
+        }
+    }
+
+    public Temas GetThemeEnumFromString(string themeString)
+    {
+        if(themeString.ToUpper() == "OSCURO" || themeString.ToUpper() == "DARK")
+            return Temas.Oscuro;
+        else if(themeString.ToUpper() == "CLARO" || themeString.ToUpper() == "LIGHT")
+            return Temas.Claro;
+        else
+        {
+            Debug.LogError("ALGO SALIO MAL");
+            return Temas.Oscuro;
+        }
+    }
+
     #endregion
 }

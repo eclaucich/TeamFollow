@@ -41,6 +41,13 @@ public class BotonEquipo : MonoBehaviour {
     [SerializeField] private Sprite estrellaVacia = null;
     [SerializeField] private Sprite estrellaLlena = null;
 
+    [Space]
+    [Header("Seleccion Multiple")]
+    [SerializeField] private Toggle toggleSeleccionMultiple = null;
+    [SerializeField] private Image imagenFondo = null;
+    
+    private bool seleccionMultipleActivada;
+
     private List<Sprite> listaSprites;
     private Equipo equipoFocus;
 
@@ -63,11 +70,28 @@ public class BotonEquipo : MonoBehaviour {
         listaSprites.Add(spriteSoftball);
         listaSprites.Add(spriteTenis);
         listaSprites.Add(spriteVoley);
+
+        toggleSeleccionMultiple.isOn = false;
+        SetSeleccionMultiple(false);
+    }
+
+    private void Update()
+    {
+        if(seleccionMultipleActivada)
+        {
+            if(toggleSeleccionMultiple.isOn)
+                imagenFondo.color = AppController.instance.colorTheme.botonSeleccionado;
+            else
+                imagenFondo.color = AppController.instance.colorTheme.botonActivado;
+        }
     }
 
     public void VerDetalleEquipo()                                                              //Función que se llama al apretar el nombre de un equipo, se muestran las opciones de ese equipo
     {
-        panelMisEquipos.MostrarPanelDetalleEquipo(nombreEquipoText.text, gameObject);
+        if(!seleccionMultipleActivada)
+            panelMisEquipos.MostrarPanelDetalleEquipo(nombreEquipoText.text, gameObject);
+        else
+            toggleSeleccionMultiple.isOn = !toggleSeleccionMultiple.isOn;
     }
 
     public void SetSpriteBotonEquipo(Equipo equipo)
@@ -174,4 +198,23 @@ public class BotonEquipo : MonoBehaviour {
     {
         imagenFavorito.sprite = estrellaVacia;
     }
+
+
+    #region Seleccion Multiple
+
+    public void SetSeleccionMultiple(bool aux)
+    {
+        seleccionMultipleActivada = aux;
+        toggleSeleccionMultiple.gameObject.SetActive(aux);
+        imagenFavorito.gameObject.SetActive(!aux);
+        if(aux==false)
+            imagenFondo.color = AppController.instance.colorTheme.botonActivado;
+    }
+
+    public bool IsSelected()
+    {
+        return toggleSeleccionMultiple.isOn;
+    }
+
+    #endregion
 }

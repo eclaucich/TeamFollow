@@ -11,7 +11,8 @@ using UnityEngine.UI;
 /// 
 /// </summary>
 
-public class BotonJugador : MonoBehaviour {
+public class BotonJugador : MonoBehaviour
+{
 
     [SerializeField] private PanelJugadoresPrincipal panelJugadoresPrincipal = null;
     [SerializeField] private Text nombreJugadorText = null;                                                
@@ -25,12 +26,40 @@ public class BotonJugador : MonoBehaviour {
     [SerializeField] private Sprite estrellaVacia = null;
     [SerializeField] private Sprite estrellaLlena = null;
 
+    [SerializeField] private Image imagenFondo = null;
+
+    [Space]
+    [Header("Seleccion Multiple")]
+    [SerializeField] private Toggle toggleSeleccion = null;
+
+    [Space]
+    [Header("Botones")]
+    [SerializeField] private GameObject botonBorrar = null;
+    [SerializeField] private GameObject botonFavorito = null;
+    [SerializeField] private GameObject botonEstadisticas = null;
+
     private Jugador jugadorFocus;
+
+    private bool seleccionMultipleActivada = false;
+
 
     public void Start()
     {
         panelJugadores = GameObject.Find("PanelJugadores").GetComponent<PanelJugadores>();          
         panelConfirmacionBorrado = panelJugadoresPrincipal.GetPanelConfirmacionBorrado();
+        toggleSeleccion.isOn = false;
+        toggleSeleccion.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(seleccionMultipleActivada)
+        {
+            if(toggleSeleccion.isOn)
+                imagenFondo.color = AppController.instance.colorTheme.botonSeleccionado;
+            else
+                imagenFondo.color = AppController.instance.colorTheme.detalle4;
+        }
     }
 
     public void SetJugadorFocus(Jugador _jugador)
@@ -42,9 +71,16 @@ public class BotonJugador : MonoBehaviour {
 
     public void MostrarDetallesJugador()                                                            
     {
-        AppController.instance.jugadorActual = AppController.instance.equipoActual.BuscarPorNombre(nombreJugador);
-        panelJugadoresPrincipal.SetBotonJugadorFocus(gameObject);
-        panelJugadores.MostrarPanelInfoJugador();
+        if(!seleccionMultipleActivada)
+        {
+            AppController.instance.jugadorActual = AppController.instance.equipoActual.BuscarPorNombre(nombreJugador);
+            panelJugadoresPrincipal.SetBotonJugadorFocus(gameObject);
+            panelJugadores.MostrarPanelInfoJugador();
+        }
+        else
+        {
+            toggleSeleccion.isOn = !toggleSeleccion.isOn;
+        }
     }
 
     public void MostrarPartidosJugador()
@@ -109,4 +145,22 @@ public class BotonJugador : MonoBehaviour {
     {
         return jugadorFocus;
     }
+
+    #region Edicion Multiple
+    public void SetSeleccionMultiple(bool aux)
+    {
+        seleccionMultipleActivada = aux;
+        toggleSeleccion.gameObject.SetActive(aux);
+        botonBorrar.SetActive(!aux);
+        botonFavorito.SetActive(!aux);
+        botonEstadisticas.SetActive(!aux);
+        if(aux==false)
+            imagenFondo.color = AppController.instance.colorTheme.detalle4;
+    }
+
+    public bool IsSelected()
+    {
+        return toggleSeleccion.isOn;
+    }
+    #endregion
 }

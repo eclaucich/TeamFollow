@@ -11,11 +11,14 @@ public class PanelNuevoJugador : Panel
     [SerializeField] private GameObject prefabInputInfo = null;
     [SerializeField] private GameObject prefabInputInfoEspecial = null;
     [SerializeField] private GameObject prefabInputFecha = null;
-
+    [SerializeField] private Image imagenJugador = null;
+    
     [SerializeField] private MensajeError mensajeError = null;
 
     [SerializeField] private ScrollRect scrollRect = null;
     [SerializeField] private FlechasScroll flechasScroll = null;
+
+    [SerializeField] private Sprite defaultSpriteJugador = null;
 
     //private InfoJugador infoJugador;
 
@@ -32,6 +35,8 @@ public class PanelNuevoJugador : Panel
 
     private List<Color> coloresBotones;
 
+    private string pathImagenJugador = null;
+
     private void Start()
     {
         coloresBotones = new List<Color>();
@@ -43,6 +48,9 @@ public class PanelNuevoJugador : Panel
         coloresBotones.Clear();
         coloresBotones.Add(AppController.instance.colorTheme.detalle5);
         coloresBotones.Add(AppController.instance.colorTheme.detalle3);      
+
+        pathImagenJugador = null;
+        imagenJugador.sprite = defaultSpriteJugador;
 
         SetInputs();
     }
@@ -57,7 +65,7 @@ public class PanelNuevoJugador : Panel
         inputsEspecial = new List<InputPrefab>();
         inputsObligatorios = new List<InputPrefab>();
 
-        int idxColor = 0;
+        //int idxColor = 0;
 
         foreach (var info in infoJugador.GetInfoObligatoria())
         {
@@ -71,8 +79,8 @@ public class PanelNuevoJugador : Panel
             IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             inputsObligatorios.Add(IPgo);
 
-            IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
-            idxColor++;
+            //IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+            //idxColor++;
         }
 
         GameObject GO = Instantiate(prefabInputFecha, parentTransform);
@@ -84,8 +92,8 @@ public class PanelNuevoJugador : Panel
         inputFecha.SetText("Date of birth".ToUpper(), AppController.Idiomas.Ingles);
         inputFecha.ResetValor();
 
-        inputFecha.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
-        idxColor++;
+        //inputFecha.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+        //idxColor++;
 
         foreach (var info in infoJugador.GetInfoString())
         {
@@ -98,8 +106,8 @@ public class PanelNuevoJugador : Panel
             IPgo.SetKeyboardType(TouchScreenKeyboardType.Default);
             inputsString.Add(IPgo);
 
-            IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
-            idxColor++;
+            //IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+            //idxColor++;
         }
 
         foreach (var info in infoJugador.GetInfoInt())
@@ -114,8 +122,8 @@ public class PanelNuevoJugador : Panel
             IPgo.SetKeyboardType(TouchScreenKeyboardType.NumberPad);
             inputsInt.Add(IPgo);
 
-            IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
-            idxColor++;
+            //IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+            //idxColor++;
         }
 
         foreach (var info in infoJugador.GetInfoEspecial())
@@ -128,13 +136,18 @@ public class PanelNuevoJugador : Panel
             IPgo.SetText(infoJugador.GetKeyInLaguage(info.Key, AppController.Idiomas.Ingles), AppController.Idiomas.Ingles);
             inputsEspecial.Add(IPgo);
 
-            IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
-            idxColor++;
+            //IPgo.SetColor(coloresBotones[idxColor % coloresBotones.Count]);
+            //idxColor++;
         }
+
+        pathImagenJugador = null;
+        imagenJugador.sprite = defaultSpriteJugador;
     }
 
     public void SetPanel()
     {
+        CanvasController.instance.retrocesoPausado = false;
+        
         CanvasController.instance.overlayPanel.SetNombrePanel("NUEVO JUGADOR", AppController.Idiomas.Español);
         CanvasController.instance.overlayPanel.SetNombrePanel("NEW PLAYER", AppController.Idiomas.Ingles);
 
@@ -152,6 +165,9 @@ public class PanelNuevoJugador : Panel
                 input.ResetValor();
         if (inputFecha != null)
             inputFecha.ResetValor();
+
+        pathImagenJugador = null;
+        imagenJugador.sprite = defaultSpriteJugador;
 
         if(prefabHeight == 0) prefabHeight = prefabInputInfo.GetComponent<RectTransform>().rect.height;
         cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing + parentTransform.GetComponent<VerticalLayoutGroup>().padding.top));
@@ -221,8 +237,42 @@ public class PanelNuevoJugador : Panel
 
         ij.SetFechaNac(inputFecha.GetFecha());
 
+        //GUARDAR IMAGEN DE JUGADOR
+        if(pathImagenJugador!=null)
+            ij.pathImagenJugador = pathImagenJugador;
+        else
+            ij.pathImagenJugador = null;
+
+        Debug.Log("PATH: "+ pathImagenJugador);
         equipoActual.NuevoJugador(ij);
 
         CanvasController.instance.MostrarPanelAnterior();
+    }
+
+    public void PickImage(int maxSize = 10000)
+    {
+        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) => 
+        {
+            Debug.Log("Image path: " + path);
+            if (path != null)
+            {
+                // Create Texture from selected image
+                Texture2D texture = NativeGallery.LoadImageAtPath(path, maxSize, markTextureNonReadable:false);
+                if (texture == null)
+                {
+                    Debug.Log("Couldn't load texture from " + path);
+                    return;
+                }
+
+                Sprite sprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(.5f,.5f), 100f);
+                if(sprite == null)
+                    Debug.Log("Error creating sprite");
+                imagenJugador.sprite = sprite;
+
+                pathImagenJugador = path;
+            }
+        }, "Seleccionar imagen", "image/*" );
+
+        Debug.Log( "Permission result: " + permission );
     }
 }

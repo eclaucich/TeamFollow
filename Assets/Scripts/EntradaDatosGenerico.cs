@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class EntradaDatosGenerico : EntradaDatos
 {
     [SerializeField] private SeleccionListaJugadores seleccionListaJugadores = null;
-
+    [SerializeField] private GameObject overlayEntradaDatos = null;
     [SerializeField] private RelojEntradaDatos relojEntradaDatos = null;
 
     [SerializeField] private SeccionBanca seccionBanca = null;
@@ -125,7 +125,10 @@ public class EntradaDatosGenerico : EntradaDatos
         AppController.instance.pantallaCarga.Activar();
         Debug.Log("PANTALLA DE CARGA");
 
+        SetPublicity();
+
         seleccionListaJugadores.gameObject.SetActive(false);
+        overlayEntradaDatos.SetActive(false);
 
         jugadoresSeleccionados = _listaJugadores;
 

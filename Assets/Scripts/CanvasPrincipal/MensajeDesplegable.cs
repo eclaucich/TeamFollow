@@ -5,8 +5,12 @@ public class MensajeDesplegable : MonoBehaviour
     protected Animator animator;
     protected bool desplegado = false;
   
+    [Space]
+    [Header("Mensaje Desplegable")]
     [SerializeField] protected GameObject closeZone = null;
     [SerializeField] protected TextLanguage text = null;
+    [SerializeField] private bool controlarBotonMenu = true;
+
 
     virtual public void Start()
     {
@@ -23,7 +27,9 @@ public class MensajeDesplegable : MonoBehaviour
         animator.SetBool("open", false);
         if(closeZone!=null)
             closeZone.SetActive(false);
-        Debug.Log("CERRAR");
+        
+        if(controlarBotonMenu)
+            CanvasController.instance.botonDespliegueMenu.SetActive(true);
     }
 
     virtual public void ToggleDesplegar()
@@ -37,7 +43,13 @@ public class MensajeDesplegable : MonoBehaviour
         if(closeZone!=null)
             closeZone.SetActive(!isOpen);
 
-        Debug.Log("TOGGLE");
+        if(controlarBotonMenu)
+        {
+            if(desplegado)
+                CanvasController.instance.botonDespliegueMenu.SetActive(false);
+            else
+                CanvasController.instance.botonDespliegueMenu.SetActive(true);
+        }
     }
 
     public bool isDesplegado()

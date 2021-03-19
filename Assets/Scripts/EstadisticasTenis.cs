@@ -3,18 +3,18 @@ public class EstadisticasTenis : EstadisticaDeporte
 {
     public new enum Estadisticas
     {
-        WinnerDrive = 25,
-        WinnerReves = 26,
-        ErrorNoForzadoDrive = 27,
-        ErrorNoForzadoReves = 28,
         Ace = 29,
         DobleFalta = 30,
-        WinnerDrop = 31,
+        ErrorNoForzadoDrive = 27,
         ErrorNoForzadoDrop = 32,
-        PrimerSaque=109,
-        SegundoSaque=110,
+        ErrorNoForzadoReves = 28,
         MeterJugador = -1,
-        SacarJugador = -2
+        PrimerSaque = 109,
+        SacarJugador = -2,
+        SegundoSaque = 110,
+        WinnerDrive = 25,
+        WinnerDrop = 31,
+        WinnerReves = 26,        
     };
 
     public override string[] GetStatisticsName(int i, AppController.Idiomas idioma)

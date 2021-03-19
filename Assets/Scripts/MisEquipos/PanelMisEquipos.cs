@@ -36,7 +36,7 @@ public class PanelMisEquipos : MonoBehaviour {
     {
         //ActivarPanel(0);
         panel_principal.SetActive(true);
-        panel_nuevoEquipo.SetActive(false);
+        panel_nuevoEquipo.SetActive(true);
         panel_detalleEquipo.SetActive(false);
 
         Screen.orientation = ScreenOrientation.Portrait;
@@ -49,21 +49,22 @@ public class PanelMisEquipos : MonoBehaviour {
     public void MostrarPanelNuevoEquipo()                                                                               //Muestra el panel de NUEVO EQUIPO. Desactiva los demás.
     {
         //ActivarPanel(1);
-        panel_principal.SetActive(false);
-        panel_nuevoEquipo.SetActive(true);
-        panel_detalleEquipo.SetActive(false);
+        //panel_principal.SetActive(false);
+        //panel_nuevoEquipo.SetActive(true);
+        //panel_detalleEquipo.SetActive(false);
 
-        CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.MisEquiposPrincipal);
+        //CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.MisEquiposPrincipal);
 
         //panel_nuevoEquipo.GetComponent<PanelNuevoEquipo>().SetPanel();
-        panel_nuevoEquipo.GetComponent<PanelNuevoEquipov2>().SetPanel();
+        //panel_nuevoEquipo.GetComponent<PanelNuevoEquipov2>().SetPanel();
+        panel_nuevoEquipo.GetComponent<PanelNuevoEquipov3>().ToggleDesplegar();
     }
 
     public void MostrarPanelDetalleEquipo(string nombreEquipo_, GameObject botonEquipo_)                                                         //Muestra el panel de DETALLE EQUIPO. Desactiva los demás.
     {
         //ActivarPanel(2);
         panel_principal.SetActive(false);
-        panel_nuevoEquipo.SetActive(false);
+        panel_nuevoEquipo.SetActive(true);
         panel_detalleEquipo.SetActive(true);
 
         panel_detalleEquipo.GetComponent<PanelDetalleEquipo>().SetPanelPrincipal(nombreEquipo_, botonEquipo_);

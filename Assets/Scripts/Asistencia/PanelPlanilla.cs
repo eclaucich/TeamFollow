@@ -23,6 +23,8 @@ public class PanelPlanilla : PanelAsistencia {
 
     public void SetPanelPlanilla(BotonHistorialAsistencia botonFocus_)
     {
+        CanvasController.instance.retrocesoPausado = false;
+        
         newDetalles = new List<DetalleAsistencia>();
 
         botonFocus = botonFocus_;
@@ -44,8 +46,8 @@ public class PanelPlanilla : PanelAsistencia {
         fechaText.SetText("FECHA:\n" + botonFocus_.GetFecha(), AppController.Idiomas.Español);
         fechaText.SetText("DATE:\n" + botonFocus_.GetFecha(), AppController.Idiomas.Ingles);
 
-        aliasText.SetText("NOMBRE:\n" + botonFocus_.GetAlias(), AppController.Idiomas.Español);
-        aliasText.SetText("NAME:\n" + botonFocus_.GetAlias(), AppController.Idiomas.Ingles);
+        aliasText.SetText("ALIAS:\n" + botonFocus_.GetAlias(), AppController.Idiomas.Español);
+        aliasText.SetText("ALIAS:\n" + botonFocus_.GetAlias(), AppController.Idiomas.Ingles);
 
         inputNuevoAlias.text = "";
 
@@ -93,7 +95,7 @@ public class PanelPlanilla : PanelAsistencia {
         Debug.Log("Viejo alias: " + aliasPlanilla);
 
         if (nuevoAlias == "")
-            nuevoAlias = aliasPlanilla;
+            nuevoAlias = string.Empty;
         else if(nuevoAlias != aliasPlanilla)
         {
             if (equipoActual.ExistePlanillaConAlias(nuevoAlias))

@@ -17,14 +17,25 @@ public class BotonSeleccionJugador : MonoBehaviour
     {
         seleccionado = !seleccionado;
 
-        if (seleccionado)
-            imagen.color = AppController.instance.colorTheme.botonSeleccionado;
-        else
-            imagen.color = new Color(1f, 1f, 1f, 0f); //transparente
+        SetColor();
     }
 
     public bool isSeleccionado()
     {
         return seleccionado;
+    }
+
+    private void SetColor()
+    {
+        if (seleccionado)
+            imagen.color = AppController.instance.colorTheme.botonSeleccionado;
+        else
+            imagen.color = new Color(1f, 1f, 1f, 0f);
+    }
+
+    public void Seleccionar(bool active)
+    {
+        seleccionado = active;
+        SetColor();
     }
 }

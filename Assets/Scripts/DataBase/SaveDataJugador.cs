@@ -21,6 +21,8 @@ public class SaveDataJugador {
     public List<string> catEspecial;
     public List<string> valEspecial;
 
+    public string pathImagenJugador;
+
     public SaveDataJugador(InfoJugador infoJugador_, Deportes.DeporteEnum deporte_)
     {
         deporte = deporte_;
@@ -40,6 +42,8 @@ public class SaveDataJugador {
         fechaNacYear = infoJugador_.GetFechaNac().Year;
         fechaNacMonth = infoJugador_.GetFechaNac().Month;
         fechaNacDay = infoJugador_.GetFechaNac().Day;
+
+        pathImagenJugador = infoJugador_.pathImagenJugador;
     }
 
     public Dictionary<string, string> GetInfoObligatoria()
@@ -94,6 +98,12 @@ public class SaveDataJugador {
     {
         return new System.DateTime(fechaNacYear, fechaNacMonth, fechaNacDay);
     }
+
+    public string GetPathImagenJugador()
+    {
+        return pathImagenJugador;
+    }
+
 
     private List<string> ListaKeysString(Dictionary<string, string>.KeyCollection keys)
     {

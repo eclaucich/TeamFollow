@@ -1,35 +1,55 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PanelPrincipalBiblioteca : Panel
 {
+    [SerializeField] private PanelBiblioteca panelBiblioteca = null;
+
+    [Space]
+    [Header("Seccion carpetas/jugadas")]
     [SerializeField] private GameObject botonCarpetaPrefab = null;
     [SerializeField] private Transform parentTransform = null;
     [SerializeField] private FlechasScroll flechasScroll = null;
     [SerializeField] private ScrollRect scrollRect = null;
     [SerializeField] private GameObject adviceText = null;
 
-    [SerializeField] private MensajeError mensajeErrorNuevoNombre = null;
-    [SerializeField] private MensajeError mensajeCambioNombreExitoso = null;
-    [SerializeField] private MensajeError mensajeErrorCambioCarpeta = null;
+    [Space]
+    [Header("Mensajes Error/Exito")]
+    [SerializeField] private MensajeError mensajeError = null;
+    [SerializeField] private MensajeError mensajeExitoso = null;
 
-    [SerializeField] private InputField inputNombreCarpeta = null;
-    [SerializeField] private MensajeError mensajeErrorNuevaCarpeta = null;
-    [SerializeField] private GameObject jugadasPrefab = null;
-
-    [SerializeField] private PanelBiblioteca panelBiblioteca = null;
-
-    [SerializeField] private ConfirmacionBorradoJugada confirmacionBorradoJugada = null;
-
-    [SerializeField] private GameObject botones = null;
-    [SerializeField] private InputField inputNuevoNombre = null;
-
+    [Space]
+    [Header("Seccion elegir carpeta")]
     [SerializeField] private GameObject carpetaPrefab = null;
     [SerializeField] private Transform transformCarpetas = null;
+
+    [Space]
+    [Header("Seccion nueva carpeta")]
     [SerializeField] private MensajeDesplegable seccionSeleccionarNuevaCarpeta = null;
     [SerializeField] private MensajeDesplegable seccionCrearNuevaCarpeta = null;
+
+    [Space]
+    [Header("Seleccion Multiple")]
+    [SerializeField] private ConfirmacionBorradoSeleccionMultiple confirmacionBorradoSeleccionMultiple = null;
+    [SerializeField] private GameObject botonBorrarSeleccionMultiple = null;
+    [SerializeField] private GameObject botonNuevaCarpeta = null;
+    private bool seleccionMultipleJugadasActivado = false;
+    private bool seleccionMultipleCarpetasActivado = false;
+
+    [Space]
+    [Header("Buscador")]
+    [SerializeField] private Buscador buscador = null;
+
+    [Space]
+    [Header("Otros")]
+    [SerializeField] private InputField inputNombreCarpeta = null;
+    [SerializeField] private InputField inputNuevoNombre = null;
+    [SerializeField] private GameObject botones = null;
+    [SerializeField] private ConfirmacionBorradoJugada confirmacionBorradoJugada = null;
+    
+
+    private List<BotonCarpetaJugada> listaBotonCarpeta;
 
     private float prefabHeight;
     private int cantMinima;
@@ -40,17 +60,8 @@ public class PanelPrincipalBiblioteca : Panel
     {
         prefabHeight = botonCarpetaPrefab.GetComponent<RectTransform>().rect.height;
 
-        mensajeErrorNuevoNombre.SetText("NOMBRE EXISTENTE", AppController.Idiomas.Español);
-        mensajeErrorNuevoNombre.SetText("EXISTING NAME", AppController.Idiomas.Ingles);
-
-        mensajeCambioNombreExitoso.SetText("NOMBRE CAMBIADO EXITOSAMENTE", AppController.Idiomas.Español);
-        mensajeCambioNombreExitoso.SetText("NAME SUCCESSFULLY CHANGED", AppController.Idiomas.Ingles);
-
-        mensajeErrorNuevaCarpeta.SetText("CARPETA EXISTENTE", AppController.Idiomas.Español);
-        mensajeErrorNuevaCarpeta.SetText("EXISTING FOLDER", AppController.Idiomas.Ingles);
-
-        mensajeErrorCambioCarpeta.SetText("YA EXISTE UNA JUGADA CON ESTE NOMBRE", AppController.Idiomas.Español);
-        mensajeErrorCambioCarpeta.SetText("THERE'S ALREADY A STRATEGY WITH THIS NAME", AppController.Idiomas.Ingles);
+        mensajeExitoso.SetText("NOMBRE CAMBIADO EXITOSAMENTE", AppController.Idiomas.Español);
+        mensajeExitoso.SetText("NAME SUCCESSFULLY CHANGED", AppController.Idiomas.Ingles);
 
         inputNuevoNombre.onEndEdit.AddListener(VerificarEdicionNombreJugada);
 
@@ -67,13 +78,15 @@ public class PanelPrincipalBiblioteca : Panel
             if (_carpeta.ExistsJugada(_nuevoNombre.ToUpper()))
             {
                 Debug.Log("NOMBRE EXISTENTE: " + _nuevoNombre);
-                ActivarMensajeError();
+                mensajeError.SetText("NOMBRE EXISTENTE", AppController.Idiomas.Español);
+                mensajeError.SetText("EXISTING NAME", AppController.Idiomas.Ingles);
+                mensajeError.Activar();
                 return;
             }
             else
             {
                 Debug.Log("NOMBRE CAMBIADO");
-                ActivarMensajeCambioNombreExitoso();
+                mensajeExitoso.Activar();
                 SaveSystem.EditarJugada(_botonImagenFocus.GetNombre(), _nuevoNombre.ToUpper(), _botonImagenFocus.GetCarpeta());
                 _botonImagenFocus.SetNewName(_nuevoNombre.ToUpper());
             }
@@ -91,13 +104,22 @@ public class PanelPrincipalBiblioteca : Panel
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if (seccionSeleccionarNuevaCarpeta.isDesplegado())
+            if(seccionSeleccionarNuevaCarpeta.isDesplegado())
                 CerrarSeleccionNuevaCarpeta();
-            else if (seccionCrearNuevaCarpeta.isDesplegado())
+            else if(seccionCrearNuevaCarpeta.isDesplegado())
                 CerrarSeccionCrearNuevaCarpeta();
+            
+            if(seleccionMultipleCarpetasActivado)
+                SetSeleccionMultipleCarpetas(false);
+            if(seleccionMultipleJugadasActivado)
+                SetSeleccionMultipleJugadas(false);
         }
+
+        //no sería lo mas ótimo ésto
+        if(seleccionMultipleCarpetasActivado || seleccionMultipleJugadasActivado)
+            CanvasController.instance.retrocesoPausado = true;
     }
 
     private int ChildsActive()
@@ -113,19 +135,24 @@ public class PanelPrincipalBiblioteca : Panel
 
     public void SetPanePrincipal(bool reset = true)
     {
-        /*if (listaPrefabs == null)
-        {
-            listaPrefabs = new List<GameObject>();
-        }
-        else
-            Debug.Log("CANTIDAD: " + listaPrefabs.Count);*/
-
         Screen.orientation = ScreenOrientation.Portrait;
+
+        SetPublicity();
+
+        buscador.SetBuscador(false);
+
+        CanvasController.instance.retrocesoPausado = false;
+        seleccionMultipleJugadasActivado = false;
+        seleccionMultipleCarpetasActivado = false;
+        botonBorrarSeleccionMultiple.SetActive(false);
 
         CanvasController.instance.botonDespliegueMenu.SetActive(true);
 
         if (reset)
         {
+            listaBotonCarpeta = new List<BotonCarpetaJugada>();
+            listaBotonCarpeta.Clear();
+
             BorrarPrefabsCarpetas();
             CrearPrefabsCarpetas();
             ResetPrefabs();
@@ -188,7 +215,17 @@ public class PanelPrincipalBiblioteca : Panel
 
         if (!AppController.instance.VerificarNombreCarpeta(_nombreCarpeta))
         {
-            mensajeErrorNuevaCarpeta.Activar();
+            mensajeError.SetText("CARPETA EXISTENTE", AppController.Idiomas.Español);
+            mensajeError.SetText("EXISTING FOLDER", AppController.Idiomas.Ingles);
+            mensajeError.Activar();
+            return;
+        }
+
+        if(_nombreCarpeta == SaveSystem.carpetaEspecialEspañol || _nombreCarpeta == SaveSystem.carpetaEspecialIngles)
+        {
+            mensajeError.SetText("NOMBRE RESERVADO", AppController.Idiomas.Español);
+            mensajeError.SetText("RESERVED NAME", AppController.Idiomas.Ingles);
+            mensajeError.Activar();
             return;
         }
 
@@ -197,6 +234,8 @@ public class PanelPrincipalBiblioteca : Panel
         AppController.instance.AgregarCarpetaJugada(_nuevaCarpeta);
 
         NuevaCarpeta(_nuevaCarpeta, true);
+
+        seccionCrearNuevaCarpeta.ToggleDesplegar();
     }
 
     public void NuevaCarpeta(CarpetaJugada _carpeta, bool saveNew = false)
@@ -204,42 +243,49 @@ public class PanelPrincipalBiblioteca : Panel
         GameObject goCarpeta = Instantiate(botonCarpetaPrefab, parentTransform, false);
         goCarpeta.SetActive(true);
         BotonCarpetaJugada _botonCarpeta = goCarpeta.GetComponent<BotonCarpetaJugada>();
-        //GameObject goJugadas = Instantiate(jugadasPrefab, parentTransform, false);
-        //goJugadas.SetActive(true);
+
         _botonCarpeta.CrearPrefabs(_carpeta, parentTransform);
+
+        listaBotonCarpeta.Add(_botonCarpeta);
 
         //esto arregla el bug al abrir las carpetas la primera vez
         _botonCarpeta.ToggleSeccionJugadas();
         _botonCarpeta.ToggleSeccionJugadas();
 
-        Debug.Log("CARP: " + _carpeta.GetNombre());
-        if (_carpeta.GetNombre() == "SIN CARPETA")
+        if (_carpeta.GetNombre() == SaveSystem.carpetaEspecialEspañol)
             _botonCarpeta.SetCarpetaEspecial();
 
         if (saveNew) 
             SaveSystem.GuardarCarpetaBiblioteca(_carpeta); 
 
-        BorrarPrefabsCarpetas();
-        CrearPrefabsCarpetas();
+        //BorrarPrefabsCarpetas();
+        //CrearPrefabsCarpetas();
     }
 
     public void SetBotonImagenFocus(BotonImagen _botonFocus)
     {
-        if (_botonImagenFocus != null)
+        if(!seleccionMultipleJugadasActivado && !seleccionMultipleCarpetasActivado)
         {
-            _botonImagenFocus.DesactivarSeleccion();
-            if (_botonImagenFocus == _botonFocus)
+            if (_botonImagenFocus != null)
             {
-                _botonImagenFocus = null;
-                botones.SetActive(false);
-                return;
+                _botonImagenFocus.DesactivarSeleccion();
+                if (_botonImagenFocus == _botonFocus)
+                {
+                    _botonImagenFocus = null;
+                    botones.SetActive(false);
+                    return;
+                }
             }
+
+            _botonImagenFocus = _botonFocus;
+            _botonImagenFocus.ActivarSeleccion();
+
+            botones.SetActive(true);
         }
-
-        _botonImagenFocus = _botonFocus;
-        _botonImagenFocus.ActivarSeleccion();
-
-        botones.SetActive(true);
+        else if(seleccionMultipleJugadasActivado)
+        {
+            _botonFocus.ToggleSelected();
+        }
     }
 
     public void BorrarImagenFocus()
@@ -277,6 +323,18 @@ public class PanelPrincipalBiblioteca : Panel
         CanvasController.instance.retrocesoPausado = false;
     }
 
+    #region Mensajes Error/Exitoso
+    public void ActivarMensajeError()
+    {
+        mensajeError.Activar();
+    }
+
+    public void ActivarMensajeExitoso()
+    {
+        mensajeExitoso.Activar();
+    }
+    #endregion
+
     public void SetImageNuevaCarpeta(Text _nombreCarpetaText)
     {
         CarpetaJugada _nuevaCarpeta = AppController.instance.BuscarCarpetaPorNombre(_nombreCarpetaText.text.ToUpper());
@@ -288,7 +346,9 @@ public class PanelPrincipalBiblioteca : Panel
         if (!_botonImagenFocus.VerificarNombreJugadasCarpeta(_nuevaCarpeta))
         {
             Debug.Log("NOMBRE EXISTENTE");
-            mensajeErrorCambioCarpeta.Activar();
+            mensajeError.SetText("YA EXISTE UNA JUGADA CON ESTE NOMBRE", AppController.Idiomas.Español);
+            mensajeError.SetText("THERE'S ALREADY A STRATEGY WITH THIS NAME", AppController.Idiomas.Ingles);
+            mensajeError.Activar();
             return;
         }
         _botonImagenFocus.SetCarpeta(_nuevaCarpeta);
@@ -306,8 +366,8 @@ public class PanelPrincipalBiblioteca : Panel
             GameObject go = Instantiate(carpetaPrefab, transformCarpetas, false);
             go.SetActive(true);
             string _nombreCarpeta = carpeta.GetNombre().ToUpper();
-            if (_nombreCarpeta == "SIN CARPETA" && AppController.instance.idioma == AppController.Idiomas.Ingles)
-                _nombreCarpeta = "WITHOUT FOLDER";
+            if (_nombreCarpeta == SaveSystem.carpetaEspecialEspañol && AppController.instance.idioma == AppController.Idiomas.Ingles)
+                _nombreCarpeta = SaveSystem.carpetaEspecialIngles;
             go.GetComponentInChildren<Text>().text = _nombreCarpeta;
         }
     }
@@ -319,15 +379,109 @@ public class PanelPrincipalBiblioteca : Panel
             Destroy(transformCarpetas.GetChild(i).gameObject);
         }
     }
+    
 
-
-    public void ActivarMensajeError()
+    #region Seleccion Multiple
+    public void SetSeleccionMultipleJugadas(bool active)
     {
-        mensajeErrorNuevoNombre.Activar();
+        if(seleccionMultipleCarpetasActivado)
+            return;
+        if(active && seleccionMultipleJugadasActivado)
+            return;
+        if(!active && !seleccionMultipleJugadasActivado)
+            return;
+
+        seleccionMultipleJugadasActivado = active;
+
+        CanvasController.instance.retrocesoPausado = active;
+        botonBorrarSeleccionMultiple.SetActive(active);
+        botonNuevaCarpeta.SetActive(!active);
+
+        foreach (var carpeta in listaBotonCarpeta)
+        {
+            carpeta.SetSeleccionMultipleJugadas(active);
+        }
     }
 
-    public void ActivarMensajeCambioNombreExitoso()
+    public void SetSeleccionMultipleCarpetas(bool active)
     {
-        mensajeCambioNombreExitoso.Activar();
+        if(seleccionMultipleJugadasActivado)
+            return;
+        if(active && seleccionMultipleCarpetasActivado)
+            return;
+        if(!active && !seleccionMultipleCarpetasActivado)
+            return;
+
+        seleccionMultipleCarpetasActivado = active;
+
+        CanvasController.instance.retrocesoPausado = active;
+        botonBorrarSeleccionMultiple.SetActive(active);
+        botonNuevaCarpeta.SetActive(!active);
+
+        foreach (var carpeta in listaBotonCarpeta)
+        {
+            if(carpeta.GetCarpeta().GetNombre() == SaveSystem.carpetaEspecialEspañol || carpeta.GetCarpeta().GetNombre() == SaveSystem.carpetaEspecialIngles)
+                continue;
+            carpeta.SetSeleccionMultiple(active);
+        }
     }
+
+    public void ActivarBorradoSeleccionMultiple()
+    {
+        if(seleccionMultipleJugadasActivado)
+        {
+            List<BotonImagen> botonesImagen = new List<BotonImagen>();
+
+            foreach (var carpeta in listaBotonCarpeta)
+            {
+                foreach (var jugada in carpeta.GetJugadas())
+                {
+                    if (jugada.IsSelected())
+                        botonesImagen.Add(jugada);
+                }
+            }
+
+            confirmacionBorradoSeleccionMultiple.Activar(botonesImagen);
+        }
+        else if(seleccionMultipleCarpetasActivado)
+        {
+            List<BotonCarpetaJugada> botonesCarpeta = new List<BotonCarpetaJugada>();
+
+            foreach (var carpeta in listaBotonCarpeta)
+            {
+                if(carpeta.IsSelected())
+                    botonesCarpeta.Add(carpeta);
+            }
+
+            confirmacionBorradoSeleccionMultiple.Activar(botonesCarpeta);
+        }
+    }
+
+    #endregion
+
+    #region Buscador
+
+    public void ActualizarBusqueda(Text filterText)
+    {
+        string filter = filterText.text;
+
+        int cantResultados = 0;
+
+        foreach (var boton in listaBotonCarpeta)
+        {
+            cantResultados += boton.SetActiveFolders(filter.ToUpper());
+        }
+
+        buscador.SetCantidadResultados(cantResultados);
+    }
+
+    public void CerrarFiltrado()
+    {
+        foreach (var boton in listaBotonCarpeta)
+        {
+            boton.SetActiveFolders(true);
+        }
+    }
+
+    #endregion
 }

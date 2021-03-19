@@ -16,6 +16,11 @@ public class PanelHistorialPlanillas : Panel {
     [SerializeField] private ScrollRect scrollRect = null;
     [SerializeField] private FlechasScroll flechasScroll = null;
 
+    [SerializeField] private ConfirmacionBorradoSeleccionMultiple panelBorradoSeleccionMultiple = null;
+    [SerializeField] private GameObject botonBorrarSeleccionMultiple = null;
+
+    [SerializeField] private Buscador buscador = null;
+
     private Equipo equipo;
 
     private Transform parentTransform;
@@ -23,11 +28,23 @@ public class PanelHistorialPlanillas : Panel {
     private float prefabHeight;
     private int cantMinima;
 
+    private bool seleccionMultipleActivada = false;
+
     public void Awake()
     {
         listaBotonHistorial = new List<GameObject>();
         parentTransform = GameObject.Find("SeccionHistorialAsistencias").transform;
         prefabHeight = botonHistorialPrefab.GetComponent<RectTransform>().rect.height;
+    }
+
+    private void Update() 
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) && seleccionMultipleActivada)
+            ToggleSeleccionMultiple();
+
+        //no sería lo mas ótimo ésto
+        if(seleccionMultipleActivada)
+            CanvasController.instance.retrocesoPausado = true;
     }
 
     private void FixedUpdate()
@@ -37,6 +54,14 @@ public class PanelHistorialPlanillas : Panel {
 
     public void SetPanelHistorialPlanillas()
     {
+        seleccionMultipleActivada = false;
+
+        CanvasController.instance.retrocesoPausado = false;
+
+        botonBorrarSeleccionMultiple.SetActive(false);
+
+        buscador.SetBuscador(false);
+
         equipo = AppController.instance.equipoActual;
 
         CanvasController.instance.overlayPanel.SetNombrePanel(equipo.GetNombre() +  ": ASISTENCIAS", AppController.Idiomas.Español);
@@ -124,4 +149,67 @@ public class PanelHistorialPlanillas : Panel {
         if (listaBotonHistorial.Count == 0) seccionAdvice.SetActive(true);
         else                                seccionAdvice.SetActive(false);
     }
+
+    #region Seleccion Multiple
+
+    public void ToggleSeleccionMultiple()
+    {
+        seleccionMultipleActivada = !seleccionMultipleActivada;
+
+        CanvasController.instance.retrocesoPausado = seleccionMultipleActivada;
+
+        botonBorrarSeleccionMultiple.SetActive(seleccionMultipleActivada);
+
+        foreach (var go in listaBotonHistorial)
+        {
+            go.GetComponent<BotonHistorialAsistencia>().ToggleSeleccionMultiple(seleccionMultipleActivada);
+        }
+    }
+
+    public void ActivarPanelBorradoSeleccionMultiple()
+    {
+        List<BotonHistorialAsistencia> listaHistoriales = new List<BotonHistorialAsistencia>();
+
+        foreach (var go in listaBotonHistorial)
+        {
+            if(go.GetComponent<BotonHistorialAsistencia>().IsSelected())
+                listaHistoriales.Add(go.GetComponent<BotonHistorialAsistencia>());
+        }
+
+        panelBorradoSeleccionMultiple.Activar(listaHistoriales);
+    }
+
+    #endregion
+
+    
+    #region Buscador
+    public void ActualizarBusqueda(Text filterText)
+    {
+        string filter = filterText.text;
+
+        int  cantResultados = 0;
+
+        foreach (var boton in listaBotonHistorial)
+        {
+            if(!boton.GetComponent<BotonHistorialAsistencia>().GetNombre().ToUpper().Contains(filter.ToUpper()) && 
+                !boton.GetComponent<BotonHistorialAsistencia>().GetAlias().ToUpper().Contains(filter.ToUpper()))
+                boton.SetActive(false);
+            else
+            {
+                boton.SetActive(true);
+                cantResultados++;
+            }
+        }
+
+        buscador.SetCantidadResultados(cantResultados);
+    }
+
+    public void CerrarFiltrado()
+    {
+        foreach (var boton in listaBotonHistorial)
+        {
+            boton.SetActive(true);
+        }
+    }
+    #endregion
 }

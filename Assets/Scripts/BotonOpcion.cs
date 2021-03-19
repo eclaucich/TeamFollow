@@ -17,4 +17,9 @@ public class BotonOpcion : MonoBehaviour
     {
         return valor.GetTextInLanguage(_idioma);
     }
+
+    public string GetValorActual()
+    {
+        return valor.GetTextActual();
+    }
 }

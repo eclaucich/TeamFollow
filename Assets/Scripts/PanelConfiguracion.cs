@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,17 +6,31 @@ using UnityEngine.UI;
 public class PanelConfiguracion : MonoBehaviour
 {
     [SerializeField] private Dropdown dropdownIdiomas = null;
-
     [SerializeField] private Dropdown dropdownTemas = null;
     [SerializeField] private MensajeDesplegable confirmacionReinicio = null;
-
     [SerializeField] private Dropdown dropdownDeportes = null;
-
     [SerializeField] private FlechasScroll flechasScroll = null;
+
+    [Space]
+    [Header("NUEVO")]
+    [SerializeField] private GameObject panelOpcionesPrefab = null;
+    [SerializeField] private Text idiomaActualText = null;
+    [SerializeField] private Text temaActualText = null;
+    [SerializeField] private Text deporteFavoritoActualText = null;
+
 
     private AppController.Idiomas _idioma;
     private Deportes.DeporteEnum _deporteFavorito;
     private AppController.Temas _tema;
+
+    private enum OpcionActual
+    {
+        ninguna = -1,
+        idioma = 0,
+        tema = 1,
+        deporte = 2
+    }
+    private OpcionActual opcionEditandoActualmente;
 
     #region Inicializacion
     private void Start()
@@ -36,12 +49,18 @@ public class PanelConfiguracion : MonoBehaviour
         _deporteFavorito = AppController.instance.deporteFavorito;
         _tema = AppController.instance.tema;
 
-        SetDropdownIdiomasOptions();
+        opcionEditandoActualmente = OpcionActual.ninguna;
+        idiomaActualText.text = AppController.instance.GetDisplayNameIdioma(_idioma, _idioma);
+        temaActualText.text = AppController.instance.GetDisplayNameTema(_tema, _idioma);
+        deporteFavoritoActualText.text = Deportes.instance.GetDisplayName(_deporteFavorito, _idioma);
+
+        // !!!!! DESCOMENTAR ESTO SI SE VUELVE A VERSION 1 !!!!!
+        /*SetDropdownIdiomasOptions();
         SetDropdownTemasOptions();
-        SetSeccionDeporteFavorito();
+        SetSeccionDeporteFavorito();*/
     }
     #endregion
-
+/*
     #region Seccion Deporte Favorito
     private void SetSeccionDeporteFavorito()
     {
@@ -90,7 +109,7 @@ public class PanelConfiguracion : MonoBehaviour
         dropdownDeportes.RefreshShownValue();
     }
     #endregion
-
+*/
     #region Seccion Temas
     private void SetDropdownTemasOptions()
     {
@@ -115,10 +134,11 @@ public class PanelConfiguracion : MonoBehaviour
 
     public void AceptarCambioTema()
     {
-        _tema = (AppController.Temas)dropdownTemas.value;
+        //_tema = (AppController.Temas)dropdownTemas.value;   !!!!!! DESCOMENTAR ESTO SI VUELVE A LA VERSION 1 !!!!!!!
         SaveSettings();
         Application.Quit();
     }
+
     public void CancelarCambioTema()
     {
         dropdownTemas.value = (int)_tema;
@@ -140,8 +160,10 @@ public class PanelConfiguracion : MonoBehaviour
     }
 
     #endregion
+/*
 
     #region Seccion Idiomas
+
     private void SetDropdownIdiomasOptions()
     {
         dropdownIdiomas.ClearOptions();
@@ -183,23 +205,7 @@ public class PanelConfiguracion : MonoBehaviour
         dropdownIdiomas.RefreshShownValue();
     }
     #endregion
-
-    #region Seccion Configuracion Deportes
-
-    private void SetDropdownsConfiguracionDeportes()
-    {
-
-        /*
-            Por cada deporte hacer un dropdown que tenga como opciones las estadisticas de ese deporte
-
-        */
-        foreach (var _deporte in Enum.GetValues(typeof(Deportes.DeporteEnum)))
-        {
-            //SetDropdownDeporte((Deportes.DeporteEnum)_deporte);
-        }
-    }
-
-    #endregion
+    */
 
     public void SaveSettings()
     {
@@ -208,4 +214,99 @@ public class PanelConfiguracion : MonoBehaviour
         SaveDataSettings _settings = new SaveDataSettings(_idioma, _tema, _deporteFavorito);
         AppController.instance.SetSettings(_settings);
     }
+
+    #region FUNCIONES NUEVAS
+    public void ShowLanguageOptions()
+    {
+        opcionEditandoActualmente = OpcionActual.idioma;
+
+        GameObject panelOpcionesGO = Instantiate(panelOpcionesPrefab, transform, false);
+        OpcionesEspeciales panelOpciones = panelOpcionesGO.GetComponent<OpcionesEspeciales>();
+
+        string nombreCategoria = AppController.instance.idioma == AppController.Idiomas.Español ? "IDIOMA" : "LANGUAGE";
+
+        List<string> opciones = new List<string>();
+        foreach (var i in Enum.GetValues(typeof(AppController.Idiomas)))
+        {
+            string op = AppController.instance.GetDisplayNameIdioma((AppController.Idiomas)i, AppController.instance.idioma);
+            opciones.Add(op);
+        }
+
+        panelOpciones.SetMenu(opciones, nombreCategoria, AppController.instance.idioma);
+    }
+
+    public void ShowThemesOptions()
+    {
+        opcionEditandoActualmente = OpcionActual.tema;
+
+        GameObject panelOpcionesGO = Instantiate(panelOpcionesPrefab, transform, false);
+        OpcionesEspeciales panelOpciones = panelOpcionesGO.GetComponent<OpcionesEspeciales>();
+
+        string nombreCategoria = AppController.instance.idioma == AppController.Idiomas.Español ? "TEMA" : "THEME";
+
+        List<string> opciones = new List<string>();
+        foreach (var i in Enum.GetValues(typeof(AppController.Temas)))
+        {
+            string op = AppController.instance.GetDisplayNameTema((AppController.Temas)i, AppController.instance.idioma);
+            opciones.Add(op);
+        }
+
+        panelOpciones.SetMenu(opciones, nombreCategoria, AppController.instance.idioma);
+    }
+
+    public void ShowSportsOptions()
+    {
+        opcionEditandoActualmente = OpcionActual.deporte;
+
+        GameObject panelOpcionesGO = Instantiate(panelOpcionesPrefab, transform, false);
+        OpcionesEspeciales panelOpciones = panelOpcionesGO.GetComponent<OpcionesEspeciales>();
+
+        string nombreCategoria = AppController.instance.idioma == AppController.Idiomas.Español ? "DEPORTE FAVORITO" : "FAVORITE SPORT";
+
+        List<string> opciones = new List<string>();
+        foreach (var i in Enum.GetValues(typeof(Deportes.DeporteEnum)))
+        {
+            string op = Deportes.instance.GetDisplayName((Deportes.DeporteEnum)i, AppController.instance.idioma);
+            opciones.Add(op);
+        }
+
+        panelOpciones.SetMenu(opciones, nombreCategoria, AppController.instance.idioma);
+    }
+
+    public void SelectOption(string opcionString)
+    {
+        switch(opcionEditandoActualmente)
+        {
+            case OpcionActual.idioma:
+                _idioma = AppController.instance.GetLanguageEnumFromString(opcionString);
+                AppController.instance.idioma = _idioma;
+                idiomaActualText.text = opcionString;
+
+                idiomaActualText.text = AppController.instance.GetDisplayNameIdioma(_idioma, _idioma).ToUpper();
+                temaActualText.text = AppController.instance.GetDisplayNameTema(_tema, _idioma).ToUpper();
+                deporteFavoritoActualText.text = Deportes.instance.GetDisplayName(_deporteFavorito, _idioma).ToUpper();
+                SaveSettings();
+                break;
+
+            case OpcionActual.tema:
+                _tema = AppController.instance.GetThemeEnumFromString(opcionString);
+                temaActualText.text = opcionString;
+                break;
+
+            case OpcionActual.deporte:
+                Debug.Log("DEPORTE CAMBIADO: " + opcionString);
+                _deporteFavorito = Deportes.instance.GetSportEnumFromString(opcionString);
+                deporteFavoritoActualText.text = opcionString;
+                SaveSettings();
+                break;
+
+            default:
+                Debug.LogError("ESTO NO DEBERIA HABER PASADO");
+                break;
+        }
+
+        opcionEditandoActualmente = OpcionActual.ninguna;
+    }
+
+    #endregion
 }

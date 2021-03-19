@@ -26,8 +26,20 @@ public class PanelJugadoresPrincipal : Panel {
     [SerializeField] private MensajeError mensajeCambioNombreExitoso = null;
     [SerializeField] private MensajeError mensajeCambioFavorito = null;
 
+    [Space]
+    [Header("Seleccion Multiple")]
+    [SerializeField] private GameObject botonBorrarEquipo = null;
+    [SerializeField] private GameObject botonBorrarSeleccionMultiple = null;
+    [SerializeField] private GameObject botonEditarNombreEquipo = null;
+    [SerializeField] private ConfirmacionBorradoSeleccionMultiple panelConfirmacionBorradoMultiple = null;
+
+    [Space]
+    [SerializeField] private Buscador buscador = null;
+
     private float prefabHeight;
     private int cantMinima;
+
+    private bool seleccionMultipleActivada = false;
 
     private void Awake()
     {
@@ -52,6 +64,18 @@ public class PanelJugadoresPrincipal : Panel {
         mensajeCambioFavorito.SetText("NEW FAVOURITE PLAYER SETTED", AppController.Idiomas.Ingles);
 
         inputfield.onEndEdit.AddListener(VerificarEdicionNombreEquipo);
+    }
+
+    private void Update() 
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) && seleccionMultipleActivada)
+        {
+            ToggleSeleccionMultiple();
+        }    
+        
+        //no sería lo mas ótimo ésto
+        if(seleccionMultipleActivada)
+            CanvasController.instance.retrocesoPausado = true;
     }
 
     private void FixedUpdate()
@@ -82,6 +106,16 @@ public class PanelJugadoresPrincipal : Panel {
 
     public void SetPanelJugadores(Equipo equipo_)
     {
+        seleccionMultipleActivada = false;
+
+        CanvasController.instance.retrocesoPausado = false;
+
+        buscador.SetBuscador(false);
+        botonBorrarEquipo.SetActive(true);
+        botonBorrarSeleccionMultiple.SetActive(false);
+        botonEditarNombreEquipo.SetActive(true);
+
+
         equipo = equipo_;
 
         CanvasController.instance.overlayPanel.SetNombrePanel("EQUIPO: " + equipo.GetNombre(), AppController.Idiomas.Español);
@@ -120,7 +154,7 @@ public class PanelJugadoresPrincipal : Panel {
 
         listaBotonJugador.Add(botonJugadorGO);
 
-        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing + parentTransform.GetComponent<VerticalLayoutGroup>().padding.top));
+        cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + parentTransform.GetComponent<VerticalLayoutGroup>().spacing + parentTransform.GetComponent<VerticalLayoutGroup>().padding.top + parentTransform.GetComponent<VerticalLayoutGroup>().padding.bottom));
     }
 
     public void ResetFavouritePlayers()
@@ -187,4 +221,68 @@ public class PanelJugadoresPrincipal : Panel {
     {
         return panelConfirmacionBorrado;
     }
+
+    #region Seleccion multiple
+
+    public void ToggleSeleccionMultiple()
+    {
+        bool estadoSiguiente = !seleccionMultipleActivada;
+        
+        CanvasController.instance.retrocesoPausado = estadoSiguiente;
+        seleccionMultipleActivada = estadoSiguiente;
+
+        botonBorrarEquipo.SetActive(!estadoSiguiente);
+        botonBorrarSeleccionMultiple.SetActive(estadoSiguiente);
+        botonEditarNombreEquipo.SetActive(!estadoSiguiente);
+
+        foreach (var go in listaBotonJugador)
+        {
+            go.GetComponent<BotonJugador>().SetSeleccionMultiple(estadoSiguiente);
+        }
+    }
+
+    public void ActivarPanelBorradoSeleccionMultiple()
+    {
+        List<BotonJugador> listaSeleccionMultiple = new List<BotonJugador>();
+        foreach (var go in listaBotonJugador)
+        {
+            if(go.GetComponent<BotonJugador>().IsSelected())
+                listaSeleccionMultiple.Add(go.GetComponent<BotonJugador>());
+        }
+        panelConfirmacionBorradoMultiple.Activar(listaSeleccionMultiple);
+    }
+
+    #endregion
+
+        #region Buscador
+
+    public void ActualizarBusqueda(Text filterText)
+    {
+        string filter = filterText.text;
+
+        int  cantResultados = 0;
+
+        foreach (var boton in listaBotonJugador)
+        {
+            if(!boton.GetComponent<BotonJugador>().GetNombre().Contains(filter.ToUpper()))
+                boton.SetActive(false);
+            else
+            {
+                boton.SetActive(true);
+                cantResultados++;
+            }
+        }
+
+        buscador.SetCantidadResultados(cantResultados);
+    }
+
+    public void CerrarFiltrado()
+    {
+        foreach (var boton in listaBotonJugador)
+        {
+            boton.SetActive(true);
+        }
+    }
+
+    #endregion
 }

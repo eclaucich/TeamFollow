@@ -58,8 +58,4 @@ public class Evento
     {
         return tiempo;
     }
-    public Sprite GetSprite()
-    {
-        return GameObject.FindGameObjectWithTag("EstadisticasDisplay").GetComponent<EstadisticasDeporteDisplay>().GetSprite(tipoEstadistica);
-    }
 }

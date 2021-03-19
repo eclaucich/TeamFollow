@@ -1,12 +1,40 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class BotonHistorialAsistencia : MonoBehaviour {
+public class BotonHistorialAsistencia : MonoBehaviour
+{
 
     [SerializeField] private PanelPlanillaAsistencia panelPlanillaAsistencia = null;
     [SerializeField] private Text nombrePlanillaText = null;
+
+    [SerializeField] private Image imagenFondo = null;
+
+    [Space]
+    [Header("Seleccion Multiple")]
+    [SerializeField] private Toggle toggleSeleccionMultiple = null;
+
     private string nombrePlanilla;
     private string aliasPlanilla;
+
+    private bool seleccionMultipleActivada;
+
+    private void Start() 
+    {
+        seleccionMultipleActivada = false;
+        toggleSeleccionMultiple.isOn = false;
+        toggleSeleccionMultiple.gameObject.SetActive(false);    
+    }
+
+    private void Update()
+    {
+        if(seleccionMultipleActivada)
+        {
+            if(toggleSeleccionMultiple.isOn)
+                imagenFondo.color = AppController.instance.colorTheme.botonSeleccionado;
+            else
+                imagenFondo.color = AppController.instance.colorTheme.botonActivado;
+        }
+    }
 
     public void SetBotonHistorialAsistencia(string nombrePlanilla_, string alias_)
     {
@@ -18,7 +46,10 @@ public class BotonHistorialAsistencia : MonoBehaviour {
 
     public void MostrarPlanilla()
     {
-        panelPlanillaAsistencia.MostrarPanelPlanilla(this);
+        if(!seleccionMultipleActivada)
+            panelPlanillaAsistencia.MostrarPanelPlanilla(this);
+        else
+            toggleSeleccionMultiple.isOn = !toggleSeleccionMultiple.isOn;
     }
 
     /*public void BorrarAsistencia()
@@ -49,8 +80,26 @@ public class BotonHistorialAsistencia : MonoBehaviour {
 
     public string GetDisplayNombre()
     {
-        if(aliasPlanilla != "") return aliasPlanilla;
-        
-        return GetFecha();
+        if(aliasPlanilla != "") 
+            return aliasPlanilla + " - " + GetFecha();
+        else
+            return GetFecha();
     }
+
+    #region Seleccion Multiple
+
+    public void ToggleSeleccionMultiple(bool aux)
+    {
+        seleccionMultipleActivada = aux;
+        toggleSeleccionMultiple.gameObject.SetActive(aux);
+        if(aux==false)
+            imagenFondo.color = AppController.instance.colorTheme.botonActivado;
+    }
+
+    public bool IsSelected()
+    {
+        return toggleSeleccionMultiple.isOn;
+    }
+
+    #endregion
 }

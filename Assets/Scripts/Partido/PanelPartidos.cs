@@ -18,6 +18,16 @@ public class PanelPartidos : Panel
     [SerializeField] private FlechasScroll flechasScroll = null;
     [SerializeField] private ScrollRect scrollRect = null;
 
+    [Space]
+    [Header("Seleccion Multiple")]
+    [SerializeField] private ConfirmacionBorradoSeleccionMultiple confirmacionBorradoSeleccionMultiple = null;
+    [SerializeField] private GameObject botonBorrarSeleccionMultiple = null;
+    private bool seleccionMultipleActivada = false;
+
+    [Space]
+    [Header("Buscador")]
+    [SerializeField] private Buscador buscador = null;
+
 
     private List<GameObject> listaPartidosPrefabs;
     private List<Partido> listaPartidos;
@@ -41,8 +51,23 @@ public class PanelPartidos : Panel
         flechasScroll.Actualizar(scrollRect, cantMinima, listaPartidosPrefabs.Count);
     }
 
+    private void Update() 
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) && seleccionMultipleActivada)
+        {
+            CanvasController.instance.retrocesoPausado = false;
+            SetSeleccionMultiple(false);
+        }    
+    }
+
     public void SetearPanelPartidos(Jugador _jugador)
     {
+        CanvasController.instance.retrocesoPausado = false;
+        
+        CanvasController.instance.overlayPanel.gameObject.SetActive(true);
+        buscador.SetBuscador(false);
+        SetPublicity();
+
         if (_jugador == null)
             jugadorFocus = AppController.instance.jugadorActual;//equipoActual.BuscarPorNombre(nombreJugador);
         else
@@ -70,7 +95,8 @@ public class PanelPartidos : Panel
         {
             GameObject go = Instantiate(partidoprefab, parentTransform, false);
             go.SetActive(true);
-            go.transform.GetChild(0).GetComponentInChildren<Text>().text = partido.GetNombre();
+            //go.transform.GetChild(0).GetComponentInChildren<Text>().text = partido.GetNombre();
+            go.GetComponent<BotonPartido>().SetPartidoFocus(partido);
             listaPartidosPrefabs.Add(go);
         }
 
@@ -167,7 +193,7 @@ public class PanelPartidos : Panel
     {
         Estadisticas estadisticas = isPartido ? jugadorFocus.GetEstadisticasPartido() : jugadorFocus.GetEstadisticasPractica();
 
-        CanvasController.instance.overlayPanel.SetNombrePanel("ESATADISTICAS GLOBALES DE JUGADOR: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel("ESTADISTICAS GLOBALES DE JUGADOR: " + jugadorFocus.GetNombre(), AppController.Idiomas.Español);
         CanvasController.instance.overlayPanel.SetNombrePanel("GLOBAL STATISTICS OF: " + jugadorFocus.GetNombre(), AppController.Idiomas.Ingles);
 
         GetComponentInParent<PanelJugadores>().MostrarPanelDetalleJugador(null, jugadorFocus.GetNombre(), estadisticas);
@@ -216,4 +242,65 @@ public class PanelPartidos : Panel
     {
         return isPartido;
     }
+
+    
+    #region Seleccion Multiple
+    public void SetSeleccionMultiple(bool active)
+    {
+        seleccionMultipleActivada = active;
+
+        botonBorrarSeleccionMultiple.SetActive(seleccionMultipleActivada);
+        CanvasController.instance.retrocesoPausado = seleccionMultipleActivada;
+
+        foreach (var go in listaPartidosPrefabs)
+        {
+            go.GetComponent<BotonPartido>().SetSeleccionMultiple(seleccionMultipleActivada);
+        }
+    }
+
+    public void ActivarBorradoSeleccionMultiple()
+    {
+        List<BotonPartido> botones = new List<BotonPartido>();
+
+        foreach (var boton in listaPartidosPrefabs)
+        {
+            if(boton.GetComponent<BotonPartido>().IsSelected())
+                botones.Add(boton.GetComponent<BotonPartido>());
+        }
+
+        confirmacionBorradoSeleccionMultiple.Activar(botones, true);
+    }
+    #endregion
+
+
+    #region Buscador
+    public void ActualizarBusqueda(Text filterText)
+    {
+        string filter = filterText.text;
+
+        int cantResultados = 0;
+
+        foreach (var boton in listaPartidosPrefabs)
+        {
+            if (!boton.GetComponent<BotonPartido>().GetPartido().GetNombre().Contains(filter.ToUpper()))
+                boton.SetActive(false);
+            else
+            {
+                boton.SetActive(true);
+                cantResultados++;
+            }
+        }
+
+        buscador.SetCantidadResultados(cantResultados);
+    }
+
+    public void CerrarFiltrado()
+    {
+        foreach (var boton in listaPartidosPrefabs)
+        {
+            boton.SetActive(true);
+        }
+    }
+
+    #endregion
 }

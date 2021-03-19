@@ -9,13 +9,15 @@ public class InfoJugador
     public Dictionary<string, string> infoEspecial;
     public DateTime fechaNac;
 
+    public string pathImagenJugador;
+
     public InfoJugador()
     {
         infoObligatoria = new Dictionary<string, string>();
         infoString = new Dictionary<string, string>();
         infoInt = new Dictionary<string, string>();
         infoEspecial = new Dictionary<string, string>();
-
+        pathImagenJugador = null;
 
         //OBLIGATORIOS
         infoObligatoria["NOMBRE"] = "NOMBRE";
@@ -57,6 +59,7 @@ public class InfoJugador
         infoInt = dataJugador.GetInfoInt();
         infoEspecial = dataJugador.GetInfoEspecial();
         fechaNac = dataJugador.GetFechaNacimiento();
+        pathImagenJugador = dataJugador.GetPathImagenJugador();
     }
 
     public void NuevaInfo(InfoJugador info_)
@@ -66,6 +69,7 @@ public class InfoJugador
         infoInt = info_.infoInt;
         infoEspecial = info_.infoEspecial;
         fechaNac = info_.fechaNac;
+        pathImagenJugador = info_.pathImagenJugador;
     }
 
     #region Getters de la info de cada tipo

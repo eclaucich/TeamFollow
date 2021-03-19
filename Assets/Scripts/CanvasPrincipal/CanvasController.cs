@@ -8,6 +8,7 @@ public class CanvasController : MonoBehaviour {
     [HideInInspector] public bool retrocesoPausado = false;
 
     //GUI
+    [SerializeField] public GameObject overlayMensajeDesplegable = null;
     [SerializeField] public OverlayPanel overlayPanel = null;
     [SerializeField] public GameObject botonDespliegueMenu = null;
     [SerializeField] private MensajeDesplegable menuSeleccion = null;

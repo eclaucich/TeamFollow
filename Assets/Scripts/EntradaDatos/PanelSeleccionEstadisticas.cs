@@ -33,6 +33,8 @@ public class PanelSeleccionEstadisticas : Panel {
     [SerializeField] private GameObject panelEstadisticasTenis = null;
     [SerializeField] private GameObject panelEstadisticasVoley = null;
 
+    [SerializeField] private Toggle toggleSeleccionTodos = null;
+
     private PanelEstadisticas panelActual = null;
 
     //Lista para simplificar sintaxis
@@ -185,5 +187,12 @@ public class PanelSeleccionEstadisticas : Panel {
         }
         else
             GetComponentInParent<PanelEntradaDatos>().MostrarPanelNuevaEntradaDatos(isPartido);
+    }
+
+    public void ToggleSeleccionTodos()
+    {
+        //toggleSeleccionTodos.isOn = !toggleSeleccionTodos.isOn;
+
+        panelActual.SeleccionarTodos(toggleSeleccionTodos.isOn);
     }
 }

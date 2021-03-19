@@ -126,4 +126,13 @@ public class PanelEstadisticas : MonoBehaviour {
     {
         return listaEstadisticas.Count;
     }
+
+    public void SeleccionarTodos(bool active)
+    {
+        Debug.Log("TOGGLES: " + listaToggles.Count);
+        foreach (var toggle in listaToggles)
+        {
+            toggle.Seleccionar(active);
+        }
+    }
 }

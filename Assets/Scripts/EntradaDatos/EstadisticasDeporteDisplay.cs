@@ -4,23 +4,6 @@ using UnityEngine;
 
 public class EstadisticasDeporteDisplay : MonoBehaviour
 {
-    [SerializeField] public Sprite gol;
-    [SerializeField] public Sprite pase;
-    [SerializeField] public Sprite amarilla;
-    [SerializeField] public Sprite roja;
-    [SerializeField] public Sprite corner;
-    [SerializeField] public Sprite falta;
-    [SerializeField] public Sprite intercepcion;
-    [SerializeField] public Sprite lateral;
-    [SerializeField] public Sprite offside;
-    [SerializeField] public Sprite perdidaDeMarca;
-    [SerializeField] public Sprite perdidaDeBalon;
-    [SerializeField] public Sprite penal;
-    [SerializeField] public Sprite proposicionDeJugada;
-    [SerializeField] public Sprite recuperacion;
-    [SerializeField] public Sprite tiro;
-    [SerializeField] public Sprite tiroLibre;
-
     public static string[] GetStatisticsName(EstadisticaDeporte.Estadisticas _tipoEstadistica, AppController.Idiomas idioma)
     {
         string[] res = new string[2]; //res[0]=nombre; res[1]=inicial
@@ -947,46 +930,5 @@ public class EstadisticasDeporteDisplay : MonoBehaviour
         res[0] = res[0].ToUpper();
 
         return res;
-    }
-
-    public Sprite GetSprite(EstadisticaDeporte.Estadisticas _tipoEstadistica)
-    {
-        switch (_tipoEstadistica)
-        {
-            case EstadisticaDeporte.Estadisticas.Gol:
-                return gol;
-            case EstadisticaDeporte.Estadisticas.Pase:
-                return pase;
-            case EstadisticaDeporte.Estadisticas.Amarilla:
-                return amarilla;
-            case EstadisticaDeporte.Estadisticas.Roja:
-                return roja;
-            case EstadisticaDeporte.Estadisticas.Corner:
-                return corner;
-            case EstadisticaDeporte.Estadisticas.Falta:
-                return falta;
-            case EstadisticaDeporte.Estadisticas.Intercepcion:
-                return intercepcion;
-            case EstadisticaDeporte.Estadisticas.Lateral:
-                return lateral;
-            case EstadisticaDeporte.Estadisticas.Offside:
-                return offside;
-            case EstadisticaDeporte.Estadisticas.Penal:
-                return penal;
-            case EstadisticaDeporte.Estadisticas.PerdidaDeBalon:
-                return perdidaDeBalon;
-            case EstadisticaDeporte.Estadisticas.PerdidaDeMarca:
-                return perdidaDeMarca;
-            case EstadisticaDeporte.Estadisticas.ProposicionDeJugada:
-                return proposicionDeJugada;
-            case EstadisticaDeporte.Estadisticas.Recuperacion:
-                return recuperacion;
-            case EstadisticaDeporte.Estadisticas.Tiro:
-                return tiro;
-            case EstadisticaDeporte.Estadisticas.TiroLibre:
-                return tiroLibre;
-            default:
-                return null;
-        }
     }
 }

@@ -5,8 +5,12 @@ using System;
 
 public static class SaveSystem {
 
-    public static string pathEquipos = Application.persistentDataPath + "/TFSaveData3/Equipos/";
-    public static string pathImagenJugadas = Application.persistentDataPath + "/TFSaveData3/ImagenJugadas/";
+    public static string carpetaPrincipal = "TFSaveData3";
+    public static string pathEquipos = Application.persistentDataPath + "/" + carpetaPrincipal + "/Equipos/";
+    public static string pathImagenJugadas = Application.persistentDataPath + "/" + carpetaPrincipal + "/ImagenJugadas/";
+
+    public static string carpetaEspecialEspañol = "SIN CARPETA";
+    public static string carpetaEspecialIngles = "WITHOUT FOLDER";
 
     #region Equipos
     public static void GuardarEquipo(Equipo equipo)
@@ -254,7 +258,7 @@ public static class SaveSystem {
         BinaryFormatter formatter = new BinaryFormatter();
 
         string carpetaPath;
-        if (_carpeta == null || _carpeta.GetNombre() == "SIN CARPETA" || _carpeta.GetNombre() == "WITHOUT FOLDER")
+        if (_carpeta == null || _carpeta.GetNombre() == carpetaEspecialEspañol || _carpeta.GetNombre() == carpetaEspecialIngles)
             carpetaPath = pathImagenJugadas + "-" + "/";
         else
             carpetaPath = pathImagenJugadas + _carpeta.GetNombre() + "/";
@@ -266,11 +270,23 @@ public static class SaveSystem {
             Directory.CreateDirectory(imagenPath);
             if (_carpeta == null)
             {
-                _carpeta = AppController.instance.BuscarCarpetaPorNombre("SIN CARPETA");
-                if (_carpeta==null)
+                if(AppController.instance.idioma == AppController.Idiomas.Español)
                 {
-                    _carpeta = new CarpetaJugada("SIN CARPETA");
-                    AppController.instance.AgregarCarpetaJugada(_carpeta);
+                    _carpeta = AppController.instance.BuscarCarpetaPorNombre(carpetaEspecialEspañol);
+                    if (_carpeta == null)
+                    {
+                        _carpeta = new CarpetaJugada(carpetaEspecialEspañol);
+                        AppController.instance.AgregarCarpetaJugada(_carpeta);
+                    }
+                }
+                else if(AppController.instance.idioma == AppController.Idiomas.Ingles)
+                {
+                    _carpeta = AppController.instance.BuscarCarpetaPorNombre(carpetaEspecialIngles);
+                    if (_carpeta == null)
+                    {
+                        _carpeta = new CarpetaJugada(carpetaEspecialIngles);
+                        AppController.instance.AgregarCarpetaJugada(_carpeta);
+                    }
                 }
             }
         }
@@ -295,7 +311,7 @@ public static class SaveSystem {
         string pathViejo = pathImagenJugadas + _carpeta.GetNombre() + "/" + nombreViejo;
         string pathNuevo = pathImagenJugadas + _carpeta.GetNombre() + "/" + nombreNuevo;
 
-        if (_carpeta == null || nombreCarpeta.ToUpper() == "SIN CARPETA" || nombreCarpeta.ToUpper() == "WITHOUT FOLDER")
+        if (_carpeta == null || nombreCarpeta.ToUpper() == carpetaEspecialEspañol || nombreCarpeta.ToUpper() == carpetaEspecialIngles)
         {
             pathViejo = pathImagenJugadas + "-" + "/" + nombreViejo;
             pathNuevo = pathImagenJugadas + "-" + "/" + nombreNuevo;
@@ -324,9 +340,9 @@ public static class SaveSystem {
         string _nombreViejo = _carpetaVieja.GetNombre();
         string _nombreNuevo = _carpetaNueva.GetNombre();
 
-        if (_nombreViejo == "SIN CARPETA" || _nombreViejo == "WITHOUT FOLDER")
+        if (_nombreViejo == carpetaEspecialEspañol || _nombreViejo == carpetaEspecialIngles)
             _nombreViejo = "-";
-        if (_nombreNuevo == "SIN CARPETA" || _nombreNuevo == "WITHOUT FOLDER")
+        if (_nombreNuevo == carpetaEspecialEspañol || _nombreNuevo == carpetaEspecialIngles)
             _nombreNuevo = "-";
 
         string pathViejo = pathImagenJugadas + _nombreViejo + "/" + _jugada.GetNombre();
@@ -337,7 +353,7 @@ public static class SaveSystem {
     public static void BorrarJugada(ImagenBiblioteca _jugada, CarpetaJugada _carpeta)
     {
         string path = pathImagenJugadas + _carpeta.GetNombre() + "/" + _jugada.GetNombre();
-        if (_carpeta.GetNombre() == "SIN CARPETA" || _carpeta.GetNombre() == "WITHOUT FOLDER")
+        if (_carpeta.GetNombre() == carpetaEspecialEspañol || _carpeta.GetNombre() == carpetaEspecialIngles)
             path = pathImagenJugadas + "-/" + _jugada.GetNombre();
 
         if (Directory.Exists(path))
@@ -480,7 +496,7 @@ public static class SaveSystem {
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
-        string pathConfiguracion = Application.persistentDataPath + "/TFSaveData3/";
+        string pathConfiguracion = Application.persistentDataPath + "/" + carpetaPrincipal;
 
         Debug.Log("IDIOMA SA: " + _idioma);
         Debug.Log("TEMA SA: " + _tema);
@@ -496,7 +512,7 @@ public static class SaveSystem {
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
-        string pathConfiguracion = Application.persistentDataPath + "/TFSaveData3/";
+        string pathConfiguracion = Application.persistentDataPath + "/" + carpetaPrincipal;
         
         FileStream streamSettings = new FileStream(pathConfiguracion + "favouriteTeam.txt", FileMode.Create);
 
@@ -511,7 +527,7 @@ public static class SaveSystem {
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
-        string path = Application.persistentDataPath + "/TFSaveData3/Equipos/" + _equipo.GetNombre() + "/";
+        string path = pathEquipos + _equipo.GetNombre() + "/";
 
         FileStream streamFile = new FileStream(path + "favouritePlayer.txt", FileMode.Create);
 

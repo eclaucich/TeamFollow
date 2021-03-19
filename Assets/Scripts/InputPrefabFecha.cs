@@ -51,7 +51,6 @@ public class InputPrefabFecha : InputPrefab
 
     public override void HabilitarInput(bool _aux)
     {
-        lineaSeparadora.gameObject.SetActive(_aux);
         GetComponent<Button>().enabled = _aux;
     }
 

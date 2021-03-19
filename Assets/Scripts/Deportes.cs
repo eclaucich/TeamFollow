@@ -243,4 +243,35 @@ public class Deportes : MonoBehaviour
     {
         return iconosDeportes[(int)_deporte];
     }
+
+    public DeporteEnum GetSportEnumFromString(string sportString)
+    {
+        if(sportString.ToUpper() == "FUTBOL" || sportString.ToUpper() == "FOOTBALL")
+            return DeporteEnum.Futbol;
+        else if (sportString.ToUpper() == "BASKET" || sportString.ToUpper() == "BASKET")
+            return DeporteEnum.Basket;
+        else if (sportString.ToUpper() == "HANDBALL" || sportString.ToUpper() == "HANDBALL")
+            return DeporteEnum.Handball;
+        else if (sportString.ToUpper() == "HOCKEY CESPED" || sportString.ToUpper() == "GRASS HOCKEY")
+            return DeporteEnum.HockeyCesped;
+        else if (sportString.ToUpper() == "HOCKEY PATINES" || sportString.ToUpper() == "ROLLER HOCKEY")
+            return DeporteEnum.HockeyPatines;
+        else if (sportString.ToUpper() == "PADEL" || sportString.ToUpper() == "PADDLE")
+            return DeporteEnum.Padel;
+        else if (sportString.ToUpper() == "RUGBY" || sportString.ToUpper() == "RUGBY")
+            return DeporteEnum.Rugby;
+        else if (sportString.ToUpper() == "SOFTBALL" || sportString.ToUpper() == "SOFTBALL")
+            return DeporteEnum.Softball;
+        else if (sportString.ToUpper() == "TENIS" || sportString.ToUpper() == "TENNIS")
+            return DeporteEnum.Tenis;
+        else if (sportString.ToUpper() == "VOLEY" || sportString.ToUpper() == "VOLLEY")
+            return DeporteEnum.Voley;
+        else if (sportString.ToUpper() == "NINGUNO" || sportString.ToUpper() == "NONE")
+            return DeporteEnum.Ninguno;
+        else
+        {
+            Debug.LogError("ALGO SALIO MAL");
+            return DeporteEnum.Ninguno;
+        }
+    }
 }

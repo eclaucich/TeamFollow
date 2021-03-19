@@ -13,6 +13,11 @@ public class BotonImagen : MonoBehaviour
     [SerializeField] private InputField inputfield = null;
     [SerializeField] private PanelPrincipalBiblioteca panelPrincipalBiblioteca = null;
 
+    [Space]
+    [Header("Seleccion Multiple")]
+    [SerializeField] private Toggle toggleSeleccionMultiple = null;
+    private bool seleccionMultipleActivada = false;
+
     private Sprite sprite = null;
     private Image imagen = null;
 
@@ -23,6 +28,20 @@ public class BotonImagen : MonoBehaviour
         imagen = GetComponent<Image>();
         inputfield.onEndEdit.AddListener(VerificarEdicionNombreJugada);
         imagen.color = new Color(1f, 1f, 1f, 0f); //transparente
+
+        toggleSeleccionMultiple.isOn = false;
+        toggleSeleccionMultiple.gameObject.SetActive(false);
+    }
+
+    private void Update() 
+    {
+        if (seleccionMultipleActivada)
+        {
+            if (toggleSeleccionMultiple.isOn)
+                imagen.color = AppController.instance.colorTheme.botonSeleccionado;
+            else
+                imagen.color = new Color(1f, 1f, 1f, 0f);
+        }    
     }
 
     private void VerificarEdicionNombreJugada(string _nuevoNombre)
@@ -40,7 +59,7 @@ public class BotonImagen : MonoBehaviour
             else
             {
                 Debug.Log("NOMBRE CAMBIADO");
-                panelPrincipalBiblioteca.ActivarMensajeCambioNombreExitoso();
+                panelPrincipalBiblioteca.ActivarMensajeExitoso();
                 SaveSystem.EditarJugada(nombreImagenText.text, _nuevoNombre.ToUpper(), _jugadaFocus.GetCarpetaActual());
                 //panelPrincipalBiblioteca.ResetPrefabs();
                 nombreImagenText.text = _nuevoNombre.ToUpper();
@@ -135,4 +154,25 @@ public class BotonImagen : MonoBehaviour
     {
         imagen.color = new Color(1f, 1f, 1f, 0f); //transparente
     }
+
+
+    #region Seleccion Multiple
+    public void SetSeleccionMultiple(bool active)
+    {
+        seleccionMultipleActivada = active;
+        toggleSeleccionMultiple.gameObject.SetActive(active);
+        if(active==false)
+            imagen.color = new Color(1f, 1f, 1f, 0f);
+    }
+
+    public bool IsSelected()
+    {
+        return toggleSeleccionMultiple.isOn;
+    }
+
+    public void ToggleSelected()
+    {
+        toggleSeleccionMultiple.isOn = !toggleSeleccionMultiple.isOn;
+    }
+    #endregion
 }

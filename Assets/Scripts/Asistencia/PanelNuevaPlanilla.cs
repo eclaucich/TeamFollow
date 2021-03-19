@@ -43,7 +43,7 @@ public class PanelNuevaPlanilla : PanelAsistencia
             return;
         }
 
-        if(!AppController.instance.VerificarNombre(alias))
+        if(alias!=string.Empty && !AppController.instance.VerificarNombre(alias))
         {
             mensajeError.SetText("NOMBRE INVÁLIDO!", AppController.Idiomas.Español);
             mensajeError.SetText("INVALID NAME!", AppController.Idiomas.Ingles);

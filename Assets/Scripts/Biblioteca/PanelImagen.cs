@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class PanelImagen : MonoBehaviour
+public class PanelImagen : Panel
 {
     [SerializeField] private Image imagen = null;
 
@@ -9,6 +9,8 @@ public class PanelImagen : MonoBehaviour
     {
         Screen.orientation = ScreenOrientation.Landscape;
         //Screen.SetResolution(720, 1280, false);
+
+        SetPublicity();
 
         CanvasController.instance.botonDespliegueMenu.SetActive(false);
 

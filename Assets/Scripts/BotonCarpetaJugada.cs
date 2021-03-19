@@ -11,15 +11,46 @@ public class BotonCarpetaJugada : MonoBehaviour
     [SerializeField] private GameObject botonBorrar = null;
     [SerializeField] private PanelPrincipalBiblioteca panelPrincipalBiblioteca = null;
     [SerializeField] private GameObject seccionJugadasPrefab = null;
+    [SerializeField] private Image imagen = null;
 
     private CarpetaJugada carpeta;
     private GameObject seccionJugadas;
     private Animator animator;
 
+    private List<BotonImagen> listaBotonImagen;
+
+    [Space]
+    [Header("Seleccion Multiple")]
+    [SerializeField] private Toggle toggleSeleccionMultiple = null;
+    private bool seleccionMultipleJugadasActivado;
+    private bool seleccionMultipleActivada;
+
     private void Start()
     {
         inputfield.onEndEdit.AddListener(VerificarEdicionNombreCarpeta);
         animator = GetComponent<Animator>();
+
+        toggleSeleccionMultiple.isOn = false;
+        toggleSeleccionMultiple.gameObject.SetActive(false);
+        seleccionMultipleActivada = false;
+        seleccionMultipleJugadasActivado = false;
+    }
+
+    private void Update() 
+    {
+        if(seleccionMultipleActivada)   
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                toggleSeleccionMultiple.isOn = false;
+                SetSeleccionMultiple(false);
+            }
+
+            if (toggleSeleccionMultiple.isOn)
+                imagen.color = AppController.instance.colorTheme.botonSeleccionado;
+            else
+                imagen.color = AppController.instance.colorTheme.detalle4;
+        } 
     }
 
     public void CrearPrefabs(CarpetaJugada _carpeta, Transform _goJugadas)
@@ -33,6 +64,8 @@ public class BotonCarpetaJugada : MonoBehaviour
         seccionJugadas = Instantiate(seccionJugadasPrefab, _goJugadas, false);
         seccionJugadas.SetActive(false);
         
+        listaBotonImagen = new List<BotonImagen>();
+
         foreach (var jugada in _carpeta.GetListaJugadas())
         {
             Debug.Log("NOMBRE: " + jugada.GetNombre());
@@ -42,6 +75,7 @@ public class BotonCarpetaJugada : MonoBehaviour
             go.SetActive(true);
             BotonImagen botonGO = go.GetComponent<BotonImagen>();
             botonGO.SetJugadaFocus(jugada);
+            listaBotonImagen.Add(botonGO);
         }
     }
 
@@ -58,7 +92,7 @@ public class BotonCarpetaJugada : MonoBehaviour
             else
             {
                 Debug.Log("NOMBRE CAMBIADO");
-                panelPrincipalBiblioteca.ActivarMensajeCambioNombreExitoso();
+                panelPrincipalBiblioteca.ActivarMensajeExitoso();
                 carpeta.SetNombre(_nuevoNombre);
                 SaveSystem.EditarCarpeta(nombreCarpetaText.text, _nuevoNombre.ToUpper());
                 nombreCarpetaText.text = _nuevoNombre.ToUpper();
@@ -68,13 +102,20 @@ public class BotonCarpetaJugada : MonoBehaviour
 
     public void ToggleSeccionJugadas()
     {
-        if (seccionJugadas != null)
+        if(!seleccionMultipleActivada)
         {
-            bool active = !seccionJugadas.activeSelf;
-            seccionJugadas.SetActive(active);
-            if(animator) animator.SetBool("open", active);
+            if (seccionJugadas != null)
+            {
+                bool active = !seccionJugadas.activeSelf;
+                seccionJugadas.SetActive(active);
+                if (animator) animator.SetBool("open", active);
+            }
+            Canvas.ForceUpdateCanvases();
         }
-        Canvas.ForceUpdateCanvases();
+        else
+        {
+            toggleSeleccionMultiple.isOn = !toggleSeleccionMultiple.isOn;
+        }
     }
 
     public CarpetaJugada GetCarpeta()
@@ -90,4 +131,80 @@ public class BotonCarpetaJugada : MonoBehaviour
         _txtLanguage.SetText("SIN CARPETA", AppController.Idiomas.Español);
         _txtLanguage.SetText("WITHOUT FOLDER", AppController.Idiomas.Ingles);
     }
+
+    public List<BotonImagen> GetJugadas()
+    {
+        return listaBotonImagen;
+    }
+
+
+    #region Seleccion Multiple
+    public void SetSeleccionMultipleJugadas(bool active)
+    {
+        seleccionMultipleJugadasActivado = active;
+
+        foreach (var jugada in listaBotonImagen)
+        {
+            jugada.SetSeleccionMultiple(active);
+        }
+    }
+
+    public void SetSeleccionMultiple(bool active)
+    {
+        if(carpeta.GetNombre() == "SIN CARPETA" || carpeta.GetNombre() == "WITHOUT FOLDER")
+            return;
+        seleccionMultipleActivada = active;
+
+        toggleSeleccionMultiple.gameObject.SetActive(active);
+        botonBorrar.SetActive(!active);
+        inputfield.gameObject.SetActive(!active);
+
+        if(!active)
+            imagen.color = AppController.instance.colorTheme.detalle4;
+    }
+
+    public bool IsSelected()
+    {
+        return toggleSeleccionMultiple.isOn;
+    }
+
+    #endregion
+
+
+    #region Buscador
+    public void SetActiveFolders(bool active)
+    {
+        foreach (var jugada in listaBotonImagen)
+        {
+            jugada.gameObject.SetActive(active);
+        }
+
+        //Abrir y cerrar la carpeta (o al reves) arregla bugs graficos
+        ToggleSeccionJugadas();
+        ToggleSeccionJugadas();
+    }
+
+    public int SetActiveFolders(string filter)
+    {
+        int cantResultados = 0;
+
+        foreach (var jugada in listaBotonImagen)
+        {
+            if (!jugada.GetNombre().Contains(filter.ToUpper()))
+                jugada.gameObject.SetActive(false);
+            else
+            {
+                jugada.gameObject.SetActive(true);
+                cantResultados++;
+            }   
+        }
+
+        //Abrir y cerrar la carpeta (o al reves) arregla bugs graficos
+        ToggleSeccionJugadas();
+        ToggleSeccionJugadas();
+
+        return cantResultados;
+    }
+
+    #endregion
 }

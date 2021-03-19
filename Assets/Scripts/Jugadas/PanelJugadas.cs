@@ -10,20 +10,16 @@ public class PanelJugadas : Panel {
     public void MostrarPanelPrincipal()
     {
         SetPublicity();
-        
-        CanvasController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Español);
-        CanvasController.instance.overlayPanel.SetNombrePanel("", AppController.Idiomas.Ingles);
 
+        AppController.instance.pantallaCarga.Activar();
+
+        CanvasController.instance.overlayPanel.gameObject.SetActive(false);
+        CanvasController.instance.botonDespliegueMenu.SetActive(false);
+        
         panel_principal.SetActive(false);
         panel_crearJugada.SetActive(false);
 
-        CanvasController.instance.botonDespliegueMenu.SetActive(false);
-
-        AppController.instance.pantallaCarga.Activar();
         StartCoroutine(EsperarPantallaCarga());
-
-        //Screen.orientation = ScreenOrientation.Landscape;
-        //Screen.SetResolution(1280, 720, false);
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.MisEquipos);
     }

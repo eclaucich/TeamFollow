@@ -16,11 +16,12 @@ public class StartUpController : MonoBehaviour
 
     private void Start()
     {
-        overlay.SetActive(true);
-        bannerGO.gameObject.SetActive(false);
+        //overlay.SetActive(true);
+        //bannerGO.gameObject.SetActive(false);
         videoPlayer.loopPointReached += EndReached;
         videoPlayer.prepareCompleted += VideoPrepared;
-        videoPlayer.Prepare();
+        //SetVideo(0);
+        //videoPlayer.Prepare();
     }
 
     public void SetVideo(int i)
@@ -40,7 +41,7 @@ public class StartUpController : MonoBehaviour
 
     void VideoPrepared(VideoPlayer vp)
     {
-        PlayVideo();
+        //PlayVideo();
     }
 
     void EndReached(VideoPlayer vp)

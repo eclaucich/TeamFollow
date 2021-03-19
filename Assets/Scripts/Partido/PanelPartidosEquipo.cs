@@ -31,6 +31,18 @@ public class PanelPartidosEquipo : Panel
 
     [SerializeField] private Transform parentTransform = null;
 
+    [Space]
+    [Header("Seleccion Multiple")]
+    [SerializeField] private ConfirmacionBorradoSeleccionMultiple confirmacionBorradoSeleccionMultiple = null;
+    [SerializeField] private GameObject botonBorrarSeleccionMultiple = null;
+    private bool seleccionMultipleActivada = false;
+
+
+    [Space]
+    [Header("Buscador")]
+    [SerializeField] private Buscador buscador = null;
+
+
     private List<GameObject> listaPartidosPrefabs;
     private List<Partido> listaPartidos;
 
@@ -58,17 +70,28 @@ public class PanelPartidosEquipo : Panel
         flechasScroll.Actualizar(scrollRectEquipos, cantMinima, listaPartidosPrefabs.Count);
     }
 
+    private void Update() 
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) && seleccionMultipleActivada)
+            SetSeleccionMultiple(false); 
+
+        //no sería lo mas ótimo ésto
+        if(seleccionMultipleActivada)
+            CanvasController.instance.retrocesoPausado = true;
+    }
+
     public void SetearPanelPartidos()
     {
         ActivarPanel(0);
 
         Screen.orientation = ScreenOrientation.Portrait;
+        CanvasController.instance.retrocesoPausado = false;
         CanvasController.instance.overlayPanel.gameObject.SetActive(true);
 
-        equipoFocus = AppController.instance.equipoActual;
+        buscador.SetBuscador(false);
+        SetPublicity();
 
-        CanvasController.instance.overlayPanel.SetNombrePanel(equipoFocus.GetNombre() + ": ESTADISTICAS GLOBALES", AppController.Idiomas.Español);
-        CanvasController.instance.overlayPanel.SetNombrePanel(equipoFocus.GetNombre() + ": GLOBAL STATISTICS", AppController.Idiomas.Ingles);
+        equipoFocus = AppController.instance.equipoActual;
 
         CanvasController.instance.AgregarPanelAnterior(CanvasController.Paneles.DetalleEquipoPrincipal);
 
@@ -104,7 +127,7 @@ public class PanelPartidosEquipo : Panel
         {
             GameObject go = Instantiate(partidoprefab, parentTransform, false);
             go.SetActive(true);
-            go.GetComponentInChildren<Text>().text = partido.GetNombre();
+            go.GetComponent<BotonPartido>().SetPartidoFocus(partido);
             listaPartidosPrefabs.Add(go);
         }
 
@@ -124,6 +147,9 @@ public class PanelPartidosEquipo : Panel
     public void MostrarPartidos()
     {
         isPartido = true;
+
+        CanvasController.instance.overlayPanel.SetNombrePanel(equipoFocus.GetNombre() + ": PARTIDOS", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel(equipoFocus.GetNombre() + ": MATCHES", AppController.Idiomas.Ingles);
         
         listaPartidos = equipoFocus.GetPartidos();
 
@@ -150,6 +176,9 @@ public class PanelPartidosEquipo : Panel
     public void MostrarPracticas()
     {
         isPartido = false;
+
+        CanvasController.instance.overlayPanel.SetNombrePanel(equipoFocus.GetNombre() + ": PRACTICAS", AppController.Idiomas.Español);
+        CanvasController.instance.overlayPanel.SetNombrePanel(equipoFocus.GetNombre() + ": PRACTICES", AppController.Idiomas.Ingles);
 
         listaPartidos = equipoFocus.GetPracticas();
 
@@ -182,23 +211,6 @@ public class PanelPartidosEquipo : Panel
         panel_detalle_partido.GetComponent<PanelEstadisticasGlobalesEquipo>().SetPanelEstadisticasGlobalesEquipo(estEquipo);
     }
 
-
-    public void SetPartidoFocus(BotonPartido botonpartido)
-    {
-        string nombrePartido = botonpartido.GetComponentInChildren<Text>().text;
-
-        List<Partido> partidos = isPartido ? equipoFocus.GetPartidos() : equipoFocus.GetPracticas();
-
-        foreach (var partido in partidos)
-        {
-            if (partido.GetNombre() == nombrePartido)
-            {
-                MostrarPanelDetallePartido(partido);// (botonpartido, partido.GetEstadisticas());
-                return;
-            }
-        }
-    }
-
     public void BorrarPartido(Partido _partido)
     {
         string nombrePartido = _partido.GetNombre();
@@ -228,4 +240,65 @@ public class PanelPartidosEquipo : Panel
     {
         return isPartido;
     }
+
+    #region Seleccion Multiple
+    public void SetSeleccionMultiple(bool active)
+    {
+        seleccionMultipleActivada = active;
+
+        botonBorrarSeleccionMultiple.SetActive(seleccionMultipleActivada);
+        CanvasController.instance.retrocesoPausado = seleccionMultipleActivada;
+
+        foreach (var go in listaPartidosPrefabs)
+        {
+            go.GetComponent<BotonPartido>().SetSeleccionMultiple(seleccionMultipleActivada);
+        }
+    }
+
+    public void ActivarBorradoSeleccionMultiple()
+    {
+        List<BotonPartido> botones = new List<BotonPartido>();
+
+        foreach (var boton in listaPartidosPrefabs)
+        {
+            if(boton.GetComponent<BotonPartido>().IsSelected())
+                botones.Add(boton.GetComponent<BotonPartido>());
+        }
+
+        confirmacionBorradoSeleccionMultiple.Activar(botones, false);
+    }
+
+    #endregion
+
+
+    #region Buscador
+    public void ActualizarBusqueda(Text filterText)
+    {
+        string filter = filterText.text;
+
+        int cantResultados = 0;
+
+        foreach (var boton in listaPartidosPrefabs)
+        {
+            if (!boton.GetComponent<BotonPartido>().GetPartido().GetNombre().Contains(filter.ToUpper()))
+                boton.SetActive(false);
+            else
+            {
+                boton.SetActive(true);
+                cantResultados++;
+            }
+        }
+
+        buscador.SetCantidadResultados(cantResultados);
+    }
+
+    public void CerrarFiltrado()
+    {
+        foreach (var boton in listaPartidosPrefabs)
+        {
+            boton.SetActive(true);
+        }
+    }
+
+    #endregion
 }

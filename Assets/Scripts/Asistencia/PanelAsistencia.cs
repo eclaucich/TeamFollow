@@ -40,8 +40,8 @@ public class PanelAsistencia : Panel
         nombreEquipoText.SetText("EQUIPO:\n" + AppController.instance.equipoActual.GetNombre(), AppController.Idiomas.Español);
         nombreEquipoText.SetText("TEAM:\n" + AppController.instance.equipoActual.GetNombre(), AppController.Idiomas.Ingles);
 
-        placeholderNuevoAlias.SetText("NUEVO NOMBRE ...", AppController.Idiomas.Español);
-        placeholderNuevoAlias.SetText("NEW NAME ...", AppController.Idiomas.Ingles);
+        placeholderNuevoAlias.SetText("ALIAS (OPCIONAL)", AppController.Idiomas.Español);
+        placeholderNuevoAlias.SetText("ALIAS (OPTIONAL)", AppController.Idiomas.Ingles);
 
         leyendaInicialPresente.SetText("P", AppController.Idiomas.Español);
         leyendaInicialPresente.SetText("P", AppController.Idiomas.Ingles);

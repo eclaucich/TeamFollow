@@ -19,6 +19,8 @@ public class PanelEntradaDatos : MonoBehaviour {
     [SerializeField] private GameObject entradaDatosNormal = null;
     [SerializeField] private GameObject entradaDatosGenerico = null;
 
+    [SerializeField] private Transform entradaDatosGenericoParent = null;
+
     private EntradaDatos entradaDatosActual;
 
     /*public void MostrarPanelPrincipal()                                                     //Muestra el panel principal
@@ -135,7 +137,8 @@ public class PanelEntradaDatos : MonoBehaviour {
             go.transform.name = "EntradaDatosNormal";
 
             entradaDatosActual = go.GetComponent<PanelNuevaEntradaDatos>();*/
-            GameObject go = Instantiate(entradaDatosGenerico, transform, false);
+            GameObject go = Instantiate(entradaDatosGenerico, entradaDatosGenericoParent, false);
+            go.transform.SetAsFirstSibling();
             go.transform.name = "EntradaDatosGenerico";
 
             entradaDatosActual = go.GetComponent<EntradaDatosGenerico>();

@@ -334,7 +334,7 @@ public static class LoadSystem
             {
                 string _nombreCarpeta = Path.GetFileName(pathsCarpeta[i]);
                 if (_nombreCarpeta == "-") 
-                    _nombreCarpeta = "SIN CARPETA";
+                    _nombreCarpeta = SaveSystem.carpetaEspecialEspañol;
 
                 CarpetaJugada _carpeta = new CarpetaJugada(_nombreCarpeta);
 
@@ -373,18 +373,18 @@ public static class LoadSystem
             if(!Directory.Exists(pathImagenJugadas + "-"))
             {
                 Directory.CreateDirectory(pathImagenJugadas + "-");
-                AppController.instance.AgregarCarpetaJugada(new CarpetaJugada("SIN CARPETA"));
+                AppController.instance.AgregarCarpetaJugada(new CarpetaJugada(SaveSystem.carpetaEspecialEspañol));
             }
         }
         else
         {
             Directory.CreateDirectory(pathImagenJugadas + "-");
-            AppController.instance.AgregarCarpetaJugada(new CarpetaJugada("SIN CARPETA"));
+            AppController.instance.AgregarCarpetaJugada(new CarpetaJugada(SaveSystem.carpetaEspecialEspañol));
         }
         #endregion
 
         #region Settings
-        string settingsPath = Application.persistentDataPath + "/TFSaveData3/settings.txt";
+        string settingsPath = Application.persistentDataPath + "/" + SaveSystem.carpetaPrincipal + "/settings.txt";
         if (File.Exists(settingsPath))
         {
             FileStream streamSettings = new FileStream(settingsPath, FileMode.Open);
@@ -393,7 +393,7 @@ public static class LoadSystem
             AppController.instance.SetSettings(dataSettings);
         }
 
-        string equipoFavPath = Application.persistentDataPath + "/TFSaveData3/favouriteTeam.txt";
+        string equipoFavPath = Application.persistentDataPath + "/" + SaveSystem.carpetaPrincipal + "/favouriteTeam.txt";
         if (File.Exists(equipoFavPath))
         {
             FileStream streamFavTeam = new FileStream(equipoFavPath, FileMode.Open);

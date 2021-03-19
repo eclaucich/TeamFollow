@@ -1,21 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class HerramientaFichaAliado : Herramienta {
 
-    [SerializeField] private float offsetX = 0f;
-    [SerializeField] private float offsety = 0f;
-
-    [SerializeField] private GameObject fichaRedonda = null;
-    [SerializeField] private GameObject fichaCuadrada = null;
-    [SerializeField] private GameObject fichaTriangular = null;
-    [SerializeField] private GameObject fichaCruz = null;
+    [SerializeField] private FichaJugada fichaRedonda = null;
+    [SerializeField] private FichaJugada fichaCuadrada = null;
+    [SerializeField] private FichaJugada fichaTriangular = null;
+    [SerializeField] private FichaJugada fichaCruz = null;
 
     [SerializeField] private HerramientaSeleccion herramientaSeleccion = null;
 
-    private GameObject actualFicha;
+    private FichaJugada actualFichaPrefab;
     [SerializeField] private GameObject imagenBoton = null;
 
     private Transform panelEdicionTransform;
@@ -31,10 +26,8 @@ public class HerramientaFichaAliado : Herramienta {
         panelCrearJugadas = GetComponentInParent<PanelHerramientas>().GetPanelCrearJugadas();
         panelEdicionTransform = GameObject.Find("PanelEdicion").transform;
 
-        actualFicha = fichaRedonda;
-        imagen.sprite = fichaRedonda.GetComponent<Image>().sprite;
-        Color colorActual = panelCrearJugadas.GetColorActual();
-        imagen.color = new Color(colorActual.r, colorActual.g, colorActual.b, 255f);
+        actualFichaPrefab = fichaRedonda;
+        SetBotonImagen();
     }
 
     public override void Usar()
@@ -43,11 +36,9 @@ public class HerramientaFichaAliado : Herramienta {
         Vector3 goPos = Camera.main.ScreenToWorldPoint(mPos);
         goPos.z = 0f;
 
-        GameObject go = Instantiate(actualFicha, goPos, Quaternion.identity, panelEdicionTransform);
+        GameObject go = Instantiate(actualFichaPrefab.gameObject, goPos, Quaternion.identity, panelEdicionTransform);
 
-        Image imagen = go.GetComponent<Image>();
-        Color colorActual = panelCrearJugadas.GetColorActual();
-        imagen.color = new Color(colorActual.r, colorActual.g, colorActual.b, 255f);
+        go.GetComponent<FichaJugada>().SetColorActual(panelCrearJugadas.GetColorActual());
 
         herramientaSeleccion.SetHerramientaActual();
 
@@ -57,51 +48,40 @@ public class HerramientaFichaAliado : Herramienta {
 
     public void SeleccionarFichaRedonda()
     {
-        actualFicha = fichaRedonda;
+        actualFichaPrefab = fichaRedonda;
 
-        imagen.sprite = fichaRedonda.GetComponent<Image>().sprite;
-
-        Color colorActual = panelCrearJugadas.GetColorActual();
-        imagen.color = new Color(colorActual.r, colorActual.g, colorActual.b, 255f);
-
+        SetBotonImagen();
         SetHerramientaActual();
-
-        Debug.Log("FICHA SELECCIONADA");
     }
 
     public void SeleccionarFichaCuadrada()
     {
-        actualFicha = fichaCuadrada;
+        actualFichaPrefab = fichaCuadrada;
 
-        imagen.sprite = fichaCuadrada.GetComponent<Image>().sprite;
-
-        Color colorActual = panelCrearJugadas.GetColorActual();
-        imagen.color = new Color(colorActual.r, colorActual.g, colorActual.b, 255f);
-
+        SetBotonImagen();
         SetHerramientaActual();
     }
 
     public void SeleccionarFichaTriangular()
     {
-        actualFicha = fichaTriangular;
+        actualFichaPrefab = fichaTriangular;
 
-        imagen.sprite = fichaTriangular.GetComponent<Image>().sprite;
-        Color colorActual = panelCrearJugadas.GetColorActual();
-
-        imagen.color = new Color(colorActual.r, colorActual.g, colorActual.b, 255f);
-
+        SetBotonImagen();
         SetHerramientaActual();
     }
 
     public void SeleccionarFichaCruz()
     {
-        actualFicha = fichaCruz;
+        actualFichaPrefab = fichaCruz;
 
-        imagen.sprite = fichaCruz.GetComponent<Image>().sprite;
+        SetBotonImagen();
+        SetHerramientaActual();
+    }
 
+    private void SetBotonImagen()
+    {
+        imagen.sprite = actualFichaPrefab.GetDisplayImage();
         Color colorActual = panelCrearJugadas.GetColorActual();
         imagen.color = new Color(colorActual.r, colorActual.g, colorActual.b, 255f);
-
-        SetHerramientaActual();
     }
 }

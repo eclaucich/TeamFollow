@@ -91,6 +91,8 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
 
     private void Update()
     {
+        CanvasController.instance.botonDespliegueMenu.SetActive(false);
+        
         //Mido el swipe solo si esta habilitado
         if (swipeEnabled)
         {
@@ -293,6 +295,8 @@ public class PanelEdicion : MonoBehaviour, IPointerClickHandler, IDragHandler, I
     #region Control de la imagen de fondo
     public void SetPanelEdicion()
     {
+        CerrarPanelHerramientas();
+        
         if(AppController.instance.deporteFavorito != Deportes.DeporteEnum.Ninguno)
         {
             ChangeSport(AppController.instance.deporteFavorito);

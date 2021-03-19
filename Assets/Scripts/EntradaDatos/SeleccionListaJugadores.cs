@@ -27,6 +27,10 @@ public class SeleccionListaJugadores : MonoBehaviour
     [SerializeField] private GameObject botonJugador = null;
     [SerializeField] private Transform transformParent = null;
 
+    [SerializeField] private Toggle toggleSeleccionTodos = null;
+
+    private List<BotonSeleccionJugador> listaBotonesJugador;
+
     private int cantMinima;
     private float prefabHeight;
 
@@ -64,12 +68,14 @@ public class SeleccionListaJugadores : MonoBehaviour
 
         listaJugadores = AppController.instance.equipoActual.GetJugadores();
         jugadoresSeleccionados = new List<Jugador>();
+        listaBotonesJugador = new List<BotonSeleccionJugador>();
 
         foreach (var jugador in listaJugadores)
         {
             GameObject go = Instantiate(botonJugador, transformParent, false);
             go.GetComponentInChildren<Text>().text = jugador.GetNombre();
             go.SetActive(true);
+            listaBotonesJugador.Add(go.GetComponent<BotonSeleccionJugador>());
         }
 
         if(prefabHeight == 0) prefabHeight = botonJugador.GetComponent<RectTransform>().rect.height;
@@ -114,24 +120,41 @@ public class SeleccionListaJugadores : MonoBehaviour
         }
     }
 
-    /// 
-    /// Se llama desde el boton "continuar" en el panel de seleccion de jugadores
-    /// 
+    private void SeleccionarJugador(BotonSeleccionJugador boton, bool active)
+    {
+        string nombreJugador = boton.GetComponentInChildren<Text>().text;
+
+        Debug.Log("ACTIVE: " + active);
+
+        if(active)
+        {
+            if(!boton.isSeleccionado())
+                jugadoresSeleccionados.Add(BuscarJugador(listaJugadores,nombreJugador));
+        }
+        else
+        {
+            if(boton.isSeleccionado())
+                jugadoresSeleccionados.Remove(BuscarJugador(jugadoresSeleccionados, nombreJugador));
+        }
+
+        boton.Seleccionar(active);
+    }
+
     public void TerminarSeleccion()
     {
-        if (actualJugadoresSeleccionados <= 0)
+        if (jugadoresSeleccionados.Count <= 0)
         {
             mensajeErrorSeleccionJugadores.Activar();
             return;
         }
-        GetComponentInParent<EntradaDatos>().TerminarSeleccionJugadores(jugadoresSeleccionados, actualJugadoresSeleccionados);
+        GetComponentInParent<EntradaDatos>().TerminarSeleccionJugadores(jugadoresSeleccionados, jugadoresSeleccionados.Count);
     }
 
     /// 
     /// Función auxliar para buscar en una lista, a un jugador por su nombre
     /// 
     private Jugador BuscarJugador(List<Jugador> _lista, string nombre)
-    {
+    {   
         foreach (var jugador in _lista)
         {
             if (jugador.GetNombre() == nombre)
@@ -139,5 +162,13 @@ public class SeleccionListaJugadores : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void ToggleSeleccionTodos()
+    {
+        foreach (var boton in listaBotonesJugador)
+        {
+            SeleccionarJugador(boton, toggleSeleccionTodos.isOn);
+        }
     }
 }

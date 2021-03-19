@@ -2,21 +2,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using GoogleMobileAds.Api;
-using GoogleMobileAds.Placement;
 
-/// <summary>
-/// 
-/// Contiene un botón para crear nuevos equipos,
-/// una sección donde se muestran los equipos existentes
-/// 
-/// </summary>
+public class PanelPrincipal : Panel 
+{
 
-public class PanelPrincipal : Panel {
+    private PanelMisEquipos panelMisEquipos;
 
-    private PanelMisEquipos panelMisEquipos;                                                    //Componente padre para acceder a las funciones
-
-    ///Va a haber un prefab del boton por cada deporte
-    ///Y una lista que los contenga a todos y cuando se crea el boton se crea el correspondiente al deporte
     [SerializeField] private GameObject prefabBotonEquipo = null;
     [SerializeField] private Text adviceText = null;
     [SerializeField] private Transform seccionEquiposTransform = null;
@@ -28,7 +19,18 @@ public class PanelPrincipal : Panel {
 
     [SerializeField] private RectTransform barraInferiorRect = null;
 
+    [Space]
+    [Header("Seleccion Multiple")]
+    [SerializeField] private ConfirmacionBorradoSeleccionMultiple confirmacionBorradoSeleccionMultiple = null;
+    [SerializeField] private GameObject botonBorrarSeleccionMultiple = null;
+    private bool seleccionMultipleActivada = false;
+
+    [Space]
+    [Header("Buscador")]
+    [SerializeField] private Buscador buscador = null;
+
     private List<GameObject> listaPrefabsBoton;
+    private List<BotonEquipo> botonesEquipo;
 
     private float prefabHeight;
     private int cantMinima;
@@ -39,6 +41,7 @@ public class PanelPrincipal : Panel {
     {
         panelMisEquipos = GetComponentInParent<PanelMisEquipos>();
         listaPrefabsBoton = new List<GameObject>();
+        botonesEquipo = new List<BotonEquipo>();
 
         ActivarYDesactivarAdviceText();
         prefabHeight = prefabBotonEquipo.GetComponent<RectTransform>().rect.height;
@@ -47,6 +50,8 @@ public class PanelPrincipal : Panel {
     private void Start() {
         mensajeCambioFavorito.SetText("NUEVO EQUIPO FAVORITO ELEGIDO", AppController.Idiomas.Español);
         mensajeCambioFavorito.SetText("NEW FAVOURITE TEAM SETTED", AppController.Idiomas.Ingles);
+
+        botonBorrarSeleccionMultiple.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -54,13 +59,31 @@ public class PanelPrincipal : Panel {
         flechasScroll.Actualizar(scrollRect, cantMinima, listaPrefabsBoton.Count);
     }
 
+    private void Update() 
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) && seleccionMultipleActivada)
+            ToggleSeleccionMultiple();     
+
+        //no sería lo mas ótimo ésto
+        if(seleccionMultipleActivada)
+            CanvasController.instance.retrocesoPausado = true;
+    }
+
     public void SetearPanelPrincipal()
     {
-        if(AppController.instance.appStarted)
+        CanvasController.instance.overlayPanel.gameObject.SetActive(true);
+        
+        CanvasController.instance.retrocesoPausado = false;
+        seleccionMultipleActivada = false;
+
+        buscador.SetBuscador(false);
+
+        /*if(AppController.instance.appStarted)
         {
             Debug.Log("APP STARTED");
             SetPublicity();
-        }
+        }*/
+        SetPublicity();
 
         //CanvasController.instance.botonDespliegueMenu.SetActive(true);
         cantMinima = (int)Mathf.Ceil(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + seccionEquiposTransform.GetComponent<VerticalLayoutGroup>().spacing));
@@ -86,6 +109,7 @@ public class PanelPrincipal : Panel {
             Destroy(prefab);
         }
         listaPrefabsBoton.Clear();
+        botonesEquipo.Clear();
     }
 
     public void CrearPrefabs()                                                                //Instancia el prefab del botón
@@ -105,6 +129,7 @@ public class PanelPrincipal : Panel {
             }
 
             listaPrefabsBoton.Add(botonEquipoGO);
+            botonesEquipo.Add(botonEquipoGO.GetComponent<BotonEquipo>());
         }
 
         cantMinima = (int)(scrollRect.GetComponent<RectTransform>().rect.height / (prefabHeight + seccionEquiposTransform.GetComponent<VerticalLayoutGroup>().spacing));
@@ -149,4 +174,66 @@ public class PanelPrincipal : Panel {
     public void MensajeFavorito(){
         mensajeCambioFavorito.Activar();
     }
+
+    #region Seleccion Multiple
+
+    public void ToggleSeleccionMultiple()
+    {
+        seleccionMultipleActivada = !seleccionMultipleActivada;
+
+        botonBorrarSeleccionMultiple.SetActive(seleccionMultipleActivada);
+        CanvasController.instance.retrocesoPausado = seleccionMultipleActivada;
+
+        foreach (var go in listaPrefabsBoton)
+        {
+            go.GetComponent<BotonEquipo>().SetSeleccionMultiple(seleccionMultipleActivada);
+        }
+    }
+
+    public void ActivarBorradoSeleccionMultiple()
+    {
+        List<BotonEquipo> botones = new List<BotonEquipo>();
+
+        foreach (var boton in listaPrefabsBoton)
+        {
+            if(boton.GetComponent<BotonEquipo>().IsSelected())
+                botones.Add(boton.GetComponent<BotonEquipo>());
+        }
+
+        confirmacionBorradoSeleccionMultiple.Activar(botones);
+    }
+
+    #endregion
+
+    #region Buscador
+
+    public void ActualizarBusqueda(Text filterText)
+    {
+        string filter = filterText.text;
+
+        int cantResultados = 0;
+
+        foreach (var boton in listaPrefabsBoton)
+        {
+            if(!boton.GetComponent<BotonEquipo>().GetEquipoFocus().GetNombre().Contains(filter.ToUpper()))
+                boton.SetActive(false);
+            else
+            {
+                boton.SetActive(true);
+                cantResultados++;
+            }
+        }
+
+        buscador.SetCantidadResultados(cantResultados);
+    }
+
+    public void CerrarFiltrado()
+    {
+        foreach (var boton in listaPrefabsBoton)
+        {
+            boton.SetActive(true);
+        }
+    }
+
+    #endregion
 }

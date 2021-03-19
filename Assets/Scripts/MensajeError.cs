@@ -61,6 +61,7 @@ public class MensajeError : MonoBehaviour
     public void ResetPosition()
     {
         transform.localPosition = initialHidePosition;
+        CanvasController.instance.retrocesoPausado = false;
     }
 
     public void SetText(string text_, AppController.Idiomas idioma)

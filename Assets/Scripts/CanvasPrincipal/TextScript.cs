@@ -58,4 +58,10 @@ public class TextScript : MonoBehaviour {
     {
         return inicialEstadistica.GetTextActual();
     }
+
+    public void Seleccionar(bool active)
+    {
+        tgl.isOn = active;
+        //ToggleColor();
+    }
 }

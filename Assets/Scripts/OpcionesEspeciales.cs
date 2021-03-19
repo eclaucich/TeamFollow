@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +21,7 @@ public class OpcionesEspeciales : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
             Cerrar();
     }
+
     public void SetMenu(List<string> opcionesEspañol, List<string> opcionesIngles, string nombreCategoria_, InputPrefabEspecial input)
     {
         Debug.Log("OPCIONES: " + opcionesEspañol.Count);
@@ -41,6 +41,23 @@ public class OpcionesEspeciales : MonoBehaviour
         inputEspecial = input;
     }
 
+    public void SetMenu(List<string> opciones, string categoria, AppController.Idiomas idioma)
+    {
+        CanvasController.instance.retrocesoPausado = true;
+
+        for (int i = 0; i < opciones.Count; i++)
+        {
+            GameObject go = Instantiate(opcionPrefab, parentTransformOpciones, false);
+            go.SetActive(true);
+            TextLanguage textLanguage = go.GetComponentInChildren<TextLanguage>();
+            textLanguage.SetText(opciones[i], idioma);
+        }
+
+        nombreCategoria.text = categoria;
+
+        CanvasController.instance.botonDespliegueMenu.SetActive(false);
+    }
+
     public void SeleccionarOpcion(BotonOpcion opcion_)
     {
         inputEspecial.SetValor(opcion_.GetValor(AppController.Idiomas.Español), AppController.Idiomas.Español);
@@ -48,9 +65,16 @@ public class OpcionesEspeciales : MonoBehaviour
         Cerrar();
     }
 
+    public void SelectOption(BotonOpcion opcion)
+    {
+        GetComponentInParent<PanelConfiguracion>().SelectOption(opcion.GetValorActual());
+        Cerrar();
+    }
+
     public void Cerrar()
     {
         CanvasController.instance.retrocesoPausado = false;
+        CanvasController.instance.botonDespliegueMenu.SetActive(true);
         Destroy(gameObject);
     }
 }
